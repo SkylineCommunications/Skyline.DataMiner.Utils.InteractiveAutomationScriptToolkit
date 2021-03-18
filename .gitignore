@@ -1,0 +1,7 @@
+**/bin/*
+**/obj/*
+.vs/*
+packages/*
+**/.svn
+_git2_*
+**/StyleCop.Cache
