@@ -71,7 +71,8 @@
 			set
 			{
 				dateTime = value;
-				BlockDefinition.InitialValue = value.ToString(AutomationConfigOptions.GlobalDateTimeFormat, CultureInfo.InvariantCulture);
+				
+				BlockDefinition.InitialValue = value.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
 			}
 		}
 
