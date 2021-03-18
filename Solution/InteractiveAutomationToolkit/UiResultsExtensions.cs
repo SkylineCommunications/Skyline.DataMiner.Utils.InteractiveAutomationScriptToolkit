@@ -3,9 +3,7 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Globalization;
-	using System.Linq;
 	using Skyline.DataMiner.Automation;
-	using Skyline.DataMiner.Net.AutomationUI.Objects;
 
 	internal static class UiResultsExtensions
 	{
