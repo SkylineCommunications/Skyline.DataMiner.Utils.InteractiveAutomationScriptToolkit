@@ -70,6 +70,7 @@
     <Compile Include="Layout\SectionLayout.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Layout\TextStyle.cs" />
+    <Compile Include="Sections\DatePicker.cs" />
     <Compile Include="UiResultsExtensions.cs" />
     <Compile Include="Layout\VerticalAlignment.cs" />
     <Compile Include="Layout\WidgetLayout.cs" />

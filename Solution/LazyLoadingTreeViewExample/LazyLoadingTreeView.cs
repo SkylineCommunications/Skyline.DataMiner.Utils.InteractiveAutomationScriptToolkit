@@ -12,6 +12,7 @@ using Skyline.DataMiner.Net.AutomationUI.Objects;
 /// </summary>
 public class Script
 {
+	// TOOD: update example to work with updated LazyLoading implementation
 	private InteractiveController app;
 
 	/// <summary>
