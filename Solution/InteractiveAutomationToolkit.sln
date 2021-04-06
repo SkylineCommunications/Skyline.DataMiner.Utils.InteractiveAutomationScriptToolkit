@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetParamsDemo", "SetParamsD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LazyLoadingTreeViewExample", "LazyLoadingTreeViewExample\LazyLoadingTreeViewExample.csproj", "{466B34D1-12C5-44F1-9745-1C83A8F2F2B7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportingProgressExample", "ReportingProgressExample\ReportingProgressExample.csproj", "{AE5A9FC0-C841-421C-86D8-05FDB58AD577}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{466B34D1-12C5-44F1-9745-1C83A8F2F2B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{466B34D1-12C5-44F1-9745-1C83A8F2F2B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{466B34D1-12C5-44F1-9745-1C83A8F2F2B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE5A9FC0-C841-421C-86D8-05FDB58AD577}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE5A9FC0-C841-421C-86D8-05FDB58AD577}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE5A9FC0-C841-421C-86D8-05FDB58AD577}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE5A9FC0-C841-421C-86D8-05FDB58AD577}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -70,6 +76,7 @@ Global
 		{B1F8E36D-D5F3-4EC2-94A1-607D2B299133} = {246FE326-48F1-4D98-BBCA-B157023F4C5E}
 		{FB6C75D5-19D8-4D8C-A984-4F25E1A3EE7E} = {246FE326-48F1-4D98-BBCA-B157023F4C5E}
 		{466B34D1-12C5-44F1-9745-1C83A8F2F2B7} = {246FE326-48F1-4D98-BBCA-B157023F4C5E}
+		{AE5A9FC0-C841-421C-86D8-05FDB58AD577} = {246FE326-48F1-4D98-BBCA-B157023F4C5E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {63CE52E0-29CA-4259-B07D-CBD0C547125D}
