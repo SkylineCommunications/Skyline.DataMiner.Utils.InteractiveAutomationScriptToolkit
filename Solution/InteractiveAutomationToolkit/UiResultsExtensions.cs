@@ -56,12 +56,12 @@
 
 		public static IEnumerable<string> GetExpandedItemKeys(this UIResults uiResults, TreeView treeView)
 		{
-			return uiResults.GetExpanded(treeView.DestVar);
+			return uiResults.GetExpanded(treeView.DestVar).Where(x => !String.IsNullOrWhiteSpace(x)).ToList();
 		}
 
 		public static IEnumerable<string> GetCheckedItemKeys(this UIResults uiResults, TreeView treeView)
 		{
-			return uiResults.GetString(treeView.DestVar).Split(';');
+			return uiResults.GetString(treeView.DestVar).Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
 		}
 	}
 }

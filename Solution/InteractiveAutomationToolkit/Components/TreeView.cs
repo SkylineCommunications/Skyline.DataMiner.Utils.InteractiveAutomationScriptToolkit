@@ -188,6 +188,7 @@
 			{
 				if (value == null) throw new ArgumentNullException("value");
 				BlockDefinition.TreeViewItems = new List<TreeViewItem>(value);
+				UpdateItemCache();
 			}
 		}
 
