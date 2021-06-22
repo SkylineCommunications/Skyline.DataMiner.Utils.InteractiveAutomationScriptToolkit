@@ -61,7 +61,15 @@
 
 		public static IEnumerable<string> GetCheckedItemKeys(this UIResults uiResults, TreeView treeView)
 		{
-			return uiResults.GetString(treeView.DestVar).Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+			string result = uiResults.GetString(treeView.DestVar);
+			if (String.IsNullOrEmpty(result))
+			{
+				return new string[0];
+			}
+			else
+			{
+				return result.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+			}
 		}
 	}
 }
