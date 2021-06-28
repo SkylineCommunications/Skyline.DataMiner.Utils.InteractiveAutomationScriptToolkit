@@ -56,20 +56,16 @@
 
 		public static IEnumerable<string> GetExpandedItemKeys(this UIResults uiResults, TreeView treeView)
 		{
-			return uiResults.GetExpanded(treeView.DestVar).Where(x => !String.IsNullOrWhiteSpace(x)).ToList();
+			string[] expandedItems = uiResults.GetExpanded(treeView.DestVar);
+			if (expandedItems == null) return new string[0];
+			return expandedItems.Where(x => !String.IsNullOrWhiteSpace(x)).ToList();
 		}
 
 		public static IEnumerable<string> GetCheckedItemKeys(this UIResults uiResults, TreeView treeView)
 		{
 			string result = uiResults.GetString(treeView.DestVar);
-			if (String.IsNullOrEmpty(result))
-			{
-				return new string[0];
-			}
-			else
-			{
-				return result.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-			}
+			if (String.IsNullOrEmpty(result)) return new string[0];
+			return result.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
 		}
 	}
 }
