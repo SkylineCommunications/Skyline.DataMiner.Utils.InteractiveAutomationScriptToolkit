@@ -2,6 +2,9 @@
 {
 	using System;
 
+	/// <summary>
+	/// Defines the whitespace that is displayed around a Widget.
+	/// </summary>
 	public class Margin
 	{
 		private int bottom;
@@ -9,6 +12,13 @@
 		private int right;
 		private int top;
 
+		/// <summary>
+		/// Initializes a new instance of the Margin class.
+		/// </summary>
+		/// <param name="left">Amount of margin on the left side of the Widget in pixels.</param>
+		/// <param name="top">Amount of margin on the top of the Widget in pixels.</param>
+		/// <param name="right">Amount of margin on the right side of the Widget in pixels.</param>
+		/// <param name="bottom">Amount of margin on the bottom of the Widget in pixels.</param>
 		public Margin(int left, int top, int right, int bottom)
 		{
 			Left = left;
@@ -17,10 +27,20 @@
 			Bottom = bottom;
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the Margin class.
+		/// All of the margins get the default values of 3 pixels.
+		/// </summary>
 		public Margin() : this(3, 3, 3, 3)
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the Margin class based on a string.
+		/// This string should have the following syntax: left;top;right;bottom
+		/// </summary>
+		/// <exception cref="ArgumentException">If the string does not match the predefined syntax. Or if any of the margins is not a number.</exception>
+		/// <param name="margin">Margin in string format.</param>
 		public Margin(string margin)
 		{
 			if(String.IsNullOrWhiteSpace(margin))
@@ -41,6 +61,9 @@
 			if (!Int32.TryParse(splitMargin[3], out bottom)) throw new ArgumentException("Bottom margin is not a number");
 		}
 
+		/// <summary>
+		/// Amount of margin in pixels at the bottom of the Widget.
+		/// </summary>
 		public int Bottom
 		{
 			get
@@ -59,6 +82,9 @@
 			}
 		}
 
+		/// <summary>
+		/// Amount of margin in pixels at the left hand side of the Widget.
+		/// </summary>
 		public int Left
 		{
 			get
@@ -77,6 +103,9 @@
 			}
 		}
 
+		/// <summary>
+		/// Amount of margin in pixels at the right hand side of the Widget.
+		/// </summary>
 		public int Right
 		{
 			get
@@ -95,6 +124,9 @@
 			}
 		}
 
+		/// <summary>
+		/// Amount of margin in pixels at the top of the Widget.
+		/// </summary>
 		public int Top
 		{
 			get

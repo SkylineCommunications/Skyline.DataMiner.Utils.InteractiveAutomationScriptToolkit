@@ -8,6 +8,9 @@
 	/// </summary>
 	public class WhiteSpace : Widget
 	{
+		/// <summary>
+		/// Initializes a new instance of the Whitespace class.
+		/// </summary>
 		public WhiteSpace()
 		{
 			Type = UIBlockType.StaticText;

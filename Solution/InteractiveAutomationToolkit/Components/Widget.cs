@@ -11,6 +11,9 @@
 	{
 		private UIBlockDefinition blockDefinition = new UIBlockDefinition();
 
+		/// <summary>
+		/// Initializes a new instance of the Widget class.
+		/// </summary>
 		protected Widget()
 		{
 			Type = UIBlockType.Undefined;
@@ -172,6 +175,9 @@
 			}
 		}
 
+		/// <summary>
+		/// Margin of the widget.
+		/// </summary>
 		public Margin Margin
 		{
 			get
@@ -213,7 +219,9 @@
 			BlockDefinition.MinWidth = -1;
 		}
 
-		// ugly method to clear the internal list of dropdown items that can't be accessed.
+		/// <summary>
+		/// Ugly method to clear the internal list of DropDown items that can't be accessed.
+		/// </summary>
 		protected void RecreateUiBlock()
 		{
 			UIBlockDefinition newUiBlockDefinition = new UIBlockDefinition();

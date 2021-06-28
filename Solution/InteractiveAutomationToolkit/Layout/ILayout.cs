@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
+﻿namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
+	/// <summary>
+	/// Used to define the position of an item in a grid layout.
+	/// </summary>
 	public interface ILayout
 	{
 		/// <summary>

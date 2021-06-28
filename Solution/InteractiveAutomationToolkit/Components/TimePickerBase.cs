@@ -3,10 +3,17 @@
 	using System;
 	using Skyline.DataMiner.Automation;
 
+	/// <summary>
+	/// Base class for time based widgets that rely on the <see cref="AutomationDateTimeUpDownOptions" />.
+	/// </summary>
 	public abstract class TimePickerBase : InteractiveWidget
 	{
 		private AutomationDateTimeUpDownOptions dateTimeUpDownOptions;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TimePickerBase" />
+		/// </summary>
+		/// <param name="dateTimeUpDownOptions">Configuration for the new TimePickerBase instance.</param>
 		protected TimePickerBase(AutomationDateTimeUpDownOptions dateTimeUpDownOptions)
 		{
 			DateTimeUpDownOptions = dateTimeUpDownOptions;
@@ -136,6 +143,9 @@
 			}
 		}
 
+		/// <summary>
+		/// Configuration of this <see cref="TimePickerBase" /> instance.
+		/// </summary>
 		protected AutomationDateTimeUpDownOptions DateTimeUpDownOptions
 		{
 			get

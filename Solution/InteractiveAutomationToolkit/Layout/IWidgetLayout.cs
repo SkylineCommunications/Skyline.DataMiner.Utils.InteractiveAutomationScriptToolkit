@@ -2,12 +2,15 @@
 {
 	using System;
 
+	/// <summary>
+	/// Used to define the position of a Widget in a grid layout.
+	/// </summary>
 	public interface IWidgetLayout : ILayout
 	{
 		/// <summary>
 		///     Gets how many columns the widget is spanning in the grid.
 		/// </summary>
-		/// <remarks>The widget will start at <see cref="Column" /></remarks>
+		/// <remarks>The widget will start at Column.</remarks>
 		int ColumnSpan { get; }
 
 		/// <summary>
@@ -24,7 +27,7 @@
 		/// <summary>
 		///     Gets how many rows the widget is spanning in the grid.
 		/// </summary>
-		/// <remarks>The widget will start at <see cref="Row" /></remarks>
+		/// <remarks>The widget will start at Row.</remarks>
 		int RowSpan { get; }
 
 		/// <summary>

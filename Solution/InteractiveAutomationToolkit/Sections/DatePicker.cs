@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit.Sections
+﻿namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
-	using Skyline.DataMiner.Net.Correlation;
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
 
+	/// <summary>
+	/// Custom control used to display a date. Make sure that <see cref="Dialog.AllowOverlappingWidgets"/> is set to true when using this control.
+	/// </summary>
+	[Obsolete("Use a DateTimePicker with the LongDate or ShortDate format.")]
 	public class DatePicker : Section
 	{
 		private readonly Dictionary<int, string> months = new Dictionary<int, string>()
@@ -34,14 +34,17 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 
 		private DateTime previous;
 
-		//private DateTime minimum = new DateTime(1800, 1, 1);
-
-		//private DateTime maximum = new DateTime(9999, 12, 31);
-
+		/// <summary>
+		/// Initializes a new instance of the DatePicker class.
+		/// </summary>
 		public DatePicker() : this(DateTime.Now)
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the DatePicker class.
+		/// </summary>
+		/// <param name="dateTime"></param>
 		public DatePicker(DateTime dateTime)
 		{
 			previous = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day);
@@ -80,7 +83,7 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		}
 
 		/// <summary>
-		///     Events triggers when a different datetime is picked.
+		///     Events triggers when a different date is picked.
 		/// </summary>
 		public event EventHandler<DatePickerChangedEventArgs> Changed
 		{
@@ -97,6 +100,9 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 
 		private event EventHandler<DatePickerChangedEventArgs> OnChanged;
 
+		/// <summary>
+		/// Date that is displayed by the control.
+		/// </summary>
 		public DateTime Date
 		{
 			get
@@ -115,6 +121,9 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 			}
 		}
 
+		/// <summary>
+		/// Day that is displayed by the control.
+		/// </summary>
 		public int Day
 		{
 			get
@@ -123,6 +132,9 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 			}
 		}
 
+		/// <summary>
+		/// Month that is displayed by the control.
+		/// </summary>
 		public int Month
 		{
 			get
@@ -131,6 +143,9 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 			}
 		}
 
+		/// <summary>
+		/// Year that is displayed by the control.
+		/// </summary>
 		public int Year
 		{
 			get
@@ -139,6 +154,9 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 			}
 		}
 
+		/// <summary>
+		/// Numeric widget that holds the day in this control.
+		/// </summary>
 		public Numeric DayNumeric
 		{
 			get
@@ -147,6 +165,9 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 			}
 		}
 
+		/// <summary>
+		/// DropDown widget that holds the month in this control.
+		/// </summary>
 		public DropDown MonthDropDown
 		{
 			get
@@ -155,6 +176,9 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 			}
 		}
 
+		/// <summary>
+		/// Numeric that holds the year in this control.
+		/// </summary>
 		public Numeric YearNumeric
 		{
 			get
@@ -162,36 +186,6 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 				return yearNumeric;
 			}
 		}
-
-		//public DateTime Minimum
-		//{
-		//	get
-		//	{
-		//		return minimum;
-		//	}
-
-		//	set
-		//	{
-		//		minimum = new DateTime(value.Year, value.Month, value.Day);
-		//		yearNumeric.Minimum = value.Year;
-		//		if (Date < minimum) Date = minimum;
-		//	}
-		//}
-
-		//public DateTime Maximum
-		//{
-		//	get
-		//	{
-		//		return maximum;
-		//	}
-
-		//	set
-		//	{
-		//		maximum = new DateTime(value.Year, value.Month, value.Day);
-		//		yearNumeric.Maximum = value.Year;
-		//		if (Date > maximum) Date = maximum;
-		//	}
-		//}
 
 		private void DayNumeric_OnChanged(object sender, Numeric.NumericChangedEventArgs e)
 		{
@@ -234,12 +228,12 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 			}
 
 			/// <summary>
-			///     Gets the new datetime value.
+			///     Gets the new Date value.
 			/// </summary>
 			public DateTime DateTime { get; private set; }
 
 			/// <summary>
-			///     Gets the previous datetime value.
+			///     Gets the previous Date value.
 			/// </summary>
 			public DateTime Previous { get; private set; }
 		}

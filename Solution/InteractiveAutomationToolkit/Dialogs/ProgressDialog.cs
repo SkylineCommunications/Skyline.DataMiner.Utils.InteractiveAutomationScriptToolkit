@@ -1,10 +1,7 @@
 ﻿namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
-	using System;
-	using System.Collections.Generic;
 	using System.Linq;
 	using System.Text;
-	using System.Threading.Tasks;
 	using Skyline.DataMiner.Automation;
 
 	/// <summary>
@@ -16,11 +13,18 @@
 		private readonly StringBuilder progress = new StringBuilder();
 		private readonly Label progressLabel = new Label();
 
+		/// <summary>
+		/// Used to instantiate a new instance of a ProgressDialog.
+		/// </summary>
+		/// <param name="engine">Link with DataMiner.</param>
 		public ProgressDialog(Engine engine) : base(engine)
 		{
 			OkButton = new Button("OK") { IsEnabled = true, Width = 150 };
 		}
 
+		/// <summary>
+		/// Button that is displayed after the Finish method is called.
+		/// </summary>
 		public Button OkButton { get; private set; }
 
 		/// <summary>

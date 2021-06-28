@@ -17,8 +17,14 @@
 		private bool isEnabled = true;
 		private bool isVisible = true;
 
+		/// <summary>
+		/// Amount of columns that are currently defined by the widgets that have been added to this Section.
+		/// </summary>
 		public int ColumnCount { get; private set; }
 
+		/// <summary>
+		/// Amount of rows that are currently defined by the widgets that have been added to this Section.
+		/// </summary>
 		public int RowCount { get; private set; }
 
 		/// <summary>
@@ -77,14 +83,13 @@
 		}
 
 		/// <summary>
-		///     Adds a widget to the dialog.
+		///     Adds a widget to the <see cref="Section" />.
 		/// </summary>
-		/// <param name="widget">Widget to add to the dialog.</param>
+		/// <param name="widget">Widget to add to the <see cref="Section" />.</param>
 		/// <param name="widgetLayout">Location of the widget on the grid layout.</param>
 		/// <returns>The dialog.</returns>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
-		/// <exception cref="ArgumentException">When the widget is already added to the dialog.</exception>
-		/// <exception cref="ArgumentException">When the widget overlaps with another widget.</exception>
+		/// <exception cref="ArgumentException">When the widget is already added to the <see cref="Section" />.</exception>
 		public Section AddWidget(Widget widget, IWidgetLayout widgetLayout)
 		{
 			if (widget == null)
@@ -96,11 +101,6 @@
 			{
 				throw new ArgumentException("Widget is already added to the section");
 			}
-
-			//if (Overlaps(widgetLayout))
-			//{
-			//	throw new ArgumentException(String.Format("The widget overlaps with another widget in the section on Row {0}, Column {1}, RowSpan {2}, ColumnSpan {3}", widgetLayout.Row, widgetLayout.Column, widgetLayout.RowSpan, widgetLayout.ColumnSpan));
-			//}
 
 			widgetLayouts.Add(widget, widgetLayout);
 			UpdateRowAndColumnCount();

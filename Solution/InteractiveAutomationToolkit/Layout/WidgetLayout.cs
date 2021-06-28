@@ -3,6 +3,7 @@
 	using System;
 	using System.Text;
 
+	/// <inheritdoc />
 	public class WidgetLayout : IWidgetLayout
 	{
 		private int column;
@@ -11,6 +12,15 @@
 		private int row;
 		private int rowSpan;
 
+		/// <summary>
+		/// Initializes a new instance of the WidgetLayout class.
+		/// </summary>
+		/// <param name="fromRow">Row index of top left cell.</param>
+		/// <param name="fromColumn">Column index of the top left cell.</param>
+		/// <param name="rowSpan">Amount of vertical cells over which the Widget is spanned.</param>
+		/// <param name="columnSpan">Amount of horizontal cells over which the Widget is spanned.</param>
+		/// <param name="horizontalAlignment">Horizontal alignment of the Widget.</param>
+		/// <param name="verticalAlignment">Vertical alignment of the Widget.</param>
 		public WidgetLayout(
 			int fromRow,
 			int fromColumn,
@@ -28,6 +38,13 @@
 			Margin = new Margin();
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the WidgetLayout class.
+		/// </summary>
+		/// <param name="row">Row index of the cell in which the Widget is placed.</param>
+		/// <param name="column">Column index of the cell in which the Widget is placed.</param>
+		/// <param name="horizontalAlignment">Horizontal alignment of the Widget.</param>
+		/// <param name="verticalAlignment">Vertical alignment of the Widget.</param>
 		public WidgetLayout(
 			int row,
 			int column,
@@ -155,6 +172,7 @@
 		/// <inheritdoc />
 		public VerticalAlignment VerticalAlignment { get; set; }
 
+		/// <inheritdoc />
 		public override bool Equals(object obj)
 		{
 			WidgetLayout other = obj as WidgetLayout;
@@ -174,6 +192,7 @@
 			return rowParamsMatch && columnParamsMatch && alignmentParamsMatch;
 		}
 
+		/// <inheritdoc />
 		public override int GetHashCode()
 		{
 			return Row ^ Column ^ RowSpan ^ ColumnSpan ^ (int)HorizontalAlignment ^ (int)VerticalAlignment;

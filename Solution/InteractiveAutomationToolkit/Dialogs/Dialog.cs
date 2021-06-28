@@ -30,6 +30,10 @@
 		private int columnCount;
 		private bool isEnabled = true;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Dialog" /> class.
+		/// </summary>
+		/// <param name="engine"></param>
 		protected Dialog(Engine engine)
 		{
 			if (engine == null)

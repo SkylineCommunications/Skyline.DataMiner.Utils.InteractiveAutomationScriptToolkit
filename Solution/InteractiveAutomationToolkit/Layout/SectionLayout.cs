@@ -1,16 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
+﻿namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
+	using System;
+
+	/// <summary>
+	/// Used to define the position of a Section in another Section or a Dialog.
+	/// </summary>
 	public class SectionLayout : ILayout
 	{
 		private int column;
 		private int row;
 
+		/// <summary>
+		/// Initializes a new instance of the SectionLayout class.
+		/// </summary>
+		/// <param name="row">Row index of the cell where the top left cell of the Section will be mapped to.</param>
+		/// <param name="column">Column index of the cell where the top left cell of the Section will be mapped to.</param>
 		public SectionLayout(int row, int column)
 		{
 			this.row = row;

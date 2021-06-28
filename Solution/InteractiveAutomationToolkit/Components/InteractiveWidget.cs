@@ -3,8 +3,14 @@
 	using System;
 	using Skyline.DataMiner.Automation;
 
+	/// <summary>
+	/// A widget that requires user input.
+	/// </summary>
 	public abstract class InteractiveWidget : Widget
 	{
+		/// <summary>
+		/// Initializes a new instance of the InteractiveWidget class.
+		/// </summary>
 		protected InteractiveWidget()
 		{
 			BlockDefinition.DestVar = Guid.NewGuid().ToString();

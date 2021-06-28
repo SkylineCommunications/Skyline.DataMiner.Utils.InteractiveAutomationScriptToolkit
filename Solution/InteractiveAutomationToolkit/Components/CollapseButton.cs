@@ -19,6 +19,11 @@
 		private bool pressed;
 		private bool isCollapsed;
 
+		/// <summary>
+		/// Initializes a new instance of the CollapseButton class.
+		/// </summary>
+		/// <param name="linkedWidgets">Widgets that are linked to this CollapseButton.</param>
+		/// <param name="isCollapsed">State of the CollapseButton.</param>
 		public CollapseButton(IEnumerable<Widget> linkedWidgets, bool isCollapsed)
 		{
 			Type = UIBlockType.Button;
@@ -31,6 +36,10 @@
 			WantsOnChange = true;
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the CollapseButton class.
+		/// </summary>
+		/// <param name="isCollapsed">State of the CollapseButton.</param>
 		public CollapseButton(bool isCollapsed = false) : this(new Widget[0], isCollapsed)
 		{
 		}
@@ -54,6 +63,11 @@
 
 		private event EventHandler<EventArgs> OnPressed;
 
+		/// <summary>
+		/// Indicates if the CollapseButton is collapsed or not.
+		/// If the CollapseButton is collapsed, the IsVisible property of all linked widgets is set to false.
+		/// If the CollapseButton is not collapsed, the IsVisible property of all linked widgets is set to true.
+		/// </summary>
 		public bool IsCollapsed
 		{
 			get
@@ -132,6 +146,9 @@
 			}
 		}
 
+		/// <summary>
+		/// Collection of Widgets that are affected by this CollapseButton.
+		/// </summary>
 		public List<Widget> LinkedWidgets { get; private set; }
 
 		/// <summary>
