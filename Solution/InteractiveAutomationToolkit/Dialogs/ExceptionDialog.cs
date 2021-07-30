@@ -4,7 +4,7 @@
 	using Skyline.DataMiner.Automation;
 
 	/// <summary>
-	///		Dialog used to display an Exception.
+	///		Dialog used to display an exception.
 	/// </summary>
 	public class ExceptionDialog : Dialog
 	{
@@ -25,17 +25,17 @@
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the ExceptionDialog with a specific Exception to be displayed.
+		/// Initializes a new instance of the ExceptionDialog class with a specific exception to be displayed.
 		/// </summary>
 		/// <param name="engine">Link with DataMiner.</param>
-		/// <param name="exception">Exception to be displayed by the ExceptionDialog.</param>
+		/// <param name="exception">Exception to be displayed by the exception dialog.</param>
 		public ExceptionDialog(Engine engine, Exception exception) : this(engine)
 		{
 			Exception = exception;
 		}
 
 		/// <summary>
-		/// Exception to be displayed by the ExceptionDialog.
+		/// Exception to be displayed by the exception dialog.
 		/// </summary>
 		public Exception Exception
 		{
@@ -52,7 +52,7 @@
 		}
 
 		/// <summary>
-		/// Button that is displayed below the Exception.
+		/// Button that is displayed below the exception.
 		/// </summary>
 		public Button OkButton { get; private set; }
 	}

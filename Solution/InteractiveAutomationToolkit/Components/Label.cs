@@ -63,7 +63,7 @@
 		}
 
 		/// <summary>
-		///     Gets or sets the Tooltip.
+		///     Gets or sets the tooltip.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip

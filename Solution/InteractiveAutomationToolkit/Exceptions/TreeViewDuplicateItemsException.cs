@@ -3,7 +3,7 @@
 	using System;
 
 	/// <summary>
-	/// This exception is used to indicate that a TreeView contains multiple TreeViewItems with the same key.
+	/// This exception is used to indicate that a tree view contains multiple items with the same key.
 	/// </summary>
 	[Serializable]
 	public class TreeViewDuplicateItemsException : Exception

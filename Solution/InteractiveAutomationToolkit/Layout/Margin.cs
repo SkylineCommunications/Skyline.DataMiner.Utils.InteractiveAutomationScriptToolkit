@@ -3,7 +3,7 @@
 	using System;
 
 	/// <summary>
-	/// Defines the whitespace that is displayed around a Widget.
+	/// Defines the whitespace that is displayed around a widget.
 	/// </summary>
 	public class Margin
 	{
@@ -15,10 +15,10 @@
 		/// <summary>
 		/// Initializes a new instance of the Margin class.
 		/// </summary>
-		/// <param name="left">Amount of margin on the left side of the Widget in pixels.</param>
-		/// <param name="top">Amount of margin on the top of the Widget in pixels.</param>
-		/// <param name="right">Amount of margin on the right side of the Widget in pixels.</param>
-		/// <param name="bottom">Amount of margin on the bottom of the Widget in pixels.</param>
+		/// <param name="left">Amount of margin on the left-hand side of the widget in pixels.</param>
+		/// <param name="top">Amount of margin at the top of the widget in pixels.</param>
+		/// <param name="right">Amount of margin on the right-hand side of the widget in pixels.</param>
+		/// <param name="bottom">Amount of margin at the bottom of the widget in pixels.</param>
 		public Margin(int left, int top, int right, int bottom)
 		{
 			Left = left;
@@ -29,7 +29,7 @@
 
 		/// <summary>
 		/// Initializes a new instance of the Margin class.
-		/// All of the margins get the default values of 3 pixels.
+		/// A margin is by default 3 pixels wide.
 		/// </summary>
 		public Margin() : this(3, 3, 3, 3)
 		{
@@ -39,7 +39,7 @@
 		/// Initializes a new instance of the Margin class based on a string.
 		/// This string should have the following syntax: left;top;right;bottom
 		/// </summary>
-		/// <exception cref="ArgumentException">If the string does not match the predefined syntax. Or if any of the margins is not a number.</exception>
+		/// <exception cref="ArgumentException">If the string does not match the predefined syntax, or if any of the margins is not a number.</exception>
 		/// <param name="margin">Margin in string format.</param>
 		public Margin(string margin)
 		{
@@ -62,7 +62,7 @@
 		}
 
 		/// <summary>
-		/// Amount of margin in pixels at the bottom of the Widget.
+		/// Amount of margin in pixels at the bottom of the widget.
 		/// </summary>
 		public int Bottom
 		{
@@ -83,7 +83,7 @@
 		}
 
 		/// <summary>
-		/// Amount of margin in pixels at the left hand side of the Widget.
+		/// Amount of margin in pixels at the left-hand side of the widget.
 		/// </summary>
 		public int Left
 		{
@@ -104,7 +104,7 @@
 		}
 
 		/// <summary>
-		/// Amount of margin in pixels at the right hand side of the Widget.
+		/// Amount of margin in pixels at the right-hand side of the widget.
 		/// </summary>
 		public int Right
 		{
@@ -125,7 +125,7 @@
 		}
 
 		/// <summary>
-		/// Amount of margin in pixels at the top of the Widget.
+		/// Amount of margin in pixels at the top of the widget.
 		/// </summary>
 		public int Top
 		{

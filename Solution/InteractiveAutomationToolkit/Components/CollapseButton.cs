@@ -22,8 +22,8 @@
 		/// <summary>
 		/// Initializes a new instance of the CollapseButton class.
 		/// </summary>
-		/// <param name="linkedWidgets">Widgets that are linked to this CollapseButton.</param>
-		/// <param name="isCollapsed">State of the CollapseButton.</param>
+		/// <param name="linkedWidgets">Widgets that are linked to this collapse button.</param>
+		/// <param name="isCollapsed">State of the collapse button.</param>
 		public CollapseButton(IEnumerable<Widget> linkedWidgets, bool isCollapsed)
 		{
 			Type = UIBlockType.Button;
@@ -39,13 +39,13 @@
 		/// <summary>
 		/// Initializes a new instance of the CollapseButton class.
 		/// </summary>
-		/// <param name="isCollapsed">State of the CollapseButton.</param>
+		/// <param name="isCollapsed">State of the collapse button.</param>
 		public CollapseButton(bool isCollapsed = false) : this(new Widget[0], isCollapsed)
 		{
 		}
 
 		/// <summary>
-		///     Event triggers when the button is pressed.
+		///     Triggered when the button is pressed.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<EventArgs> Pressed
@@ -64,9 +64,9 @@
 		private event EventHandler<EventArgs> OnPressed;
 
 		/// <summary>
-		/// Indicates if the CollapseButton is collapsed or not.
-		/// If the CollapseButton is collapsed, the IsVisible property of all linked widgets is set to false.
-		/// If the CollapseButton is not collapsed, the IsVisible property of all linked widgets is set to true.
+		/// Indicates if the collapse button is collapsed or not.
+		/// If the collapse button is collapsed, the IsVisible property of all linked widgets is set to false.
+		/// If the collapse button is not collapsed, the IsVisible property of all linked widgets is set to true.
 		/// </summary>
 		public bool IsCollapsed
 		{
@@ -87,7 +87,7 @@
 		}
 
 		/// <summary>
-		/// Gets or sets the text to be displayed in the CollapseButton when the button is expanded.
+		/// Gets or sets the text to be displayed in the collapse button when the button is expanded.
 		/// </summary>
 		public string CollapseText
 		{
@@ -106,7 +106,7 @@
 		}
 
 		/// <summary>
-		///     Gets or sets the Tooltip.
+		///     Gets or sets the tooltip.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip
@@ -128,7 +128,7 @@
 		}
 
 		/// <summary>
-		/// Gets or sets the text to be displayed in the CollapseButton when the button is collapsed.
+		/// Gets or sets the text to be displayed in the collapse button when the button is collapsed.
 		/// </summary>
 		public string ExpandText
 		{
@@ -147,12 +147,12 @@
 		}
 
 		/// <summary>
-		/// Collection of Widgets that are affected by this CollapseButton.
+		/// Collection of widgets that are affected by this collapse button.
 		/// </summary>
 		public List<Widget> LinkedWidgets { get; private set; }
 
 		/// <summary>
-		/// This method is used to collapse the Collapse Button.
+		/// This method is used to collapse the collapse button.
 		/// </summary>
 		public void Collapse()
 		{
@@ -160,7 +160,7 @@
 		}
 
 		/// <summary>
-		/// This method is used to expand the Collapse Button.
+		/// This method is used to expand the collapse button.
 		/// </summary>
 		public void Expand()
 		{
@@ -184,12 +184,12 @@
 		}
 
 		/// <summary>
-		/// Retrieves a list of Widgets that are affected when the state of the provided CollapseButton is changed.
-		/// This method was introduced to support nested CollapseButtons.
+		/// Retrieves a list of Widgets that are affected when the state of the provided collapse button is changed.
+		/// This method was introduced to support nested collapse buttons.
 		/// </summary>
-		/// <param name="collapseButton">CollapseButton that is checked.</param>
+		/// <param name="collapseButton">Collapse button that is checked.</param>
 		/// <param name="collapse">Indicates if the top collapse button is going to be collapsed or expanded.</param>
-		/// <returns>List of affected Widgets.</returns>
+		/// <returns>List of affected widgets.</returns>
 		private static List<Widget> GetAffectedWidgets(CollapseButton collapseButton, bool collapse)
 		{
 			List<Widget> affectedWidgets = new List<Widget>();

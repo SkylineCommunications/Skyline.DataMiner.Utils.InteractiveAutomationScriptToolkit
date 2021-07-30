@@ -25,7 +25,7 @@
 		/// <summary>
 		///     Initializes a new instance of the <see cref="CheckBoxList" /> class.
 		/// </summary>
-		/// <param name="options">Name of options that can be checked.</param>
+		/// <param name="options">Name of options that can be selected.</param>
 		/// <exception cref="ArgumentNullException">When options is null.</exception>
 		public CheckBoxList(IEnumerable<string> options)
 		{
@@ -36,7 +36,7 @@
 		}
 
 		/// <summary>
-		///     Event tiggers when the state of a checkbox has changed.
+		///     Triggered when the state of a checkbox changes.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<CheckBoxListChangedEventArgs> Changed
@@ -60,7 +60,7 @@
 		private event EventHandler<CheckBoxListChangedEventArgs> OnChanged;
 
 		/// <summary>
-		///     Gets all checked options.
+		///     Gets all selected options.
 		/// </summary>
 		public IEnumerable<string> Checked
 		{
@@ -88,7 +88,7 @@
 		}
 
 		/// <summary>
-		///     Gets or sets the Tooltip.
+		///     Gets or sets the tooltip.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip
@@ -123,7 +123,7 @@
 		}
 
 		/// <summary>
-		///     Gets all unchecked options.
+		///     Gets all options that are not selected.
 		/// </summary>
 		public IEnumerable<string> Unchecked
 		{
@@ -135,7 +135,7 @@
 
 		/// <summary>
 		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by client to add a visual marker on the input field.
+		///		This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner 10.0.5 onwards.</remarks>
 		public UIValidationState ValidationState
@@ -152,9 +152,9 @@
 		}
 
 		/// <summary>
-		///		Gets or sets the text that is shown if the ValidationState is Invalid.
-		///		This should be used by client to add a visual marker on the input field.
-		///		The validation text is not displayed for a CheckBoxList, but if this value is not explicitly set, then the validationState will have no influence on the way the component is displayed.
+		///		Gets or sets the text that is shown if the validation state is invalid.
+		///		This should be used by the client to add a visual marker on the input field.
+		///		The validation text is not displayed for a checkbox list, but if this value is not explicitly set, the validation state will have no influence on the way the component is displayed.
 		/// </summary>
 		/// <remarks>Available from DataMiner 10.0.5 onwards.</remarks>
 		public string ValidationText
@@ -174,7 +174,7 @@
 		///     Adds an option to the checkbox list.
 		/// </summary>
 		/// <param name="option">Option to add.</param>
-		/// <exception cref="ArgumentNullException">When optionsToAdd is null.</exception>
+		/// <exception cref="ArgumentNullException">When options is null.</exception>
 		public void AddOption(string option)
 		{
 			if (option == null)
@@ -190,9 +190,9 @@
 		}
 
 		/// <summary>
-		///     Checks an option.
+		///     Selects an option.
 		/// </summary>
-		/// <param name="option">Option to be checked.</param>
+		/// <param name="option">Option to be selected.</param>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		/// <exception cref="ArgumentException">When the option does not exist.</exception>
 		public void Check(string option)
@@ -215,7 +215,7 @@
 		}
 
 		/// <summary>
-		///     Checks all options.
+		///     Selects all options.
 		/// </summary>
 		public void CheckAll()
 		{
@@ -231,12 +231,12 @@
 		///     Sets the displayed options.
 		///     Replaces existing options.
 		/// </summary>
-		/// <param name="optionsToSet">Options to set.</param>
-		/// <exception cref="ArgumentNullException">When optionsToSet is null.</exception>
-		public void SetOptions(IEnumerable<string> optionsToSet)
+		/// <param name="options">Options to set.</param>
+		/// <exception cref="ArgumentNullException">When options is null.</exception>
+		public void SetOptions(IEnumerable<string> options)
 		{
 			ClearOptions();
-			foreach (string option in optionsToSet)
+			foreach (string option in options)
 			{
 				AddOption(option);
 			}
@@ -265,9 +265,9 @@
 		}
 
 		/// <summary>
-		///     Unchecks an option.
+		///     Clears an option.
 		/// </summary>
-		/// <param name="option">Option to be checked.</param>
+		/// <param name="option">Option to be cleared.</param>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		/// <exception cref="ArgumentException">When the option does not exist.</exception>
 		public void Uncheck(string option)
@@ -290,7 +290,7 @@
 		}
 
 		/// <summary>
-		///     Unchecks all options.
+		///     Clears all options.
 		/// </summary>
 		public void UncheckAll()
 		{
@@ -358,12 +358,12 @@
 			}
 
 			/// <summary>
-			///     Gets a value indicating whether the checkbox has been checked.
+			///     Gets a value indicating whether the checkbox has been selected.
 			/// </summary>
 			public bool IsChecked { get; private set; }
 
 			/// <summary>
-			///     Gets the option who's state changed.
+			///     Gets the option of which the state has changed.
 			/// </summary>
 			public string Option { get; private set; }
 		}

@@ -8,7 +8,7 @@
 	using Skyline.DataMiner.Automation;
 
 	/// <summary>
-	/// A section is a special component that can be used to group Widgets together.
+	/// A section is a special component that can be used to group widgets together.
 	/// </summary>
 	public class Section
 	{

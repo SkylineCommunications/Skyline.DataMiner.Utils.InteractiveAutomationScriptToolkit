@@ -4,7 +4,7 @@
 	using Skyline.DataMiner.Automation;
 
 	/// <summary>
-	/// Base class for time based widgets that rely on the <see cref="AutomationDateTimeUpDownOptions" />.
+	/// Base class for time-based widgets that rely on the <see cref="AutomationDateTimeUpDownOptions" />.
 	/// </summary>
 	public abstract class TimePickerBase : InteractiveWidget
 	{

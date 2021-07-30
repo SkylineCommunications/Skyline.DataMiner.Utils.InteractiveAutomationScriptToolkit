@@ -8,14 +8,14 @@
 	using Skyline.DataMiner.Automation;
 
 	/// <summary>
-	///		Dialog used to display an Message.
+	///		Dialog used to display an message.
 	/// </summary>
 	public class MessageDialog : Dialog
 	{
 		private readonly Label messageLabel = new Label();
 
 		/// <summary>
-		/// Used to instantiate a new MessageDialog without a message.
+		/// Initializes a new instance of the <see cref="MessageDialog" /> class without a message.
 		/// </summary>
 		/// <param name="engine">Link with DataMiner.</param>
 		public MessageDialog(Engine engine) : base(engine)
@@ -27,7 +27,7 @@
 		}
 
 		/// <summary>
-		/// Used to instantiate a new MessageDialog with a specific message.
+		/// Initializes a new instance of the <see cref="MessageDialog" /> class with a specific message.
 		/// </summary>
 		/// <param name="engine">Link with DataMiner.</param>
 		/// <param name="message">Message to be displayed in the dialog.</param>

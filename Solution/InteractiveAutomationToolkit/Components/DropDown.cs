@@ -37,7 +37,7 @@
 		}
 
 		/// <summary>
-		///     Event triggers when a different option is selected.
+		///     Triggered when a different option is selected.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<DropDownChangedEventArgs> Changed
@@ -51,7 +51,7 @@
 			remove
 			{
 				OnChanged -= value;
-				if(OnChanged == null || !OnChanged.GetInvocationList().Any())
+				if (OnChanged == null || !OnChanged.GetInvocationList().Any())
 				{
 					WantsOnChange = false;
 				}
@@ -93,7 +93,7 @@
 		}
 
 		/// <summary>
-		///     Gets or sets the Tooltip.
+		///     Gets or sets the tooltip.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip
@@ -117,7 +117,7 @@
 
 		/// <summary>
 		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by client to add a visual marker on the input field.
+		///		This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner Feature Release 10.0.5 and 10.0.1.0 Main Release.</remarks>
 		public UIValidationState ValidationState
@@ -134,10 +134,10 @@
 		}
 
 		/// <summary>
-		///		Gets or sets the text that is shown if the ValidationState is Invalid.
-		///		This should be used by client to add a visual marker on the input field.
+		///		Gets or sets the text that is shown if the validation state is invalid.
+		///		This should be used by the client to add a visual marker on the input field.
 		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and 10.0.1.0 Main Release.</remarks>
+		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public string ValidationText
 		{
 			get
@@ -186,10 +186,10 @@
 		}
 
 		/// <summary>
-		///     Add an option to the drop-down list.
+		///     Adds an option to the drop-down list.
 		/// </summary>
-		/// <param name="option">Options to add.</param>
-		/// <exception cref="ArgumentNullException">When optionsToAdd is null.</exception>
+		/// <param name="option">Option to add.</param>
+		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		public void AddOption(string option)
 		{
 			if (option == null)
@@ -230,7 +230,7 @@
 		}
 
 		/// <summary>
-		/// 	Removes an option from the dropdown.
+		/// 	Removes an option from the drop-down list.
 		/// </summary>
 		/// <param name="option">Option to remove.</param>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>

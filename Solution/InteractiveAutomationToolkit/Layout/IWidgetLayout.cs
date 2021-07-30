@@ -3,14 +3,13 @@
 	using System;
 
 	/// <summary>
-	/// Used to define the position of a Widget in a grid layout.
+	/// Used to define the position of a widget in a grid layout.
 	/// </summary>
 	public interface IWidgetLayout : ILayout
 	{
 		/// <summary>
-		///     Gets how many columns the widget is spanning in the grid.
+		///     Gets how many columns the widget spans on the grid.
 		/// </summary>
-		/// <remarks>The widget will start at Column.</remarks>
 		int ColumnSpan { get; }
 
 		/// <summary>
@@ -21,13 +20,12 @@
 		/// <summary>
 		///     Gets or sets the margin around the widget.
 		/// </summary>
-		/// <exception cref="ArgumentNullException">When value is null.</exception>
+		/// <exception cref="ArgumentNullException">When the value is null.</exception>
 		Margin Margin { get; set; }
 
 		/// <summary>
-		///     Gets how many rows the widget is spanning in the grid.
+		///     Gets how many rows the widget spans on the grid.
 		/// </summary>
-		/// <remarks>The widget will start at Row.</remarks>
 		int RowSpan { get; }
 
 		/// <summary>

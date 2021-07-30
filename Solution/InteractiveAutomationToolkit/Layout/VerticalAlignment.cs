@@ -1,7 +1,7 @@
 ﻿namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
 	/// <summary>
-	/// Specifies the vertical alignment of a Widget added to a Dialog or Section.
+	/// Specifies the vertical alignment of a widget added to a dialog or section.
 	/// </summary>
 	public enum VerticalAlignment
 	{

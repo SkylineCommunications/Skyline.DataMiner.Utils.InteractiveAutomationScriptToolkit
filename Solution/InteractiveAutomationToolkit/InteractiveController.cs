@@ -62,11 +62,12 @@
 		}
 
 		/// <summary>
-		///     Start the application event loop.
+		///     Starts the application event loop.
 		///     Updates the displayed dialog after each user interaction.
-		///     Only user interactions on widgets with the WantsOnChange property set on true will cause updates.
+		///     Only user interaction on widgets with the WantsOnChange property set to true will cause updates.
 		///     Use <see cref="RequestManualMode" /> if you want to manually control when the dialog is updated.
 		/// </summary>
+		/// <param name="startDialog">Dialog to be shown first.</param>
 		public void Run(Dialog startDialog)
 		{
 			if (startDialog == null)
@@ -122,7 +123,7 @@
 		}
 
 		/// <summary>
-		///     Manually update the dialog.
+		///     Manually updates the dialog.
 		///     Use this method when you want to update the dialog without user interaction.
 		///     Note that no events will be raised.
 		/// </summary>

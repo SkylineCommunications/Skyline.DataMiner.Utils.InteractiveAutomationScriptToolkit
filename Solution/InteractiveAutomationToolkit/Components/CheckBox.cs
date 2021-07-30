@@ -5,7 +5,7 @@
 	using Skyline.DataMiner.Automation;
 
 	/// <summary>
-	///     A checkbox that can be checked or unchecked.
+	///     A checkbox that can be selected or cleared.
 	/// </summary>
 	public class CheckBox : InteractiveWidget
 	{
@@ -31,7 +31,7 @@
 		}
 
 		/// <summary>
-		///     Event triggers when the state of the checkbox changed.
+		///     Triggered when the state of the checkbox changes.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<CheckBoxChangedEventArgs> Changed
@@ -57,7 +57,7 @@
 		}
 
 		/// <summary>
-		///     Event triggers when the checkbox is checked.
+		///     Triggered when the checkbox is selected.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<EventArgs> Checked
@@ -83,7 +83,7 @@
 		}
 
 		/// <summary>
-		///     Event triggers when the checkbox is unchecked.
+		///     Triggered when the checkbox is cleared.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<EventArgs> UnChecked
@@ -115,7 +115,7 @@
 		private event EventHandler<EventArgs> OnUnChecked;
 
 		/// <summary>
-		///     Gets or sets a value indicating whether the checkbox is checked.
+		///     Gets or sets a value indicating whether the checkbox is selected.
 		/// </summary>
 		public bool IsChecked
 		{
@@ -148,7 +148,7 @@
 		}
 
 		/// <summary>
-		///     Gets or sets the Tooltip.
+		///     Gets or sets the tooltip.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip

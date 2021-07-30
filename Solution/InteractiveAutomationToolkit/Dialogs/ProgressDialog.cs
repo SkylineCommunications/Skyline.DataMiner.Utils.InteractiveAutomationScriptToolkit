@@ -5,8 +5,8 @@
 	using Skyline.DataMiner.Automation;
 
 	/// <summary>
-	/// When displaying progress, this dialog has to be shown without requiring user interaction.
-	/// When you are done displaying progress, call the Finish method and Show the dialog with user interaction required.
+	/// When progress is displayed, this dialog has to be shown without requiring user interaction.
+	/// When you are done displaying progress, call the Finish method and show the dialog with user interaction required.
 	/// </summary>
 	public class ProgressDialog : Dialog
 	{

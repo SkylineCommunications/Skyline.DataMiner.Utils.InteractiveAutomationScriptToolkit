@@ -5,7 +5,7 @@
 	using System.Linq;
 
 	/// <summary>
-	/// Custom control used to display a date. Make sure that <see cref="Dialog.AllowOverlappingWidgets"/> is set to true when using this control.
+	/// Custom control used to display a date. Make sure that <see cref="Dialog.AllowOverlappingWidgets"/> is set to true when you use this control.
 	/// </summary>
 	[Obsolete("Use a DateTimePicker with the LongDate or ShortDate format.")]
 	public class DatePicker : Section
@@ -83,7 +83,7 @@
 		}
 
 		/// <summary>
-		///     Events triggers when a different date is picked.
+		///     Triggered when a different date is picked.
 		/// </summary>
 		public event EventHandler<DatePickerChangedEventArgs> Changed
 		{
@@ -166,7 +166,7 @@
 		}
 
 		/// <summary>
-		/// DropDown widget that holds the month in this control.
+		/// Drop down widget that holds the month in this control.
 		/// </summary>
 		public DropDown MonthDropDown
 		{
@@ -177,7 +177,7 @@
 		}
 
 		/// <summary>
-		/// Numeric that holds the year in this control.
+		/// Numeric widget that holds the year in this control.
 		/// </summary>
 		public Numeric YearNumeric
 		{
@@ -228,12 +228,12 @@
 			}
 
 			/// <summary>
-			///     Gets the new Date value.
+			///     Gets the new date value.
 			/// </summary>
 			public DateTime DateTime { get; private set; }
 
 			/// <summary>
-			///     Gets the previous Date value.
+			///     Gets the previous date value.
 			/// </summary>
 			public DateTime Previous { get; private set; }
 		}

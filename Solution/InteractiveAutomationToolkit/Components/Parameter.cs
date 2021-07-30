@@ -44,7 +44,7 @@
 		}
 
 		/// <summary>
-		///     Gets or sets the ID of the DataMiner agent that has the parameter.
+		///     Gets or sets the ID of the DataMiner Agent that has the parameter.
 		/// </summary>
 		public int DmaId
 		{
@@ -88,7 +88,7 @@
 		}
 
 		/// <summary>
-		///     Gets or sets the Primary key of the table entry.
+		///     Gets or sets the primary key of the table entry.
 		/// </summary>
 		/// <remarks>Should be <c>null</c> for standalone parameters.</remarks>
 		public string Index

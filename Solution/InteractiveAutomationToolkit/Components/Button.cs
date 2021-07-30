@@ -29,7 +29,7 @@
 		}
 
 		/// <summary>
-		///     Gets or sets the Tooltip.
+		///     Gets or sets the tooltip.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip
@@ -51,7 +51,7 @@
 		}
 
 		/// <summary>
-		///     Event triggers when the button is pressed.
+		///     Triggered when the button is pressed.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<EventArgs> Pressed

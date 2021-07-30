@@ -7,7 +7,7 @@
 	using Skyline.DataMiner.Net.AutomationUI.Objects;
 
 	/// <summary>
-	///  A Tree view structure.
+	///  A tree view structure.
 	/// </summary>
 	public class TreeView : InteractiveWidget
 	{
