@@ -45,7 +45,7 @@
 		}
 
 		/// <summary>
-		///     Gets or sets a value indicating whether the widget is visible on the dialog.
+		///     Gets or sets a value indicating whether the widget is visible in the dialog.
 		/// </summary>
 		public bool IsVisible { get; set; }
 

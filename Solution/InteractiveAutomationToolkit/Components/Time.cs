@@ -34,7 +34,7 @@
 		}
 
 		/// <summary>
-		///     Event triggers when the timespan changed.
+		///     Triggered when the timespan changes.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<TimeChangedEventArgs> Changed
@@ -148,7 +148,7 @@
 		}
 
 		/// <summary>
-		///     Gets or sets the Tooltip.
+		///     Gets or sets the tooltip.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip
@@ -173,7 +173,7 @@
 		///     Gets or sets the maximum timespan.
 		///     Default: <c>TimeSpan.MaxValue</c>
 		/// </summary>
-		/// <exception cref="ArgumentOutOfRangeException">When maximum is smaller than minimum.</exception>
+		/// <exception cref="ArgumentOutOfRangeException">When the maximum is smaller than the minimum.</exception>
 		public TimeSpan Maximum
 		{
 			get
@@ -196,7 +196,7 @@
 		///     Gets or sets the minimum timespan.
 		///     Default: <c>TimeSpan.MinValue</c>
 		/// </summary>
-		/// <exception cref="ArgumentOutOfRangeException">When minimum is larger than maximum.</exception>
+		/// <exception cref="ArgumentOutOfRangeException">When the minimum is larger than the maximum.</exception>
 		public TimeSpan Minimum
 		{
 			get

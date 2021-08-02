@@ -18,17 +18,17 @@
 		private bool isVisible = true;
 
 		/// <summary>
-		/// Amount of columns that are currently defined by the widgets that have been added to this Section.
+		/// Number of columns that are currently defined by the widgets that have been added to this section.
 		/// </summary>
 		public int ColumnCount { get; private set; }
 
 		/// <summary>
-		/// Amount of rows that are currently defined by the widgets that have been added to this Section.
+		/// Number of rows that are currently defined by the widgets that have been added to this section.
 		/// </summary>
 		public int RowCount { get; private set; }
 
 		/// <summary>
-		///		Gets or sets a value indicating whether the Widgets within the section are visible or not.
+		///		Gets or sets a value indicating whether the widgets within the section are visible or not.
 		/// </summary>
 		public bool IsVisible
 		{
@@ -48,7 +48,7 @@
 		}
 
 		/// <summary>
-		///		Gets or sets a value indicating whether the Interactive Widgets within the section are enabled or not.
+		///		Gets or sets a value indicating whether the interactive widgets within the section are enabled or not.
 		/// </summary>
 		public bool IsEnabled
 		{
@@ -72,7 +72,7 @@
 		}
 
 		/// <summary>
-		///     Gets widgets that are added to the section.
+		///     Gets widgets that have been added to the section.
 		/// </summary>
 		public IEnumerable<Widget> Widgets
 		{
@@ -83,13 +83,13 @@
 		}
 
 		/// <summary>
-		///     Adds a widget to the <see cref="Section" />.
+		///     Adds a widget to the section.
 		/// </summary>
 		/// <param name="widget">Widget to add to the <see cref="Section" />.</param>
-		/// <param name="widgetLayout">Location of the widget on the grid layout.</param>
+		/// <param name="widgetLayout">Location of the widget in the grid layout.</param>
 		/// <returns>The dialog.</returns>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
-		/// <exception cref="ArgumentException">When the widget is already added to the <see cref="Section" />.</exception>
+		/// <exception cref="ArgumentException">When the widget has already been added to the <see cref="Section" />.</exception>
 		public Section AddWidget(Widget widget, IWidgetLayout widgetLayout)
 		{
 			if (widget == null)
@@ -112,14 +112,14 @@
 		///     Adds a widget to the section.
 		/// </summary>
 		/// <param name="widget">Widget to add to the section.</param>
-		/// <param name="row">Row location of widget on the grid.</param>
+		/// <param name="row">Row location of the widget on the grid.</param>
 		/// <param name="column">Column location of the widget on the grid.</param>
 		/// <param name="horizontalAlignment">Horizontal alignment of the widget.</param>
 		/// <param name="verticalAlignment">Vertical alignment of the widget.</param>
 		/// <returns>The updated section.</returns>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the location is out of bounds of the grid.</exception>
-		/// <exception cref="ArgumentException">When the widget is already added to the dialog.</exception>
+		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
 		public Section AddWidget(
 			Widget widget,
 			int row,
@@ -135,7 +135,7 @@
 		///     Adds a widget to the section.
 		/// </summary>
 		/// <param name="widget">Widget to add to the section.</param>
-		/// <param name="fromRow">Row location of widget on the grid.</param>
+		/// <param name="fromRow">Row location of the widget on the grid.</param>
 		/// <param name="fromColumn">Column location of the widget on the grid.</param>
 		/// <param name="rowSpan">Number of rows the widget will use.</param>
 		/// <param name="colSpan">Number of columns the widget will use.</param>
@@ -144,7 +144,7 @@
 		/// <returns>The updated section.</returns>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the location is out of bounds of the grid.</exception>
-		/// <exception cref="ArgumentException">When the widget is already added to the dialog.</exception>
+		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
 		public Section AddWidget(
 			Widget widget,
 			int fromRow,
@@ -161,11 +161,11 @@
 		}
 
 		/// <summary>
-		/// Adds the widgets from the section to the Section.
+		/// Adds the widgets from the section to the section.
 		/// </summary>
-		/// <param name="section">Section to be added to the Section.</param>
-		/// <param name="layout">Left top position of the Section within the Section.</param>
-		/// <returns>The updated Section.</returns>
+		/// <param name="section">Section to be added to the section.</param>
+		/// <param name="layout">Left-top position of the section within the parent section.</param>
+		/// <returns>The updated section.</returns>
 		public Section AddSection(Section section, ILayout layout)
 		{
 			foreach (Widget widget in section.Widgets)
@@ -215,22 +215,23 @@
 		}
 
 		/// <summary>
-		///     Sets the layout of the widget in the dialog.
+		///     Sets the layout of a widget in the section.
 		/// </summary>
-		/// <param name="widget">A widget that is part of the dialog.</param>
-		/// <param name="widgetLayout">The layout to apply on the widget.</param>
+		/// <param name="widget">A widget that is part of the section.</param>
+		/// <param name="widgetLayout">The layout to apply to the widget.</param>
 		/// <exception cref="NullReferenceException">When widget is null.</exception>
-		/// <exception cref="ArgumentException">When the widget is not part of the dialog.</exception>
+		/// <exception cref="ArgumentException">When the widget is not part of the section.</exception>
 		/// <exception cref="NullReferenceException">When widgetLayout is null.</exception>
-		/// <exception cref="ArgumentException">When widgetLayout is out of bounds of the dialog grid.</exception>
 		public void SetWidgetLayout(Widget widget, IWidgetLayout widgetLayout)
 		{
+			if (widgetLayout == null) throw new ArgumentNullException(nameof(widgetLayout));
+
 			CheckWidgetExits(widget);
 			widgetLayouts[widget] = widgetLayout;
 		}
 
 		/// <summary>
-		/// Removes all Widgets from the Section.
+		/// Removes all widgets from the section.
 		/// </summary>
 		public void Clear()
 		{

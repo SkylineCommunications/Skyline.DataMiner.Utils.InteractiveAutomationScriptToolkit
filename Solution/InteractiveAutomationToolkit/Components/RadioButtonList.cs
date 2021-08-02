@@ -34,7 +34,7 @@
 		}
 
 		/// <summary>
-		///     Event triggers when a different option is selected.
+		///     Triggered when a different option is selected.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<RadioButtonChangedEventArgs> Changed
@@ -48,7 +48,7 @@
 			remove
 			{
 				OnChanged -= value;
-				if(OnChanged == null || !OnChanged.GetInvocationList().Any())
+				if (OnChanged == null || !OnChanged.GetInvocationList().Any())
 				{
 					WantsOnChange = false;
 				}
@@ -91,7 +91,7 @@
 		}
 
 		/// <summary>
-		///     Gets or sets the Tooltip.
+		///     Gets or sets the tooltip.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip
@@ -129,7 +129,7 @@
 		}
 
 		/// <summary>
-		///     Add a radiobutton to the group.
+		///     Adds a radio button to the group.
 		/// </summary>
 		/// <param name="option">Option to add.</param>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>

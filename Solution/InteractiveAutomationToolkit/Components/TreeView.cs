@@ -41,7 +41,7 @@
 		}
 
 		/// <summary>
-		///     Event triggers when a different items are checked or unchecked.
+		///     Triggered when a different item is selected or no longer selected.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<IEnumerable<TreeViewItem>> Changed
@@ -65,7 +65,7 @@
 		private event EventHandler<IEnumerable<TreeViewItem>> OnChanged;
 
 		/// <summary>
-		///  Event triggers whenever an item is checked.
+		///  Triggered whenever an item is selected.
 		///  WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<IEnumerable<TreeViewItem>> Checked
@@ -89,7 +89,7 @@
 		private event EventHandler<IEnumerable<TreeViewItem>> OnChecked;
 
 		/// <summary>
-		///  Event triggers whenever an item is unchecked.
+		///  Triggered whenever an item is no longer selected.
 		///  WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<IEnumerable<TreeViewItem>> Unchecked
@@ -113,7 +113,7 @@
 		private event EventHandler<IEnumerable<TreeViewItem>> OnUnchecked;
 
 		/// <summary>
-		///  Event triggers whenever an Item is expanded.
+		///  Triggered whenever an item is expanded.
 		///  Can be used for lazy loading.
 		///  Will be triggered whenever a node with SupportsLazyLoading set to true is expanded.
 		/// </summary>
@@ -133,7 +133,7 @@
 		private event EventHandler<IEnumerable<TreeViewItem>> OnExpanded;
 
 		/// <summary>
-		///  Event triggers whenever an Item is collapsed.
+		///  Triggered whenever an item is collapsed.
 		///  Will be triggered whenever a node with SupportsLazyLoading set to true is collapsed.
 		/// </summary>
 		public event EventHandler<IEnumerable<TreeViewItem>> Collapsed
@@ -152,7 +152,7 @@
 		private event EventHandler<IEnumerable<TreeViewItem>> OnCollapsed;
 
 		/// <summary>
-		/// This will set the IsCollapsed state for all items in the TreeView to true, causing the entire TreeView to be collapsed.
+		/// Sets the IsCollapsed state for all items in the tree view to true, causing the entire tree view to be collapsed.
 		/// </summary>
 		public void Collapse()
 		{
@@ -163,7 +163,7 @@
 		}
 
 		/// <summary>
-		/// This will set the IsCollapsed state for all items in the TreeView to false, causing the entire TreeView to be expanded.
+		/// Sets the IsCollapsed state for all items in the tree view to false, causing the entire tree view to be expanded.
 		/// </summary>
 		public void Expand()
 		{
@@ -174,7 +174,7 @@
 		}
 
 		/// <summary>
-		/// Returns the top level items in the TreeView.
+		/// Returns the top-level items in the tree view.
 		/// The TreeViewItem.ChildItems property can be used to navigate further down the tree.
 		/// </summary>
 		public IEnumerable<TreeViewItem> Items
@@ -193,7 +193,7 @@
 		}
 
 		/// <summary>
-		/// Returns all items in the TreeView that are checked.
+		/// Returns all items in the tree view that are selected.
 		/// </summary>
 		public IEnumerable<TreeViewItem> CheckedItems
 		{
@@ -204,7 +204,7 @@
 		}
 
 		/// <summary>
-		/// Returns all leaves (= items without children) in the TreeView that are checked.
+		/// Returns all leaves (= items without children) in the tree view that are selected.
 		/// </summary>
 		public IEnumerable<TreeViewItem> CheckedLeaves
 		{
@@ -215,7 +215,7 @@
 		}
 
 		/// <summary>
-		/// Returns all nodes (= items with children) in the TreeView that are checked.
+		/// Returns all nodes (= items with children) in the tree view that are selected.
 		/// </summary>
 		public IEnumerable<TreeViewItem> CheckedNodes
 		{
@@ -226,11 +226,11 @@
 		}
 
 		/// <summary>
-		/// This method can be used to retrieve a TreeViewItem from the TreeView based on its KeyValue.
+		/// Can be used to retrieve an item from the tree view based on its key value.
 		/// </summary>
 		/// <param name="key">Key used to search for the item.</param>
-		/// <param name="item">Item in the Tree that matches the provided key.</param>
-		/// <returns>True if the item was found, else false.</returns>
+		/// <param name="item">Item in the tree that matches the provided key.</param>
+		/// <returns>True if the item was found, otherwise false.</returns>
 		public bool TryFindTreeViewItem(string key, out TreeViewItem item)
 		{
 			item = GetAllItems().FirstOrDefault(x => x.KeyValue.Equals(key));
@@ -271,7 +271,7 @@
 		}
 
 		/// <summary>
-		/// This method will iterate over all items in the tree and return them in a flat collection.
+		/// Iterates over all items in the tree and returns them in a flat collection.
 		/// </summary>
 		/// <returns>A flat collection containing all TreeViewItems in the TreeView.</returns>
 		public IEnumerable<TreeViewItem> GetAllItems()
@@ -304,11 +304,11 @@
 		}
 
 		/// <summary>
-		/// Returns all TreeViewItems in the TreeView that are located on the provided depth.
+		/// Returns all items in the tree view that are located at the provided depth.
 		/// Whenever the requested depth is greater than the longest branch in the tree, an empty collection will be returned.
 		/// </summary>
 		/// <param name="depth">Depth of the requested items.</param>
-		/// <returns>All TreeViewItems in the TreeView that are located on the provided depth.</returns>
+		/// <returns>All items in the tree view that are located at the provided depth.</returns>
 		public IEnumerable<TreeViewItem> GetItems(int depth)
 		{
 			return GetItems(Items, depth, 0);
@@ -342,7 +342,7 @@
 		}
 
 		/// <summary>
-		///     Gets or sets the Tooltip.
+		///     Gets or sets the tooltip.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip

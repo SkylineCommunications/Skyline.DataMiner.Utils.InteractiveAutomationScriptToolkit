@@ -14,7 +14,7 @@
 		private readonly Label progressLabel = new Label();
 
 		/// <summary>
-		/// Used to instantiate a new instance of a ProgressDialog.
+		/// Used to instantiate a new instance of the <see cref="ProgressDialog" /> class.
 		/// </summary>
 		/// <param name="engine">Link with DataMiner.</param>
 		public ProgressDialog(Engine engine) : base(engine)
@@ -28,7 +28,7 @@
 		public Button OkButton { get; private set; }
 
 		/// <summary>
-		/// This will clear the current progress and display the provided text.
+		/// Clears the current progress and displays the provided text.
 		/// </summary>
 		/// <param name="text">Indication of the progress made.</param>
 		public void SetProgress(string text)
@@ -39,9 +39,9 @@
 		}
 
 		/// <summary>
-		/// This will add the provided text to the current progress.
+		/// Adds the provided text to the current progress.
 		/// </summary>
-		/// <param name="text">Text to add to current line of progress.</param>
+		/// <param name="text">Text to add to the current line of progress.</param>
 		public void AddProgress(string text)
 		{
 			progress.Append(text);
@@ -49,7 +49,7 @@
 		}
 
 		/// <summary>
-		/// This will add the provided text on a new line to the current progress.
+		/// Adds the provided text on a new line to the current progress.
 		/// </summary>
 		/// <param name="text">Indication of the progress made. This will be placed on a separate line.</param>
 		public void AddProgressLine(string text)
@@ -59,7 +59,7 @@
 		}
 
 		/// <summary>
-		/// This will clear the progress.
+		/// Clears the progress.
 		/// </summary>
 		public void ClearProgress()
 		{
@@ -70,7 +70,7 @@
 		/// <summary>
 		/// Call this method when you are done updating the progress through this dialog.
 		/// This will cause the OK button to appear.
-		/// Display this form with User Interactivity required after this method is called.
+		/// Display this form with user interactivity required after this method is called.
 		/// </summary>
 		public void Finish() // TODO: ShowConfirmation
 		{

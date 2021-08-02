@@ -1,7 +1,7 @@
 ﻿namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
 	/// <summary>
-	/// Style of displayed text.
+	/// Style of the displayed text.
 	/// </summary>
 	public enum TextStyle
 	{

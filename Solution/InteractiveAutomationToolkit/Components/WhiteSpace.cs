@@ -9,7 +9,7 @@
 	public class WhiteSpace : Widget
 	{
 		/// <summary>
-		/// Initializes a new instance of the Whitespace class.
+		/// Initializes a new instance of the <see cref="WhiteSpace"/> class.
 		/// </summary>
 		public WhiteSpace()
 		{

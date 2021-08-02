@@ -13,14 +13,14 @@
 		private int rowSpan;
 
 		/// <summary>
-		/// Initializes a new instance of the WidgetLayout class.
+		/// Initializes a new instance of the <see cref="WidgetLayout"/> class.
 		/// </summary>
-		/// <param name="fromRow">Row index of top left cell.</param>
-		/// <param name="fromColumn">Column index of the top left cell.</param>
-		/// <param name="rowSpan">Amount of vertical cells over which the Widget is spanned.</param>
-		/// <param name="columnSpan">Amount of horizontal cells over which the Widget is spanned.</param>
-		/// <param name="horizontalAlignment">Horizontal alignment of the Widget.</param>
-		/// <param name="verticalAlignment">Vertical alignment of the Widget.</param>
+		/// <param name="fromRow">Row index of top-left cell.</param>
+		/// <param name="fromColumn">Column index of the top-left cell.</param>
+		/// <param name="rowSpan">Number of vertical cells the widget spans across.</param>
+		/// <param name="columnSpan">Number of horizontal cells the widget spans across.</param>
+		/// <param name="horizontalAlignment">Horizontal alignment of the widget.</param>
+		/// <param name="verticalAlignment">Vertical alignment of the widget.</param>
 		public WidgetLayout(
 			int fromRow,
 			int fromColumn,
@@ -39,12 +39,12 @@
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the WidgetLayout class.
+		/// Initializes a new instance of the <see cref="WidgetLayout"/> class.
 		/// </summary>
-		/// <param name="row">Row index of the cell in which the Widget is placed.</param>
-		/// <param name="column">Column index of the cell in which the Widget is placed.</param>
-		/// <param name="horizontalAlignment">Horizontal alignment of the Widget.</param>
-		/// <param name="verticalAlignment">Vertical alignment of the Widget.</param>
+		/// <param name="row">Row index of the cell where the widget is placed.</param>
+		/// <param name="column">Column index of the cell where the widget is placed.</param>
+		/// <param name="horizontalAlignment">Horizontal alignment of the widget.</param>
+		/// <param name="verticalAlignment">Vertical alignment of the widget.</param>
 		public WidgetLayout(
 			int row,
 			int column,
@@ -62,7 +62,6 @@
 		/// <summary>
 		///     Gets or sets the column location of the widget on the grid.
 		/// </summary>
-		/// <remarks>The top-left position is (0, 0) by default.</remarks>
 		public int Column
 		{
 			get
@@ -82,9 +81,8 @@
 		}
 
 		/// <summary>
-		///     Gets or sets how many columns the widget is spanning in the grid.
+		///     Gets or sets how many columns the widget spans on the grid.
 		/// </summary>
-		/// <remarks>The widget will start at <see cref="Column" /></remarks>
 		public int ColumnSpan
 		{
 			get
@@ -128,7 +126,6 @@
 		/// <summary>
 		///     Gets or sets the row location of the widget on the grid.
 		/// </summary>
-		/// <remarks>The top-left position is (0, 0) by default.</remarks>
 		public int Row
 		{
 			get
@@ -148,9 +145,8 @@
 		}
 
 		/// <summary>
-		///     Gets or sets how many rows the widget is spanning in the grid.
+		///     Gets or sets how many rows the widget spans on the grid.
 		/// </summary>
-		/// <remarks>The widget will start at <see cref="Row" /></remarks>
 		public int RowSpan
 		{
 			get

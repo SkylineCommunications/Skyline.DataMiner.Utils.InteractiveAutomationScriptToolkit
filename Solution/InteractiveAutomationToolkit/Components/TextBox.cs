@@ -33,7 +33,7 @@
 		}
 
 		/// <summary>
-		///     Triggers when the text in the text box changed.
+		///     Triggered when the text in the text box changes.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<TextBoxChangedEventArgs> Changed
@@ -89,7 +89,7 @@
 		}
 
 		/// <summary>
-		///     Gets or sets the Tooltip.
+		///     Gets or sets the tooltip.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip
@@ -111,9 +111,9 @@
 		}
 
 		/// <summary>
-		///		Gets or sets the text that should be should be displayed as a placeholder.
+		///		Gets or sets the text that should be displayed as a placeholder.
 		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and 10.0.1.0 Main Release.</remarks>
+		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public string PlaceHolder
 		{
 			get
@@ -129,9 +129,9 @@
 
 		/// <summary>
 		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by client to add a visual marker on the input field.
+		///		This should be used by the client to add a visual marker on the input field.
 		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and 10.0.1.0 Main Release.</remarks>
+		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public UIValidationState ValidationState
 		{
 			get
@@ -146,10 +146,10 @@
 		}
 
 		/// <summary>
-		///		Gets or sets the text that is shown if the ValidationState is Invalid.
-		///		This should be used by client to add a visual marker on the input field.
+		///		Gets or sets the text that is shown if the validation state is invalid.
+		///		This should be used by the client to add a visual marker on the input field.
 		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and 10.0.1.0 Main Release.</remarks>
+		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public string ValidationText
 		{
 			get

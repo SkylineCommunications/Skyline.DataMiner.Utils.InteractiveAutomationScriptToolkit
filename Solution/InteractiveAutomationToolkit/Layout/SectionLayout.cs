@@ -3,7 +3,7 @@
 	using System;
 
 	/// <summary>
-	/// Used to define the position of a Section in another Section or a Dialog.
+	/// Used to define the position of a section in another section or dialog.
 	/// </summary>
 	public class SectionLayout : ILayout
 	{
@@ -11,10 +11,10 @@
 		private int row;
 
 		/// <summary>
-		/// Initializes a new instance of the SectionLayout class.
+		/// Initializes a new instance of the <see cref="SectionLayout"/> class.
 		/// </summary>
-		/// <param name="row">Row index of the cell where the top left cell of the Section will be mapped to.</param>
-		/// <param name="column">Column index of the cell where the top left cell of the Section will be mapped to.</param>
+		/// <param name="row">Row index of the cell that the top-left cell of the section will be mapped to.</param>
+		/// <param name="column">Column index of the cell that the top-left cell of the section will be mapped to.</param>
 		public SectionLayout(int row, int column)
 		{
 			this.row = row;
