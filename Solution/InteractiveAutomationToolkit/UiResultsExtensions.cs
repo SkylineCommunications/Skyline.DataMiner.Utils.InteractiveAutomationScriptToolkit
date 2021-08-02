@@ -29,6 +29,11 @@
 			return uiResults.GetUploadedFilePath(interactiveWidget.DestVar);
 		}
 
+		public static string[] GetUploadedFilePaths(this UIResults uiResults, InteractiveWidget interactiveWidget)
+		{
+			return uiResults.GetUploadedFilePaths(interactiveWidget.DestVar);
+		}
+
 		public static bool WasButtonPressed(this UIResults uiResults, Button button)
 		{
 			return uiResults.WasButtonPressed(button.DestVar);

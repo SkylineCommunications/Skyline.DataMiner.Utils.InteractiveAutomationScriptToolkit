@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\Calendar.cs" />
+    <Compile Include="Components\FileSelector.cs" />
     <Compile Include="Components\Section.cs" />
     <Compile Include="Components\TreeView.cs" />
     <Compile Include="Dialogs\MessageDialog.cs" />
