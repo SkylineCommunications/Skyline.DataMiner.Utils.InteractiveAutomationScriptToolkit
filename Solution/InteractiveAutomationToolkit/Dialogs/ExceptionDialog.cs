@@ -15,7 +15,7 @@
 		/// Initializes a new instance of the ExceptionDialog class.
 		/// </summary>
 		/// <param name="engine">Link with DataMiner.</param>
-		public ExceptionDialog(Engine engine) : base(engine)
+		public ExceptionDialog(IEngine engine) : base(engine)
 		{
 			Title = "Exception Occurred";
 			OkButton = new Button("OK");
@@ -29,7 +29,7 @@
 		/// </summary>
 		/// <param name="engine">Link with DataMiner.</param>
 		/// <param name="exception">Exception to be displayed by the exception dialog.</param>
-		public ExceptionDialog(Engine engine, Exception exception) : this(engine)
+		public ExceptionDialog(IEngine engine, Exception exception) : this(engine)
 		{
 			Exception = exception;
 		}

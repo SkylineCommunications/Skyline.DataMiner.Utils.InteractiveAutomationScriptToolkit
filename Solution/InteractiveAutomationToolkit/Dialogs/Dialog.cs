@@ -17,8 +17,6 @@
 		private const string Stretch = "*";
 
 		private readonly Dictionary<Widget, IWidgetLayout> widgetLayouts = new Dictionary<Widget, IWidgetLayout>();
-		//private readonly List<string> columnDefinitions = new List<string>();
-		//private readonly List<string> rowDefinitions = new List<string>();
 
 		private readonly Dictionary<int, string> columnDefinitions = new Dictionary<int, string>();
 		private readonly Dictionary<int, string> rowDefinitions = new Dictionary<int, string>();
@@ -29,15 +27,13 @@
 		private int minHeight;
 		private int minWidth;
 		private int width;
-		//private int rowCount;
-		//private int columnCount;
 		private bool isEnabled = true;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Dialog" /> class.
 		/// </summary>
 		/// <param name="engine"></param>
-		protected Dialog(Engine engine)
+		protected Dialog(IEngine engine)
 		{
 			if (engine == null)
 			{
@@ -87,7 +83,7 @@
 		/// <summary>
 		///     Gets the link to the SLAutomation process.
 		/// </summary>
-		public Engine Engine { get; private set; }
+		public IEngine Engine { get; private set; }
 
 		/// <summary>
 		///     Gets or sets the fixed height (in pixels) of the dialog.

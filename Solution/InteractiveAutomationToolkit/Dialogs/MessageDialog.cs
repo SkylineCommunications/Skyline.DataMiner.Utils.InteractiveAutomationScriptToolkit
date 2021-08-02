@@ -18,7 +18,7 @@
 		/// Initializes a new instance of the <see cref="MessageDialog" /> class without a message.
 		/// </summary>
 		/// <param name="engine">Link with DataMiner.</param>
-		public MessageDialog(Engine engine) : base(engine)
+		public MessageDialog(IEngine engine) : base(engine)
 		{
 			OkButton = new Button("OK") { Width = 150 };
 
@@ -31,7 +31,7 @@
 		/// </summary>
 		/// <param name="engine">Link with DataMiner.</param>
 		/// <param name="message">Message to be displayed in the dialog.</param>
-		public MessageDialog(Engine engine, String message) : this(engine)
+		public MessageDialog(IEngine engine, String message) : this(engine)
 		{
 			Message = message;
 		}

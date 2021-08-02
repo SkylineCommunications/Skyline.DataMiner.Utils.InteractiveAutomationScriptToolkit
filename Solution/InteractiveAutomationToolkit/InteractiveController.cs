@@ -18,7 +18,7 @@
 		/// </summary>
 		/// <param name="engine">Link with the SLAutomation process.</param>
 		/// <exception cref="ArgumentNullException">When engine is null.</exception>
-		public InteractiveController(Engine engine)
+		public InteractiveController(IEngine engine)
 		{
 			if (engine == null)
 			{
@@ -36,7 +36,7 @@
 		/// <summary>
 		///     Gets the link to the SLManagedAutomation process.
 		/// </summary>
-		public Engine Engine { get; private set; }
+		public IEngine Engine { get; private set; }
 
 		/// <summary>
 		///     Gets a value indicating whether the event loop is updated manually or automatically.

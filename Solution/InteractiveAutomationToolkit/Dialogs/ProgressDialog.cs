@@ -17,7 +17,7 @@
 		/// Used to instantiate a new instance of the <see cref="ProgressDialog" /> class.
 		/// </summary>
 		/// <param name="engine">Link with DataMiner.</param>
-		public ProgressDialog(Engine engine) : base(engine)
+		public ProgressDialog(IEngine engine) : base(engine)
 		{
 			OkButton = new Button("OK") { IsEnabled = true, Width = 150 };
 		}
