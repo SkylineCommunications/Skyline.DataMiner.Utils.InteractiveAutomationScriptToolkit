@@ -8,7 +8,7 @@
 	using Skyline.DataMiner.Automation;
 
 	/// <summary>
-	///		Dialog used to display an message.
+	///		Dialog used to display a message.
 	/// </summary>
 	public class MessageDialog : Dialog
 	{

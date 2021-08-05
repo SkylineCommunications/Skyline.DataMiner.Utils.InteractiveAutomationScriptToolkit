@@ -18,7 +18,7 @@
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Calendar" /> class.
 		/// </summary>
-		/// <param name="dateTime">Value displayed in the calendar.</param>
+		/// <param name="dateTime">Value displayed on the calendar.</param>
 		public Calendar(DateTime dateTime)
 		{
 			Type = UIBlockType.Calendar;
@@ -59,7 +59,7 @@
 		private event EventHandler<CalendarChangedEventArgs> OnChanged;
 
 		/// <summary>
-		///		Gets or sets whether the displayed time the server time or local time.
+		///		Gets or sets whether the displayed time is the server time or local time.
 		/// </summary>
 		public bool DisplayServerTime
 		{

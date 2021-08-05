@@ -16,7 +16,7 @@
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Parameter" /> class.
 		/// </summary>
-		/// <param name="dmaId">ID of the DataMiner agent.</param>
+		/// <param name="dmaId">ID of the DataMiner Agent.</param>
 		/// <param name="elementId">ID of the element.</param>
 		/// <param name="parameterId">ID of the parameter.</param>
 		/// <param name="index">Primary key of the table entry. Is null for standalone parameters.</param>

@@ -273,7 +273,7 @@
 		/// <summary>
 		/// Iterates over all items in the tree and returns them in a flat collection.
 		/// </summary>
-		/// <returns>A flat collection containing all TreeViewItems in the TreeView.</returns>
+		/// <returns>A flat collection containing all items in the tree view.</returns>
 		public IEnumerable<TreeViewItem> GetAllItems()
 		{
 			List<TreeViewItem> allItems = new List<TreeViewItem>();
