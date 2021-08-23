@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
 using Skyline.DataMiner.Automation;
@@ -15,30 +10,78 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+///<summary>
+///Specifies the horizontal alignment of a widget added to a dialog or section.
+///</summary>
 public enum HorizontalAlignment
 {
+		/// <summary>
+		/// Specifies that the widget will be centered across its assigned cell(s).
+		/// </summary>
 		Center,
+		/// <summary>
+		/// Specifies that the widget will be aligned to the left across its assigned cell(s).
+		/// </summary>
 		Left,
+		/// <summary>
+		/// Specifies that the widget will be aligned to the right across its assigned cell(s).
+		/// </summary>
 		Right,
+		/// <summary>
+		/// Specifies that the widget will be stretched horizontally across its assigned cell(s).
+		/// </summary>
 		Stretch
 	}
 
+///<summary>
+///Style of the displayed text.
+///</summary>
 public enum TextStyle
 {
+		/// <summary>
+		/// Default value, no explicit styling.
+		/// </summary>
 		None = 0,
+		/// <summary>
+		/// Text should be styled as a title.
+		/// </summary>
 		Title = 1,
+		/// <summary>
+		/// Text should be styled in bold.
+		/// </summary>
 		Bold = 2,
+		/// <summary>
+		/// Text should be styled as a heading.
+		/// </summary>
 		Heading = 3
 	}
 
+///<summary>
+///Specifies the vertical alignment of a widget added to a dialog or section.
+///</summary>
 public enum VerticalAlignment
 {
+		/// <summary>
+		/// Specifies that the widget will be centered vertically across its assigned cell(s).
+		/// </summary>
 		Center,
+		/// <summary>
+		/// Specifies that the widget will be aligned to the top of its assigned cell(s).
+		/// </summary>
 		Top,
+		/// <summary>
+		/// Specifies that the widget will be aligned to the bottom of its assigned cell(s).
+		/// </summary>
 		Bottom,
+		/// <summary>
+		/// Specifies that the widget will be stretched vertically across its assigned cell(s).
+		/// </summary>
 		Stretch
 	}
 
+///<summary>
+///Used to define the position of an item in a grid layout.
+///</summary>
 public interface ILayout
 {
 		/// <summary>
@@ -54,12 +97,14 @@ public interface ILayout
 		int Row { get; }
 	}
 
+///<summary>
+///Used to define the position of a widget in a grid layout.
+///</summary>
 public interface IWidgetLayout : ILayout
 {
 		/// <summary>
-		///     Gets how many columns the widget is spanning in the grid.
+		///     Gets how many columns the widget spans on the grid.
 		/// </summary>
-		/// <remarks>The widget will start at <see cref="Column" /></remarks>
 		int ColumnSpan { get; }
 
 		/// <summary>
@@ -70,13 +115,12 @@ public interface IWidgetLayout : ILayout
 		/// <summary>
 		///     Gets or sets the margin around the widget.
 		/// </summary>
-		/// <exception cref="ArgumentNullException">When value is null.</exception>
+		/// <exception cref="ArgumentNullException">When the value is null.</exception>
 		Margin Margin { get; set; }
 
 		/// <summary>
-		///     Gets how many rows the widget is spanning in the grid.
+		///     Gets how many rows the widget spans on the grid.
 		/// </summary>
-		/// <remarks>The widget will start at <see cref="Row" /></remarks>
 		int RowSpan { get; }
 
 		/// <summary>
@@ -110,7 +154,7 @@ public class Button : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Gets or sets the Tooltip.
+		///     Gets or sets the tooltip.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip
@@ -132,7 +176,7 @@ public class Button : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Event triggers when the button is pressed.
+		///     Triggered when the button is pressed.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<EventArgs> Pressed
@@ -201,7 +245,7 @@ public class Calendar : InteractiveWidget
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Calendar" /> class.
 		/// </summary>
-		/// <param name="dateTime">Value displayed in the calendar.</param>
+		/// <param name="dateTime">Value displayed on the calendar.</param>
 		public Calendar(DateTime dateTime)
 		{
 			Type = UIBlockType.Calendar;
@@ -218,7 +262,7 @@ public class Calendar : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Events triggers when a different datetime is picked.
+		///     Triggered when a different datetime is picked.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<CalendarChangedEventArgs> Changed
@@ -242,7 +286,7 @@ public class Calendar : InteractiveWidget
 		private event EventHandler<CalendarChangedEventArgs> OnChanged;
 
 		/// <summary>
-		///		Gets or sets whether the displayed time is in server time or local time.
+		///		Gets or sets whether the displayed time is the server time or local time.
 		/// </summary>
 		public bool DisplayServerTime
 		{
@@ -259,7 +303,7 @@ public class Calendar : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Gets or sets the datetime displayed in the calendar.
+		///     Gets or sets the datetime displayed on the calendar.
 		/// </summary>
 		public DateTime DateTime
 		{
@@ -283,7 +327,7 @@ public class Calendar : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Gets or sets the Tooltip.
+		///     Gets or sets the tooltip.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip
@@ -306,7 +350,7 @@ public class Calendar : InteractiveWidget
 
 		/// <summary>
 		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by client to add a visual marker on the input field.
+		///		This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner 10.0.5 onwards.</remarks>
 		public UIValidationState ValidationState
@@ -323,8 +367,8 @@ public class Calendar : InteractiveWidget
 		}
 
 		/// <summary>
-		///		Gets or sets the text that is shown if the ValidationState is Invalid.
-		///		This should be used by client to add a visual marker on the input field.
+		///		Gets or sets the text that is shown if the validation state is invalid.
+		///		This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner 10.0.5 onwards.</remarks>
 		public string ValidationText
@@ -390,7 +434,7 @@ public class Calendar : InteractiveWidget
 	}
 
 ///<summary>
-///A checkbox that can be checked or unchecked.
+///A checkbox that can be selected or cleared.
 ///</summary>
 public class CheckBox : InteractiveWidget
 {
@@ -416,7 +460,7 @@ public class CheckBox : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Event triggers when the state of the checkbox changed.
+		///     Triggered when the state of the checkbox changes.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<CheckBoxChangedEventArgs> Changed
@@ -442,7 +486,7 @@ public class CheckBox : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Event triggers when the checkbox is checked.
+		///     Triggered when the checkbox is selected.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<EventArgs> Checked
@@ -468,7 +512,7 @@ public class CheckBox : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Event triggers when the checkbox is unchecked.
+		///     Triggered when the checkbox is cleared.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<EventArgs> UnChecked
@@ -500,7 +544,7 @@ public class CheckBox : InteractiveWidget
 		private event EventHandler<EventArgs> OnUnChecked;
 
 		/// <summary>
-		///     Gets or sets a value indicating whether the checkbox is checked.
+		///     Gets or sets a value indicating whether the checkbox is selected.
 		/// </summary>
 		public bool IsChecked
 		{
@@ -533,7 +577,7 @@ public class CheckBox : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Gets or sets the Tooltip.
+		///     Gets or sets the tooltip.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip
@@ -629,7 +673,7 @@ public class CheckBoxList : InteractiveWidget
 		/// <summary>
 		///     Initializes a new instance of the <see cref="CheckBoxList" /> class.
 		/// </summary>
-		/// <param name="options">Name of options that can be checked.</param>
+		/// <param name="options">Name of options that can be selected.</param>
 		/// <exception cref="ArgumentNullException">When options is null.</exception>
 		public CheckBoxList(IEnumerable<string> options)
 		{
@@ -640,7 +684,7 @@ public class CheckBoxList : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Event tiggers when the state of a checkbox has changed.
+		///     Triggered when the state of a checkbox changes.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<CheckBoxListChangedEventArgs> Changed
@@ -664,7 +708,7 @@ public class CheckBoxList : InteractiveWidget
 		private event EventHandler<CheckBoxListChangedEventArgs> OnChanged;
 
 		/// <summary>
-		///     Gets all checked options.
+		///     Gets all selected options.
 		/// </summary>
 		public IEnumerable<string> Checked
 		{
@@ -692,7 +736,7 @@ public class CheckBoxList : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Gets or sets the Tooltip.
+		///     Gets or sets the tooltip.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip
@@ -727,7 +771,7 @@ public class CheckBoxList : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Gets all unchecked options.
+		///     Gets all options that are not selected.
 		/// </summary>
 		public IEnumerable<string> Unchecked
 		{
@@ -739,7 +783,7 @@ public class CheckBoxList : InteractiveWidget
 
 		/// <summary>
 		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by client to add a visual marker on the input field.
+		///		This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner 10.0.5 onwards.</remarks>
 		public UIValidationState ValidationState
@@ -756,9 +800,9 @@ public class CheckBoxList : InteractiveWidget
 		}
 
 		/// <summary>
-		///		Gets or sets the text that is shown if the ValidationState is Invalid.
-		///		This should be used by client to add a visual marker on the input field.
-		///		The validation text is not displayed for a CheckBoxList, but if this value is not explicitly set, then the validationState will have no influence on the way the component is displayed.
+		///		Gets or sets the text that is shown if the validation state is invalid.
+		///		This should be used by the client to add a visual marker on the input field.
+		///		The validation text is not displayed for a checkbox list, but if this value is not explicitly set, the validation state will have no influence on the way the component is displayed.
 		/// </summary>
 		/// <remarks>Available from DataMiner 10.0.5 onwards.</remarks>
 		public string ValidationText
@@ -778,7 +822,7 @@ public class CheckBoxList : InteractiveWidget
 		///     Adds an option to the checkbox list.
 		/// </summary>
 		/// <param name="option">Option to add.</param>
-		/// <exception cref="ArgumentNullException">When optionsToAdd is null.</exception>
+		/// <exception cref="ArgumentNullException">When options is null.</exception>
 		public void AddOption(string option)
 		{
 			if (option == null)
@@ -794,9 +838,9 @@ public class CheckBoxList : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Checks an option.
+		///     Selects an option.
 		/// </summary>
-		/// <param name="option">Option to be checked.</param>
+		/// <param name="option">Option to be selected.</param>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		/// <exception cref="ArgumentException">When the option does not exist.</exception>
 		public void Check(string option)
@@ -819,7 +863,7 @@ public class CheckBoxList : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Checks all options.
+		///     Selects all options.
 		/// </summary>
 		public void CheckAll()
 		{
@@ -835,12 +879,12 @@ public class CheckBoxList : InteractiveWidget
 		///     Sets the displayed options.
 		///     Replaces existing options.
 		/// </summary>
-		/// <param name="optionsToSet">Options to set.</param>
-		/// <exception cref="ArgumentNullException">When optionsToSet is null.</exception>
-		public void SetOptions(IEnumerable<string> optionsToSet)
+		/// <param name="options">Options to set.</param>
+		/// <exception cref="ArgumentNullException">When options is null.</exception>
+		public void SetOptions(IEnumerable<string> options)
 		{
 			ClearOptions();
-			foreach (string option in optionsToSet)
+			foreach (string option in options)
 			{
 				AddOption(option);
 			}
@@ -869,9 +913,9 @@ public class CheckBoxList : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Unchecks an option.
+		///     Clears an option.
 		/// </summary>
-		/// <param name="option">Option to be checked.</param>
+		/// <param name="option">Option to be cleared.</param>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		/// <exception cref="ArgumentException">When the option does not exist.</exception>
 		public void Uncheck(string option)
@@ -894,7 +938,7 @@ public class CheckBoxList : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Unchecks all options.
+		///     Clears all options.
 		/// </summary>
 		public void UncheckAll()
 		{
@@ -962,12 +1006,12 @@ public class CheckBoxList : InteractiveWidget
 			}
 
 			/// <summary>
-			///     Gets a value indicating whether the checkbox has been checked.
+			///     Gets a value indicating whether the checkbox has been selected.
 			/// </summary>
 			public bool IsChecked { get; private set; }
 
 			/// <summary>
-			///     Gets the option who's state changed.
+			///     Gets the option of which the state has changed.
 			/// </summary>
 			public string Option { get; private set; }
 		}
@@ -987,6 +1031,11 @@ public class CollapseButton : InteractiveWidget
 		private bool pressed;
 		private bool isCollapsed;
 
+		/// <summary>
+		/// Initializes a new instance of the CollapseButton class.
+		/// </summary>
+		/// <param name="linkedWidgets">Widgets that are linked to this collapse button.</param>
+		/// <param name="isCollapsed">State of the collapse button.</param>
 		public CollapseButton(IEnumerable<Widget> linkedWidgets, bool isCollapsed)
 		{
 			Type = UIBlockType.Button;
@@ -999,12 +1048,16 @@ public class CollapseButton : InteractiveWidget
 			WantsOnChange = true;
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the CollapseButton class.
+		/// </summary>
+		/// <param name="isCollapsed">State of the collapse button.</param>
 		public CollapseButton(bool isCollapsed = false) : this(new Widget[0], isCollapsed)
 		{
 		}
 
 		/// <summary>
-		///     Event triggers when the button is pressed.
+		///     Triggered when the button is pressed.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<EventArgs> Pressed
@@ -1022,6 +1075,11 @@ public class CollapseButton : InteractiveWidget
 
 		private event EventHandler<EventArgs> OnPressed;
 
+		/// <summary>
+		/// Indicates if the collapse button is collapsed or not.
+		/// If the collapse button is collapsed, the IsVisible property of all linked widgets is set to false.
+		/// If the collapse button is not collapsed, the IsVisible property of all linked widgets is set to true.
+		/// </summary>
 		public bool IsCollapsed
 		{
 			get
@@ -1041,7 +1099,7 @@ public class CollapseButton : InteractiveWidget
 		}
 
 		/// <summary>
-		/// Gets or sets the text to be displayed in the CollapseButton when the button is expanded.
+		/// Gets or sets the text to be displayed in the collapse button when the button is expanded.
 		/// </summary>
 		public string CollapseText
 		{
@@ -1060,7 +1118,7 @@ public class CollapseButton : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Gets or sets the Tooltip.
+		///     Gets or sets the tooltip.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip
@@ -1082,7 +1140,7 @@ public class CollapseButton : InteractiveWidget
 		}
 
 		/// <summary>
-		/// Gets or sets the text to be displayed in the CollapseButton when the button is collapsed.
+		/// Gets or sets the text to be displayed in the collapse button when the button is collapsed.
 		/// </summary>
 		public string ExpandText
 		{
@@ -1100,10 +1158,13 @@ public class CollapseButton : InteractiveWidget
 			}
 		}
 
+		/// <summary>
+		/// Collection of widgets that are affected by this collapse button.
+		/// </summary>
 		public List<Widget> LinkedWidgets { get; private set; }
 
 		/// <summary>
-		/// This method is used to collapse the Collapse Button.
+		/// This method is used to collapse the collapse button.
 		/// </summary>
 		public void Collapse()
 		{
@@ -1111,7 +1172,7 @@ public class CollapseButton : InteractiveWidget
 		}
 
 		/// <summary>
-		/// This method is used to expand the Collapse Button.
+		/// This method is used to expand the collapse button.
 		/// </summary>
 		public void Expand()
 		{
@@ -1135,12 +1196,12 @@ public class CollapseButton : InteractiveWidget
 		}
 
 		/// <summary>
-		/// Retrieves a list of Widgets that are affected when the state of the provided CollapseButton is changed.
-		/// This method was introduced to support nested CollapseButtons.
+		/// Retrieves a list of Widgets that are affected when the state of the provided collapse button is changed.
+		/// This method was introduced to support nested collapse buttons.
 		/// </summary>
-		/// <param name="collapseButton">CollapseButton that is checked.</param>
+		/// <param name="collapseButton">Collapse button that is checked.</param>
 		/// <param name="collapse">Indicates if the top collapse button is going to be collapsed or expanded.</param>
-		/// <returns>List of affected Widgets.</returns>
+		/// <returns>List of affected widgets.</returns>
 		private static List<Widget> GetAffectedWidgets(CollapseButton collapseButton, bool collapse)
 		{
 			List<Widget> affectedWidgets = new List<Widget>();
@@ -1162,6 +1223,240 @@ public class CollapseButton : InteractiveWidget
 			}
 
 			return affectedWidgets;
+		}
+	}
+
+///<summary>
+///Custom control used to display a date. Make sure that <see cref="Dialog.AllowOverlappingWidgets"/> is set to true when you use this control.
+///</summary>
+public class DatePicker : Section
+{
+		private readonly Dictionary<int, string> months = new Dictionary<int, string>()
+		                                                  {
+			                                                  { 1, "Jan" },
+			                                                  { 2, "Feb" },
+			                                                  { 3, "Mar" },
+			                                                  { 4, "Apr" },
+			                                                  { 5, "May" },
+			                                                  { 6, "Jun" },
+			                                                  { 7, "Jul" },
+			                                                  { 8, "Aug" },
+			                                                  { 9, "Sep" },
+			                                                  { 10, "Oct" },
+			                                                  { 11, "Nov" },
+			                                                  { 12, "Dec" },
+		                                                  };
+
+		private readonly Numeric dayNumeric;
+
+		private readonly DropDown monthDropDown;
+
+		private readonly Numeric yearNumeric;
+
+		private DateTime previous;
+
+		/// <summary>
+		/// Initializes a new instance of the DatePicker class.
+		/// </summary>
+		public DatePicker() : this(DateTime.Now)
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the DatePicker class.
+		/// </summary>
+		/// <param name="dateTime"></param>
+		public DatePicker(DateTime dateTime)
+		{
+			previous = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day);
+
+			dayNumeric = new Numeric(dateTime.Day)
+			             {
+				             Decimals = 0,
+				             Minimum = 1,
+				             Maximum = DateTime.DaysInMonth(dateTime.Year, dateTime.Month),
+				             Width = 70,
+				             Margin = new Margin(3,3,3,3),
+			             };
+
+			monthDropDown = new DropDown(months.Select(x => x.Value), months[dateTime.Month])
+			                {
+				                Width = 80,
+				                Margin = new Margin(3,3,3,3)
+			                };
+
+			yearNumeric = new Numeric(dateTime.Year)
+			              {
+				              Decimals = 0,
+				              Minimum = 1800,
+				              Maximum = 9999,
+				              Width = 80,
+				              Margin = new Margin(3,3,3,3)
+			              };
+
+			dayNumeric.Changed += DayNumeric_OnChanged;
+			monthDropDown.Changed += MonthDropDown_OnChanged;
+			yearNumeric.Changed += YearNumeric_OnChanged;
+
+			AddWidget(dayNumeric, 0, 0);
+			AddWidget(monthDropDown, 0, 0);
+			AddWidget(yearNumeric, 0, 0);
+		}
+
+		/// <summary>
+		///     Triggered when a different date is picked.
+		/// </summary>
+		public event EventHandler<DatePickerChangedEventArgs> Changed
+		{
+			add
+			{
+				OnChanged += value;
+			}
+
+			remove
+			{
+				OnChanged -= value;
+			}
+		}
+
+		private event EventHandler<DatePickerChangedEventArgs> OnChanged;
+
+		/// <summary>
+		/// Date that is displayed by the control.
+		/// </summary>
+		public DateTime Date
+		{
+			get
+			{
+				return new DateTime((int)yearNumeric.Value, months.First(x => x.Value == monthDropDown.Selected).Key, (int)dayNumeric.Value);
+			}
+
+			set
+			{
+				dayNumeric.Value = value.Day;
+				dayNumeric.Maximum = DateTime.DaysInMonth(value.Year, value.Month);
+				monthDropDown.Selected = months[value.Month];
+				yearNumeric.Value = value.Year;
+
+				previous = new DateTime(value.Year, value.Month, value.Day);
+			}
+		}
+
+		/// <summary>
+		/// Day that is displayed by the control.
+		/// </summary>
+		public int Day
+		{
+			get
+			{
+				return (int)dayNumeric.Value;
+			}
+		}
+
+		/// <summary>
+		/// Month that is displayed by the control.
+		/// </summary>
+		public int Month
+		{
+			get
+			{
+				return months.First(x => x.Value == monthDropDown.Selected).Key;
+			}
+		}
+
+		/// <summary>
+		/// Year that is displayed by the control.
+		/// </summary>
+		public int Year
+		{
+			get
+			{
+				return (int)yearNumeric.Value;
+			}
+		}
+
+		/// <summary>
+		/// Numeric widget that holds the day in this control.
+		/// </summary>
+		public Numeric DayNumeric
+		{
+			get
+			{
+				return dayNumeric;
+			}
+		}
+
+		/// <summary>
+		/// Drop down widget that holds the month in this control.
+		/// </summary>
+		public DropDown MonthDropDown
+		{
+			get
+			{
+				return monthDropDown;
+			}
+		}
+
+		/// <summary>
+		/// Numeric widget that holds the year in this control.
+		/// </summary>
+		public Numeric YearNumeric
+		{
+			get
+			{
+				return yearNumeric;
+			}
+		}
+
+		private void DayNumeric_OnChanged(object sender, Numeric.NumericChangedEventArgs e)
+		{
+			RaiseEventResults();
+		}
+
+		private void MonthDropDown_OnChanged(object sender, DropDown.DropDownChangedEventArgs e)
+		{
+			dayNumeric.Maximum = DateTime.DaysInMonth(Year, Month);
+			RaiseEventResults();
+		}
+
+		private void YearNumeric_OnChanged(object sender, Numeric.NumericChangedEventArgs e)
+		{
+			dayNumeric.Maximum = DateTime.DaysInMonth(Year, Month);
+			RaiseEventResults();
+		}
+
+		private void RaiseEventResults()
+		{
+			if (Date == previous) return;
+
+			if (OnChanged != null)
+			{
+				OnChanged(this, new DatePickerChangedEventArgs(Date, previous));
+			}
+
+			previous = Date;
+		}
+
+		/// <summary>
+		///     Provides data for the <see cref="Changed" /> event.
+		/// </summary>
+		public class DatePickerChangedEventArgs : EventArgs
+		{
+			internal DatePickerChangedEventArgs(DateTime dateTime, DateTime previous)
+			{
+				DateTime = dateTime;
+				Previous = previous;
+			}
+
+			/// <summary>
+			///     Gets the new date value.
+			/// </summary>
+			public DateTime DateTime { get; private set; }
+
+			/// <summary>
+			///     Gets the previous date value.
+			/// </summary>
+			public DateTime Previous { get; private set; }
 		}
 	}
 
@@ -1198,7 +1493,7 @@ public class DateTimePicker : TimePickerBase
 		}
 
 		/// <summary>
-		///     Events triggers when a different datetime is picked.
+		///     Triggered when a different datetime is picked.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<DateTimePickerChangedEventArgs> Changed
@@ -1222,7 +1517,7 @@ public class DateTimePicker : TimePickerBase
 		private event EventHandler<DateTimePickerChangedEventArgs> OnChanged;
 
 		/// <summary>
-		///		Gets or sets whether the displayed time is in server time or local time.
+		///		Gets or sets whether the displayed time is the server time or local time.
 		/// </summary>
 		public bool DisplayServerTime
 		{
@@ -1311,7 +1606,7 @@ public class DateTimePicker : TimePickerBase
 		}
 
 		/// <summary>
-		///     Gets or sets the Tooltip.
+		///     Gets or sets the tooltip.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip
@@ -1455,7 +1750,7 @@ public class DateTimePicker : TimePickerBase
 
 		/// <summary>
 		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by client to add a visual marker on the input field.
+		///		This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner 10.0.5 onwards.</remarks>
 		public UIValidationState ValidationState
@@ -1472,8 +1767,8 @@ public class DateTimePicker : TimePickerBase
 		}
 
 		/// <summary>
-		///		Gets or sets the text that is shown if the ValidationState is Invalid.
-		///		This should be used by client to add a visual marker on the input field.
+		///		Gets or sets the text that is shown if the validation state is invalid.
+		///		This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner 10.0.5 onwards.</remarks>
 		public string ValidationText
@@ -1540,8 +1835,8 @@ public class DateTimePicker : TimePickerBase
 
 ///<summary>
 ///A dialog represents a single window that can be shown.
-///Widgets can be shown on the window by adding them to the dialog.
-///The dialog uses a grid to layout its widgets.
+///You can show widgets in the window by adding them to the dialog.
+///The dialog uses a grid to determine the layout of its widgets.
 ///</summary>
 public abstract class Dialog
 {
@@ -1549,8 +1844,9 @@ public abstract class Dialog
 		private const string Stretch = "*";
 
 		private readonly Dictionary<Widget, IWidgetLayout> widgetLayouts = new Dictionary<Widget, IWidgetLayout>();
-		private readonly List<string> columnDefinitions = new List<string>();
-		private readonly List<string> rowDefinitions = new List<string>();
+
+		private readonly Dictionary<int, string> columnDefinitions = new Dictionary<int, string>();
+		private readonly Dictionary<int, string> rowDefinitions = new Dictionary<int, string>();
 
 		private int height;
 		private int maxHeight;
@@ -1558,11 +1854,13 @@ public abstract class Dialog
 		private int minHeight;
 		private int minWidth;
 		private int width;
-		private int rowCount;
-		private int columnCount;
 		private bool isEnabled = true;
 
-		protected Dialog(Engine engine)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Dialog" /> class.
+		/// </summary>
+		/// <param name="engine"></param>
+		protected Dialog(IEngine engine)
 		{
 			if (engine == null)
 			{
@@ -1590,57 +1888,29 @@ public abstract class Dialog
 		public bool AllowOverlappingWidgets { get; set; }
 
 		/// <summary>
-		///     Event triggers when the back button of the dialog is pressed.
+		///     Triggered when the back button of the dialog is pressed.
 		/// </summary>
 		public event EventHandler<EventArgs> Back;
 
 		/// <summary>
-		///     Event triggers when the forward button of the dialog is pressed.
+		///     Triggered when the forward button of the dialog is pressed.
 		/// </summary>
 		public event EventHandler<EventArgs> Forward;
 
 		/// <summary>
-		///     Event triggers when there is any user interaction.
+		///     Triggered when there is any user interaction.
 		/// </summary>
 		public event EventHandler<EventArgs> Interacted;
 
 		/// <summary>
 		///     Gets the number of columns of the grid layout.
 		/// </summary>
-		public int ColumnCount
-		{
-			get
-			{
-				return columnCount;
-			}
-
-			private set
-			{
-				if (this.columnCount < value)
-				{
-					this.columnDefinitions.AddRange(Enumerable.Repeat(Auto, value - this.columnCount));
-					this.columnCount = value;
-				}
-				else if (this.columnCount > value)
-				{
-					for (int i = this.columnCount - 1; i > value; i--)
-					{
-						this.columnDefinitions.RemoveAt(i);
-					}
-
-					this.columnCount = value;
-				}
-				else
-				{
-					// nothing to do
-				}
-			}
-		}
+		public int ColumnCount { get; private set; }
 
 		/// <summary>
 		///     Gets the link to the SLAutomation process.
 		/// </summary>
-		public Engine Engine { get; private set; }
+		public IEngine Engine { get; private set; }
 
 		/// <summary>
 		///     Gets or sets the fixed height (in pixels) of the dialog.
@@ -1675,7 +1945,7 @@ public abstract class Dialog
 		/// <remarks>
 		///     The user will still be able to resize the window past this limit.
 		/// </remarks>
-		/// <exception cref="ArgumentOutOfRangeException">When value is smaller than 1.</exception>
+		/// <exception cref="ArgumentOutOfRangeException">When the value is smaller than 1.</exception>
 		public int MaxHeight
 		{
 			get
@@ -1700,7 +1970,7 @@ public abstract class Dialog
 		/// <remarks>
 		///     The user will still be able to resize the window past this limit.
 		/// </remarks>
-		/// <exception cref="ArgumentOutOfRangeException">When value is smaller than 1.</exception>
+		/// <exception cref="ArgumentOutOfRangeException">When the value is smaller than 1.</exception>
 		public int MaxWidth
 		{
 			get
@@ -1722,7 +1992,7 @@ public abstract class Dialog
 		/// <summary>
 		///     Gets or sets the minimum height (in pixels) of the dialog.
 		/// </summary>
-		/// <exception cref="ArgumentOutOfRangeException">When value is smaller than 1.</exception>
+		/// <exception cref="ArgumentOutOfRangeException">When the value is smaller than 1.</exception>
 		public int MinHeight
 		{
 			get
@@ -1744,7 +2014,7 @@ public abstract class Dialog
 		/// <summary>
 		///     Gets or sets the minimum width (in pixels) of the dialog.
 		/// </summary>
-		/// <exception cref="ArgumentOutOfRangeException">When value is smaller than 1.</exception>
+		/// <exception cref="ArgumentOutOfRangeException">When the value is smaller than 1.</exception>
 		public int MinWidth
 		{
 			get
@@ -1766,38 +2036,10 @@ public abstract class Dialog
 		/// <summary>
 		///     Gets the number of rows in the grid layout.
 		/// </summary>
-		public int RowCount
-		{
-			get
-			{
-				return rowCount;
-			}
-
-			private set
-			{
-				if (this.rowCount < value)
-				{
-					this.rowDefinitions.AddRange(Enumerable.Repeat(Auto, value - this.rowCount));
-					this.rowCount = value;
-				}
-				else if (this.rowCount > value)
-				{
-					for (int i = this.rowCount - 1; i > value; i--)
-					{
-						this.rowDefinitions.RemoveAt(i);
-					}
-
-					this.rowCount = value;
-				}
-				else
-				{
-					// nothing to do
-				}
-			}
-		}
+		public int RowCount { get; private set; }
 
 		/// <summary>
-		///		Gets or sets a value indicating whether the Interactive Widgets within the dialog are enabled or not.
+		///		Gets or sets a value indicating whether the interactive widgets within the dialog are enabled or not.
 		/// </summary>
 		public bool IsEnabled
 		{
@@ -1871,8 +2113,7 @@ public abstract class Dialog
 		/// <param name="widgetLayout">Location of the widget on the grid layout.</param>
 		/// <returns>The dialog.</returns>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
-		/// <exception cref="ArgumentException">When the widget is already added to the dialog.</exception>
-		/// <exception cref="ArgumentException">When the widget overlaps with another widget.</exception>
+		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
 		public Dialog AddWidget(Widget widget, IWidgetLayout widgetLayout)
 		{
 			if (widget == null)
@@ -1887,8 +2128,8 @@ public abstract class Dialog
 
 			widgetLayouts.Add(widget, widgetLayout);
 
-			HashSet<int> rowsInUse;
-			HashSet<int> columnsInUse;
+			SortedSet<int> rowsInUse;
+			SortedSet<int> columnsInUse;
 			this.FillRowsAndColumnsInUse(out rowsInUse, out columnsInUse);
 
 			return this;
@@ -1904,8 +2145,7 @@ public abstract class Dialog
 		/// <param name="verticalAlignment">Vertical alignment of the widget.</param>
 		/// <returns>The dialog.</returns>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
-		/// <exception cref="ArgumentException">When the location is out of bounds of the grid.</exception>
-		/// <exception cref="ArgumentException">When the widget is already added to the dialog.</exception>
+		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
 		public Dialog AddWidget(
 			Widget widget,
 			int row,
@@ -1929,8 +2169,7 @@ public abstract class Dialog
 		/// <param name="verticalAlignment">Vertical alignment of the widget.</param>
 		/// <returns>The dialog.</returns>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
-		/// <exception cref="ArgumentException">When the location is out of bounds of the grid.</exception>
-		/// <exception cref="ArgumentException">When the widget is already added to the dialog.</exception>
+		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
 		public Dialog AddWidget(
 			Widget widget,
 			int fromRow,
@@ -1973,17 +2212,17 @@ public abstract class Dialog
 
 			widgetLayouts.Remove(widget);
 
-			HashSet<int> rowsInUse;
-			HashSet<int> columnsInUse;
+			SortedSet<int> rowsInUse;
+			SortedSet<int> columnsInUse;
 			this.FillRowsAndColumnsInUse(out rowsInUse, out columnsInUse);
 		}
 
 		/// <summary>
-		/// Adds the widgets from the section to the Dialog.
+		/// Adds the widgets from the section to the dialog.
 		/// </summary>
-		/// <param name="section">Section to be added to the Dialog.</param>
-		/// <param name="layout">Left top position of the Section within the Dialog.</param>
-		/// <returns>Updated Dialog.</returns>
+		/// <param name="section">Section to be added to the dialog.</param>
+		/// <param name="layout">Left top position of the section within the dialog.</param>
+		/// <returns>Updated dialog.</returns>
 		public Dialog AddSection(Section section, SectionLayout layout)
 		{
 			foreach(Widget widget in section.Widgets)
@@ -2004,130 +2243,108 @@ public abstract class Dialog
 		}
 
 		/// <summary>
-		/// Adds the widgets from the section to the Dialog.
+		/// Adds the widgets from the section to the dialog.
 		/// </summary>
-		/// <param name="section">Section to be added to the Dialog.</param>
-		/// <param name="fromRow">Row in the Dialog where the Section should be added.</param>
-		/// <param name="fromColumn">Column in the Dialog where the Section should be added.</param>
-		/// <returns>Updated Dialog.</returns>
+		/// <param name="section">Section to be added to the dialog.</param>
+		/// <param name="fromRow">Row in the dialog where the section should be added.</param>
+		/// <param name="fromColumn">Column in the dialog where the section should be added.</param>
+		/// <returns>Updated dialog.</returns>
 		public Dialog AddSection(Section section, int fromRow, int fromColumn)
 		{
 			return AddSection(section, new SectionLayout(fromRow, fromColumn));
 		}
 
 		/// <summary>
-		///     Apply a fixed width (in pixels) to a column.
+		///     Applies a fixed width (in pixels) to a column.
 		/// </summary>
-		/// <param name="column">The index of the column in the grid.</param>
+		/// <param name="column">The index of the column on the grid.</param>
 		/// <param name="columnWidth">The width of the column.</param>
 		/// <exception cref="ArgumentOutOfRangeException">When the column index does not exist.</exception>
 		/// <exception cref="ArgumentOutOfRangeException">When the column width is smaller than 0.</exception>
 		public void SetColumnWidth(int column, int columnWidth)
 		{
-			if ((column < 0) || (column >= ColumnCount))
-			{
-				throw new ArgumentOutOfRangeException("column");
-			}
+			if (column < 0) throw new ArgumentOutOfRangeException("column");
+			if (columnWidth < 0) throw new ArgumentOutOfRangeException("columnWidth");
 
-			if (columnWidth < 0)
-			{
-				throw new ArgumentOutOfRangeException("columnWidth");
-			}
-
-			columnDefinitions[column] = columnWidth.ToString();
+			if (columnDefinitions.ContainsKey(column)) columnDefinitions[column] = columnWidth.ToString();
+			else columnDefinitions.Add(column, columnWidth.ToString());
 		}
 
 		/// <summary>
-		///     The width of the column will be automatically adapted to the widest dialog box item in that column.
+		///     The width of the column will be automatically adapted to the widest widget in that column.
 		/// </summary>
-		/// <param name="column">The index of the column in the grid.</param>
+		/// <param name="column">The index of the column on the grid.</param>
 		/// <exception cref="ArgumentOutOfRangeException">When the column index does not exist.</exception>
 		public void SetColumnWidthAuto(int column)
 		{
-			if ((column < 0) || (column >= ColumnCount))
-			{
-				throw new ArgumentOutOfRangeException("column");
-			}
+			if (column < 0) throw new ArgumentOutOfRangeException("column");
 
-			columnDefinitions[column] = Auto;
+			if (columnDefinitions.ContainsKey(column)) columnDefinitions[column] = Auto;
+			else columnDefinitions.Add(column, Auto);
 		}
 
 		/// <summary>
 		///     The column will have the largest possible width, depending on the width of the other columns.
 		/// </summary>
-		/// <param name="column">The index of the column in the grid.</param>
+		/// <param name="column">The index of the column on the grid.</param>
 		/// <exception cref="ArgumentOutOfRangeException">When the column index does not exist.</exception>
 		public void SetColumnWidthStretch(int column)
 		{
-			if ((column < 0) || (column >= ColumnCount))
-			{
-				throw new ArgumentOutOfRangeException("column");
-			}
+			if (column < 0) throw new ArgumentOutOfRangeException("column");
 
-			columnDefinitions[column] = Stretch;
+			if (columnDefinitions.ContainsKey(column)) columnDefinitions[column] = Stretch;
+			else columnDefinitions.Add(column, Stretch);
 		}
 
 		/// <summary>
-		///     Apply a fixed height (in pixels) to a row.
+		///     Applies a fixed height (in pixels) to a row.
 		/// </summary>
-		/// <param name="row">The index of the row in the grid.</param>
+		/// <param name="row">The index of the row on the grid.</param>
 		/// <param name="rowHeight">The height of the column.</param>
-		/// <exception cref="ArgumentOutOfRangeException">When the row index does not exist.</exception>
+		/// <exception cref="ArgumentOutOfRangeException">When the row index is smaller than 0.</exception>
 		/// <exception cref="ArgumentOutOfRangeException">When the row height is smaller than 0.</exception>
 		public void SetRowHeight(int row, int rowHeight)
 		{
-			if ((row < 0) || (row >= RowCount))
-			{
-				throw new ArgumentOutOfRangeException("row");
-			}
+			if (row < 0) throw new ArgumentOutOfRangeException("row");
+			if (rowHeight <= 0) throw new ArgumentOutOfRangeException("rowHeight");
 
-			if (rowHeight <= 0)
-			{
-				throw new ArgumentOutOfRangeException("rowHeight");
-			}
-
-			rowDefinitions[row] = rowHeight.ToString();
+			if (rowDefinitions.ContainsKey(row)) rowDefinitions[row] = rowHeight.ToString();
+			else rowDefinitions.Add(row, rowHeight.ToString());
 		}
 
 		/// <summary>
-		///     The height of the row will be automatically adapted to the highest dialog box item in that row.
+		///     The height of the row will be automatically adapted to the highest widget in that row.
 		/// </summary>
-		/// <param name="row">The index of the row in the grid.</param>
-		/// <exception cref="ArgumentOutOfRangeException">When the row index does not exist.</exception>
+		/// <param name="row">The index of the row on the grid.</param>
+		/// <exception cref="ArgumentOutOfRangeException">When the row index is smaller than 0.</exception>
 		public void SetRowHeightAuto(int row)
 		{
-			if ((row < 0) || (row >= RowCount))
-			{
-				throw new ArgumentOutOfRangeException("row");
-			}
+			if (row < 0) throw new ArgumentOutOfRangeException("row");
 
-			rowDefinitions[row] = Auto;
+			if (rowDefinitions.ContainsKey(row)) rowDefinitions[row] = Auto;
+			else rowDefinitions.Add(row, Auto);
 		}
 
 		/// <summary>
 		///     The row will have the largest possible height, depending on the height of the other rows.
 		/// </summary>
-		/// <param name="row">The index of the row in the grid.</param>
-		/// <exception cref="ArgumentOutOfRangeException">When the row index does not exist.</exception>
+		/// <param name="row">The index of the row on the grid.</param>
+		/// <exception cref="ArgumentOutOfRangeException">When the row index is smaller than 0.</exception>
 		public void SetRowHeightStretch(int row)
 		{
-			if ((row < 0) || (row >= RowCount))
-			{
-				throw new ArgumentOutOfRangeException("row");
-			}
+			if (row < 0) throw new ArgumentOutOfRangeException("row");
 
-			rowDefinitions[row] = Stretch;
+			if (rowDefinitions.ContainsKey(row)) rowDefinitions[row] = Stretch;
+			else rowDefinitions.Add(row, Stretch);
 		}
 
 		/// <summary>
 		///     Sets the layout of the widget in the dialog.
 		/// </summary>
 		/// <param name="widget">A widget that is part of the dialog.</param>
-		/// <param name="widgetLayout">The layout to apply on the widget.</param>
+		/// <param name="widgetLayout">The layout to apply to the widget.</param>
 		/// <exception cref="NullReferenceException">When widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget is not part of the dialog.</exception>
-		/// <exception cref="NullReferenceException">When widgetLayout is null.</exception>
-		/// <exception cref="ArgumentException">When widgetLayout is out of bounds of the dialog grid.</exception>
 		public void SetWidgetLayout(Widget widget, IWidgetLayout widgetLayout)
 		{
 			CheckWidgetExists(widget);
@@ -2155,7 +2372,7 @@ public abstract class Dialog
 		}
 
 		/// <summary>
-		/// Removes all Widgets from the Section.
+		/// Removes all widgets from the dialog.
 		/// </summary>
 		public void Clear()
 		{
@@ -2236,11 +2453,55 @@ public abstract class Dialog
 			}
 		}
 
+		private string GetRowDefinitions(SortedSet<int> rowsInUse)
+		{
+			string[] definitions = new string[rowsInUse.Count];
+			int currentIndex = 0;
+			foreach (int rowInUse in rowsInUse)
+			{
+				string value;
+				if (rowDefinitions.TryGetValue(rowInUse, out value))
+				{
+					definitions[currentIndex] = value;
+				}
+				else
+				{
+					definitions[currentIndex] = Auto;
+				}
+
+				currentIndex++;
+			}
+
+			return String.Join(";", definitions);
+		}
+
+		private string GetColumnDefinitions(SortedSet<int> columnsInUse)
+		{
+			string[] definitions = new string[columnsInUse.Count];
+			int currentIndex = 0;
+			foreach (int columnInUse in columnsInUse)
+			{
+				string value;
+				if (columnDefinitions.TryGetValue(columnInUse, out value))
+				{
+					definitions[currentIndex] = value;
+				}
+				else
+				{
+					definitions[currentIndex] = Auto;
+				}
+
+				currentIndex++;
+			}
+
+			return String.Join(";", definitions);
+		}
+
 		private UIBuilder Build()
 		{
 			// Check rows and columns in use
-			HashSet<int> rowsInUse;
-			HashSet<int> columnsInUse;
+			SortedSet<int> rowsInUse;
+			SortedSet<int> columnsInUse;
 			this.FillRowsAndColumnsInUse(out rowsInUse, out columnsInUse);
 
 			// Check if visible widgets overlap and throw exception if this is the case
@@ -2253,20 +2514,20 @@ public abstract class Dialog
 				MinHeight = MinHeight,
 				Width = Width,
 				MinWidth = MinWidth,
-				RowDefs = String.Join(";", rowDefinitions),
-				ColumnDefs = String.Join(";", columnDefinitions),
+				RowDefs = GetRowDefinitions(rowsInUse),
+				ColumnDefs = GetColumnDefinitions(columnsInUse),
 				Title = Title
 			};
 
-			List<int> orderedRowsInUse = rowsInUse.OrderBy(x => x).ToList();
-			List<int> orderedColumnsInUse = columnsInUse.OrderBy(x => x).ToList();
-
 			KeyValuePair<Widget, IWidgetLayout> defaultKeyValuePair = default(KeyValuePair<Widget, IWidgetLayout>);
-			for (int rowIndex = 0; rowIndex < orderedRowsInUse.Count; rowIndex++)
+			int rowIndex = 0;
+			int columnIndex = 0;
+			foreach (int rowInUse in rowsInUse)
 			{
-				for (int columnIndex = 0; columnIndex < orderedColumnsInUse.Count; columnIndex++)
+				columnIndex = 0;
+				foreach (int columnInUse in columnsInUse)
 				{
-					foreach (KeyValuePair<Widget, IWidgetLayout> keyValuePair in widgetLayouts.Where(x => x.Key.IsVisible && x.Key.Type != UIBlockType.Undefined && x.Value.Row.Equals(orderedRowsInUse[rowIndex]) && x.Value.Column.Equals(orderedColumnsInUse[columnIndex])))
+					foreach (KeyValuePair<Widget, IWidgetLayout> keyValuePair in widgetLayouts.Where(x => x.Key.IsVisible && x.Key.Type != UIBlockType.Undefined && x.Value.Row.Equals(rowInUse) && x.Value.Column.Equals(columnInUse)))
 					{
 						if (keyValuePair.Equals(defaultKeyValuePair)) continue;
 
@@ -2287,7 +2548,11 @@ public abstract class Dialog
 
 						uiBuilder.AppendBlock(widgetBlockDefinition);
 					}
+
+					columnIndex++;
 				}
+
+				rowIndex++;
 			}
 
 			return uiBuilder;
@@ -2298,10 +2563,10 @@ public abstract class Dialog
 		/// </summary>
 		/// <param name="rowsInUse">Collection containing the rows that are defined by the Widgets in the Dialog.</param>
 		/// <param name="columnsInUse">Collection containing the columns that are defined by the Widgets in the Dialog.</param>
-		private void FillRowsAndColumnsInUse(out HashSet<int> rowsInUse, out HashSet<int> columnsInUse)
+		private void FillRowsAndColumnsInUse(out SortedSet<int> rowsInUse, out SortedSet<int> columnsInUse)
 		{
-			rowsInUse = new HashSet<int>();
-			columnsInUse = new HashSet<int>();
+			rowsInUse = new SortedSet<int>();
+			columnsInUse = new SortedSet<int>();
 			foreach (KeyValuePair<Widget, IWidgetLayout> keyValuePair in this.widgetLayouts)
 			{
 				if (keyValuePair.Key.IsVisible && keyValuePair.Key.Type != UIBlockType.Undefined)
@@ -2409,7 +2674,7 @@ public class DropDown : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Event triggers when a different option is selected.
+		///     Triggered when a different option is selected.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<DropDownChangedEventArgs> Changed
@@ -2423,7 +2688,7 @@ public class DropDown : InteractiveWidget
 			remove
 			{
 				OnChanged -= value;
-				if(OnChanged == null || !OnChanged.GetInvocationList().Any())
+				if (OnChanged == null || !OnChanged.GetInvocationList().Any())
 				{
 					WantsOnChange = false;
 				}
@@ -2465,7 +2730,7 @@ public class DropDown : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Gets or sets the Tooltip.
+		///     Gets or sets the tooltip.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip
@@ -2489,7 +2754,7 @@ public class DropDown : InteractiveWidget
 
 		/// <summary>
 		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by client to add a visual marker on the input field.
+		///		This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner Feature Release 10.0.5 and 10.0.1.0 Main Release.</remarks>
 		public UIValidationState ValidationState
@@ -2506,10 +2771,10 @@ public class DropDown : InteractiveWidget
 		}
 
 		/// <summary>
-		///		Gets or sets the text that is shown if the ValidationState is Invalid.
-		///		This should be used by client to add a visual marker on the input field.
+		///		Gets or sets the text that is shown if the validation state is invalid.
+		///		This should be used by the client to add a visual marker on the input field.
 		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and 10.0.1.0 Main Release.</remarks>
+		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public string ValidationText
 		{
 			get
@@ -2558,10 +2823,10 @@ public class DropDown : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Add an option to the drop-down list.
+		///     Adds an option to the drop-down list.
 		/// </summary>
-		/// <param name="option">Options to add.</param>
-		/// <exception cref="ArgumentNullException">When optionsToAdd is null.</exception>
+		/// <param name="option">Option to add.</param>
+		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		public void AddOption(string option)
 		{
 			if (option == null)
@@ -2602,7 +2867,7 @@ public class DropDown : InteractiveWidget
 		}
 
 		/// <summary>
-		/// 	Removes an option from the dropdown.
+		/// 	Removes an option from the drop-down list.
 		/// </summary>
 		/// <param name="option">Option to remove.</param>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
@@ -2681,14 +2946,18 @@ public class DropDown : InteractiveWidget
 	}
 
 ///<summary>
-///Dialog used to display an Exception.
+///Dialog used to display an exception.
 ///</summary>
 public class ExceptionDialog : Dialog
 {
 		private readonly Label exceptionLabel = new Label();
 		private Exception exception;
 
-		public ExceptionDialog(Engine engine) : base(engine)
+		/// <summary>
+		/// Initializes a new instance of the ExceptionDialog class.
+		/// </summary>
+		/// <param name="engine">Link with DataMiner.</param>
+		public ExceptionDialog(IEngine engine) : base(engine)
 		{
 			Title = "Exception Occurred";
 			OkButton = new Button("OK");
@@ -2697,11 +2966,19 @@ public class ExceptionDialog : Dialog
 			AddWidget(OkButton, 1, 0);
 		}
 
-		public ExceptionDialog(Engine engine, Exception exception) : this(engine)
+		/// <summary>
+		/// Initializes a new instance of the ExceptionDialog class with a specific exception to be displayed.
+		/// </summary>
+		/// <param name="engine">Link with DataMiner.</param>
+		/// <param name="exception">Exception to be displayed by the exception dialog.</param>
+		public ExceptionDialog(IEngine engine, Exception exception) : this(engine)
 		{
 			Exception = exception;
 		}
 
+		/// <summary>
+		/// Exception to be displayed by the exception dialog.
+		/// </summary>
 		public Exception Exception
 		{
 			get
@@ -2716,11 +2993,14 @@ public class ExceptionDialog : Dialog
 			}
 		}
 
+		/// <summary>
+		/// Button that is displayed below the exception.
+		/// </summary>
 		public Button OkButton { get; private set; }
 	}
 
 ///<summary>
-///Event loop of the interactive automation script.
+///Event loop of the interactive Automation script.
 ///</summary>
 public class InteractiveController
 {
@@ -2730,11 +3010,11 @@ public class InteractiveController
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="InteractiveController" /> class.
-		///     This object will manage the event loop of the interactive automation script.
+		///     This object will manage the event loop of the interactive Automation script.
 		/// </summary>
 		/// <param name="engine">Link with the SLAutomation process.</param>
 		/// <exception cref="ArgumentNullException">When engine is null.</exception>
-		public InteractiveController(Engine engine)
+		public InteractiveController(IEngine engine)
 		{
 			if (engine == null)
 			{
@@ -2752,7 +3032,7 @@ public class InteractiveController
 		/// <summary>
 		///     Gets the link to the SLManagedAutomation process.
 		/// </summary>
-		public Engine Engine { get; private set; }
+		public IEngine Engine { get; private set; }
 
 		/// <summary>
 		///     Gets a value indicating whether the event loop is updated manually or automatically.
@@ -2778,11 +3058,12 @@ public class InteractiveController
 		}
 
 		/// <summary>
-		///     Start the application event loop.
+		///     Starts the application event loop.
 		///     Updates the displayed dialog after each user interaction.
-		///     Only user interactions on widgets with the WantsOnChange property set on true will cause updates.
+		///     Only user interaction on widgets with the WantsOnChange property set to true will cause updates.
 		///     Use <see cref="RequestManualMode" /> if you want to manually control when the dialog is updated.
 		/// </summary>
+		/// <param name="startDialog">Dialog to be shown first.</param>
 		public void Run(Dialog startDialog)
 		{
 			if (startDialog == null)
@@ -2838,7 +3119,7 @@ public class InteractiveController
 		}
 
 		/// <summary>
-		///     Manually update the dialog.
+		///     Manually updates the dialog.
 		///     Use this method when you want to update the dialog without user interaction.
 		///     Note that no events will be raised.
 		/// </summary>
@@ -2869,8 +3150,14 @@ public class InteractiveController
 		}
 	}
 
+///<summary>
+///A widget that requires user input.
+///</summary>
 public abstract class InteractiveWidget : Widget
 {
+		/// <summary>
+		/// Initializes a new instance of the InteractiveWidget class.
+		/// </summary>
 		protected InteractiveWidget()
 		{
 			BlockDefinition.DestVar = Guid.NewGuid().ToString();
@@ -2990,7 +3277,7 @@ public class Label : Widget
 		}
 
 		/// <summary>
-		///     Gets or sets the Tooltip.
+		///     Gets or sets the tooltip.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip
@@ -3030,6 +3317,9 @@ public class Label : Widget
 		}
 	}
 
+///<summary>
+///Defines the whitespace that is displayed around a widget.
+///</summary>
 public class Margin
 {
 		private int bottom;
@@ -3037,6 +3327,13 @@ public class Margin
 		private int right;
 		private int top;
 
+		/// <summary>
+		/// Initializes a new instance of the Margin class.
+		/// </summary>
+		/// <param name="left">Amount of margin on the left-hand side of the widget in pixels.</param>
+		/// <param name="top">Amount of margin at the top of the widget in pixels.</param>
+		/// <param name="right">Amount of margin on the right-hand side of the widget in pixels.</param>
+		/// <param name="bottom">Amount of margin at the bottom of the widget in pixels.</param>
 		public Margin(int left, int top, int right, int bottom)
 		{
 			Left = left;
@@ -3045,10 +3342,20 @@ public class Margin
 			Bottom = bottom;
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the Margin class.
+		/// A margin is by default 3 pixels wide.
+		/// </summary>
 		public Margin() : this(3, 3, 3, 3)
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the Margin class based on a string.
+		/// This string should have the following syntax: left;top;right;bottom
+		/// </summary>
+		/// <exception cref="ArgumentException">If the string does not match the predefined syntax, or if any of the margins is not a number.</exception>
+		/// <param name="margin">Margin in string format.</param>
 		public Margin(string margin)
 		{
 			if(String.IsNullOrWhiteSpace(margin))
@@ -3069,6 +3376,9 @@ public class Margin
 			if (!Int32.TryParse(splitMargin[3], out bottom)) throw new ArgumentException("Bottom margin is not a number");
 		}
 
+		/// <summary>
+		/// Amount of margin in pixels at the bottom of the widget.
+		/// </summary>
 		public int Bottom
 		{
 			get
@@ -3087,6 +3397,9 @@ public class Margin
 			}
 		}
 
+		/// <summary>
+		/// Amount of margin in pixels at the left-hand side of the widget.
+		/// </summary>
 		public int Left
 		{
 			get
@@ -3105,6 +3418,9 @@ public class Margin
 			}
 		}
 
+		/// <summary>
+		/// Amount of margin in pixels at the right-hand side of the widget.
+		/// </summary>
 		public int Right
 		{
 			get
@@ -3123,6 +3439,9 @@ public class Margin
 			}
 		}
 
+		/// <summary>
+		/// Amount of margin in pixels at the top of the widget.
+		/// </summary>
 		public int Top
 		{
 			get
@@ -3149,13 +3468,17 @@ public class Margin
 	}
 
 ///<summary>
-///Dialog used to display an Message.
+///Dialog used to display a message.
 ///</summary>
 public class MessageDialog : Dialog
 {
 		private readonly Label messageLabel = new Label();
 
-		public MessageDialog(Engine engine) : base(engine)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="MessageDialog" /> class without a message.
+		/// </summary>
+		/// <param name="engine">Link with DataMiner.</param>
+		public MessageDialog(IEngine engine) : base(engine)
 		{
 			OkButton = new Button("OK") { Width = 150 };
 
@@ -3163,11 +3486,19 @@ public class MessageDialog : Dialog
 			AddWidget(OkButton, 1, 0);
 		}
 
-		public MessageDialog(Engine engine, String message) : this(engine)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="MessageDialog" /> class with a specific message.
+		/// </summary>
+		/// <param name="engine">Link with DataMiner.</param>
+		/// <param name="message">Message to be displayed in the dialog.</param>
+		public MessageDialog(IEngine engine, String message) : this(engine)
 		{
 			Message = message;
 		}
 
+		/// <summary>
+		/// Message to be displayed in the dialog.
+		/// </summary>
 		public string Message
 		{
 			get
@@ -3181,11 +3512,14 @@ public class MessageDialog : Dialog
 			}
 		}
 
+		/// <summary>
+		/// Button that is displayed below the message.
+		/// </summary>
 		public Button OkButton { get; private set; }
 	}
 
 ///<summary>
-///A spinner or numeric updown.
+///A spinner or numeric up-down control.
 ///Has a slider when the range is limited.
 ///</summary>
 public class Numeric : InteractiveWidget
@@ -3218,7 +3552,7 @@ public class Numeric : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Event triggers when the value of the numeric changed.
+		///     Triggered when the value of the numeric changes.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<NumericChangedEventArgs> Changed
@@ -3316,7 +3650,7 @@ public class Numeric : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Gets or sets the Tooltip.
+		///     Gets or sets the tooltip.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip
@@ -3376,9 +3710,9 @@ public class Numeric : InteractiveWidget
 
 		/// <summary>
 		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by client to add a visual marker on the input field.
+		///		This should be used by the client to add a visual marker on the input field.
 		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and 10.0.1.0 Main Release.</remarks>
+		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public UIValidationState ValidationState
 		{
 			get
@@ -3393,10 +3727,10 @@ public class Numeric : InteractiveWidget
 		}
 
 		/// <summary>
-		///		Gets or sets the text that is shown if the ValidationState is Invalid.
-		///		This should be used by client to add a visual marker on the input field.
+		///		Gets or sets the text that is shown if the validation state is invalid.
+		///		This should be used by the client to add a visual marker on the input field.
 		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and 10.0.1.0 Main Release.</remarks>
+		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public string ValidationText
 		{
 			get
@@ -3494,20 +3828,40 @@ public class Numeric : InteractiveWidget
 		}
 	}
 
+///<summary>
+///This exception is used to indicate that two widgets have overlapping positions on the same dialog.
+///</summary>
 public class OverlappingWidgetsException : Exception
 {
+		/// <summary>
+		/// Initializes a new instance of the <see cref="OverlappingWidgetsException" /> class.
+		/// </summary>
 		public OverlappingWidgetsException()
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="OverlappingWidgetsException" /> class with a specified error message.
+		/// </summary>
+		/// <param name="message">The message that describes the error.</param>
 		public OverlappingWidgetsException(string message) : base(message)
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="OverlappingWidgetsException" /> class with a specified error message and a reference to the inner exception that is the cause of this exception.
+		/// </summary>
+		/// <param name="message">The error message that explains the reason for the exception.</param>
+		/// <param name="inner">The exception that is the cause of the current exception, or a null reference (Nothing in Visual Basic) if no inner exception is specified.</param>
 		public OverlappingWidgetsException(string message, Exception inner) : base(message, inner)
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the OverlappingWidgetException class with the serialized data.
+		/// </summary>
+		/// <param name="info">The System.Runtime.Serialization.SerializationInfo that holds the serialized object data about the exception being thrown.</param>
+		/// <param name="context">The System.Runtime.Serialization.StreamingContext that contains contextual information about the source or destination.</param>
 		protected OverlappingWidgetsException(
 		  System.Runtime.Serialization.SerializationInfo info,
 		  System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
@@ -3526,7 +3880,7 @@ public class Parameter : Widget
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Parameter" /> class.
 		/// </summary>
-		/// <param name="dmaId">ID of the DataMiner agent.</param>
+		/// <param name="dmaId">ID of the DataMiner Agent.</param>
 		/// <param name="elementId">ID of the element.</param>
 		/// <param name="parameterId">ID of the parameter.</param>
 		/// <param name="index">Primary key of the table entry. Is null for standalone parameters.</param>
@@ -3554,7 +3908,7 @@ public class Parameter : Widget
 		}
 
 		/// <summary>
-		///     Gets or sets the ID of the DataMiner agent that has the parameter.
+		///     Gets or sets the ID of the DataMiner Agent that has the parameter.
 		/// </summary>
 		public int DmaId
 		{
@@ -3598,7 +3952,7 @@ public class Parameter : Widget
 		}
 
 		/// <summary>
-		///     Gets or sets the Primary key of the table entry.
+		///     Gets or sets the primary key of the table entry.
 		/// </summary>
 		/// <remarks>Should be <c>null</c> for standalone parameters.</remarks>
 		public string Index
@@ -3673,7 +4027,7 @@ public class PasswordBox : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Event triggers when the password changed.
+		///     Triggered when the password changes.
 		/// </summary>
 		public event EventHandler<PasswordBoxChangedEventArgs> Changed;
 
@@ -3711,7 +4065,7 @@ public class PasswordBox : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Gets or sets the Tooltip.
+		///     Gets or sets the tooltip.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip
@@ -3733,9 +4087,9 @@ public class PasswordBox : InteractiveWidget
 		}
 
 		/// <summary>
-		///		Gets or sets the text that should be should be displayed as a placeholder.
+		///		Gets or sets the text that should be displayed as a placeholder.
 		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and 10.0.1.0 Main Release.</remarks>
+		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public string PlaceHolder
 		{
 			get
@@ -3751,9 +4105,9 @@ public class PasswordBox : InteractiveWidget
 
 		/// <summary>
 		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by client to add a visual marker on the input field.
+		///		This should be used by the client to add a visual marker on the input field.
 		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and 10.0.1.0 Main Release.</remarks>
+		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public UIValidationState ValidationState
 		{
 			get
@@ -3768,10 +4122,10 @@ public class PasswordBox : InteractiveWidget
 		}
 
 		/// <summary>
-		///		Gets or sets the text that is shown if the ValidationState is Invalid.
-		///		This should be used by client to add a visual marker on the input field.
+		///		Gets or sets the text that is shown if the validation state is invalid.
+		///		This should be used by the client to add a visual marker on the input field.
 		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and 10.0.1.0 Main Release.</remarks>
+		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public string ValidationText
 		{
 			get
@@ -3833,23 +4187,30 @@ public class PasswordBox : InteractiveWidget
 	}
 
 ///<summary>
-///When displaying progress, this dialog has to be shown without requiring user interaction.
-///When you are done displaying progress, call the Finish method and Show the dialog with user interaction required.
+///When progress is displayed, this dialog has to be shown without requiring user interaction.
+///When you are done displaying progress, call the Finish method and show the dialog with user interaction required.
 ///</summary>
 public class ProgressDialog : Dialog
 {
 		private readonly StringBuilder progress = new StringBuilder();
 		private readonly Label progressLabel = new Label();
 
-		public ProgressDialog(Engine engine) : base(engine)
+		/// <summary>
+		/// Used to instantiate a new instance of the <see cref="ProgressDialog" /> class.
+		/// </summary>
+		/// <param name="engine">Link with DataMiner.</param>
+		public ProgressDialog(IEngine engine) : base(engine)
 		{
 			OkButton = new Button("OK") { IsEnabled = true, Width = 150 };
 		}
 
+		/// <summary>
+		/// Button that is displayed after the Finish method is called.
+		/// </summary>
 		public Button OkButton { get; private set; }
 
 		/// <summary>
-		/// This will clear the current progress and display the provided text.
+		/// Clears the current progress and displays the provided text.
 		/// </summary>
 		/// <param name="text">Indication of the progress made.</param>
 		public void SetProgress(string text)
@@ -3860,9 +4221,9 @@ public class ProgressDialog : Dialog
 		}
 
 		/// <summary>
-		/// This will add the provided text to the current progress.
+		/// Adds the provided text to the current progress.
 		/// </summary>
-		/// <param name="text">Text to add to current line of progress.</param>
+		/// <param name="text">Text to add to the current line of progress.</param>
 		public void AddProgress(string text)
 		{
 			progress.Append(text);
@@ -3870,7 +4231,7 @@ public class ProgressDialog : Dialog
 		}
 
 		/// <summary>
-		/// This will add the provided text on a new line to the current progress.
+		/// Adds the provided text on a new line to the current progress.
 		/// </summary>
 		/// <param name="text">Indication of the progress made. This will be placed on a separate line.</param>
 		public void AddProgressLine(string text)
@@ -3880,7 +4241,7 @@ public class ProgressDialog : Dialog
 		}
 
 		/// <summary>
-		/// This will clear the progress.
+		/// Clears the progress.
 		/// </summary>
 		public void ClearProgress()
 		{
@@ -3891,7 +4252,7 @@ public class ProgressDialog : Dialog
 		/// <summary>
 		/// Call this method when you are done updating the progress through this dialog.
 		/// This will cause the OK button to appear.
-		/// Display this form with User Interactivity required after this method is called.
+		/// Display this form with user interactivity required after this method is called.
 		/// </summary>
 		public void Finish() // TODO: ShowConfirmation
 		{
@@ -3931,7 +4292,7 @@ public class RadioButtonList : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Event triggers when a different option is selected.
+		///     Triggered when a different option is selected.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<RadioButtonChangedEventArgs> Changed
@@ -3945,7 +4306,7 @@ public class RadioButtonList : InteractiveWidget
 			remove
 			{
 				OnChanged -= value;
-				if(OnChanged == null || !OnChanged.GetInvocationList().Any())
+				if (OnChanged == null || !OnChanged.GetInvocationList().Any())
 				{
 					WantsOnChange = false;
 				}
@@ -3988,7 +4349,7 @@ public class RadioButtonList : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Gets or sets the Tooltip.
+		///     Gets or sets the tooltip.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip
@@ -4026,7 +4387,7 @@ public class RadioButtonList : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Add a radiobutton to the group.
+		///     Adds a radio button to the group.
 		/// </summary>
 		/// <param name="option">Option to add.</param>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
@@ -4155,7 +4516,7 @@ public class RadioButtonList : InteractiveWidget
 	}
 
 ///<summary>
-///A section is a special component that can be used to group Widgets together.
+///A section is a special component that can be used to group widgets together.
 ///</summary>
 public class Section
 {
@@ -4164,12 +4525,18 @@ public class Section
 		private bool isEnabled = true;
 		private bool isVisible = true;
 
+		/// <summary>
+		/// Number of columns that are currently defined by the widgets that have been added to this section.
+		/// </summary>
 		public int ColumnCount { get; private set; }
 
+		/// <summary>
+		/// Number of rows that are currently defined by the widgets that have been added to this section.
+		/// </summary>
 		public int RowCount { get; private set; }
 
 		/// <summary>
-		///		Gets or sets a value indicating whether the Widgets within the section are visible or not.
+		///		Gets or sets a value indicating whether the widgets within the section are visible or not.
 		/// </summary>
 		public bool IsVisible
 		{
@@ -4189,7 +4556,7 @@ public class Section
 		}
 
 		/// <summary>
-		///		Gets or sets a value indicating whether the Interactive Widgets within the section are enabled or not.
+		///		Gets or sets a value indicating whether the interactive widgets within the section are enabled or not.
 		/// </summary>
 		public bool IsEnabled
 		{
@@ -4213,7 +4580,7 @@ public class Section
 		}
 
 		/// <summary>
-		///     Gets widgets that are added to the section.
+		///     Gets widgets that have been added to the section.
 		/// </summary>
 		public IEnumerable<Widget> Widgets
 		{
@@ -4224,14 +4591,13 @@ public class Section
 		}
 
 		/// <summary>
-		///     Adds a widget to the dialog.
+		///     Adds a widget to the section.
 		/// </summary>
-		/// <param name="widget">Widget to add to the dialog.</param>
-		/// <param name="widgetLayout">Location of the widget on the grid layout.</param>
+		/// <param name="widget">Widget to add to the <see cref="Section" />.</param>
+		/// <param name="widgetLayout">Location of the widget in the grid layout.</param>
 		/// <returns>The dialog.</returns>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
-		/// <exception cref="ArgumentException">When the widget is already added to the dialog.</exception>
-		/// <exception cref="ArgumentException">When the widget overlaps with another widget.</exception>
+		/// <exception cref="ArgumentException">When the widget has already been added to the <see cref="Section" />.</exception>
 		public Section AddWidget(Widget widget, IWidgetLayout widgetLayout)
 		{
 			if (widget == null)
@@ -4244,11 +4610,6 @@ public class Section
 				throw new ArgumentException("Widget is already added to the section");
 			}
 
-			//if (Overlaps(widgetLayout))
-			//{
-			//	throw new ArgumentException(String.Format("The widget overlaps with another widget in the section on Row {0}, Column {1}, RowSpan {2}, ColumnSpan {3}", widgetLayout.Row, widgetLayout.Column, widgetLayout.RowSpan, widgetLayout.ColumnSpan));
-			//}
-
 			widgetLayouts.Add(widget, widgetLayout);
 			UpdateRowAndColumnCount();
 
@@ -4259,14 +4620,14 @@ public class Section
 		///     Adds a widget to the section.
 		/// </summary>
 		/// <param name="widget">Widget to add to the section.</param>
-		/// <param name="row">Row location of widget on the grid.</param>
+		/// <param name="row">Row location of the widget on the grid.</param>
 		/// <param name="column">Column location of the widget on the grid.</param>
 		/// <param name="horizontalAlignment">Horizontal alignment of the widget.</param>
 		/// <param name="verticalAlignment">Vertical alignment of the widget.</param>
 		/// <returns>The updated section.</returns>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the location is out of bounds of the grid.</exception>
-		/// <exception cref="ArgumentException">When the widget is already added to the dialog.</exception>
+		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
 		public Section AddWidget(
 			Widget widget,
 			int row,
@@ -4282,7 +4643,7 @@ public class Section
 		///     Adds a widget to the section.
 		/// </summary>
 		/// <param name="widget">Widget to add to the section.</param>
-		/// <param name="fromRow">Row location of widget on the grid.</param>
+		/// <param name="fromRow">Row location of the widget on the grid.</param>
 		/// <param name="fromColumn">Column location of the widget on the grid.</param>
 		/// <param name="rowSpan">Number of rows the widget will use.</param>
 		/// <param name="colSpan">Number of columns the widget will use.</param>
@@ -4291,7 +4652,7 @@ public class Section
 		/// <returns>The updated section.</returns>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the location is out of bounds of the grid.</exception>
-		/// <exception cref="ArgumentException">When the widget is already added to the dialog.</exception>
+		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
 		public Section AddWidget(
 			Widget widget,
 			int fromRow,
@@ -4308,11 +4669,11 @@ public class Section
 		}
 
 		/// <summary>
-		/// Adds the widgets from the section to the Section.
+		/// Adds the widgets from the section to the section.
 		/// </summary>
-		/// <param name="section">Section to be added to the Section.</param>
-		/// <param name="layout">Left top position of the Section within the Section.</param>
-		/// <returns>The updated Section.</returns>
+		/// <param name="section">Section to be added to the section.</param>
+		/// <param name="layout">Left-top position of the section within the parent section.</param>
+		/// <returns>The updated section.</returns>
 		public Section AddSection(Section section, ILayout layout)
 		{
 			foreach (Widget widget in section.Widgets)
@@ -4362,22 +4723,23 @@ public class Section
 		}
 
 		/// <summary>
-		///     Sets the layout of the widget in the dialog.
+		///     Sets the layout of a widget in the section.
 		/// </summary>
-		/// <param name="widget">A widget that is part of the dialog.</param>
-		/// <param name="widgetLayout">The layout to apply on the widget.</param>
+		/// <param name="widget">A widget that is part of the section.</param>
+		/// <param name="widgetLayout">The layout to apply to the widget.</param>
 		/// <exception cref="NullReferenceException">When widget is null.</exception>
-		/// <exception cref="ArgumentException">When the widget is not part of the dialog.</exception>
+		/// <exception cref="ArgumentException">When the widget is not part of the section.</exception>
 		/// <exception cref="NullReferenceException">When widgetLayout is null.</exception>
-		/// <exception cref="ArgumentException">When widgetLayout is out of bounds of the dialog grid.</exception>
 		public void SetWidgetLayout(Widget widget, IWidgetLayout widgetLayout)
 		{
+			if (widgetLayout == null) throw new ArgumentNullException(nameof(widgetLayout));
+
 			CheckWidgetExits(widget);
 			widgetLayouts[widget] = widgetLayout;
 		}
 
 		/// <summary>
-		/// Removes all Widgets from the Section.
+		/// Removes all widgets from the section.
 		/// </summary>
 		public void Clear()
 		{
@@ -4441,11 +4803,19 @@ public class Section
 		}
 	}
 
+///<summary>
+///Used to define the position of a section in another section or dialog.
+///</summary>
 public class SectionLayout : ILayout
 {
 		private int column;
 		private int row;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SectionLayout"/> class.
+		/// </summary>
+		/// <param name="row">Row index of the cell that the top-left cell of the section will be mapped to.</param>
+		/// <param name="column">Column index of the cell that the top-left cell of the section will be mapped to.</param>
 		public SectionLayout(int row, int column)
 		{
 			this.row = row;
@@ -4526,7 +4896,7 @@ public class TextBox : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Triggers when the text in the text box changed.
+		///     Triggered when the text in the text box changes.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<TextBoxChangedEventArgs> Changed
@@ -4582,7 +4952,7 @@ public class TextBox : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Gets or sets the Tooltip.
+		///     Gets or sets the tooltip.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip
@@ -4604,9 +4974,9 @@ public class TextBox : InteractiveWidget
 		}
 
 		/// <summary>
-		///		Gets or sets the text that should be should be displayed as a placeholder.
+		///		Gets or sets the text that should be displayed as a placeholder.
 		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and 10.0.1.0 Main Release.</remarks>
+		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public string PlaceHolder
 		{
 			get
@@ -4622,9 +4992,9 @@ public class TextBox : InteractiveWidget
 
 		/// <summary>
 		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by client to add a visual marker on the input field.
+		///		This should be used by the client to add a visual marker on the input field.
 		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and 10.0.1.0 Main Release.</remarks>
+		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public UIValidationState ValidationState
 		{
 			get
@@ -4639,10 +5009,10 @@ public class TextBox : InteractiveWidget
 		}
 
 		/// <summary>
-		///		Gets or sets the text that is shown if the ValidationState is Invalid.
-		///		This should be used by client to add a visual marker on the input field.
+		///		Gets or sets the text that is shown if the validation state is invalid.
+		///		This should be used by the client to add a visual marker on the input field.
 		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and 10.0.1.0 Main Release.</remarks>
+		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public string ValidationText
 		{
 			get
@@ -4731,7 +5101,7 @@ public class Time : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Event triggers when the timespan changed.
+		///     Triggered when the timespan changes.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<TimeChangedEventArgs> Changed
@@ -4845,7 +5215,7 @@ public class Time : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Gets or sets the Tooltip.
+		///     Gets or sets the tooltip.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip
@@ -4870,7 +5240,7 @@ public class Time : InteractiveWidget
 		///     Gets or sets the maximum timespan.
 		///     Default: <c>TimeSpan.MaxValue</c>
 		/// </summary>
-		/// <exception cref="ArgumentOutOfRangeException">When maximum is smaller than minimum.</exception>
+		/// <exception cref="ArgumentOutOfRangeException">When the maximum is smaller than the minimum.</exception>
 		public TimeSpan Maximum
 		{
 			get
@@ -4893,7 +5263,7 @@ public class Time : InteractiveWidget
 		///     Gets or sets the minimum timespan.
 		///     Default: <c>TimeSpan.MinValue</c>
 		/// </summary>
-		/// <exception cref="ArgumentOutOfRangeException">When minimum is larger than maximum.</exception>
+		/// <exception cref="ArgumentOutOfRangeException">When the minimum is larger than the maximum.</exception>
 		public TimeSpan Minimum
 		{
 			get
@@ -5048,7 +5418,7 @@ public class TimePicker : TimePickerBase
 		}
 
 		/// <summary>
-		///     Event triggers when a different time is picked.
+		///     Triggered when a different time is picked.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<TimePickerChangedEventArgs> Changed
@@ -5125,7 +5495,7 @@ public class TimePicker : TimePickerBase
 		}
 
 		/// <summary>
-		///     Gets or sets the Tooltip.
+		///     Gets or sets the tooltip.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip
@@ -5240,9 +5610,9 @@ public class TimePicker : TimePickerBase
 
 		/// <summary>
 		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by client to add a visual marker on the input field.
+		///		This should be used by the client to add a visual marker on the input field.
 		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and 10.0.1.0 Main Release.</remarks>
+		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public UIValidationState ValidationState
 		{
 			get
@@ -5257,10 +5627,10 @@ public class TimePicker : TimePickerBase
 		}
 
 		/// <summary>
-		///		Gets or sets the text that is shown if the ValidationState is Invalid.
-		///		This should be used by client to add a visual marker on the input field.
+		///		Gets or sets the text that is shown if the validation state is invalid.
+		///		This should be used by the client to add a visual marker on the input field.
 		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and 10.0.1.0 Main Release.</remarks>
+		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public string ValidationText
 		{
 			get
@@ -5348,10 +5718,17 @@ public class TimePicker : TimePickerBase
 		}
 	}
 
+///<summary>
+///Base class for time-based widgets that rely on the <see cref="AutomationDateTimeUpDownOptions" />.
+///</summary>
 public abstract class TimePickerBase : InteractiveWidget
 {
 		private AutomationDateTimeUpDownOptions dateTimeUpDownOptions;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TimePickerBase" />
+		/// </summary>
+		/// <param name="dateTimeUpDownOptions">Configuration for the new TimePickerBase instance.</param>
 		protected TimePickerBase(AutomationDateTimeUpDownOptions dateTimeUpDownOptions)
 		{
 			DateTimeUpDownOptions = dateTimeUpDownOptions;
@@ -5481,6 +5858,9 @@ public abstract class TimePickerBase : InteractiveWidget
 			}
 		}
 
+		/// <summary>
+		/// Configuration of this <see cref="TimePickerBase" /> instance.
+		/// </summary>
 		protected AutomationDateTimeUpDownOptions DateTimeUpDownOptions
 		{
 			get
@@ -5502,7 +5882,7 @@ public abstract class TimePickerBase : InteractiveWidget
 	}
 
 ///<summary>
-///A Tree view structure.
+///A tree view structure.
 ///</summary>
 public class TreeView : InteractiveWidget
 {
@@ -5536,7 +5916,7 @@ public class TreeView : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Event triggers when a different items are checked or unchecked.
+		///     Triggered when a different item is selected or no longer selected.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<IEnumerable<TreeViewItem>> Changed
@@ -5560,7 +5940,7 @@ public class TreeView : InteractiveWidget
 		private event EventHandler<IEnumerable<TreeViewItem>> OnChanged;
 
 		/// <summary>
-		///  Event triggers whenever an item is checked.
+		///  Triggered whenever an item is selected.
 		///  WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<IEnumerable<TreeViewItem>> Checked
@@ -5584,7 +5964,7 @@ public class TreeView : InteractiveWidget
 		private event EventHandler<IEnumerable<TreeViewItem>> OnChecked;
 
 		/// <summary>
-		///  Event triggers whenever an item is unchecked.
+		///  Triggered whenever an item is no longer selected.
 		///  WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<IEnumerable<TreeViewItem>> Unchecked
@@ -5608,7 +5988,7 @@ public class TreeView : InteractiveWidget
 		private event EventHandler<IEnumerable<TreeViewItem>> OnUnchecked;
 
 		/// <summary>
-		///  Event triggers whenever an Item is expanded.
+		///  Triggered whenever an item is expanded.
 		///  Can be used for lazy loading.
 		///  Will be triggered whenever a node with SupportsLazyLoading set to true is expanded.
 		/// </summary>
@@ -5628,7 +6008,7 @@ public class TreeView : InteractiveWidget
 		private event EventHandler<IEnumerable<TreeViewItem>> OnExpanded;
 
 		/// <summary>
-		///  Event triggers whenever an Item is collapsed.
+		///  Triggered whenever an item is collapsed.
 		///  Will be triggered whenever a node with SupportsLazyLoading set to true is collapsed.
 		/// </summary>
 		public event EventHandler<IEnumerable<TreeViewItem>> Collapsed
@@ -5647,7 +6027,7 @@ public class TreeView : InteractiveWidget
 		private event EventHandler<IEnumerable<TreeViewItem>> OnCollapsed;
 
 		/// <summary>
-		/// This will set the IsCollapsed state for all items in the TreeView to true, causing the entire TreeView to be collapsed.
+		/// Sets the IsCollapsed state for all items in the tree view to true, causing the entire tree view to be collapsed.
 		/// </summary>
 		public void Collapse()
 		{
@@ -5658,7 +6038,7 @@ public class TreeView : InteractiveWidget
 		}
 
 		/// <summary>
-		/// This will set the IsCollapsed state for all items in the TreeView to false, causing the entire TreeView to be expanded.
+		/// Sets the IsCollapsed state for all items in the tree view to false, causing the entire tree view to be expanded.
 		/// </summary>
 		public void Expand()
 		{
@@ -5669,7 +6049,7 @@ public class TreeView : InteractiveWidget
 		}
 
 		/// <summary>
-		/// Returns the top level items in the TreeView.
+		/// Returns the top-level items in the tree view.
 		/// The TreeViewItem.ChildItems property can be used to navigate further down the tree.
 		/// </summary>
 		public IEnumerable<TreeViewItem> Items
@@ -5683,11 +6063,12 @@ public class TreeView : InteractiveWidget
 			{
 				if (value == null) throw new ArgumentNullException("value");
 				BlockDefinition.TreeViewItems = new List<TreeViewItem>(value);
+				UpdateItemCache();
 			}
 		}
 
 		/// <summary>
-		/// Returns all items in the TreeView that are checked.
+		/// Returns all items in the tree view that are selected.
 		/// </summary>
 		public IEnumerable<TreeViewItem> CheckedItems
 		{
@@ -5698,7 +6079,7 @@ public class TreeView : InteractiveWidget
 		}
 
 		/// <summary>
-		/// Returns all leaves (= items without children) in the TreeView that are checked.
+		/// Returns all leaves (= items without children) in the tree view that are selected.
 		/// </summary>
 		public IEnumerable<TreeViewItem> CheckedLeaves
 		{
@@ -5709,7 +6090,7 @@ public class TreeView : InteractiveWidget
 		}
 
 		/// <summary>
-		/// Returns all nodes (= items with children) in the TreeView that are checked.
+		/// Returns all nodes (= items with children) in the tree view that are selected.
 		/// </summary>
 		public IEnumerable<TreeViewItem> CheckedNodes
 		{
@@ -5720,11 +6101,11 @@ public class TreeView : InteractiveWidget
 		}
 
 		/// <summary>
-		/// This method can be used to retrieve a TreeViewItem from the TreeView based on its KeyValue.
+		/// Can be used to retrieve an item from the tree view based on its key value.
 		/// </summary>
 		/// <param name="key">Key used to search for the item.</param>
-		/// <param name="item">Item in the Tree that matches the provided key.</param>
-		/// <returns>True if the item was found, else false.</returns>
+		/// <param name="item">Item in the tree that matches the provided key.</param>
+		/// <returns>True if the item was found, otherwise false.</returns>
 		public bool TryFindTreeViewItem(string key, out TreeViewItem item)
 		{
 			item = GetAllItems().FirstOrDefault(x => x.KeyValue.Equals(key));
@@ -5765,9 +6146,9 @@ public class TreeView : InteractiveWidget
 		}
 
 		/// <summary>
-		/// This method will iterate over all items in the tree and return them in a flat collection.
+		/// Iterates over all items in the tree and returns them in a flat collection.
 		/// </summary>
-		/// <returns>A flat collection containing all TreeViewItems in the TreeView.</returns>
+		/// <returns>A flat collection containing all items in the tree view.</returns>
 		public IEnumerable<TreeViewItem> GetAllItems()
 		{
 			List<TreeViewItem> allItems = new List<TreeViewItem>();
@@ -5798,11 +6179,11 @@ public class TreeView : InteractiveWidget
 		}
 
 		/// <summary>
-		/// Returns all TreeViewItems in the TreeView that are located on the provided depth.
+		/// Returns all items in the tree view that are located at the provided depth.
 		/// Whenever the requested depth is greater than the longest branch in the tree, an empty collection will be returned.
 		/// </summary>
 		/// <param name="depth">Depth of the requested items.</param>
-		/// <returns>All TreeViewItems in the TreeView that are located on the provided depth.</returns>
+		/// <returns>All items in the tree view that are located at the provided depth.</returns>
 		public IEnumerable<TreeViewItem> GetItems(int depth)
 		{
 			return GetItems(Items, depth, 0);
@@ -5836,7 +6217,7 @@ public class TreeView : InteractiveWidget
 		}
 
 		/// <summary>
-		///     Gets or sets the Tooltip.
+		///     Gets or sets the tooltip.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip
@@ -5968,23 +6349,43 @@ public class TreeView : InteractiveWidget
 		}
 	}
 
+///<summary>
+///This exception is used to indicate that a tree view contains multiple items with the same key.
+///</summary>
 public class TreeViewDuplicateItemsException : Exception
 {
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TreeViewDuplicateItemsException"/> class.
+		/// </summary>
 		public TreeViewDuplicateItemsException()
 		{
 
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TreeViewDuplicateItemsException"/> class with a specified error message.
+		/// </summary>
+		/// <param name="key">The key of the duplicate tree view items.</param>
 		public TreeViewDuplicateItemsException(string key) : base(String.Format("An item with key {0} is already present in the TreeView", key))
 		{
 
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TreeViewDuplicateItemsException"/> class with a specified error message and a reference to the inner exception that is the cause of this exception.
+		/// </summary>
+		/// <param name="key">The key of the duplicate tree view items.</param>
+		/// <param name="inner">The exception that is the cause of the current exception, or a null reference (Nothing in Visual Basic) if no inner exception is specified.</param>
 		public TreeViewDuplicateItemsException(string key, Exception inner) : base(String.Format("An item with key {0} is already present in the TreeView", key), inner)
 		{
 
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TreeViewDuplicateItemsException"/> class with the serialized data.
+		/// </summary>
+		/// <param name="info">The System.Runtime.Serialization.SerializationInfo that holds the serialized object data about the exception being thrown.</param>
+		/// <param name="context">The System.Runtime.Serialization.StreamingContext that contains contextual information about the source or destination.</param>
 		protected TreeViewDuplicateItemsException(
 		  System.Runtime.Serialization.SerializationInfo info,
 		  System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
@@ -6039,12 +6440,16 @@ internal static class UiResultsExtensions
 
 		public static IEnumerable<string> GetExpandedItemKeys(this UIResults uiResults, TreeView treeView)
 		{
-			return uiResults.GetExpanded(treeView.DestVar);
+			string[] expandedItems = uiResults.GetExpanded(treeView.DestVar);
+			if (expandedItems == null) return new string[0];
+			return expandedItems.Where(x => !String.IsNullOrWhiteSpace(x)).ToList();
 		}
 
 		public static IEnumerable<string> GetCheckedItemKeys(this UIResults uiResults, TreeView treeView)
 		{
-			return uiResults.GetString(treeView.DestVar).Split(';');
+			string result = uiResults.GetString(treeView.DestVar);
+			if (String.IsNullOrEmpty(result)) return new string[0];
+			return result.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
 		}
 	}
 
@@ -6053,6 +6458,9 @@ internal static class UiResultsExtensions
 ///</summary>
 public class WhiteSpace : Widget
 {
+		/// <summary>
+		/// Initializes a new instance of the <see cref="WhiteSpace"/> class.
+		/// </summary>
 		public WhiteSpace()
 		{
 			Type = UIBlockType.StaticText;
@@ -6068,6 +6476,9 @@ public class Widget
 {
 		private UIBlockDefinition blockDefinition = new UIBlockDefinition();
 
+		/// <summary>
+		/// Initializes a new instance of the Widget class.
+		/// </summary>
 		protected Widget()
 		{
 			Type = UIBlockType.Undefined;
@@ -6099,7 +6510,7 @@ public class Widget
 		}
 
 		/// <summary>
-		///     Gets or sets a value indicating whether the widget is visible on the dialog.
+		///     Gets or sets a value indicating whether the widget is visible in the dialog.
 		/// </summary>
 		public bool IsVisible { get; set; }
 
@@ -6229,6 +6640,9 @@ public class Widget
 			}
 		}
 
+		/// <summary>
+		/// Margin of the widget.
+		/// </summary>
 		public Margin Margin
 		{
 			get
@@ -6270,7 +6684,9 @@ public class Widget
 			BlockDefinition.MinWidth = -1;
 		}
 
-		// ugly method to clear the internal list of dropdown items that can't be accessed.
+		/// <summary>
+		/// Ugly method to clear the internal list of DropDown items that can't be accessed.
+		/// </summary>
 		protected void RecreateUiBlock()
 		{
 			UIBlockDefinition newUiBlockDefinition = new UIBlockDefinition();
@@ -6288,6 +6704,7 @@ public class Widget
 		}
 	}
 
+///<inheritdoc />
 public class WidgetLayout : IWidgetLayout
 {
 		private int column;
@@ -6296,6 +6713,15 @@ public class WidgetLayout : IWidgetLayout
 		private int row;
 		private int rowSpan;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="WidgetLayout"/> class.
+		/// </summary>
+		/// <param name="fromRow">Row index of top-left cell.</param>
+		/// <param name="fromColumn">Column index of the top-left cell.</param>
+		/// <param name="rowSpan">Number of vertical cells the widget spans across.</param>
+		/// <param name="columnSpan">Number of horizontal cells the widget spans across.</param>
+		/// <param name="horizontalAlignment">Horizontal alignment of the widget.</param>
+		/// <param name="verticalAlignment">Vertical alignment of the widget.</param>
 		public WidgetLayout(
 			int fromRow,
 			int fromColumn,
@@ -6313,6 +6739,13 @@ public class WidgetLayout : IWidgetLayout
 			Margin = new Margin();
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="WidgetLayout"/> class.
+		/// </summary>
+		/// <param name="row">Row index of the cell where the widget is placed.</param>
+		/// <param name="column">Column index of the cell where the widget is placed.</param>
+		/// <param name="horizontalAlignment">Horizontal alignment of the widget.</param>
+		/// <param name="verticalAlignment">Vertical alignment of the widget.</param>
 		public WidgetLayout(
 			int row,
 			int column,
@@ -6330,7 +6763,6 @@ public class WidgetLayout : IWidgetLayout
 		/// <summary>
 		///     Gets or sets the column location of the widget on the grid.
 		/// </summary>
-		/// <remarks>The top-left position is (0, 0) by default.</remarks>
 		public int Column
 		{
 			get
@@ -6350,9 +6782,8 @@ public class WidgetLayout : IWidgetLayout
 		}
 
 		/// <summary>
-		///     Gets or sets how many columns the widget is spanning in the grid.
+		///     Gets or sets how many columns the widget spans on the grid.
 		/// </summary>
-		/// <remarks>The widget will start at <see cref="Column" /></remarks>
 		public int ColumnSpan
 		{
 			get
@@ -6396,7 +6827,6 @@ public class WidgetLayout : IWidgetLayout
 		/// <summary>
 		///     Gets or sets the row location of the widget on the grid.
 		/// </summary>
-		/// <remarks>The top-left position is (0, 0) by default.</remarks>
 		public int Row
 		{
 			get
@@ -6416,9 +6846,8 @@ public class WidgetLayout : IWidgetLayout
 		}
 
 		/// <summary>
-		///     Gets or sets how many rows the widget is spanning in the grid.
+		///     Gets or sets how many rows the widget spans on the grid.
 		/// </summary>
-		/// <remarks>The widget will start at <see cref="Row" /></remarks>
 		public int RowSpan
 		{
 			get
@@ -6440,6 +6869,7 @@ public class WidgetLayout : IWidgetLayout
 		/// <inheritdoc />
 		public VerticalAlignment VerticalAlignment { get; set; }
 
+		/// <inheritdoc />
 		public override bool Equals(object obj)
 		{
 			WidgetLayout other = obj as WidgetLayout;
@@ -6459,6 +6889,7 @@ public class WidgetLayout : IWidgetLayout
 			return rowParamsMatch && columnParamsMatch && alignmentParamsMatch;
 		}
 
+		/// <inheritdoc />
 		public override int GetHashCode()
 		{
 			return Row ^ Column ^ RowSpan ^ ColumnSpan ^ (int)HorizontalAlignment ^ (int)VerticalAlignment;
