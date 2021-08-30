@@ -1,6 +1,7 @@
 ﻿namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
 	using System;
+	using System.IO;
 	using Skyline.DataMiner.Automation;
 
 	/// <summary>
@@ -20,6 +21,7 @@
 		/// <summary>
 		/// Default value: false
 		/// </summary>
+		/// <remarks>Available from DataMiner Feature Release 10.1.8 and Main Release 10.2.0 onwards.</remarks>
 		public bool AllowMultipleFiles
 		{
 			get
@@ -33,6 +35,9 @@
 			}
 		} 
 
+		/// <summary>
+		/// Contains the paths to the uploaded files if any have been uploaded.
+		/// </summary>
 		public string[] UploadedFilePaths { get; private set; } = new string[0];
 
 		/// <summary>
@@ -110,9 +115,29 @@
 			}
 		}
 
+		/// <summary>
+		/// Copies the uploaded files to the specified folder.
+		/// If the folder does not exist, a new one will be created.
+		/// </summary>
+		/// <param name="folderPath">Path of the folder to where the uploaded files should be copied.</param>
+		public void CopyUploadedFiles(string folderPath)
+		{
+			if (String.IsNullOrWhiteSpace(folderPath)) throw new ArgumentException("folderPath");
+
+			DirectoryInfo directoryInfo = new DirectoryInfo(folderPath);
+			if (!directoryInfo.Exists) directoryInfo.Create();
+
+			foreach (string filePath in UploadedFilePaths)
+			{
+				FileInfo fileInfo = new FileInfo(filePath);
+				string destFileName = directoryInfo.FullName.TrimEnd(Path.DirectorySeparatorChar) + Path.DirectorySeparatorChar + fileInfo.Name;
+				fileInfo.CopyTo(destFileName);
+			}
+		}
+
 		internal override void LoadResult(UIResults uiResults)
 		{
-			UploadedFilePaths = uiResults.GetUploadedFilePaths(this);
+			UploadedFilePaths = uiResults.GetUploadedFilePaths(this) ?? new string[0];
 		}
 
 		internal override void RaiseResultEvents()

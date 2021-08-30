@@ -24,12 +24,12 @@
 			return uiResults.GetString(interactiveWidget.DestVar);
 		}
 
-		public static string GetUploadedFilePath(this UIResults uiResults, InteractiveWidget interactiveWidget)
+		public static string GetUploadedFilePath(this UIResults uiResults, FileSelector interactiveWidget)
 		{
 			return uiResults.GetUploadedFilePath(interactiveWidget.DestVar);
 		}
 
-		public static string[] GetUploadedFilePaths(this UIResults uiResults, InteractiveWidget interactiveWidget)
+		public static string[] GetUploadedFilePaths(this UIResults uiResults, FileSelector interactiveWidget)
 		{
 			return uiResults.GetUploadedFilePaths(interactiveWidget.DestVar);
 		}
