@@ -4,7 +4,7 @@
 	using Skyline.DataMiner.Automation;
 
 	/// <summary>
-	///     Event loop of the interactive automation script.
+	///     Event loop of the interactive Automation script.
 	/// </summary>
 	public class InteractiveController
 	{
@@ -14,7 +14,7 @@
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="InteractiveController" /> class.
-		///     This object will manage the event loop of the interactive automation script.
+		///     This object will manage the event loop of the interactive Automation script.
 		/// </summary>
 		/// <param name="engine">Link with the SLAutomation process.</param>
 		/// <exception cref="ArgumentNullException">When engine is null.</exception>

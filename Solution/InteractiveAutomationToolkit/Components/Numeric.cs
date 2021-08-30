@@ -39,7 +39,7 @@
 		}
 
 		/// <summary>
-		///     Triggered when the value of the numeric changed.
+		///     Triggered when the value of the numeric changes.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		public event EventHandler<NumericChangedEventArgs> Changed
