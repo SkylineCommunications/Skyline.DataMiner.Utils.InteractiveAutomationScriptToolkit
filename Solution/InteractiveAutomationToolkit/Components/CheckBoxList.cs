@@ -305,27 +305,29 @@
 		internal override void LoadResult(UIResults uiResults)
 		{
 			string results = uiResults.GetString(this);
-			if (results != null)
+			if (results == null)
 			{
 				// Results could be null when you have an empty list of options
-				var checkedOptions = new HashSet<string>(results.Split(';'));
+				BlockDefinition.InitialValue = String.Empty;
+				return;
+			}
+				
+			var checkedOptions = new HashSet<string>(results.Split(';'));
+			foreach (string option in options.Keys.ToList())
+			{
+				bool isChecked = checkedOptions.Contains(option);
+				bool hasChanged = options[option] != isChecked;
 
-				foreach (string option in options.Keys.ToList())
+				options[option] = isChecked;
+
+				if (hasChanged && WantsOnChange)
 				{
-					bool isChecked = checkedOptions.Contains(option);
-					bool hasChanged = options[option] != isChecked;
+					changed = true;
+					changedOption = option;
+					changedValue = isChecked;
 
-					options[option] = isChecked;
-
-					if (hasChanged && WantsOnChange)
-					{
-						changed = true;
-						changedOption = option;
-						changedValue = isChecked;
-
-						// only a single checkbox can be toggled when WantsOnChange is true
-						break;
-					}
+					// only a single checkbox can be toggled when WantsOnChange is true
+					break;
 				}
 			}
 
