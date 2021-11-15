@@ -46,7 +46,7 @@
 
 		public static TimeSpan GetTime(this UIResults uiResults, Time time)
 		{
-			return DateTime.Parse(uiResults.GetString(time), CultureInfo.InvariantCulture).TimeOfDay;
+			return TimeSpan.Parse(uiResults.GetString(time), CultureInfo.InvariantCulture);
 		}
 
 		public static TimeSpan GetTime(this UIResults uiResults, TimePicker time)
