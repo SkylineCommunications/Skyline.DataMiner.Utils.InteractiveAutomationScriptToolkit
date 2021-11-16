@@ -5324,6 +5324,42 @@ public class Time : InteractiveWidget
 			}
 		}
 
+		/// <summary>
+		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
+		///		This should be used by the client to add a visual marker on the input field.
+		/// </summary>
+		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
+		public UIValidationState ValidationState
+		{
+			get
+			{
+				return BlockDefinition.ValidationState;
+			}
+
+			set
+			{
+				BlockDefinition.ValidationState = value;
+			}
+		}
+
+		/// <summary>
+		///		Gets or sets the text that is shown if the validation state is invalid.
+		///		This should be used by the client to add a visual marker on the input field.
+		/// </summary>
+		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
+		public string ValidationText
+		{
+			get
+			{
+				return BlockDefinition.ValidationText;
+			}
+
+			set
+			{
+				BlockDefinition.ValidationText = value;
+			}
+		}
+
 		private AutomationTimeUpDownOptions TimeUpDownOptions
 		{
 			get
@@ -6436,7 +6472,21 @@ internal static class UiResultsExtensions
 
 		public static TimeSpan GetTime(this UIResults uiResults, Time time)
 		{
-			return DateTime.Parse(uiResults.GetString(time), CultureInfo.InvariantCulture).TimeOfDay;
+			string receivedTime = uiResults.GetString(time);
+			TimeSpan result;
+
+			// This try catch is here because of a bug in Dashboards
+			// The string that is received from Dashboards is a DateTime (e.g. 2021-11-16T00:00:16.0000000Z), while the string from Cube is an actual TimeSpan (e.g. 1.06:00:03).
+			// This means that when using the Time component from Dashboards, you are restricted to 24h and can only enter HH:mm times.
+			// See task: 171211
+			if (TimeSpan.TryParse(receivedTime, out result))
+			{
+				return result;
+			}
+			else
+			{
+				return DateTime.Parse(receivedTime, CultureInfo.InvariantCulture).TimeOfDay;
+			}
 		}
 
 		public static TimeSpan GetTime(this UIResults uiResults, TimePicker time)
