@@ -51,7 +51,21 @@
 
 		public static TimeSpan GetTime(this UIResults uiResults, Time time)
 		{
-			return DateTime.Parse(uiResults.GetString(time), CultureInfo.InvariantCulture).TimeOfDay;
+			string receivedTime = uiResults.GetString(time);
+			TimeSpan result;
+
+			// This try catch is here because of a bug in Dashboards
+			// The string that is received from Dashboards is a DateTime (e.g. 2021-11-16T00:00:16.0000000Z), while the string from Cube is an actual TimeSpan (e.g. 1.06:00:03).
+			// This means that when using the Time component from Dashboards, you are restricted to 24h and can only enter HH:mm times.
+			// See task: 171211
+			if (TimeSpan.TryParse(receivedTime, out result))
+			{
+				return result;
+			}
+			else
+			{
+				return DateTime.Parse(receivedTime, CultureInfo.InvariantCulture).TimeOfDay;
+			}
 		}
 
 		public static TimeSpan GetTime(this UIResults uiResults, TimePicker time)
