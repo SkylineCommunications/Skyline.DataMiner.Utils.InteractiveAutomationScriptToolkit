@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FB6C75D5-19D8-4D8C-A984-4F25E1A3EE7E}</ProjectGuid>
+    <ProjectGuid>{560C7EDA-9887-4FEA-AB36-9E0FB3C9D9F6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SetParamsDemo</RootNamespace>
-    <AssemblyName>SetParamsDemo</AssemblyName>
+    <RootNamespace>HelloWorldExample</RootNamespace>
+    <AssemblyName>HelloWorldExample</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <LangVersion>4</LangVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -35,10 +34,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="SLManagedAutomation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>C:\\Skyline DataMiner\Files\SLManagedAutomation.dll</HintPath>
+      <HintPath>..\JenkinsDependencies\SLManagedAutomation.dll</HintPath>
     </Reference>
     <Reference Include="SLNetTypes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9789b1eac4cb1b12">
-      <HintPath>C:\\Skyline DataMiner\Files\SLNetTypes.dll</HintPath>
+      <HintPath>..\JenkinsDependencies\SLNetTypes.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -46,7 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SetParamsDemo.cs" />
+    <Compile Include="HelloWorld.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -21,6 +21,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetParamsDemo", "SetParamsD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LazyLoadingTreeViewExample", "LazyLoadingTreeViewExample\LazyLoadingTreeViewExample.csproj", "{466B34D1-12C5-44F1-9745-1C83A8F2F2B7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JenkinsDependencies", "JenkinsDependencies", "{60E8AFEF-6C6D-4D2F-802D-36168D3A76D9}"
+ProjectSection(SolutionItems) = preProject
+	JenkinsDependencies\SLManagedAutomation.dll = JenkinsDependencies\SLManagedAutomation.dll
+	JenkinsDependencies\SLNetTypes.dll = JenkinsDependencies\SLNetTypes.dll
+EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{35E84E41-2077-47A4-8ADB-1F3A353BE34D}"
+ProjectSection(SolutionItems) = preProject
+	manifest.xml = manifest.xml
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
