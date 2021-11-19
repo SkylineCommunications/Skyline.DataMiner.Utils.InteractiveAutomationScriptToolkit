@@ -305,6 +305,13 @@
 		internal override void LoadResult(UIResults uiResults)
 		{
 			string results = uiResults.GetString(this);
+			if (results == null)
+			{
+				// results can be null if the list of options is empty
+				BlockDefinition.InitialValue = String.Empty;
+				return;
+			}
+
 			var checkedOptions = new HashSet<string>(results.Split(';'));
 
 			foreach (string option in options.Keys.ToList())
