@@ -10,7 +10,7 @@
 	{
 		private bool isManualModeRequested;
 		private Action manualAction;
-		private Dialog nextDialog;
+		private IDialog nextDialog;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="InteractiveController" /> class.
@@ -31,7 +31,7 @@
 		/// <summary>
 		///     Gets the dialog that is shown to the user.
 		/// </summary>
-		public Dialog CurrentDialog { get; private set; }
+		public IDialog CurrentDialog { get; private set; }
 
 		/// <summary>
 		///     Gets the link to the SLManagedAutomation process.
@@ -68,7 +68,7 @@
 		///     Use <see cref="RequestManualMode" /> if you want to manually control when the dialog is updated.
 		/// </summary>
 		/// <param name="startDialog">Dialog to be shown first.</param>
-		public void Run(Dialog startDialog)
+		public void Run(IDialog startDialog)
 		{
 			if (startDialog == null)
 			{
@@ -112,7 +112,7 @@
 		/// </summary>
 		/// <param name="dialog">The next dialog to be shown.</param>
 		/// <exception cref="ArgumentNullException">When dialog is null.</exception>
-		public void ShowDialog(Dialog dialog)
+		public void ShowDialog(IDialog dialog)
 		{
 			if (dialog == null)
 			{
