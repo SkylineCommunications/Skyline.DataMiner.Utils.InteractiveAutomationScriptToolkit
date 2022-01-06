@@ -14,6 +14,8 @@
 		private DateTime dateTime;
 		private DateTime previous;
 
+		private static readonly string DisplayServerTimeFormat = "dd/MM/yyyy HH:mm:ss";
+
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Calendar" /> class.
 		/// </summary>
