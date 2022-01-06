@@ -13,7 +13,6 @@
 		private bool changed;
 		private DateTime dateTime;
 		private DateTime previous;
-		private bool displayServerTime = false;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Calendar" /> class.
@@ -59,23 +58,6 @@
 		private event EventHandler<CalendarChangedEventArgs> OnChanged;
 
 		/// <summary>
-		///		Gets or sets whether the displayed time is the server time or local time.
-		/// </summary>
-		public bool DisplayServerTime
-		{
-			get
-			{
-				return displayServerTime;
-			}
-
-			set
-			{
-				displayServerTime = value;
-				DateTime = dateTime;
-			}
-		}
-
-		/// <summary>
 		///     Gets or sets the datetime displayed on the calendar.
 		/// </summary>
 		public DateTime DateTime
@@ -88,14 +70,7 @@
 			set
 			{
 				dateTime = value;
-				if (DisplayServerTime)
-				{
-					BlockDefinition.InitialValue = value.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-				}
-				else
-				{
-					BlockDefinition.InitialValue = value.ToString(AutomationConfigOptions.GlobalDateTimeFormat, CultureInfo.InvariantCulture);
-				}
+				BlockDefinition.InitialValue = value.ToString(AutomationConfigOptions.GlobalDateTimeFormat, CultureInfo.InvariantCulture);
 			}
 		}
 
@@ -161,7 +136,12 @@
 		internal override void LoadResult(UIResults uiResults)
 		{
 			string isoString = uiResults.GetString(DestVar);
-			DateTime result = DateTime.Parse(isoString);
+
+			DateTime result;
+			if (!DateTime.TryParseExact(isoString, DisplayServerTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out result))
+			{
+				result = DateTime.Parse(isoString);
+			}
 
 			if (WantsOnChange && (result != DateTime))
 			{
