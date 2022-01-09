@@ -5,3 +5,4 @@ packages/*
 **/.svn
 _git2_*
 **/StyleCop.Cache
+*.DotSettings.user

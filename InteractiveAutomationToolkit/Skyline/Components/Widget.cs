@@ -218,24 +218,5 @@
 			BlockDefinition.MaxWidth = -1;
 			BlockDefinition.MinWidth = -1;
 		}
-
-		/// <summary>
-		/// Ugly method to clear the internal list of DropDown items that can't be accessed.
-		/// </summary>
-		protected void RecreateUiBlock()
-		{
-			UIBlockDefinition newUiBlockDefinition = new UIBlockDefinition();
-			PropertyInfo[] propertyInfo = typeof(UIBlockDefinition).GetProperties();
-
-			foreach (PropertyInfo property in propertyInfo)
-			{
-				if (property.CanWrite)
-				{
-					property.SetValue(newUiBlockDefinition, property.GetValue(blockDefinition));
-				}
-			}
-
-			blockDefinition = newUiBlockDefinition;
-		}
 	}
 }

@@ -94,6 +94,7 @@
     <Compile Include="Skyline\Layout\VerticalAlignment.cs" />
     <Compile Include="Skyline\Layout\WidgetLayout.cs" />
     <Compile Include="Skyline\Sections\DatePicker.cs" />
+    <Compile Include="Skyline\UIBlockDefinitionExtensions.cs" />
     <Compile Include="Skyline\UiResultsExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
