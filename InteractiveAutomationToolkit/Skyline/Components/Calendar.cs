@@ -14,8 +14,6 @@
 		private DateTime dateTime;
 		private DateTime previous;
 
-		private static readonly string DisplayServerTimeFormat = "dd/MM/yyyy HH:mm:ss";
-
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Calendar" /> class.
 		/// </summary>
@@ -137,13 +135,7 @@
 		/// <inheritdoc />
 		internal override void LoadResult(UIResults uiResults)
 		{
-			string isoString = uiResults.GetString(DestVar);
-
-			DateTime result;
-			if (!DateTime.TryParseExact(isoString, DisplayServerTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out result))
-			{
-				result = DateTime.Parse(isoString);
-			}
+			DateTime result = uiResults.GetDateTime(DestVar);
 
 			if (WantsOnChange && (result != DateTime))
 			{
