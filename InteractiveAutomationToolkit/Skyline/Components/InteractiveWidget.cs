@@ -1,13 +1,14 @@
 ﻿namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
 	using System;
+	using System.ComponentModel;
 
 	using Automation;
 
 	/// <summary>
 	/// A widget that requires user input.
 	/// </summary>
-	public abstract class InteractiveWidget : Widget
+	public abstract class InteractiveWidget : Widget, IInteractiveWidget
 	{
 		/// <summary>
 		/// Initializes a new instance of the InteractiveWidget class.
@@ -30,11 +31,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets a value indicating whether the control is enabled in the UI.
-		///     Disabling causes the widgets to be grayed out and disables user interaction.
-		/// </summary>
-		/// <remarks>Available from DataMiner 9.5.3 onwards.</remarks>
+		/// <inheritdoc />
 		public bool IsEnabled
 		{
 			get
@@ -48,11 +45,8 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets a value indicating whether an update of the current value of the dialog box item will trigger an
-		///     event.
-		/// </summary>
-		/// <remarks>Is <c>false</c> by default except for <see cref="Button" />.</remarks>
+		/// <inheritdoc />
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		public bool WantsOnChange
 		{
 			get

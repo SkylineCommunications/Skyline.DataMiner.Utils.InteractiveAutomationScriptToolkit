@@ -253,13 +253,13 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 
 		/// <summary>
 		/// Enables all widgets added to this dialog.
-		/// Sets the <see cref="InteractiveWidget.IsEnabled"/> property of all <see cref="InteractiveWidget"/> to <c>true</c>.
+		/// Sets the <see cref="IInteractiveWidget.IsEnabled"/> property of all <see cref="IInteractiveWidget"/> to <c>true</c>.
 		/// </summary>
 		void EnableAllWidgets();
 
 		/// <summary>
 		/// Disables all widgets added to this dialog.
-		/// Sets the <see cref="InteractiveWidget.IsEnabled"/> property of all <see cref="InteractiveWidget"/> to <c>false</c>.
+		/// Sets the <see cref="IInteractiveWidget.IsEnabled"/> property of all <see cref="IInteractiveWidget"/> to <c>false</c>.
 		/// </summary>
 		void DisableAllWidgets();
 	}

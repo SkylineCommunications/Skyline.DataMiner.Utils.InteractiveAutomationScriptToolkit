@@ -623,7 +623,7 @@
 
 		private void SetWidgetsEnabled(bool enabled)
 		{
-			foreach (InteractiveWidget widget in Widgets.OfType<InteractiveWidget>())
+			foreach (IInteractiveWidget widget in Widgets.OfType<IInteractiveWidget>())
 			{
 				widget.IsEnabled = enabled;
 			}

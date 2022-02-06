@@ -59,7 +59,7 @@
 				isEnabled = value;
 				foreach (IWidget widget in Widgets)
 				{
-					InteractiveWidget interactiveWidget = widget as InteractiveWidget;
+					IInteractiveWidget interactiveWidget = widget as IInteractiveWidget;
 					if (interactiveWidget != null)
 					{
 						interactiveWidget.IsEnabled = isEnabled;
