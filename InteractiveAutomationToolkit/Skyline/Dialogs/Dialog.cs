@@ -53,47 +53,25 @@
 			AllowOverlappingWidgets = false;
 		}
 
-		/// <summary>
-		/// Gets or sets a value indicating whether overlapping widgets are allowed or not.
-		/// Can be used in case you want to add multiple widgets to the same cell in the dialog.
-		/// You can use the Margin property on the widgets to place them apart.
-		/// </summary>
+		/// <inheritdoc />
 		public bool AllowOverlappingWidgets { get; set; }
 
-		/// <summary>
-		///     Triggered when the back button of the dialog is pressed.
-		/// </summary>
+		/// <inheritdoc />
 		public event EventHandler<EventArgs> Back;
 
-		/// <summary>
-		///     Triggered when the forward button of the dialog is pressed.
-		/// </summary>
+		/// <inheritdoc />
 		public event EventHandler<EventArgs> Forward;
 
-		/// <summary>
-		///     Triggered when there is any user interaction.
-		/// </summary>
+		/// <inheritdoc />
 		public event EventHandler<EventArgs> Interacted;
 
-		/// <summary>
-		///     Gets the number of columns of the grid layout.
-		/// </summary>
+		/// <inheritdoc />
 		public int ColumnCount { get; private set; }
 
-		/// <summary>
-		///     Gets the link to the SLAutomation process.
-		/// </summary>
+		/// <inheritdoc />
 		public IEngine Engine { get; private set; }
 
-		/// <summary>
-		///     Gets or sets the fixed height (in pixels) of the dialog.
-		/// </summary>
-		/// <remarks>
-		///     The user will still be able to resize the window,
-		///     but scrollbars will appear immediately.
-		///     <see cref="MinHeight" /> should be used instead as it has a more desired effect.
-		/// </remarks>
-		/// <exception cref="ArgumentOutOfRangeException">When the value is smaller than 1.</exception>
+		/// <inheritdoc />
 		public int Height
 		{
 			get
@@ -112,13 +90,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the maximum height (in pixels) of the dialog.
-		/// </summary>
-		/// <remarks>
-		///     The user will still be able to resize the window past this limit.
-		/// </remarks>
-		/// <exception cref="ArgumentOutOfRangeException">When the value is smaller than 1.</exception>
+		/// <inheritdoc />
 		public int MaxHeight
 		{
 			get
@@ -137,13 +109,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the maximum width (in pixels) of the dialog.
-		/// </summary>
-		/// <remarks>
-		///     The user will still be able to resize the window past this limit.
-		/// </remarks>
-		/// <exception cref="ArgumentOutOfRangeException">When the value is smaller than 1.</exception>
+		/// <inheritdoc />
 		public int MaxWidth
 		{
 			get
@@ -162,10 +128,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the minimum height (in pixels) of the dialog.
-		/// </summary>
-		/// <exception cref="ArgumentOutOfRangeException">When the value is smaller than 1.</exception>
+		/// <inheritdoc />
 		public int MinHeight
 		{
 			get
@@ -184,10 +147,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the minimum width (in pixels) of the dialog.
-		/// </summary>
-		/// <exception cref="ArgumentOutOfRangeException">When the value is smaller than 1.</exception>
+		/// <inheritdoc />
 		public int MinWidth
 		{
 			get
@@ -206,14 +166,10 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets the number of rows in the grid layout.
-		/// </summary>
+		/// <inheritdoc />
 		public int RowCount { get; private set; }
 
-		/// <summary>
-		///		Gets or sets a value indicating whether the interactive widgets within the dialog are enabled or not.
-		/// </summary>
+		/// <inheritdoc />
 		public bool IsEnabled
 		{
 			get
@@ -235,15 +191,10 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the title at the top of the window.
-		/// </summary>
-		/// <remarks>Available from DataMiner 9.6.6 onwards.</remarks>
+		/// <inheritdoc />
 		public string Title { get; set; }
 
-		/// <summary>
-		///     Gets widgets that are added to the dialog.
-		/// </summary>
+		/// <inheritdoc />
 		public IReadOnlyCollection<Widget> Widgets
 		{
 			get
@@ -252,15 +203,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the fixed width (in pixels) of the dialog.
-		/// </summary>
-		/// <remarks>
-		///     The user will still be able to resize the window,
-		///     but scrollbars will appear immediately.
-		///     <see cref="MinWidth" /> should be used instead as it has a more desired effect.
-		/// </remarks>
-		/// <exception cref="ArgumentOutOfRangeException">When the value is smaller than 1.</exception>
+		/// <inheritdoc />
 		public int Width
 		{
 			get
@@ -279,14 +222,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Adds a widget to the dialog.
-		/// </summary>
-		/// <param name="widget">Widget to add to the dialog.</param>
-		/// <param name="widgetLayout">Location of the widget on the grid layout.</param>
-		/// <returns>The dialog.</returns>
-		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
-		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
+		/// <inheritdoc />
 		public IDialog AddWidget(Widget widget, IWidgetLayout widgetLayout)
 		{
 			if (widget == null)
@@ -308,17 +244,7 @@
 			return this;
 		}
 
-		/// <summary>
-		///     Adds a widget to the dialog.
-		/// </summary>
-		/// <param name="widget">Widget to add to the dialog.</param>
-		/// <param name="row">Row location of widget on the grid.</param>
-		/// <param name="column">Column location of the widget on the grid.</param>
-		/// <param name="horizontalAlignment">Horizontal alignment of the widget.</param>
-		/// <param name="verticalAlignment">Vertical alignment of the widget.</param>
-		/// <returns>The dialog.</returns>
-		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
-		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
+		/// <inheritdoc />
 		public IDialog AddWidget(
 			Widget widget,
 			int row,
@@ -330,19 +256,7 @@
 			return this;
 		}
 
-		/// <summary>
-		///     Adds a widget to the dialog.
-		/// </summary>
-		/// <param name="widget">Widget to add to the dialog.</param>
-		/// <param name="fromRow">Row location of widget on the grid.</param>
-		/// <param name="fromColumn">Column location of the widget on the grid.</param>
-		/// <param name="rowSpan">Number of rows the widget will use.</param>
-		/// <param name="colSpan">Number of columns the widget will use.</param>
-		/// <param name="horizontalAlignment">Horizontal alignment of the widget.</param>
-		/// <param name="verticalAlignment">Vertical alignment of the widget.</param>
-		/// <returns>The dialog.</returns>
-		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
-		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
+		/// <inheritdoc />
 		public IDialog AddWidget(
 			Widget widget,
 			int fromRow,
@@ -358,24 +272,14 @@
 			return this;
 		}
 
-		/// <summary>
-		///     Gets the layout of the widget in the dialog.
-		/// </summary>
-		/// <param name="widget">A widget that is part of the dialog.</param>
-		/// <returns>The widget layout in the dialog.</returns>
-		/// <exception cref="NullReferenceException">When the widget is null.</exception>
-		/// <exception cref="ArgumentException">When the widget is not part of the dialog.</exception>
+		/// <inheritdoc />
 		public IWidgetLayout GetWidgetLayout(Widget widget)
 		{
 			CheckWidgetExists(widget);
 			return widgetLayouts[widget];
 		}
 
-		/// <summary>
-		///     Removes a widget from the dialog.
-		/// </summary>
-		/// <param name="widget">Widget to remove.</param>
-		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
+		/// <inheritdoc />
 		public void RemoveWidget(Widget widget)
 		{
 			if (widget == null)
@@ -390,12 +294,7 @@
 			this.FillRowsAndColumnsInUse(out rowsInUse, out columnsInUse);
 		}
 
-		/// <summary>
-		/// Adds the widgets from the section to the dialog.
-		/// </summary>
-		/// <param name="section">Section to be added to the dialog.</param>
-		/// <param name="layout">Left top position of the section within the dialog.</param>
-		/// <returns>Updated dialog.</returns>
+		/// <inheritdoc />
 		public IDialog AddSection(Section section, SectionLayout layout)
 		{
 			foreach(Widget widget in section.Widgets)
@@ -415,25 +314,13 @@
 			return this;
 		}
 
-		/// <summary>
-		/// Adds the widgets from the section to the dialog.
-		/// </summary>
-		/// <param name="section">Section to be added to the dialog.</param>
-		/// <param name="fromRow">Row in the dialog where the section should be added.</param>
-		/// <param name="fromColumn">Column in the dialog where the section should be added.</param>
-		/// <returns>Updated dialog.</returns>
+		/// <inheritdoc />
 		public IDialog AddSection(Section section, int fromRow, int fromColumn)
 		{
 			return AddSection(section, new SectionLayout(fromRow, fromColumn));
 		}
 
-		/// <summary>
-		///     Applies a fixed width (in pixels) to a column.
-		/// </summary>
-		/// <param name="column">The index of the column on the grid.</param>
-		/// <param name="columnWidth">The width of the column.</param>
-		/// <exception cref="ArgumentOutOfRangeException">When the column index does not exist.</exception>
-		/// <exception cref="ArgumentOutOfRangeException">When the column width is smaller than 0.</exception>
+		/// <inheritdoc />
 		public void SetColumnWidth(int column, int columnWidth)
 		{
 			if (column < 0) throw new ArgumentOutOfRangeException("column");
@@ -443,11 +330,7 @@
 			else columnDefinitions.Add(column, columnWidth.ToString());
 		}
 
-		/// <summary>
-		///     The width of the column will be automatically adapted to the widest widget in that column.
-		/// </summary>
-		/// <param name="column">The index of the column on the grid.</param>
-		/// <exception cref="ArgumentOutOfRangeException">When the column index does not exist.</exception>
+		/// <inheritdoc />
 		public void SetColumnWidthAuto(int column)
 		{
 			if (column < 0) throw new ArgumentOutOfRangeException("column");
@@ -456,11 +339,7 @@
 			else columnDefinitions.Add(column, Auto);
 		}
 
-		/// <summary>
-		///     The column will have the largest possible width, depending on the width of the other columns.
-		/// </summary>
-		/// <param name="column">The index of the column on the grid.</param>
-		/// <exception cref="ArgumentOutOfRangeException">When the column index does not exist.</exception>
+		/// <inheritdoc />
 		public void SetColumnWidthStretch(int column)
 		{
 			if (column < 0) throw new ArgumentOutOfRangeException("column");
@@ -469,13 +348,7 @@
 			else columnDefinitions.Add(column, Stretch);
 		}
 
-		/// <summary>
-		///     Applies a fixed height (in pixels) to a row.
-		/// </summary>
-		/// <param name="row">The index of the row on the grid.</param>
-		/// <param name="rowHeight">The height of the column.</param>
-		/// <exception cref="ArgumentOutOfRangeException">When the row index is smaller than 0.</exception>
-		/// <exception cref="ArgumentOutOfRangeException">When the row height is smaller than 0.</exception>
+		/// <inheritdoc />
 		public void SetRowHeight(int row, int rowHeight)
 		{
 			if (row < 0) throw new ArgumentOutOfRangeException("row");
@@ -485,11 +358,7 @@
 			else rowDefinitions.Add(row, rowHeight.ToString());
 		}
 
-		/// <summary>
-		///     The height of the row will be automatically adapted to the highest widget in that row.
-		/// </summary>
-		/// <param name="row">The index of the row on the grid.</param>
-		/// <exception cref="ArgumentOutOfRangeException">When the row index is smaller than 0.</exception>
+		/// <inheritdoc />
 		public void SetRowHeightAuto(int row)
 		{
 			if (row < 0) throw new ArgumentOutOfRangeException("row");
@@ -498,11 +367,7 @@
 			else rowDefinitions.Add(row, Auto);
 		}
 
-		/// <summary>
-		///     The row will have the largest possible height, depending on the height of the other rows.
-		/// </summary>
-		/// <param name="row">The index of the row on the grid.</param>
-		/// <exception cref="ArgumentOutOfRangeException">When the row index is smaller than 0.</exception>
+		/// <inheritdoc />
 		public void SetRowHeightStretch(int row)
 		{
 			if (row < 0) throw new ArgumentOutOfRangeException("row");
@@ -511,25 +376,14 @@
 			else rowDefinitions.Add(row, Stretch);
 		}
 
-		/// <summary>
-		///     Sets the layout of the widget in the dialog.
-		/// </summary>
-		/// <param name="widget">A widget that is part of the dialog.</param>
-		/// <param name="widgetLayout">The layout to apply to the widget.</param>
-		/// <exception cref="NullReferenceException">When widget is null.</exception>
-		/// <exception cref="ArgumentException">When the widget is not part of the dialog.</exception>
+		/// <inheritdoc />
 		public void SetWidgetLayout(Widget widget, IWidgetLayout widgetLayout)
 		{
 			CheckWidgetExists(widget);
 			widgetLayouts[widget] = widgetLayout;
 		}
 
-		/// <summary>
-		///     Shows the dialog window.
-		///     Also loads changes and triggers events when <paramref name="requireResponse" /> is <c>true</c>.
-		/// </summary>
-		/// <param name="requireResponse">If the dialog expects user interaction.</param>
-		/// <remarks>Should only be used when you create your own event loop.</remarks>
+		/// <inheritdoc />
 		public void Show(bool requireResponse = true)
 		{
 			UIBuilder uib = Build();
@@ -544,9 +398,7 @@
 			}
 		}
 
-		/// <summary>
-		/// Removes all widgets from the dialog.
-		/// </summary>
+		/// <inheritdoc />
 		public void Clear()
 		{
 			widgetLayouts.Clear();
