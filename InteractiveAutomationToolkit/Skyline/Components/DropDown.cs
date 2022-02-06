@@ -312,7 +312,7 @@
 			public string Selected { get; private set; }
 		}
 
-		private class OptionsCollection : ICollection<string>
+		private class OptionsCollection : ICollection<string>, IReadOnlyCollection<string>
 		{
 			private readonly DropDown owner;
 			private readonly ICollection<string> options;
