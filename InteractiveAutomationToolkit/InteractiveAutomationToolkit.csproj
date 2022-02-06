@@ -80,6 +80,7 @@
     <Compile Include="Skyline\Components\Widget.cs" />
     <Compile Include="Skyline\Dialogs\Dialog.cs" />
     <Compile Include="Skyline\Dialogs\ExceptionDialog.cs" />
+    <Compile Include="Skyline\Dialogs\IDialog.cs" />
     <Compile Include="Skyline\Dialogs\MessageDialog.cs" />
     <Compile Include="Skyline\Dialogs\ProgressDialog.cs" />
     <Compile Include="Skyline\Exceptions\OverlappingWidgetsException.cs" />

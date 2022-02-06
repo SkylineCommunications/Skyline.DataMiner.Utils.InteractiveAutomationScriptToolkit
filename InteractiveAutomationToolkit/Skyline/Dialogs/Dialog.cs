@@ -11,7 +11,7 @@
 	///     You can show widgets in the window by adding them to the dialog.
 	///     The dialog uses a grid to determine the layout of its widgets.
 	/// </summary>
-	public abstract class Dialog
+	public abstract class Dialog : IDialog
 	{
 		private const string Auto = "auto";
 		private const string Stretch = "*";
@@ -287,7 +287,7 @@
 		/// <returns>The dialog.</returns>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
-		public Dialog AddWidget(Widget widget, IWidgetLayout widgetLayout)
+		public IDialog AddWidget(Widget widget, IWidgetLayout widgetLayout)
 		{
 			if (widget == null)
 			{
@@ -319,7 +319,7 @@
 		/// <returns>The dialog.</returns>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
-		public Dialog AddWidget(
+		public IDialog AddWidget(
 			Widget widget,
 			int row,
 			int column,
@@ -343,7 +343,7 @@
 		/// <returns>The dialog.</returns>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
-		public Dialog AddWidget(
+		public IDialog AddWidget(
 			Widget widget,
 			int fromRow,
 			int fromColumn,
@@ -396,7 +396,7 @@
 		/// <param name="section">Section to be added to the dialog.</param>
 		/// <param name="layout">Left top position of the section within the dialog.</param>
 		/// <returns>Updated dialog.</returns>
-		public Dialog AddSection(Section section, SectionLayout layout)
+		public IDialog AddSection(Section section, SectionLayout layout)
 		{
 			foreach(Widget widget in section.Widgets)
 			{
@@ -422,7 +422,7 @@
 		/// <param name="fromRow">Row in the dialog where the section should be added.</param>
 		/// <param name="fromColumn">Column in the dialog where the section should be added.</param>
 		/// <returns>Updated dialog.</returns>
-		public Dialog AddSection(Section section, int fromRow, int fromColumn)
+		public IDialog AddSection(Section section, int fromRow, int fromColumn)
 		{
 			return AddSection(section, new SectionLayout(fromRow, fromColumn));
 		}

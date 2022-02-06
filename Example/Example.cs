@@ -324,7 +324,7 @@ public class ProgressDialog : Dialog
 
 	public void Execute()
 	{
-		Dialog returnDialog = interactiveController.CurrentDialog;
+		IDialog returnDialog = interactiveController.CurrentDialog;
 		interactiveController.ShowDialog(this);
 		interactiveController.Update();
 		var stringBuilder = new StringBuilder();
