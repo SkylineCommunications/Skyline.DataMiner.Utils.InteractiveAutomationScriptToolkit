@@ -83,7 +83,7 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		/// <summary>
 		///     Gets widgets that are added to the dialog.
 		/// </summary>
-		IReadOnlyCollection<Widget> Widgets { get; }
+		IReadOnlyCollection<IWidget> Widgets { get; }
 
 		/// <summary>
 		///     Triggered when the back button of the dialog is pressed.
@@ -108,7 +108,7 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		/// <returns>The dialog.</returns>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
-		IDialog AddWidget(Widget widget, IWidgetLayout widgetLayout);
+		IDialog AddWidget(IWidget widget, IWidgetLayout widgetLayout);
 
 		/// <summary>
 		///     Adds a widget to the dialog.
@@ -122,7 +122,7 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
 		IDialog AddWidget(
-			Widget widget,
+			IWidget widget,
 			int row,
 			int column,
 			HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left,
@@ -142,7 +142,7 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
 		IDialog AddWidget(
-			Widget widget,
+			IWidget widget,
 			int fromRow,
 			int fromColumn,
 			int rowSpan,
@@ -157,14 +157,14 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		/// <returns>The widget layout in the dialog.</returns>
 		/// <exception cref="NullReferenceException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget is not part of the dialog.</exception>
-		IWidgetLayout GetWidgetLayout(Widget widget);
+		IWidgetLayout GetWidgetLayout(IWidget widget);
 
 		/// <summary>
 		///     Removes a widget from the dialog.
 		/// </summary>
 		/// <param name="widget">Widget to remove.</param>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
-		void RemoveWidget(Widget widget);
+		void RemoveWidget(IWidget widget);
 
 		/// <summary>
 		/// Adds the widgets from the section to the dialog.
@@ -236,7 +236,7 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		/// <param name="widgetLayout">The layout to apply to the widget.</param>
 		/// <exception cref="NullReferenceException">When widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget is not part of the dialog.</exception>
-		void SetWidgetLayout(Widget widget, IWidgetLayout widgetLayout);
+		void SetWidgetLayout(IWidget widget, IWidgetLayout widgetLayout);
 
 		/// <summary>
 		///     Shows the dialog window.

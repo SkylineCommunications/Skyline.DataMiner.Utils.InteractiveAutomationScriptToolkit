@@ -9,7 +9,7 @@
 	/// </summary>
 	public class Section
 	{
-		private readonly Dictionary<Widget, IWidgetLayout> widgetLayouts = new Dictionary<Widget, IWidgetLayout>();
+		private readonly Dictionary<IWidget, IWidgetLayout> widgetLayouts = new Dictionary<IWidget, IWidgetLayout>();
 
 		private bool isEnabled = true;
 		private bool isVisible = true;
@@ -37,7 +37,7 @@
 			set
 			{
 				isVisible = value;
-				foreach (Widget widget in Widgets)
+				foreach (IWidget widget in Widgets)
 				{
 					widget.IsVisible = isVisible;
 				}
@@ -57,7 +57,7 @@
 			set
 			{
 				isEnabled = value;
-				foreach (Widget widget in Widgets)
+				foreach (IWidget widget in Widgets)
 				{
 					InteractiveWidget interactiveWidget = widget as InteractiveWidget;
 					if (interactiveWidget != null)
@@ -71,7 +71,7 @@
 		/// <summary>
 		///     Gets widgets that have been added to the section.
 		/// </summary>
-		public IReadOnlyCollection<Widget> Widgets
+		public IReadOnlyCollection<IWidget> Widgets
 		{
 			get
 			{
@@ -87,7 +87,7 @@
 		/// <returns>The dialog.</returns>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget has already been added to the <see cref="Section" />.</exception>
-		public Section AddWidget(Widget widget, IWidgetLayout widgetLayout)
+		public Section AddWidget(IWidget widget, IWidgetLayout widgetLayout)
 		{
 			if (widget == null)
 			{
@@ -118,7 +118,7 @@
 		/// <exception cref="ArgumentException">When the location is out of bounds of the grid.</exception>
 		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
 		public Section AddWidget(
-			Widget widget,
+			IWidget widget,
 			int row,
 			int column,
 			HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left,
@@ -143,7 +143,7 @@
 		/// <exception cref="ArgumentException">When the location is out of bounds of the grid.</exception>
 		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
 		public Section AddWidget(
-			Widget widget,
+			IWidget widget,
 			int fromRow,
 			int fromColumn,
 			int rowSpan,
@@ -165,7 +165,7 @@
 		/// <returns>The updated section.</returns>
 		public Section AddSection(Section section, ILayout layout)
 		{
-			foreach (Widget widget in section.Widgets)
+			foreach (IWidget widget in section.Widgets)
 			{
 				IWidgetLayout widgetLayout = section.GetWidgetLayout(widget);
 				AddWidget(
@@ -189,7 +189,7 @@
 		/// <returns>The widget layout in the dialog.</returns>
 		/// <exception cref="NullReferenceException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget is not part of the dialog.</exception>
-		public IWidgetLayout GetWidgetLayout(Widget widget)
+		public IWidgetLayout GetWidgetLayout(IWidget widget)
 		{
 			CheckWidgetExits(widget);
 			return widgetLayouts[widget];
@@ -200,7 +200,7 @@
 		/// </summary>
 		/// <param name="widget">Widget to remove.</param>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
-		public void RemoveWidget(Widget widget)
+		public void RemoveWidget(IWidget widget)
 		{
 			if (widget == null)
 			{
@@ -219,7 +219,7 @@
 		/// <exception cref="NullReferenceException">When widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget is not part of the section.</exception>
 		/// <exception cref="NullReferenceException">When widgetLayout is null.</exception>
-		public void SetWidgetLayout(Widget widget, IWidgetLayout widgetLayout)
+		public void SetWidgetLayout(IWidget widget, IWidgetLayout widgetLayout)
 		{
 			if (widgetLayout == null) throw new ArgumentNullException(nameof(widgetLayout));
 
@@ -237,7 +237,7 @@
 			ColumnCount = 0;
 		}
 
-		private void CheckWidgetExits(Widget widget)
+		private void CheckWidgetExits(IWidget widget)
 		{
 			if (widget == null)
 			{

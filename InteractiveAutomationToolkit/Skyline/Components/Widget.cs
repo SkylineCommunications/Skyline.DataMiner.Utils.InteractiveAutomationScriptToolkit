@@ -1,15 +1,16 @@
 ﻿namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
 	using System;
+	using System.ComponentModel;
 
 	using Automation;
 
 	/// <summary>
 	///     Base class for widgets.
 	/// </summary>
-	public class Widget
+	public class Widget : IWidget
 	{
-		private UIBlockDefinition blockDefinition = new UIBlockDefinition();
+		private readonly UIBlockDefinition blockDefinition = new UIBlockDefinition();
 
 		/// <summary>
 		/// Initializes a new instance of the Widget class.
@@ -22,10 +23,7 @@
 			SetWidthAuto();
 		}
 
-		/// <summary>
-		///     Gets or sets the fixed height (in pixels) of the widget.
-		/// </summary>
-		/// <exception cref="ArgumentOutOfRangeException">When the value is smaller than 1.</exception>
+		/// <inheritdoc />
 		public int Height
 		{
 			get
@@ -44,15 +42,10 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets a value indicating whether the widget is visible in the dialog.
-		/// </summary>
+		/// <inheritdoc />
 		public bool IsVisible { get; set; }
 
-		/// <summary>
-		///     Gets or sets the maximum height (in pixels) of the widget.
-		/// </summary>
-		/// <exception cref="ArgumentOutOfRangeException">When the value is smaller than 1.</exception>
+		/// <inheritdoc />
 		public int MaxHeight
 		{
 			get
@@ -71,10 +64,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the maximum width (in pixels) of the widget.
-		/// </summary>
-		/// <exception cref="ArgumentOutOfRangeException">When the value is smaller than 1.</exception>
+		/// <inheritdoc />
 		public int MaxWidth
 		{
 			get
@@ -93,10 +83,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the minimum height (in pixels) of the widget.
-		/// </summary>
-		/// <exception cref="ArgumentOutOfRangeException">When the value is smaller than 1.</exception>
+		/// <inheritdoc />
 		public int MinHeight
 		{
 			get
@@ -115,10 +102,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the minimum width (in pixels) of the widget.
-		/// </summary>
-		/// <exception cref="ArgumentOutOfRangeException">When the value is smaller than 1.</exception>
+		/// <inheritdoc />
 		public int MinWidth
 		{
 			get
@@ -137,9 +121,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the UIBlockType of the widget.
-		/// </summary>
+		/// <inheritdoc />
 		public UIBlockType Type
 		{
 			get
@@ -153,10 +135,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the fixed width (in pixels) of the widget.
-		/// </summary>
-		/// <exception cref="ArgumentOutOfRangeException">When the value is smaller than 1.</exception>
+		/// <inheritdoc />
 		public int Width
 		{
 			get
@@ -175,9 +154,7 @@
 			}
 		}
 
-		/// <summary>
-		/// Margin of the widget.
-		/// </summary>
+		/// <inheritdoc />
 		public Margin Margin
 		{
 			get
@@ -191,7 +168,9 @@
 			}
 		}
 
-		internal UIBlockDefinition BlockDefinition
+		/// <inheritdoc />
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public UIBlockDefinition BlockDefinition
 		{
 			get
 			{
@@ -199,9 +178,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Set the height of the widget based on its content.
-		/// </summary>
+		/// <inheritdoc />
 		public void SetHeightAuto()
 		{
 			BlockDefinition.Height = -1;
@@ -209,9 +186,7 @@
 			BlockDefinition.MinHeight = -1;
 		}
 
-		/// <summary>
-		///     Set the width of the widget based on its content.
-		/// </summary>
+		/// <inheritdoc />
 		public void SetWidthAuto()
 		{
 			BlockDefinition.Width = -1;

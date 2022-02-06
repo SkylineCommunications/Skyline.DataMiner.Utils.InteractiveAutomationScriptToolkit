@@ -25,10 +25,10 @@
 		/// </summary>
 		/// <param name="linkedWidgets">Widgets that are linked to this collapse button.</param>
 		/// <param name="isCollapsed">State of the collapse button.</param>
-		public CollapseButton(IEnumerable<Widget> linkedWidgets, bool isCollapsed)
+		public CollapseButton(IEnumerable<IWidget> linkedWidgets, bool isCollapsed)
 		{
 			Type = UIBlockType.Button;
-			LinkedWidgets = new List<Widget>(linkedWidgets);
+			LinkedWidgets = new List<IWidget>(linkedWidgets);
 			CollapseText = COLLAPSE;
 			ExpandText = EXPAND;
 
@@ -41,7 +41,7 @@
 		/// Initializes a new instance of the CollapseButton class.
 		/// </summary>
 		/// <param name="isCollapsed">State of the collapse button.</param>
-		public CollapseButton(bool isCollapsed = false) : this(new Widget[0], isCollapsed)
+		public CollapseButton(bool isCollapsed = false) : this(Array.Empty<IWidget>(), isCollapsed)
 		{
 		}
 
@@ -80,7 +80,7 @@
 			{
 				isCollapsed = value;
 				BlockDefinition.Text = value ? ExpandText : CollapseText;
-				foreach (Widget widget in GetAffectedWidgets(this, value))
+				foreach (IWidget widget in GetAffectedWidgets(this, value))
 				{
 					widget.IsVisible = !value;
 				}
@@ -150,7 +150,7 @@
 		/// <summary>
 		/// Collection of widgets that are affected by this collapse button.
 		/// </summary>
-		public List<Widget> LinkedWidgets { get; private set; }
+		public List<IWidget> LinkedWidgets { get; private set; }
 
 		/// <summary>
 		/// This method is used to collapse the collapse button.
@@ -191,9 +191,9 @@
 		/// <param name="collapseButton">Collapse button that is checked.</param>
 		/// <param name="collapse">Indicates if the top collapse button is going to be collapsed or expanded.</param>
 		/// <returns>List of affected widgets.</returns>
-		private static List<Widget> GetAffectedWidgets(CollapseButton collapseButton, bool collapse)
+		private static List<IWidget> GetAffectedWidgets(CollapseButton collapseButton, bool collapse)
 		{
-			List<Widget> affectedWidgets = new List<Widget>();
+			List<IWidget> affectedWidgets = new List<IWidget>();
 			affectedWidgets.AddRange(collapseButton.LinkedWidgets);
 
 			var nestedCollapseButtons = collapseButton.LinkedWidgets.OfType<CollapseButton>();

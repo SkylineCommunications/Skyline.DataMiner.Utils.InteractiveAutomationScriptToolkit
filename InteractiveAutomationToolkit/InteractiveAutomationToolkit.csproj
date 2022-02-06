@@ -65,6 +65,7 @@
     <Compile Include="Skyline\Components\DropDown.cs" />
     <Compile Include="Skyline\Components\FileSelector.cs" />
     <Compile Include="Skyline\Components\InteractiveWidget.cs" />
+    <Compile Include="Skyline\Components\IWidget.cs" />
     <Compile Include="Skyline\Components\Label.cs" />
     <Compile Include="Skyline\Components\Numeric.cs" />
     <Compile Include="Skyline\Components\Parameter.cs" />

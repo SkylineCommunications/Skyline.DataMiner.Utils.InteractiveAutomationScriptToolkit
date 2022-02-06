@@ -99,7 +99,7 @@
 		[TestMethod]
 		public void WantsOnChangeCollapseButtonOnPressedEvent()
 		{
-			IEnumerable<Widget> widgets = new Widget[] { new Label("Label1"), new Label("Label2") };
+			IEnumerable<IWidget> widgets = new IWidget[] { new Label("Label1"), new Label("Label2") };
 			CollapseButton collapseButton = new CollapseButton(widgets, false);
 			Assert.IsTrue(collapseButton.WantsOnChange);
 

@@ -17,7 +17,7 @@
 		private const string Auto = "auto";
 		private const string Stretch = "*";
 
-		private readonly Dictionary<Widget, IWidgetLayout> widgetLayouts = new Dictionary<Widget, IWidgetLayout>();
+		private readonly Dictionary<IWidget, IWidgetLayout> widgetLayouts = new Dictionary<IWidget, IWidgetLayout>();
 
 		private readonly Dictionary<int, string> columnDefinitions = new Dictionary<int, string>();
 		private readonly Dictionary<int, string> rowDefinitions = new Dictionary<int, string>();
@@ -169,7 +169,7 @@
 		public string Title { get; set; }
 
 		/// <inheritdoc />
-		public IReadOnlyCollection<Widget> Widgets
+		public IReadOnlyCollection<IWidget> Widgets
 		{
 			get
 			{
@@ -197,7 +197,7 @@
 		}
 
 		/// <inheritdoc />
-		public IDialog AddWidget(Widget widget, IWidgetLayout widgetLayout)
+		public IDialog AddWidget(IWidget widget, IWidgetLayout widgetLayout)
 		{
 			if (widget == null)
 			{
@@ -220,7 +220,7 @@
 
 		/// <inheritdoc />
 		public IDialog AddWidget(
-			Widget widget,
+			IWidget widget,
 			int row,
 			int column,
 			HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left,
@@ -232,7 +232,7 @@
 
 		/// <inheritdoc />
 		public IDialog AddWidget(
-			Widget widget,
+			IWidget widget,
 			int fromRow,
 			int fromColumn,
 			int rowSpan,
@@ -247,14 +247,14 @@
 		}
 
 		/// <inheritdoc />
-		public IWidgetLayout GetWidgetLayout(Widget widget)
+		public IWidgetLayout GetWidgetLayout(IWidget widget)
 		{
 			CheckWidgetExists(widget);
 			return widgetLayouts[widget];
 		}
 
 		/// <inheritdoc />
-		public void RemoveWidget(Widget widget)
+		public void RemoveWidget(IWidget widget)
 		{
 			if (widget == null)
 			{
@@ -271,7 +271,7 @@
 		/// <inheritdoc />
 		public IDialog AddSection(Section section, SectionLayout layout)
 		{
-			foreach (Widget widget in section.Widgets)
+			foreach (IWidget widget in section.Widgets)
 			{
 				IWidgetLayout widgetLayout = section.GetWidgetLayout(widget);
 				AddWidget(
@@ -387,7 +387,7 @@
 		}
 
 		/// <inheritdoc />
-		public void SetWidgetLayout(Widget widget, IWidgetLayout widgetLayout)
+		public void SetWidgetLayout(IWidget widget, IWidgetLayout widgetLayout)
 		{
 			CheckWidgetExists(widget);
 			widgetLayouts[widget] = widgetLayout;
@@ -539,7 +539,7 @@
 				Title = Title
 			};
 
-			KeyValuePair<Widget, IWidgetLayout> defaultKeyValuePair = default(KeyValuePair<Widget, IWidgetLayout>);
+			KeyValuePair<IWidget, IWidgetLayout> defaultKeyValuePair = default(KeyValuePair<IWidget, IWidgetLayout>);
 			int rowIndex = 0;
 			int columnIndex = 0;
 			foreach (int rowInUse in rowsInUse)
@@ -547,7 +547,7 @@
 				columnIndex = 0;
 				foreach (int columnInUse in columnsInUse)
 				{
-					foreach (KeyValuePair<Widget, IWidgetLayout> keyValuePair in widgetLayouts.Where(x => x.Key.IsVisible && x.Key.Type != UIBlockType.Undefined && x.Value.Row.Equals(rowInUse) && x.Value.Column.Equals(columnInUse)))
+					foreach (KeyValuePair<IWidget, IWidgetLayout> keyValuePair in widgetLayouts.Where(x => x.Key.IsVisible && x.Key.Type != UIBlockType.Undefined && x.Value.Row.Equals(rowInUse) && x.Value.Column.Equals(columnInUse)))
 					{
 						if (keyValuePair.Equals(defaultKeyValuePair)) continue;
 
@@ -587,7 +587,7 @@
 		{
 			rowsInUse = new SortedSet<int>();
 			columnsInUse = new SortedSet<int>();
-			foreach (KeyValuePair<Widget, IWidgetLayout> keyValuePair in widgetLayouts)
+			foreach (KeyValuePair<IWidget, IWidgetLayout> keyValuePair in widgetLayouts)
 			{
 				if (keyValuePair.Key.IsVisible && keyValuePair.Key.Type != UIBlockType.Undefined)
 				{
@@ -608,7 +608,7 @@
 		}
 
 		// ReSharper disable once ParameterOnlyUsedForPreconditionCheck.Local
-		private void CheckWidgetExists(Widget widget)
+		private void CheckWidgetExists(IWidget widget)
 		{
 			if (widget == null)
 			{
