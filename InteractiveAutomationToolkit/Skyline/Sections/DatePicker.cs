@@ -10,21 +10,21 @@
 	[Obsolete("Use a DateTimePicker with the LongDate or ShortDate format.")]
 	public class DatePicker : Section
 	{
-		private readonly Dictionary<int, string> months = new Dictionary<int, string>()
-		                                                  {
-			                                                  { 1, "Jan" },
-			                                                  { 2, "Feb" },
-			                                                  { 3, "Mar" },
-			                                                  { 4, "Apr" },
-			                                                  { 5, "May" },
-			                                                  { 6, "Jun" },
-			                                                  { 7, "Jul" },
-			                                                  { 8, "Aug" },
-			                                                  { 9, "Sep" },
-			                                                  { 10, "Oct" },
-			                                                  { 11, "Nov" },
-			                                                  { 12, "Dec" },
-		                                                  };
+		private readonly Dictionary<int, string> months = new Dictionary<int, string>
+		{
+			{ 1, "Jan" },
+			{ 2, "Feb" },
+			{ 3, "Mar" },
+			{ 4, "Apr" },
+			{ 5, "May" },
+			{ 6, "Jun" },
+			{ 7, "Jul" },
+			{ 8, "Aug" },
+			{ 9, "Sep" },
+			{ 10, "Oct" },
+			{ 11, "Nov" },
+			{ 12, "Dec" },
+		};
 
 		private readonly Numeric dayNumeric;
 
@@ -50,28 +50,28 @@
 			previous = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day);
 
 			dayNumeric = new Numeric(dateTime.Day)
-			             {
-				             Decimals = 0,
-				             Minimum = 1,
-				             Maximum = DateTime.DaysInMonth(dateTime.Year, dateTime.Month),
-				             Width = 70,
-				             Margin = new Margin(3,3,3,3),
-			             };
+			{
+				Decimals = 0,
+				Minimum = 1,
+				Maximum = DateTime.DaysInMonth(dateTime.Year, dateTime.Month),
+				Width = 70,
+				Margin = new Margin(3, 3, 3, 3),
+			};
 
 			monthDropDown = new DropDown(months.Select(x => x.Value), months[dateTime.Month])
-			                {
-				                Width = 80,
-				                Margin = new Margin(3,3,3,3)
-			                };
+			{
+				Width = 80,
+				Margin = new Margin(3, 3, 3, 3)
+			};
 
 			yearNumeric = new Numeric(dateTime.Year)
-			              {
-				              Decimals = 0,
-				              Minimum = 1800,
-				              Maximum = 9999,
-				              Width = 80,
-				              Margin = new Margin(3,3,3,3)
-			              };
+			{
+				Decimals = 0,
+				Minimum = 1800,
+				Maximum = 9999,
+				Width = 80,
+				Margin = new Margin(3, 3, 3, 3)
+			};
 
 			dayNumeric.Changed += DayNumeric_OnChanged;
 			monthDropDown.Changed += MonthDropDown_OnChanged;

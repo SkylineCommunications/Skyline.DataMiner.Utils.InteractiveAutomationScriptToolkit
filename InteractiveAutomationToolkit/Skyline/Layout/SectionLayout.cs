@@ -36,7 +36,7 @@
 			{
 				if (value < 0)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
 				column = value;
@@ -58,7 +58,7 @@
 			{
 				if (value < 0)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
 				row = value;

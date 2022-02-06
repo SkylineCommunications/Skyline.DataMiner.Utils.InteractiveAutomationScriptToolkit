@@ -2,7 +2,8 @@
 {
 	using System;
 	using System.Linq;
-	using Skyline.DataMiner.Automation;
+
+	using Automation;
 
 	/// <summary>
 	///     Widget that is used to edit and display text.
@@ -47,7 +48,7 @@
 			remove
 			{
 				OnChanged -= value;
-				if(OnChanged == null || !OnChanged.GetInvocationList().Any())
+				if (OnChanged == null || !OnChanged.GetInvocationList().Any())
 				{
 					WantsOnChange = false;
 				}
@@ -103,7 +104,7 @@
 			{
 				if (value == null)
 				{
-					throw new ArgumentNullException("value");
+					throw new ArgumentNullException(nameof(value));
 				}
 
 				BlockDefinition.TooltipText = value;

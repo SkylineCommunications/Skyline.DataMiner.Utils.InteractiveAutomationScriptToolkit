@@ -1,7 +1,6 @@
 ﻿namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
 	using System;
-	using System.Text;
 
 	/// <inheritdoc />
 	public class WidgetLayout : IWidgetLayout
@@ -73,7 +72,7 @@
 			{
 				if (value < 0)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
 				column = value;
@@ -94,7 +93,7 @@
 			{
 				if (value <= 0)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
 				columnSpan = value;
@@ -116,7 +115,7 @@
 			{
 				if (value == null)
 				{
-					throw new ArgumentNullException("value");
+					throw new ArgumentNullException(nameof(value));
 				}
 
 				margin = value;
@@ -137,7 +136,7 @@
 			{
 				if (value < 0)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
 				row = value;
@@ -158,7 +157,7 @@
 			{
 				if (value <= 0)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
 				rowSpan = value;

@@ -2,9 +2,10 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using System.Diagnostics;
 	using System.Linq;
+
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 	using Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit;
 	using Skyline.DataMiner.Net.AutomationUI.Objects;
 
@@ -12,7 +13,7 @@
 	public class ComponentTests
 	{
 		/// <summary>
-		/// Checks if the WantsOnChange property of a Button is correctly updated when the Pressed event is subscribed and unsubcribed to.
+		/// Checks if the WantsOnChange property of a Button is correctly updated when the Pressed event is subscribed and unsubscribed to.
 		/// </summary>
 		[TestMethod]
 		public void WantsOnChangeButtonOnPressedEvent()
@@ -28,7 +29,7 @@
 		}
 
 		/// <summary>
-		/// Checks if the WantsOnChange property of a CheckBox is correctly updated when the Changed event is subscribed and unsubcribed to.
+		/// Checks if the WantsOnChange property of a CheckBox is correctly updated when the Changed event is subscribed and unsubscribed to.
 		/// </summary>
 		[TestMethod]
 		public void WantsOnChangeCheckBoxOnChangedEvent()
@@ -44,7 +45,7 @@
 		}
 
 		/// <summary>
-		/// Checks if the WantsOnChange property of a CheckBox is correctly updated when the Checked event is subscribed and unsubcribed to.
+		/// Checks if the WantsOnChange property of a CheckBox is correctly updated when the Checked event is subscribed and unsubscribed to.
 		/// </summary>
 		[TestMethod]
 		public void WantsOnChangeCheckBoxOnCheckedEvent()
@@ -60,7 +61,7 @@
 		}
 
 		/// <summary>
-		/// Checks if the WantsOnChange property of a CheckBox is correctly updated when the UnChecked event is subscribed and unsubcribed to.
+		/// Checks if the WantsOnChange property of a CheckBox is correctly updated when the UnChecked event is subscribed and unsubscribed to.
 		/// </summary>
 		[TestMethod]
 		public void WantsOnChangeCheckBoxOnUnCheckedEvent()
@@ -76,12 +77,12 @@
 		}
 
 		/// <summary>
-		/// Checks if the WantsOnChange property of a CheckBoxList is correctly updated when the UnChecked event is subscribed and unsubcribed to.
+		/// Checks if the WantsOnChange property of a CheckBoxList is correctly updated when the UnChecked event is subscribed and unsubscribed to.
 		/// </summary>
 		[TestMethod]
 		public void WantsOnChangeCheckBoxListOnChangedEvent()
 		{
-			string[] options = new string[] { "Option1", "Option2", "Option3" };
+			string[] options = { "Option1", "Option2", "Option3" };
 			CheckBoxList checkBoxList = new CheckBoxList(options);
 			Assert.IsFalse(checkBoxList.WantsOnChange);
 
@@ -93,7 +94,7 @@
 		}
 
 		/// <summary>
-		/// Checks if the WantsOnChange property of a CollapseButton is correctly updated when the Pressed event is subscribed and unsubcribed to.
+		/// Checks if the WantsOnChange property of a CollapseButton is correctly updated when the Pressed event is subscribed and unsubscribed to.
 		/// </summary>
 		[TestMethod]
 		public void WantsOnChangeCollapseButtonOnPressedEvent()
@@ -110,7 +111,7 @@
 		}
 
 		/// <summary>
-		/// Checks if the WantsOnChange property of a Calendar is correctly updated when the Changed event is subscribed and unsubcribed to.
+		/// Checks if the WantsOnChange property of a Calendar is correctly updated when the Changed event is subscribed and unsubscribed to.
 		/// </summary>
 		[TestMethod]
 		public void WantsOnChangeCalendarOnChangedEvent()
@@ -126,7 +127,7 @@
 		}
 
 		/// <summary>
-		/// Checks if the WantsOnChange property of a DateTimePicker is correctly updated when the Changed event is subscribed and unsubcribed to.
+		/// Checks if the WantsOnChange property of a DateTimePicker is correctly updated when the Changed event is subscribed and unsubscribed to.
 		/// </summary>
 		[TestMethod]
 		public void WantsOnChangeDateTimePickerOnChangedEvent()
@@ -142,12 +143,12 @@
 		}
 
 		/// <summary>
-		/// Checks if the WantsOnChange property of a DropDown is correctly updated when the Changed event is subscribed and unsubcribed to.
+		/// Checks if the WantsOnChange property of a DropDown is correctly updated when the Changed event is subscribed and unsubscribed to.
 		/// </summary>
 		[TestMethod]
 		public void WantsOnChangeDropDownOnChangedEvent()
 		{
-			string[] options = new string[] { "Option1", "Option2", "Option3" };
+			string[] options = { "Option1", "Option2", "Option3" };
 			DropDown dropDown = new DropDown(options);
 			Assert.IsFalse(dropDown.WantsOnChange);
 
@@ -159,7 +160,7 @@
 		}
 
 		/// <summary>
-		/// Checks if the WantsOnChange property of a Numeric is correctly updated when the Changed event is subscribed and unsubcribed to.
+		/// Checks if the WantsOnChange property of a Numeric is correctly updated when the Changed event is subscribed and unsubscribed to.
 		/// </summary>
 		[TestMethod]
 		public void WantsOnChangeNumericOnChangedEvent()
@@ -175,12 +176,12 @@
 		}
 
 		/// <summary>
-		/// Checks if the WantsOnChange property of a RadioButtonList is correctly updated when the Changed event is subscribed and unsubcribed to.
+		/// Checks if the WantsOnChange property of a RadioButtonList is correctly updated when the Changed event is subscribed and unsubscribed to.
 		/// </summary>
 		[TestMethod]
 		public void WantsOnChangeRadioButtonListOnChangedEvent()
 		{
-			string[] options = new string[] { "Option1", "Option2", "Option3" };
+			string[] options = { "Option1", "Option2", "Option3" };
 			RadioButtonList radioButtonList = new RadioButtonList(options);
 			Assert.IsFalse(radioButtonList.WantsOnChange);
 
@@ -192,7 +193,7 @@
 		}
 
 		/// <summary>
-		/// Checks if the WantsOnChange property of a TextBox is correctly updated when the Changed event is subscribed and unsubcribed to.
+		/// Checks if the WantsOnChange property of a TextBox is correctly updated when the Changed event is subscribed and unsubscribed to.
 		/// </summary>
 		[TestMethod]
 		public void WantsOnChangeTextBoxOnChangedEvent()
@@ -208,7 +209,7 @@
 		}
 
 		/// <summary>
-		/// Checks if the WantsOnChange property of a TimePicker is correctly updated when the Changed event is subscribed and unsubcribed to.
+		/// Checks if the WantsOnChange property of a TimePicker is correctly updated when the Changed event is subscribed and unsubscribed to.
 		/// </summary>
 		[TestMethod]
 		public void WantsOnChangeTimePickerOnChangedEvent()
@@ -229,7 +230,7 @@
 		[TestMethod]
 		public void DropdownSetOptionsSelected()
 		{
-			string[] options = new string[] { "option1", "option2", "option3" };
+			string[] options = { "option1", "option2", "option3" };
 
 			DropDown dropDown1 = new DropDown(options);
 			Assert.AreEqual("option1", dropDown1.Selected);
@@ -308,13 +309,13 @@
 			Exception exception = null;
 			try
 			{
-				string[] options = new string[] { "option 1", "option 2", "option 3" };
+				string[] options = { "option 1", "option 2", "option 3" };
 				DropDown dropDown = new DropDown();
 				dropDown.RemoveOption(options.First());
 
-				dropDown.SetOptions(new string[] { "option 4", "option 5", "option 6" });
+				dropDown.SetOptions(new[] { "option 4", "option 5", "option 6" });
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				exception = e;
 			}
@@ -325,37 +326,52 @@
 		[TestMethod]
 		public void FindTreeViewItem()
 		{
-			TreeView treeView = new TreeView(new [] { 
-				new TreeViewItem("thomas", "thomasKey", new List<TreeViewItem>(new [] { 
-					new TreeViewItem("thomasItem1", "thomasItem1Key", new List<TreeViewItem>(new [] { 
-						new TreeViewItem("thomasItem11", "thomasItem11Key"),
-						new TreeViewItem("thomasItem12", "thomasItem12Key") }
-					)) })), 
-				new TreeViewItem("brian", "brianKey", new List<TreeViewItem>(new [] { 
-					new TreeViewItem("brianItem1", "brianItem1Key")}))});
+			TreeView treeView = new TreeView(
+				new[]
+				{
+					new TreeViewItem(
+						"thomas",
+						"thomasKey",
+						new List<TreeViewItem>(
+							new[]
+							{
+								new TreeViewItem(
+									"thomasItem1",
+									"thomasItem1Key",
+									new List<TreeViewItem>(
+										new[]
+										{
+											new TreeViewItem("thomasItem11", "thomasItem11Key"),
+											new TreeViewItem("thomasItem12", "thomasItem12Key")
+										}))
+							})),
+					new TreeViewItem(
+						"brian",
+						"brianKey",
+						new List<TreeViewItem>(
+							new[]
+							{
+								new TreeViewItem("brianItem1", "brianItem1Key")
+							}))
+				});
 
-			TreeViewItem brianItem1;
-			bool brianItem1Found = treeView.TryFindTreeViewItem("brianItem1Key", out brianItem1);
+			bool brianItem1Found = treeView.TryFindTreeViewItem("brianItem1Key", out TreeViewItem brianItem1);
 			Assert.IsNotNull(brianItem1);
 			Assert.IsTrue(brianItem1Found);
 
-			TreeViewItem thomasItem12;
-			bool thomasItem12Found = treeView.TryFindTreeViewItem("thomasItem12Key", out thomasItem12);
+			bool thomasItem12Found = treeView.TryFindTreeViewItem("thomasItem12Key", out TreeViewItem thomasItem12);
 			Assert.IsNotNull(thomasItem12);
 			Assert.IsTrue(thomasItem12Found);
 
-			TreeViewItem thomasItem1;
-			bool thomasItem1Found = treeView.TryFindTreeViewItem("thomasItem1Key", out thomasItem1);
+			bool thomasItem1Found = treeView.TryFindTreeViewItem("thomasItem1Key", out TreeViewItem thomasItem1);
 			Assert.IsNotNull(thomasItem1);
 			Assert.IsTrue(thomasItem1Found);
 
-			TreeViewItem thomasItem;
-			bool thomasItemFound = treeView.TryFindTreeViewItem("thomasKey", out thomasItem);
+			bool thomasItemFound = treeView.TryFindTreeViewItem("thomasKey", out TreeViewItem thomasItem);
 			Assert.IsNotNull(thomasItem);
 			Assert.IsTrue(thomasItemFound);
 
-			TreeViewItem randomItem;
-			bool randomItemFound = treeView.TryFindTreeViewItem("randomItemKey", out randomItem);
+			bool randomItemFound = treeView.TryFindTreeViewItem("randomItemKey", out TreeViewItem randomItem);
 			Assert.IsNull(randomItem);
 			Assert.IsFalse(randomItemFound);
 		}
@@ -363,14 +379,34 @@
 		[TestMethod]
 		public void FindTreeViewItemDepth()
 		{
-			TreeView treeView = new TreeView(new [] { 
-				new TreeViewItem("thomas", "thomasKey", new List<TreeViewItem>(new [] { 
-					new TreeViewItem("thomasItem1", "thomasItem1Key", new List<TreeViewItem>(new [] { 
-						new TreeViewItem("thomasItem11", "thomasItem11Key"),
-						new TreeViewItem("thomasItem12", "thomasItem12Key") }
-					)) })), 
-				new TreeViewItem("brian", "brianKey", new List<TreeViewItem>(new [] { 
-					new TreeViewItem("brianItem1", "brianItem1Key")}))});
+			TreeView treeView = new TreeView(
+				new[]
+				{
+					new TreeViewItem(
+						"thomas",
+						"thomasKey",
+						new List<TreeViewItem>(
+							new[]
+							{
+								new TreeViewItem(
+									"thomasItem1",
+									"thomasItem1Key",
+									new List<TreeViewItem>(
+										new[]
+										{
+											new TreeViewItem("thomasItem11", "thomasItem11Key"),
+											new TreeViewItem("thomasItem12", "thomasItem12Key")
+										}))
+							})),
+					new TreeViewItem(
+						"brian",
+						"brianKey",
+						new List<TreeViewItem>(
+							new[]
+							{
+								new TreeViewItem("brianItem1", "brianItem1Key")
+							}))
+				});
 
 			List<TreeViewItem> itemsOnDepth0 = new List<TreeViewItem>(treeView.GetItems(0));
 			Assert.AreEqual(2, itemsOnDepth0.Count);

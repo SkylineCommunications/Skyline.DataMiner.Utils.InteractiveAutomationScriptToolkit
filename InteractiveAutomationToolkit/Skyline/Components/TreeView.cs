@@ -3,8 +3,10 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
-	using Skyline.DataMiner.Automation;
-	using Skyline.DataMiner.Net.AutomationUI.Objects;
+
+	using Automation;
+
+	using Net.AutomationUI.Objects;
 
 	/// <summary>
 	///  A tree view structure.
@@ -15,19 +17,19 @@
 		private Dictionary<string, bool> collapsedItemCache; // TODO: should only contain Items with LazyLoading set to true
 		private Dictionary<string, TreeViewItem> lookupTable;
 
-		private bool itemsChanged = false;
+		private bool itemsChanged;
 		private List<TreeViewItem> changedItems = new List<TreeViewItem>();
 
-		private bool itemsChecked = false;
+		private bool itemsChecked;
 		private List<TreeViewItem> checkedItems = new List<TreeViewItem>();
 
-		private bool itemsUnchecked = false;
+		private bool itemsUnchecked;
 		private List<TreeViewItem> uncheckedItems = new List<TreeViewItem>();
 
-		private bool itemsExpanded = false;
+		private bool itemsExpanded;
 		private List<TreeViewItem> expandedItems = new List<TreeViewItem>();
 
-		private bool itemsCollapsed = false;
+		private bool itemsCollapsed;
 		private List<TreeViewItem> collapsedItems = new List<TreeViewItem>();
 
 		/// <summary>
@@ -167,7 +169,7 @@
 		/// </summary>
 		public void Expand()
 		{
-			foreach(var item in GetAllItems())
+			foreach (var item in GetAllItems())
 			{
 				item.IsCollapsed = false;
 			}
@@ -186,7 +188,8 @@
 
 			set
 			{
-				if (value == null) throw new ArgumentNullException("value");
+				if (value == null) throw new ArgumentNullException(nameof(value));
+
 				BlockDefinition.TreeViewItems = new List<TreeViewItem>(value);
 				UpdateItemCache();
 			}
@@ -254,7 +257,7 @@
 					if (item.SupportsLazyLoading) collapsedItemCache.Add(item.KeyValue, item.IsCollapsed);
 					lookupTable.Add(item.KeyValue, item);
 				}
-				catch(Exception e)
+				catch (Exception e)
 				{
 					throw new TreeViewDuplicateItemsException(item.KeyValue, e);
 				}
@@ -277,7 +280,7 @@
 		public IEnumerable<TreeViewItem> GetAllItems()
 		{
 			List<TreeViewItem> allItems = new List<TreeViewItem>();
-			foreach(var item in Items)
+			foreach (var item in Items)
 			{
 				allItems.Add(item);
 				allItems.AddRange(GetAllItems(item.ChildItems));
@@ -294,7 +297,7 @@
 		private IEnumerable<TreeViewItem> GetAllItems(IEnumerable<TreeViewItem> children)
 		{
 			List<TreeViewItem> allItems = new List<TreeViewItem>();
-			foreach(var item in children)
+			foreach (var item in children)
 			{
 				allItems.Add(item);
 				allItems.AddRange(GetAllItems(item.ChildItems));
@@ -356,7 +359,7 @@
 			{
 				if (value == null)
 				{
-					throw new ArgumentNullException("value");
+					throw new ArgumentNullException(nameof(value));
 				}
 
 				BlockDefinition.TooltipText = value;
@@ -407,7 +410,7 @@
 					checkedItems.Add(lookupTable[newlyCheckedItemKey]);
 				}
 			}
-			
+
 			// Unchecked Items
 			List<string> newlyUncheckedItemKeys = checkedItemCache.Where(x => !checkedItemKeys.Contains(x.Key) && x.Value).Select(x => x.Key).ToList();
 			if (newlyUncheckedItemKeys.Any() && OnUnchecked != null)
@@ -425,7 +428,7 @@
 			List<string> changedItemKeys = new List<string>();
 			changedItemKeys.AddRange(newlyCheckedItemKeys);
 			changedItemKeys.AddRange(newlyUncheckedItemKeys);
-			if(changedItemKeys.Any() && OnChanged != null)
+			if (changedItemKeys.Any() && OnChanged != null)
 			{
 				itemsChanged = true;
 				changedItems = new List<TreeViewItem>();
@@ -435,7 +438,7 @@
 					changedItems.Add(lookupTable[changedItemKey]);
 				}
 			}
-			
+
 			// Persist states
 			foreach (TreeViewItem item in lookupTable.Values)
 			{

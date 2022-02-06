@@ -3,7 +3,8 @@
 	using System;
 	using System.Globalization;
 	using System.Linq;
-	using Skyline.DataMiner.Automation;
+
+	using Automation;
 
 	/// <summary>
 	///     A spinner or numeric up-down control.
@@ -53,7 +54,7 @@
 			remove
 			{
 				OnChanged -= value;
-				if(OnChanged == null || !OnChanged.GetInvocationList().Any())
+				if (OnChanged == null || !OnChanged.GetInvocationList().Any())
 				{
 					WantsOnChange = false;
 				}
@@ -77,7 +78,7 @@
 			{
 				if (value < 0)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
 				BlockDefinition.Decimals = value;
@@ -100,7 +101,7 @@
 			{
 				if (value < Minimum)
 				{
-					throw new ArgumentException("Maximum can't be smaller than Minimum", "value");
+					throw new ArgumentException("Maximum can't be smaller than Minimum", nameof(value));
 				}
 
 				CheckDouble(value);
@@ -126,7 +127,7 @@
 			{
 				if (value > Maximum)
 				{
-					throw new ArgumentException("Minimum can't be larger than Maximum", "value");
+					throw new ArgumentException("Minimum can't be larger than Maximum", nameof(value));
 				}
 
 				CheckDouble(value);
@@ -151,13 +152,12 @@
 			{
 				if (value == null)
 				{
-					throw new ArgumentNullException("value");
+					throw new ArgumentNullException(nameof(value));
 				}
 
 				BlockDefinition.TooltipText = value;
 			}
 		}
-
 
 		/// <summary>
 		///     Gets or sets the step size.
@@ -236,10 +236,10 @@
 		{
 			double result;
 			if (!Double.TryParse(
-				uiResults.GetString(this),
-				NumberStyles.Float,
-				CultureInfo.InvariantCulture,
-				out result))
+					uiResults.GetString(this),
+					NumberStyles.Float,
+					CultureInfo.InvariantCulture,
+					out result))
 			{
 				return;
 			}
@@ -258,7 +258,7 @@
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			if (changed && (OnChanged != null))
+			if (changed && OnChanged != null)
 			{
 				OnChanged(this, new NumericChangedEventArgs(Value, previous));
 			}
@@ -271,12 +271,12 @@
 		{
 			if (Double.IsNaN(value))
 			{
-				throw new ArgumentException("NAN is not allowed", "value");
+				throw new ArgumentException("NAN is not allowed", nameof(value));
 			}
 
 			if (Double.IsInfinity(value))
 			{
-				throw new ArgumentException("Infinity is not allowed", "value");
+				throw new ArgumentException("Infinity is not allowed", nameof(value));
 			}
 		}
 

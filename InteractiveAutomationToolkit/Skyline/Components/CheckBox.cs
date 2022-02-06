@@ -2,7 +2,8 @@
 {
 	using System;
 	using System.Linq;
-	using Skyline.DataMiner.Automation;
+
+	using Automation;
 
 	/// <summary>
 	///     A checkbox that can be selected or cleared.
@@ -162,13 +163,12 @@
 			{
 				if (value == null)
 				{
-					throw new ArgumentNullException("value");
+					throw new ArgumentNullException(nameof(value));
 				}
 
 				BlockDefinition.TooltipText = value;
 			}
 		}
-
 
 		internal override void LoadResult(UIResults uiResults)
 		{
@@ -194,12 +194,12 @@
 				OnChanged(this, new CheckBoxChangedEventArgs(IsChecked));
 			}
 
-			if ((OnChecked != null) && IsChecked)
+			if (OnChecked != null && IsChecked)
 			{
 				OnChecked(this, EventArgs.Empty);
 			}
 
-			if ((OnUnChecked != null) && !IsChecked)
+			if (OnUnChecked != null && !IsChecked)
 			{
 				OnUnChecked(this, EventArgs.Empty);
 			}

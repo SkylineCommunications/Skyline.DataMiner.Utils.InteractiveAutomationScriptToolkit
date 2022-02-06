@@ -1,7 +1,8 @@
 ﻿namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
 	using System;
-	using Skyline.DataMiner.Automation;
+
+	using Automation;
 
 	/// <summary>
 	///		Dialog used to display an exception.

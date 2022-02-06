@@ -3,7 +3,8 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
-	using Skyline.DataMiner.Automation;
+
+	using Automation;
 
 	/// <summary>
 	///		A button that can be used to show/hide a collection of widgets.
@@ -79,7 +80,7 @@
 			{
 				isCollapsed = value;
 				BlockDefinition.Text = value ? ExpandText : CollapseText;
-				foreach(Widget widget in GetAffectedWidgets(this, value))
+				foreach (Widget widget in GetAffectedWidgets(this, value))
 				{
 					widget.IsVisible = !value;
 				}
@@ -120,7 +121,7 @@
 			{
 				if (value == null)
 				{
-					throw new ArgumentNullException("value");
+					throw new ArgumentNullException(nameof(value));
 				}
 
 				BlockDefinition.TooltipText = value;
@@ -201,12 +202,14 @@
 				if (collapse)
 				{
 					// Collapsing top collapse button
-					affectedWidgets.AddRange(GetAffectedWidgets(nestedCollapseButton, collapse));
+					affectedWidgets.AddRange(GetAffectedWidgets(nestedCollapseButton, true));
+					continue;
 				}
-				else if (!nestedCollapseButton.IsCollapsed)
+
+				if (!nestedCollapseButton.IsCollapsed)
 				{
 					// Expanding top collapse button
-					affectedWidgets.AddRange(GetAffectedWidgets(nestedCollapseButton, collapse));
+					affectedWidgets.AddRange(GetAffectedWidgets(nestedCollapseButton, false));
 				}
 			}
 

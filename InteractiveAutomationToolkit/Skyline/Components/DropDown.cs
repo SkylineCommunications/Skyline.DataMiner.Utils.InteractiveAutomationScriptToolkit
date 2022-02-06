@@ -4,7 +4,8 @@
 	using System.Collections;
 	using System.Collections.Generic;
 	using System.Linq;
-	using Skyline.DataMiner.Automation;
+
+	using Automation;
 
 	/// <summary>
 	///     A drop-down list.
@@ -115,7 +116,7 @@
 			{
 				if (value == null)
 				{
-					throw new ArgumentNullException("value");
+					throw new ArgumentNullException(nameof(value));
 				}
 
 				BlockDefinition.TooltipText = value;
@@ -201,7 +202,7 @@
 		{
 			if (option == null)
 			{
-				throw new ArgumentNullException("option");
+				throw new ArgumentNullException(nameof(option));
 			}
 
 			Options.Add(option);
@@ -218,7 +219,7 @@
 		{
 			if (optionsToSet == null)
 			{
-				throw new ArgumentNullException("optionsToSet");
+				throw new ArgumentNullException(nameof(optionsToSet));
 			}
 
 			string copyOfSelected = Selected;
@@ -246,7 +247,7 @@
 		{
 			if (option == null)
 			{
-				throw new ArgumentNullException("option");
+				throw new ArgumentNullException(nameof(option));
 			}
 
 			Options.Remove(option);
@@ -281,7 +282,7 @@
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			if (changed && (OnChanged != null))
+			if (changed && OnChanged != null)
 			{
 				OnChanged(this, new DropDownChangedEventArgs(Selected, previous));
 			}

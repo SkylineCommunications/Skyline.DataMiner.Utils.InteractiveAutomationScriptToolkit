@@ -1,7 +1,8 @@
 ﻿namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
 	using System;
-	using Skyline.DataMiner.Automation;
+
+	using Automation;
 
 	/// <summary>
 	///     Event loop of the interactive Automation script.
@@ -22,7 +23,7 @@
 		{
 			if (engine == null)
 			{
-				throw new ArgumentNullException("engine");
+				throw new ArgumentNullException(nameof(engine));
 			}
 
 			Engine = engine;
@@ -72,7 +73,7 @@
 		{
 			if (startDialog == null)
 			{
-				throw new ArgumentNullException("startDialog");
+				throw new ArgumentNullException(nameof(startDialog));
 			}
 
 			nextDialog = startDialog;
@@ -116,7 +117,7 @@
 		{
 			if (dialog == null)
 			{
-				throw new ArgumentNullException("dialog");
+				throw new ArgumentNullException(nameof(dialog));
 			}
 
 			nextDialog = dialog;

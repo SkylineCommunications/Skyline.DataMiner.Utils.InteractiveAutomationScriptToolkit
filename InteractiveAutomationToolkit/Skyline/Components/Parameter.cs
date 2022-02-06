@@ -1,7 +1,8 @@
 ﻿namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
 	using System;
-	using Skyline.DataMiner.Automation;
+
+	using Automation;
 
 	/// <summary>
 	///     Displays the value of a protocol parameter.
@@ -57,7 +58,7 @@
 			{
 				if (value <= 0)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
 				dmaId = value;
@@ -79,7 +80,7 @@
 			{
 				if (value <= 0)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
 				elementId = value;
@@ -119,7 +120,7 @@
 			{
 				if (value <= 0)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
 				parameterId = value;

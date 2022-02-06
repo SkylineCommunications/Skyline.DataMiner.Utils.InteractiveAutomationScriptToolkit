@@ -1,7 +1,8 @@
 ﻿namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
 	using System;
-	using Skyline.DataMiner.Automation;
+
+	using Automation;
 
 	/// <summary>
 	///     A label is used to display text.
@@ -77,13 +78,12 @@
 			{
 				if (value == null)
 				{
-					throw new ArgumentNullException("value");
+					throw new ArgumentNullException(nameof(value));
 				}
 
 				BlockDefinition.TooltipText = value;
 			}
 		}
-
 
 		private static string StyleToUiString(TextStyle textStyle)
 		{
@@ -91,14 +91,18 @@
 			{
 				case TextStyle.None:
 					return null;
+
 				case TextStyle.Title:
 					return "Title1";
+
 				case TextStyle.Bold:
 					return "Title2";
+
 				case TextStyle.Heading:
 					return "Title3";
+
 				default:
-					throw new ArgumentOutOfRangeException("textStyle", textStyle, null);
+					throw new ArgumentOutOfRangeException(nameof(textStyle), textStyle, null);
 			}
 		}
 	}

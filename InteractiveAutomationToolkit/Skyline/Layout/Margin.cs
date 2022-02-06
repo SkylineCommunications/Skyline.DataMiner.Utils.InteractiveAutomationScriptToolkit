@@ -43,7 +43,7 @@
 		/// <param name="margin">Margin in string format.</param>
 		public Margin(string margin)
 		{
-			if(String.IsNullOrWhiteSpace(margin))
+			if (String.IsNullOrWhiteSpace(margin))
 			{
 				left = 0;
 				top = 0;
@@ -75,7 +75,7 @@
 			{
 				if (value < 0)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
 				bottom = value;
@@ -96,7 +96,7 @@
 			{
 				if (value < 0)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
 				left = value;
@@ -117,7 +117,7 @@
 			{
 				if (value < 0)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
 				right = value;
@@ -138,7 +138,7 @@
 			{
 				if (value < 0)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
 				top = value;
@@ -148,7 +148,7 @@
 		/// <inheritdoc />
 		public override string ToString()
 		{
-			return String.Join(";", new object[] { left, top, right, bottom });
+			return String.Join(";", left, top, right, bottom);
 		}
 	}
 }

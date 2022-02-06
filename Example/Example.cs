@@ -248,12 +248,15 @@ public class DemoDialog : Dialog
 			case "Title":
 				TitleLabel.Style = TextStyle.Title;
 				break;
+
 			case "Heading":
 				TitleLabel.Style = TextStyle.Heading;
 				break;
+
 			case "Bold":
 				TitleLabel.Style = TextStyle.Bold;
 				break;
+
 			case "None":
 				TitleLabel.Style = TextStyle.None;
 				break;

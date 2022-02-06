@@ -2,7 +2,8 @@
 {
 	using System;
 	using System.IO;
-	using Skyline.DataMiner.Automation;
+
+	using Automation;
 
 	/// <summary>
 	/// Widget that can be used to upload files to the DMA.
@@ -33,7 +34,7 @@
 			{
 				BlockDefinition.AllowMultipleFiles = value;
 			}
-		} 
+		}
 
 		/// <summary>
 		/// Contains the paths to the uploaded files if any have been uploaded.
@@ -55,7 +56,7 @@
 			{
 				if (value == null)
 				{
-					throw new ArgumentNullException("value");
+					throw new ArgumentNullException(nameof(value));
 				}
 
 				BlockDefinition.TooltipText = value;

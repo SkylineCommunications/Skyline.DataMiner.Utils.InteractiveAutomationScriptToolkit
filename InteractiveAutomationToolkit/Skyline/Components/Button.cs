@@ -2,7 +2,8 @@
 {
 	using System;
 	using System.Linq;
-	using Skyline.DataMiner.Automation;
+
+	using Automation;
 
 	/// <summary>
 	///     A button that can be pressed.
@@ -43,7 +44,7 @@
 			{
 				if (value == null)
 				{
-					throw new ArgumentNullException("value");
+					throw new ArgumentNullException(nameof(value));
 				}
 
 				BlockDefinition.TooltipText = value;
@@ -65,7 +66,7 @@
 			remove
 			{
 				OnPressed -= value;
-				if(OnPressed == null || !OnPressed.GetInvocationList().Any())
+				if (OnPressed == null || !OnPressed.GetInvocationList().Any())
 				{
 					WantsOnChange = false;
 				}
@@ -98,7 +99,7 @@
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			if ((OnPressed != null) && pressed)
+			if (OnPressed != null && pressed)
 			{
 				OnPressed(this, EventArgs.Empty);
 			}

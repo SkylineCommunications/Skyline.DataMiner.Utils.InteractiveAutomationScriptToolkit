@@ -3,7 +3,8 @@
 	using System;
 	using System.Globalization;
 	using System.Linq;
-	using Skyline.DataMiner.Automation;
+
+	using Automation;
 
 	/// <summary>
 	///     Widget to show/edit a datetime.
@@ -89,7 +90,7 @@
 			{
 				if (value == null)
 				{
-					throw new ArgumentNullException("value");
+					throw new ArgumentNullException(nameof(value));
 				}
 
 				BlockDefinition.TooltipText = value;
@@ -137,7 +138,7 @@
 		{
 			DateTime result = uiResults.GetDateTime(DestVar);
 
-			if (WantsOnChange && (result != DateTime))
+			if (WantsOnChange && result != DateTime)
 			{
 				changed = true;
 				previous = DateTime;

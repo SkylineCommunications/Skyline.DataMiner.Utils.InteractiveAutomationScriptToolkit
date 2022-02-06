@@ -1,8 +1,8 @@
 ﻿namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
 	using System;
-	using System.Reflection;
-	using Skyline.DataMiner.Automation;
+
+	using Automation;
 
 	/// <summary>
 	///     Base class for widgets.
@@ -37,7 +37,7 @@
 			{
 				if (value <= 0)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
 				BlockDefinition.Height = value;
@@ -64,7 +64,7 @@
 			{
 				if (value <= -2)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
 				BlockDefinition.MaxHeight = value;
@@ -86,7 +86,7 @@
 			{
 				if (value <= -2)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
 				BlockDefinition.MaxWidth = value;
@@ -108,7 +108,7 @@
 			{
 				if (value <= -2)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
 				BlockDefinition.MinHeight = value;
@@ -130,7 +130,7 @@
 			{
 				if (value <= -2)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
 				BlockDefinition.MinWidth = value;
@@ -168,7 +168,7 @@
 			{
 				if (value <= 0)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
 				BlockDefinition.Width = value;

@@ -3,7 +3,8 @@
 	using System;
 	using System.Globalization;
 	using System.Linq;
-	using Skyline.DataMiner.Automation;
+
+	using Automation;
 
 	/// <summary>
 	///     Widget to show/edit a time duration.
@@ -48,7 +49,7 @@
 			remove
 			{
 				OnChanged -= value;
-				if(OnChanged == null || !OnChanged.GetInvocationList().Any())
+				if (OnChanged == null || !OnChanged.GetInvocationList().Any())
 				{
 					WantsOnChange = false;
 				}
@@ -89,7 +90,7 @@
 			{
 				if (value < 0)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
 				TimeUpDownOptions.FractionalSecondsDigitsCount = value;
@@ -162,7 +163,7 @@
 			{
 				if (value == null)
 				{
-					throw new ArgumentNullException("value");
+					throw new ArgumentNullException(nameof(value));
 				}
 
 				BlockDefinition.TooltipText = value;
@@ -185,7 +186,7 @@
 			{
 				if (value < Minimum)
 				{
-					throw new ArgumentOutOfRangeException("value", "Maximum can't be smaller than Minimum");
+					throw new ArgumentOutOfRangeException(nameof(value), "Maximum can't be smaller than Minimum");
 				}
 
 				TimeUpDownOptions.Maximum = value;
@@ -208,7 +209,7 @@
 			{
 				if (value > Maximum)
 				{
-					throw new ArgumentOutOfRangeException("value", "Minimum can't be larger than Maximum");
+					throw new ArgumentOutOfRangeException(nameof(value), "Minimum can't be larger than Maximum");
 				}
 
 				TimeUpDownOptions.Minimum = value;
@@ -251,7 +252,7 @@
 			}
 		}
 
-        /// <summary>
+		/// <summary>
 		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
 		///		This should be used by the client to add a visual marker on the input field.
 		/// </summary>
@@ -298,7 +299,7 @@
 			{
 				if (value == null)
 				{
-					throw new ArgumentNullException("value");
+					throw new ArgumentNullException(nameof(value));
 				}
 
 				timeUpDownOptions = value;
@@ -310,7 +311,7 @@
 		internal override void LoadResult(UIResults uiResults)
 		{
 			TimeSpan result = uiResults.GetTime(this);
-			if ((result != TimeSpan) && WantsOnChange)
+			if (result != TimeSpan && WantsOnChange)
 			{
 				changed = true;
 				previous = TimeSpan;
@@ -322,7 +323,7 @@
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			if (changed && (OnChanged != null))
+			if (changed && OnChanged != null)
 			{
 				OnChanged(this, new TimeChangedEventArgs(TimeSpan, previous));
 			}

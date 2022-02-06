@@ -4,7 +4,8 @@
 	using System.Collections;
 	using System.Collections.Generic;
 	using System.Linq;
-	using Skyline.DataMiner.Automation;
+
+	using Automation;
 
 	/// <summary>
 	///     A list of checkboxes.
@@ -60,7 +61,7 @@
 			remove
 			{
 				OnChanged -= value;
-				if(OnChanged == null || !OnChanged.GetInvocationList().Any())
+				if (OnChanged == null || !OnChanged.GetInvocationList().Any())
 				{
 					WantsOnChange = false;
 				}
@@ -112,7 +113,7 @@
 			{
 				if (value == null)
 				{
-					throw new ArgumentNullException("value");
+					throw new ArgumentNullException(nameof(value));
 				}
 
 				BlockDefinition.TooltipText = value;
@@ -187,7 +188,7 @@
 		{
 			if (option == null)
 			{
-				throw new ArgumentNullException("option");
+				throw new ArgumentNullException(nameof(option));
 			}
 
 			Options.Add(option);
@@ -203,7 +204,7 @@
 		{
 			if (option == null)
 			{
-				throw new ArgumentNullException("option");
+				throw new ArgumentNullException(nameof(option));
 			}
 
 			Checked.Add(option);
@@ -243,7 +244,7 @@
 		{
 			if (option == null)
 			{
-				throw new ArgumentNullException("option");
+				throw new ArgumentNullException(nameof(option));
 			}
 
 			Options.Remove(option);
@@ -259,7 +260,7 @@
 		{
 			if (option == null)
 			{
-				throw new ArgumentNullException("option");
+				throw new ArgumentNullException(nameof(option));
 			}
 
 			Unchecked.Add(option);
@@ -313,17 +314,12 @@
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			if (changed && (OnChanged != null))
+			if (changed && OnChanged != null)
 			{
 				OnChanged(this, new CheckBoxListChangedEventArgs(changedOption, changedValue));
 			}
 
 			changed = false;
-		}
-
-		private void ClearOptions()
-		{
-			Options.Clear();
 		}
 
 		/// <summary>

@@ -4,7 +4,8 @@
 	using System.Collections.Generic;
 	using System.ComponentModel;
 	using System.Linq;
-	using Skyline.DataMiner.Automation;
+
+	using Automation;
 
 	/// <summary>
 	///     A dialog represents a single window that can be shown.
@@ -37,7 +38,7 @@
 		{
 			if (engine == null)
 			{
-				throw new ArgumentNullException("engine");
+				throw new ArgumentNullException(nameof(engine));
 			}
 
 			Engine = engine;
@@ -83,7 +84,7 @@
 			{
 				if (value <= 0)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
 				height = value;
@@ -102,7 +103,7 @@
 			{
 				if (value <= 0)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
 				maxHeight = value;
@@ -121,7 +122,7 @@
 			{
 				if (value <= 0)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
 				maxWidth = value;
@@ -140,7 +141,7 @@
 			{
 				if (value <= 0)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
 				minHeight = value;
@@ -159,7 +160,7 @@
 			{
 				if (value <= 0)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
 				minWidth = value;
@@ -215,7 +216,7 @@
 			{
 				if (value <= 0)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
 
 				width = value;
@@ -227,7 +228,7 @@
 		{
 			if (widget == null)
 			{
-				throw new ArgumentNullException("widget");
+				throw new ArgumentNullException(nameof(widget));
 			}
 
 			if (widgetLayouts.ContainsKey(widget))
@@ -239,7 +240,7 @@
 
 			SortedSet<int> rowsInUse;
 			SortedSet<int> columnsInUse;
-			this.FillRowsAndColumnsInUse(out rowsInUse, out columnsInUse);
+			FillRowsAndColumnsInUse(out rowsInUse, out columnsInUse);
 
 			return this;
 		}
@@ -284,20 +285,20 @@
 		{
 			if (widget == null)
 			{
-				throw new ArgumentNullException("widget");
+				throw new ArgumentNullException(nameof(widget));
 			}
 
 			widgetLayouts.Remove(widget);
 
 			SortedSet<int> rowsInUse;
 			SortedSet<int> columnsInUse;
-			this.FillRowsAndColumnsInUse(out rowsInUse, out columnsInUse);
+			FillRowsAndColumnsInUse(out rowsInUse, out columnsInUse);
 		}
 
 		/// <inheritdoc />
 		public IDialog AddSection(Section section, SectionLayout layout)
 		{
-			foreach(Widget widget in section.Widgets)
+			foreach (Widget widget in section.Widgets)
 			{
 				IWidgetLayout widgetLayout = section.GetWidgetLayout(widget);
 				AddWidget(
@@ -323,57 +324,93 @@
 		/// <inheritdoc />
 		public void SetColumnWidth(int column, int columnWidth)
 		{
-			if (column < 0) throw new ArgumentOutOfRangeException("column");
-			if (columnWidth < 0) throw new ArgumentOutOfRangeException("columnWidth");
+			if (column < 0) throw new ArgumentOutOfRangeException(nameof(column));
+			if (columnWidth < 0) throw new ArgumentOutOfRangeException(nameof(columnWidth));
 
-			if (columnDefinitions.ContainsKey(column)) columnDefinitions[column] = columnWidth.ToString();
-			else columnDefinitions.Add(column, columnWidth.ToString());
+			if (columnDefinitions.ContainsKey(column))
+			{
+				columnDefinitions[column] = columnWidth.ToString();
+			}
+			else
+			{
+				columnDefinitions.Add(column, columnWidth.ToString());
+			}
 		}
 
 		/// <inheritdoc />
 		public void SetColumnWidthAuto(int column)
 		{
-			if (column < 0) throw new ArgumentOutOfRangeException("column");
+			if (column < 0) throw new ArgumentOutOfRangeException(nameof(column));
 
-			if (columnDefinitions.ContainsKey(column)) columnDefinitions[column] = Auto;
-			else columnDefinitions.Add(column, Auto);
+			if (columnDefinitions.ContainsKey(column))
+			{
+				columnDefinitions[column] = Auto;
+			}
+			else
+			{
+				columnDefinitions.Add(column, Auto);
+			}
 		}
 
 		/// <inheritdoc />
 		public void SetColumnWidthStretch(int column)
 		{
-			if (column < 0) throw new ArgumentOutOfRangeException("column");
+			if (column < 0) throw new ArgumentOutOfRangeException(nameof(column));
 
-			if (columnDefinitions.ContainsKey(column)) columnDefinitions[column] = Stretch;
-			else columnDefinitions.Add(column, Stretch);
+			if (columnDefinitions.ContainsKey(column))
+			{
+				columnDefinitions[column] = Stretch;
+			}
+			else
+			{
+				columnDefinitions.Add(column, Stretch);
+			}
 		}
 
 		/// <inheritdoc />
 		public void SetRowHeight(int row, int rowHeight)
 		{
-			if (row < 0) throw new ArgumentOutOfRangeException("row");
-			if (rowHeight <= 0) throw new ArgumentOutOfRangeException("rowHeight");
+			if (row < 0) throw new ArgumentOutOfRangeException(nameof(row));
+			if (rowHeight <= 0) throw new ArgumentOutOfRangeException(nameof(rowHeight));
 
-			if (rowDefinitions.ContainsKey(row)) rowDefinitions[row] = rowHeight.ToString();
-			else rowDefinitions.Add(row, rowHeight.ToString());
+			if (rowDefinitions.ContainsKey(row))
+			{
+				rowDefinitions[row] = rowHeight.ToString();
+			}
+			else
+			{
+				rowDefinitions.Add(row, rowHeight.ToString());
+			}
 		}
 
 		/// <inheritdoc />
 		public void SetRowHeightAuto(int row)
 		{
-			if (row < 0) throw new ArgumentOutOfRangeException("row");
+			if (row < 0) throw new ArgumentOutOfRangeException(nameof(row));
 
-			if (rowDefinitions.ContainsKey(row)) rowDefinitions[row] = Auto;
-			else rowDefinitions.Add(row, Auto);
+			if (rowDefinitions.ContainsKey(row))
+			{
+				rowDefinitions[row] = Auto;
+			}
+			else
+			{
+				rowDefinitions.Add(row, Auto);
+			}
 		}
 
 		/// <inheritdoc />
 		public void SetRowHeightStretch(int row)
 		{
-			if (row < 0) throw new ArgumentOutOfRangeException("row");
+			if (row < 0) throw new ArgumentOutOfRangeException(nameof(row));
 
-			if (rowDefinitions.ContainsKey(row)) rowDefinitions[row] = Stretch;
-			else rowDefinitions.Add(row, Stretch);
+			if (rowDefinitions.ContainsKey(row))
+			{
+				rowDefinitions[row] = Stretch;
+			}
+			else
+			{
+				rowDefinitions.Add(row, Stretch);
+			}
 		}
 
 		/// <inheritdoc />
@@ -412,15 +449,19 @@
 			{
 				case HorizontalAlignment.Center:
 					return "Center";
+
 				case HorizontalAlignment.Left:
 					return "Left";
+
 				case HorizontalAlignment.Right:
 					return "Right";
+
 				case HorizontalAlignment.Stretch:
 					return "Stretch";
+
 				default:
 					throw new InvalidEnumArgumentException(
-						"horizontalAlignment",
+						nameof(horizontalAlignment),
 						(int)horizontalAlignment,
 						typeof(HorizontalAlignment));
 			}
@@ -432,15 +473,19 @@
 			{
 				case VerticalAlignment.Center:
 					return "Center";
+
 				case VerticalAlignment.Top:
 					return "Top";
+
 				case VerticalAlignment.Bottom:
 					return "Bottom";
+
 				case VerticalAlignment.Stretch:
 					return "Stretch";
+
 				default:
 					throw new InvalidEnumArgumentException(
-						"verticalAlignment",
+						nameof(verticalAlignment),
 						(int)verticalAlignment,
 						typeof(VerticalAlignment));
 			}
@@ -454,7 +499,7 @@
 		{
 			if (AllowOverlappingWidgets) return;
 
-			foreach(Widget widget in widgetLayouts.Keys)
+			foreach (Widget widget in widgetLayouts.Keys)
 			{
 				if (!widget.IsVisible) continue;
 
@@ -463,7 +508,7 @@
 				{
 					for (int row = widgetLayout.Row; row < widgetLayout.Row + widgetLayout.RowSpan; row++)
 					{
-						foreach(Widget otherWidget in widgetLayouts.Keys)
+						foreach (Widget otherWidget in widgetLayouts.Keys)
 						{
 							if (!otherWidget.IsVisible || widget.Equals(otherWidget)) continue;
 
@@ -527,7 +572,7 @@
 			// Check rows and columns in use
 			SortedSet<int> rowsInUse;
 			SortedSet<int> columnsInUse;
-			this.FillRowsAndColumnsInUse(out rowsInUse, out columnsInUse);
+			FillRowsAndColumnsInUse(out rowsInUse, out columnsInUse);
 
 			// Check if visible widgets overlap and throw exception if this is the case
 			CheckIfVisibleWidgetsOverlap();
@@ -592,7 +637,7 @@
 		{
 			rowsInUse = new SortedSet<int>();
 			columnsInUse = new SortedSet<int>();
-			foreach (KeyValuePair<Widget, IWidgetLayout> keyValuePair in this.widgetLayouts)
+			foreach (KeyValuePair<Widget, IWidgetLayout> keyValuePair in widgetLayouts)
 			{
 				if (keyValuePair.Key.IsVisible && keyValuePair.Key.Type != UIBlockType.Undefined)
 				{
@@ -608,8 +653,8 @@
 				}
 			}
 
-			this.RowCount = rowsInUse.Count;
-			this.ColumnCount = columnsInUse.Count;
+			RowCount = rowsInUse.Count;
+			ColumnCount = columnsInUse.Count;
 		}
 
 		// ReSharper disable once ParameterOnlyUsedForPreconditionCheck.Local
@@ -617,7 +662,7 @@
 		{
 			if (widget == null)
 			{
-				throw new ArgumentNullException("widget");
+				throw new ArgumentNullException(nameof(widget));
 			}
 
 			if (!widgetLayouts.ContainsKey(widget))
@@ -644,13 +689,13 @@
 				Interacted(this, EventArgs.Empty);
 			}
 
-			if (uir.WasBack() && (Back != null))
+			if (uir.WasBack() && Back != null)
 			{
 				Back(this, EventArgs.Empty);
 				return;
 			}
 
-			if (uir.WasForward() && (Forward != null))
+			if (uir.WasForward() && Forward != null)
 			{
 				Forward(this, EventArgs.Empty);
 				return;
@@ -658,7 +703,8 @@
 
 			// ToList is necessary to prevent InvalidOperationException when adding or removing widgets from a event handler.
 			List<InteractiveWidget> intractableWidgets = Widgets.OfType<InteractiveWidget>()
-				.Where(widget => widget.WantsOnChange).ToList();
+				.Where(widget => widget.WantsOnChange)
+				.ToList();
 
 			foreach (InteractiveWidget intractable in intractableWidgets)
 			{

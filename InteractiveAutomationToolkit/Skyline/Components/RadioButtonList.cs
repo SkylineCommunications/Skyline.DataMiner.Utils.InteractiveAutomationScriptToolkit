@@ -4,7 +4,8 @@
 	using System.Collections;
 	using System.Collections.Generic;
 	using System.Linq;
-	using Skyline.DataMiner.Automation;
+
+	using Automation;
 
 	/// <summary>
 	///     A group of radio buttons.
@@ -106,7 +107,7 @@
 			{
 				if (value == null)
 				{
-					throw new ArgumentNullException("value");
+					throw new ArgumentNullException(nameof(value));
 				}
 
 				BlockDefinition.TooltipText = value;
@@ -149,7 +150,7 @@
 		{
 			if (option == null)
 			{
-				throw new ArgumentNullException("option");
+				throw new ArgumentNullException(nameof(option));
 			}
 
 			Options.Add(option);
@@ -168,7 +169,7 @@
 		{
 			if (option == null)
 			{
-				throw new ArgumentNullException("option");
+				throw new ArgumentNullException(nameof(option));
 			}
 
 			Options.Remove(option);
@@ -184,7 +185,7 @@
 		{
 			if (optionsToSet == null)
 			{
-				throw new ArgumentNullException("optionsToSet");
+				throw new ArgumentNullException(nameof(optionsToSet));
 			}
 
 			string previousSelected = Selected;
@@ -206,7 +207,7 @@
 			string[] checkedOptions = result.Split(';');
 			foreach (string checkedOption in checkedOptions)
 			{
-				if (!String.IsNullOrEmpty(checkedOption) && (checkedOption != Selected))
+				if (!String.IsNullOrEmpty(checkedOption) && checkedOption != Selected)
 				{
 					previous = Selected;
 					Selected = checkedOption;

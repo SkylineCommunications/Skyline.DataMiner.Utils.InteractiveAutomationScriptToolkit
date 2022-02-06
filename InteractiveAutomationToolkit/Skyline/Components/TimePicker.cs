@@ -3,7 +3,8 @@
 	using System;
 	using System.Globalization;
 	using System.Linq;
-	using Skyline.DataMiner.Automation;
+
+	using Automation;
 
 	/// <summary>
 	///     Widget to show/edit a time of day.
@@ -53,7 +54,7 @@
 			remove
 			{
 				OnChanged -= value;
-				if(OnChanged == null || !OnChanged.GetInvocationList().Any())
+				if (OnChanged == null || !OnChanged.GetInvocationList().Any())
 				{
 					WantsOnChange = false;
 				}
@@ -130,7 +131,7 @@
 			{
 				if (value == null)
 				{
-					throw new ArgumentNullException("value");
+					throw new ArgumentNullException(nameof(value));
 				}
 
 				BlockDefinition.TooltipText = value;
@@ -276,7 +277,7 @@
 			{
 				if (value == null)
 				{
-					throw new ArgumentNullException("value");
+					throw new ArgumentNullException(nameof(value));
 				}
 
 				timePickerOptions = value;
@@ -288,7 +289,7 @@
 		internal override void LoadResult(UIResults uiResults)
 		{
 			TimeSpan result = uiResults.GetTime(this);
-			if ((result != Time) && WantsOnChange)
+			if (result != Time && WantsOnChange)
 			{
 				changed = true;
 				previous = Time;
@@ -300,7 +301,7 @@
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			if (changed && (OnChanged != null))
+			if (changed && OnChanged != null)
 			{
 				OnChanged(this, new TimePickerChangedEventArgs(Time, previous));
 			}
@@ -310,9 +311,9 @@
 
 		private static void CheckTimeOfDay(TimeSpan value)
 		{
-			if ((value.Ticks < 0) && (value.Days >= 1))
+			if (value.Ticks < 0 && value.Days >= 1)
 			{
-				throw new ArgumentOutOfRangeException("value", "TimeSpan must represent time of day");
+				throw new ArgumentOutOfRangeException(nameof(value), "TimeSpan must represent time of day");
 			}
 		}
 

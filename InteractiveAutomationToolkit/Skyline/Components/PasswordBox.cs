@@ -1,7 +1,8 @@
 ﻿namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
 	using System;
-	using Skyline.DataMiner.Automation;
+
+	using Automation;
 
 	/// <summary>
 	///     A text box for passwords.
@@ -85,7 +86,7 @@
 			{
 				if (value == null)
 				{
-					throw new ArgumentNullException("value");
+					throw new ArgumentNullException(nameof(value));
 				}
 
 				BlockDefinition.TooltipText = value;
@@ -149,7 +150,7 @@
 		internal override void LoadResult(UIResults uiResults)
 		{
 			string result = uiResults.GetString(this);
-			if (WantsOnChange && (result != Password))
+			if (WantsOnChange && result != Password)
 			{
 				changed = true;
 				previous = Password;
@@ -161,7 +162,7 @@
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			if (changed && (Changed != null))
+			if (changed && Changed != null)
 			{
 				Changed(this, new PasswordBoxChangedEventArgs(Password, previous));
 			}

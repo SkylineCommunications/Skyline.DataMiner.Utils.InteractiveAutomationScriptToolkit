@@ -3,7 +3,8 @@
 	using System;
 	using System.Globalization;
 	using System.Linq;
-	using Skyline.DataMiner.Automation;
+
+	using Automation;
 
 	/// <summary>
 	///     Widget to show/edit a datetime.
@@ -15,7 +16,7 @@
 		private bool changed;
 		private DateTime dateTime;
 		private DateTime previous;
-		private bool displayServerTime = false;
+		private bool displayServerTime;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="DateTimePicker" /> class.
@@ -52,7 +53,7 @@
 			remove
 			{
 				OnChanged -= value;
-				if(OnChanged == null || !OnChanged.GetInvocationList().Any())
+				if (OnChanged == null || !OnChanged.GetInvocationList().Any())
 				{
 					WantsOnChange = false;
 				}
@@ -165,13 +166,12 @@
 			{
 				if (value == null)
 				{
-					throw new ArgumentNullException("value");
+					throw new ArgumentNullException(nameof(value));
 				}
 
 				BlockDefinition.TooltipText = value;
 			}
 		}
-
 
 		/// <summary>
 		///     Gets or sets the display mode of the calendar inside the date-time picker control.
@@ -335,7 +335,7 @@
 			string isoString = uiResults.GetString(DestVar);
 			DateTime result = DateTime.Parse(isoString);
 
-			if (WantsOnChange && (result != DateTime))
+			if (WantsOnChange && result != DateTime)
 			{
 				changed = true;
 				previous = DateTime;

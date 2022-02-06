@@ -3,9 +3,6 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
-	using System.Text;
-	using System.Threading.Tasks;
-	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	/// A section is a special component that can be used to group widgets together.
@@ -94,7 +91,7 @@
 		{
 			if (widget == null)
 			{
-				throw new ArgumentNullException("widget");
+				throw new ArgumentNullException(nameof(widget));
 			}
 
 			if (widgetLayouts.ContainsKey(widget))
@@ -207,7 +204,7 @@
 		{
 			if (widget == null)
 			{
-				throw new ArgumentNullException("widget");
+				throw new ArgumentNullException(nameof(widget));
 			}
 
 			widgetLayouts.Remove(widget);
@@ -268,7 +265,7 @@
 		{
 			if (widget == null)
 			{
-				throw new ArgumentNullException("widget");
+				throw new ArgumentNullException(nameof(widget));
 			}
 
 			if (!widgetLayouts.ContainsKey(widget))
@@ -282,7 +279,7 @@
 		/// </summary>
 		private void UpdateRowAndColumnCount()
 		{
-			if(widgetLayouts.Any())
+			if (widgetLayouts.Any())
 			{
 				RowCount = widgetLayouts.Values.Max(w => w.Row + w.RowSpan);
 				ColumnCount = widgetLayouts.Values.Max(w => w.Column + w.ColumnSpan);

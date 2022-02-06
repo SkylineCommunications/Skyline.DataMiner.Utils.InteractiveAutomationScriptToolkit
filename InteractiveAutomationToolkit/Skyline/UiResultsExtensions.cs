@@ -1,11 +1,10 @@
 ﻿namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
 	using System;
-	using System.Collections.Generic;
 	using System.Globalization;
 	using System.Linq;
-	using Skyline.DataMiner.Automation;
-	using Skyline.DataMiner.Net.AutomationUI.Objects;
+
+	using Automation;
 
 	internal static class UiResultsExtensions
 	{
@@ -62,10 +61,8 @@
 			{
 				return result;
 			}
-			else
-			{
-				return DateTime.Parse(receivedTime, CultureInfo.InvariantCulture).TimeOfDay;
-			}
+
+			return DateTime.Parse(receivedTime, CultureInfo.InvariantCulture).TimeOfDay;
 		}
 
 		public static TimeSpan GetTime(this UIResults uiResults, TimePicker time)
@@ -73,18 +70,20 @@
 			return DateTime.Parse(uiResults.GetString(time), CultureInfo.InvariantCulture).TimeOfDay;
 		}
 
-		public static IEnumerable<string> GetExpandedItemKeys(this UIResults uiResults, TreeView treeView)
+		public static string[] GetExpandedItemKeys(this UIResults uiResults, TreeView treeView)
 		{
 			string[] expandedItems = uiResults.GetExpanded(treeView.DestVar);
-			if (expandedItems == null) return new string[0];
-			return expandedItems.Where(x => !String.IsNullOrWhiteSpace(x)).ToList();
+			if (expandedItems == null) return Array.Empty<string>();
+
+			return expandedItems.Where(x => !String.IsNullOrWhiteSpace(x)).ToArray();
 		}
 
-		public static IEnumerable<string> GetCheckedItemKeys(this UIResults uiResults, TreeView treeView)
+		public static string[] GetCheckedItemKeys(this UIResults uiResults, TreeView treeView)
 		{
 			string result = uiResults.GetString(treeView.DestVar);
-			if (String.IsNullOrEmpty(result)) return new string[0];
-			return result.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+			if (String.IsNullOrEmpty(result)) return Array.Empty<string>();
+
+			return result.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
 		}
 	}
 }

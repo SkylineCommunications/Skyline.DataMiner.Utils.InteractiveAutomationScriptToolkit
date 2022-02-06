@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
 using Skyline.DataMiner.Automation;
 using Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit;
 using Skyline.DataMiner.Net.AutomationUI.Objects;
@@ -54,12 +55,12 @@ public class Script
 			string[] directories = Directory.GetDirectories(item.KeyValue);
 			string[] files = Directory.GetFiles(item.KeyValue);
 
-			foreach(string directory in directories)
+			foreach (string directory in directories)
 			{
 				item.ChildItems.Add(new TreeViewItem(directory.Split(Path.DirectorySeparatorChar).Last(), directory) { ItemType = TreeViewItem.TreeViewItemType.Empty, IsCollapsed = true, SupportsLazyLoading = true });
 			}
 
-			foreach(string file in files)
+			foreach (string file in files)
 			{
 				item.ChildItems.Add(new TreeViewItem(Path.GetFileName(file), file) { ItemType = TreeViewItem.TreeViewItemType.CheckBox });
 			}
@@ -72,7 +73,14 @@ public class Script
 	{
 		ExceptionDialog dialog = new ExceptionDialog(engine, exception);
 		dialog.OkButton.Pressed += (sender, args) => engine.ExitSuccess("Something went wrong during the creation of the new event.");
-		if (app.IsRunning) app.ShowDialog(dialog); else app.Run(dialog);
+		if (app.IsRunning)
+		{
+			app.ShowDialog(dialog);
+		}
+		else
+		{
+			app.Run(dialog);
+		}
 	}
 }
 
@@ -80,7 +88,7 @@ public class FileSelectorDialog : Dialog
 {
 	public FileSelectorDialog(Engine engine, string rootPath) : base(engine)
 	{
-		TreeView = new TreeView(new [] { new TreeViewItem(rootPath, rootPath) { IsCollapsed = true, SupportsLazyLoading = true, ItemType = TreeViewItem.TreeViewItemType.Empty } } );
+		TreeView = new TreeView(new[] { new TreeViewItem(rootPath, rootPath) { IsCollapsed = true, SupportsLazyLoading = true, ItemType = TreeViewItem.TreeViewItemType.Empty } });
 		SelectedFilesTextBox = new TextBox { IsMultiline = true, Height = 250, Width = 500 };
 		ExitButton = new Button("Exit");
 

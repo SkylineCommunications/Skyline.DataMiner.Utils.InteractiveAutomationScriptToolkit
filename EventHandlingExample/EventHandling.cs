@@ -57,8 +57,8 @@ public class MyEventDialog : Dialog
 
 	private void OnInteracted(object sender, EventArgs args)
 	{
-		const string message = "User interaction occured";
-		Engine.GenerateInformation(message);
-		Engine.Log(message);
+		const string Message = "User interaction occured";
+		Engine.GenerateInformation(Message);
+		Engine.Log(Message);
 	}
 }
