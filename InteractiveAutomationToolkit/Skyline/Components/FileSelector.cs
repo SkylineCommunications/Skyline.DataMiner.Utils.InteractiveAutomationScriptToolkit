@@ -8,7 +8,7 @@
 	/// <summary>
 	/// Widget that can be used to upload files to the DMA.
 	/// </summary>
-	public class FileSelector : InteractiveWidget
+	public class FileSelector : InteractiveWidget, IFileSelector
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FileSelector"/> class.
@@ -19,10 +19,7 @@
 			BlockDefinition.InitialValue = String.Empty;
 		}
 
-		/// <summary>
-		/// Default value: false
-		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.1.8 and Main Release 10.2.0 onwards.</remarks>
+		/// <inheritdoc />
 		public bool AllowMultipleFiles
 		{
 			get
@@ -36,15 +33,10 @@
 			}
 		}
 
-		/// <summary>
-		/// Contains the paths to the uploaded files if any have been uploaded.
-		/// </summary>
-		public string[] UploadedFilePaths { get; private set; } = new string[0];
+		/// <inheritdoc />
+		public string[] UploadedFilePaths { get; private set; } = Array.Empty<string>();
 
-		/// <summary>
-		///     Gets or sets the tooltip.
-		/// </summary>
-		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
+		/// <inheritdoc />
 		public string Tooltip
 		{
 			get
@@ -63,10 +55,7 @@
 			}
 		}
 
-		/// <summary>
-		///		Gets or sets the text that should be displayed as a placeholder.
-		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
+		/// <inheritdoc />
 		public string PlaceHolder
 		{
 			get
@@ -80,11 +69,7 @@
 			}
 		}
 
-		/// <summary>
-		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by the client to add a visual marker on the input field.
-		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
+		/// <inheritdoc />
 		public UIValidationState ValidationState
 		{
 			get
@@ -98,11 +83,7 @@
 			}
 		}
 
-		/// <summary>
-		///		Gets or sets the text that is shown if the validation state is invalid.
-		///		This should be used by the client to add a visual marker on the input field.
-		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
+		/// <inheritdoc />
 		public string ValidationText
 		{
 			get
@@ -116,11 +97,7 @@
 			}
 		}
 
-		/// <summary>
-		/// Copies the uploaded files to the specified folder.
-		/// If the folder does not exist, a new one will be created.
-		/// </summary>
-		/// <param name="folderPath">Path of the folder to where the uploaded files should be copied.</param>
+		/// <inheritdoc />
 		public void CopyUploadedFiles(string folderPath)
 		{
 			if (String.IsNullOrWhiteSpace(folderPath)) throw new ArgumentException("folderPath");
@@ -138,7 +115,7 @@
 
 		internal override void LoadResult(UIResults uiResults)
 		{
-			UploadedFilePaths = uiResults.GetUploadedFilePaths(this) ?? new string[0];
+			UploadedFilePaths = uiResults.GetUploadedFilePaths(this) ?? Array.Empty<string>();
 		}
 
 		internal override void RaiseResultEvents()

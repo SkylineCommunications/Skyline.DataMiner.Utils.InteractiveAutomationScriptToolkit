@@ -100,7 +100,7 @@
 		public void WantsOnChangeCollapseButtonOnPressedEvent()
 		{
 			IEnumerable<IWidget> widgets = new IWidget[] { new Label("Label1"), new Label("Label2") };
-			CollapseButton collapseButton = new CollapseButton(widgets, false);
+			ICollapseButton collapseButton = new CollapseButton(widgets, false);
 			Assert.IsTrue(collapseButton.WantsOnChange);
 
 			collapseButton.Pressed += CollapseButton_Pressed;
@@ -326,7 +326,7 @@
 		[TestMethod]
 		public void FindTreeViewItem()
 		{
-			TreeView treeView = new TreeView(
+			ITreeView treeView = new TreeView(
 				new[]
 				{
 					new TreeViewItem(
@@ -379,7 +379,7 @@
 		[TestMethod]
 		public void FindTreeViewItemDepth()
 		{
-			TreeView treeView = new TreeView(
+			ITreeView treeView = new TreeView(
 				new[]
 				{
 					new TreeViewItem(

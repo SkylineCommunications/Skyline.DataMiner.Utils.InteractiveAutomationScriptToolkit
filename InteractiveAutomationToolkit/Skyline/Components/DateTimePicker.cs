@@ -9,7 +9,7 @@
 	/// <summary>
 	///     Widget to show/edit a datetime.
 	/// </summary>
-	public class DateTimePicker : TimePickerBase
+	public class DateTimePicker : TimePickerBase, IDateTimePicker
 	{
 		private readonly AutomationDateTimePickerOptions dateTimePickerOptions;
 
@@ -38,10 +38,7 @@
 		{
 		}
 
-		/// <summary>
-		///     Triggered when a different datetime is picked.
-		///     WantsOnChange will be set to true when this event is subscribed to.
-		/// </summary>
+		/// <inheritdoc />
 		public event EventHandler<DateTimePickerChangedEventArgs> Changed
 		{
 			add
@@ -62,9 +59,7 @@
 
 		private event EventHandler<DateTimePickerChangedEventArgs> OnChanged;
 
-		/// <summary>
-		///		Gets or sets whether the displayed time is the server time or local time.
-		/// </summary>
+		/// <inheritdoc />
 		public bool DisplayServerTime
 		{
 			get
@@ -79,9 +74,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the datetime displayed in the datetime picker.
-		/// </summary>
+		/// <inheritdoc />
 		public DateTime DateTime
 		{
 			get
@@ -103,9 +96,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets a value indicating whether the calendar pop-up will close when the user clicks a new date.
-		/// </summary>
+		/// <inheritdoc />
 		public bool AutoCloseCalendar
 		{
 			get
@@ -119,9 +110,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the maximum timestamp.
-		/// </summary>
+		/// <inheritdoc />
 		public DateTime Maximum
 		{
 			get
@@ -135,9 +124,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the minimum timestamp.
-		/// </summary>
+		/// <inheritdoc />
 		public DateTime Minimum
 		{
 			get
@@ -151,10 +138,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the tooltip.
-		/// </summary>
-		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
+		/// <inheritdoc />
 		public string Tooltip
 		{
 			get
@@ -173,10 +157,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the display mode of the calendar inside the date-time picker control.
-		///     Default: <c>CalendarMode.Month</c>
-		/// </summary>
+		/// <inheritdoc />
 		public CalendarMode CalendarDisplayMode
 		{
 			get
@@ -190,10 +171,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets a value indicating whether the calendar control drop-down button is shown.
-		///     Default: <c>true</c>
-		/// </summary>
+		/// <inheritdoc />
 		public bool HasDropDownButton
 		{
 			get
@@ -207,10 +185,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets a value indicating whether the time picker is shown within the calender control.
-		///     Default: <c>true</c>
-		/// </summary>
+		/// <inheritdoc />
 		public bool IsTimePickerVisible
 		{
 			get
@@ -224,10 +199,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets a value indicating whether the spin box of the calender control is shown.
-		///     Default: <c>true</c>
-		/// </summary>
+		/// <inheritdoc />
 		public bool HasTimePickerSpinnerButton
 		{
 			get
@@ -241,10 +213,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets a value indicating whether the spin box of the calender is enabled.
-		///     Default: <c>true</c>
-		/// </summary>
+		/// <inheritdoc />
 		public bool IsTimePickerSpinnerButtonEnabled
 		{
 			get
@@ -258,10 +227,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the time format of the time picker.
-		///     Default: <c>DateTimeFormat.ShortTime</c>
-		/// </summary>
+		/// <inheritdoc />
 		public DateTimeFormat TimeFormat
 		{
 			get
@@ -275,10 +241,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the time format string used when TimeFormat is set to <c>DateTimeFormat.Custom</c>.
-		/// </summary>
-		/// <remarks>Sets <see cref="TimeFormat" /> to <c>DateTimeFormat.Custom</c></remarks>
+		/// <inheritdoc />
 		public string CustomTimeFormat
 		{
 			get
@@ -293,11 +256,7 @@
 			}
 		}
 
-		/// <summary>
-		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by the client to add a visual marker on the input field.
-		/// </summary>
-		/// <remarks>Available from DataMiner 10.0.5 onwards.</remarks>
+		/// <inheritdoc />
 		public UIValidationState ValidationState
 		{
 			get
@@ -311,11 +270,7 @@
 			}
 		}
 
-		/// <summary>
-		///		Gets or sets the text that is shown if the validation state is invalid.
-		///		This should be used by the client to add a visual marker on the input field.
-		/// </summary>
-		/// <remarks>Available from DataMiner 10.0.5 onwards.</remarks>
+		/// <inheritdoc />
 		public string ValidationText
 		{
 			get
@@ -360,7 +315,7 @@
 		/// </summary>
 		public class DateTimePickerChangedEventArgs : EventArgs
 		{
-			internal DateTimePickerChangedEventArgs(DateTime dateTime, DateTime previous)
+			public DateTimePickerChangedEventArgs(DateTime dateTime, DateTime previous)
 			{
 				DateTime = dateTime;
 				Previous = previous;

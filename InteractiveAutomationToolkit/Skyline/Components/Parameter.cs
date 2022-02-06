@@ -7,7 +7,7 @@
 	/// <summary>
 	///     Displays the value of a protocol parameter.
 	/// </summary>
-	public class Parameter : Widget
+	public class Parameter : Widget, IParameter
 	{
 		private int dmaId;
 		private int elementId;
@@ -36,7 +36,7 @@
 		/// <param name="element">Element that has the parameter.</param>
 		/// <param name="parameterId">ID of the parameter.</param>
 		/// <param name="index">Primary key of the table entry. Is null for standalone parameters.</param>
-		public Parameter(Element element, int parameterId, string index = null) : this(
+		public Parameter(IActionableElement element, int parameterId, string index = null) : this(
 			element.DmaId,
 			element.ElementId,
 			parameterId,
@@ -44,9 +44,7 @@
 		{
 		}
 
-		/// <summary>
-		///     Gets or sets the ID of the DataMiner Agent that has the parameter.
-		/// </summary>
+		/// <inheritdoc />
 		public int DmaId
 		{
 			get
@@ -66,9 +64,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the ID of the element that has the parameter.
-		/// </summary>
+		/// <inheritdoc />
 		public int ElementId
 		{
 			get
@@ -88,10 +84,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the primary key of the table entry.
-		/// </summary>
-		/// <remarks>Should be <c>null</c> for standalone parameters.</remarks>
+		/// <inheritdoc />
 		public string Index
 		{
 			get
@@ -106,9 +99,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the ID of the parameter.
-		/// </summary>
+		/// <inheritdoc />
 		public int ParameterId
 		{
 			get

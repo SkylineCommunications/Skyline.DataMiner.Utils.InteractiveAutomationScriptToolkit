@@ -8,7 +8,7 @@
 	///     A label is used to display text.
 	///     Text can have different styles.
 	/// </summary>
-	public class Label : Widget
+	public class Label : Widget, ILabel
 	{
 		private TextStyle style;
 
@@ -30,9 +30,7 @@
 		{
 		}
 
-		/// <summary>
-		///     Gets or sets the text style of the label.
-		/// </summary>
+		/// <inheritdoc />
 		public TextStyle Style
 		{
 			get
@@ -47,9 +45,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the displayed text.
-		/// </summary>
+		/// <inheritdoc />
 		public string Text
 		{
 			get
@@ -63,10 +59,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the tooltip.
-		/// </summary>
-		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
+		/// <inheritdoc />
 		public string Tooltip
 		{
 			get

@@ -9,7 +9,7 @@
 	/// <summary>
 	///     Widget to show/edit a datetime.
 	/// </summary>
-	public class Calendar : InteractiveWidget
+	public class Calendar : InteractiveWidget, ICalendar
 	{
 		private bool changed;
 		private DateTime dateTime;
@@ -34,10 +34,7 @@
 		{
 		}
 
-		/// <summary>
-		///     Triggered when a different datetime is picked.
-		///     WantsOnChange will be set to true when this event is subscribed to.
-		/// </summary>
+		/// <inheritdoc />
 		public event EventHandler<CalendarChangedEventArgs> Changed
 		{
 			add
@@ -58,9 +55,7 @@
 
 		private event EventHandler<CalendarChangedEventArgs> OnChanged;
 
-		/// <summary>
-		///     Gets or sets the datetime displayed on the calendar.
-		/// </summary>
+		/// <inheritdoc />
 		public DateTime DateTime
 		{
 			get
@@ -75,10 +70,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the tooltip.
-		/// </summary>
-		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
+		/// <inheritdoc />
 		public string Tooltip
 		{
 			get
@@ -97,11 +89,7 @@
 			}
 		}
 
-		/// <summary>
-		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by the client to add a visual marker on the input field.
-		/// </summary>
-		/// <remarks>Available from DataMiner 10.0.5 onwards.</remarks>
+		/// <inheritdoc />
 		public UIValidationState ValidationState
 		{
 			get
@@ -115,11 +103,7 @@
 			}
 		}
 
-		/// <summary>
-		///		Gets or sets the text that is shown if the validation state is invalid.
-		///		This should be used by the client to add a visual marker on the input field.
-		/// </summary>
-		/// <remarks>Available from DataMiner 10.0.5 onwards.</remarks>
+		/// <inheritdoc />
 		public string ValidationText
 		{
 			get
@@ -163,7 +147,7 @@
 		/// </summary>
 		public class CalendarChangedEventArgs : EventArgs
 		{
-			internal CalendarChangedEventArgs(DateTime dateTime, DateTime previous)
+			public CalendarChangedEventArgs(DateTime dateTime, DateTime previous)
 			{
 				DateTime = dateTime;
 				Previous = previous;

@@ -9,7 +9,7 @@
 	/// <summary>
 	///		A button that can be used to show/hide a collection of widgets.
 	/// </summary>
-	public class CollapseButton : InteractiveWidget
+	public class CollapseButton : InteractiveWidget, ICollapseButton
 	{
 		private const string COLLAPSE = "Collapse";
 		private const string EXPAND = "Expand";
@@ -37,18 +37,12 @@
 			WantsOnChange = true;
 		}
 
-		/// <summary>
-		/// Initializes a new instance of the CollapseButton class.
-		/// </summary>
-		/// <param name="isCollapsed">State of the collapse button.</param>
+		/// <inheritdoc />
 		public CollapseButton(bool isCollapsed = false) : this(Array.Empty<IWidget>(), isCollapsed)
 		{
 		}
 
-		/// <summary>
-		///     Triggered when the button is pressed.
-		///     WantsOnChange will be set to true when this event is subscribed to.
-		/// </summary>
+		/// <inheritdoc />
 		public event EventHandler<EventArgs> Pressed
 		{
 			add
@@ -64,11 +58,7 @@
 
 		private event EventHandler<EventArgs> OnPressed;
 
-		/// <summary>
-		/// Indicates if the collapse button is collapsed or not.
-		/// If the collapse button is collapsed, the IsVisible property of all linked widgets is set to false.
-		/// If the collapse button is not collapsed, the IsVisible property of all linked widgets is set to true.
-		/// </summary>
+		/// <inheritdoc />
 		public bool IsCollapsed
 		{
 			get
@@ -87,9 +77,7 @@
 			}
 		}
 
-		/// <summary>
-		/// Gets or sets the text to be displayed in the collapse button when the button is expanded.
-		/// </summary>
+		/// <inheritdoc />
 		public string CollapseText
 		{
 			get
@@ -106,10 +94,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the tooltip.
-		/// </summary>
-		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
+		/// <inheritdoc />
 		public string Tooltip
 		{
 			get
@@ -128,9 +113,7 @@
 			}
 		}
 
-		/// <summary>
-		/// Gets or sets the text to be displayed in the collapse button when the button is collapsed.
-		/// </summary>
+		/// <inheritdoc />
 		public string ExpandText
 		{
 			get
@@ -147,22 +130,16 @@
 			}
 		}
 
-		/// <summary>
-		/// Collection of widgets that are affected by this collapse button.
-		/// </summary>
+		/// <inheritdoc />
 		public List<IWidget> LinkedWidgets { get; private set; }
 
-		/// <summary>
-		/// This method is used to collapse the collapse button.
-		/// </summary>
+		/// <inheritdoc />
 		public void Collapse()
 		{
 			IsCollapsed = true;
 		}
 
-		/// <summary>
-		/// This method is used to expand the collapse button.
-		/// </summary>
+		/// <inheritdoc />
 		public void Expand()
 		{
 			IsCollapsed = false;
@@ -191,13 +168,13 @@
 		/// <param name="collapseButton">Collapse button that is checked.</param>
 		/// <param name="collapse">Indicates if the top collapse button is going to be collapsed or expanded.</param>
 		/// <returns>List of affected widgets.</returns>
-		private static List<IWidget> GetAffectedWidgets(CollapseButton collapseButton, bool collapse)
+		private static List<IWidget> GetAffectedWidgets(ICollapseButton collapseButton, bool collapse)
 		{
 			List<IWidget> affectedWidgets = new List<IWidget>();
 			affectedWidgets.AddRange(collapseButton.LinkedWidgets);
 
-			var nestedCollapseButtons = collapseButton.LinkedWidgets.OfType<CollapseButton>();
-			foreach (CollapseButton nestedCollapseButton in nestedCollapseButtons)
+			var nestedCollapseButtons = collapseButton.LinkedWidgets.OfType<ICollapseButton>();
+			foreach (ICollapseButton nestedCollapseButton in nestedCollapseButtons)
 			{
 				if (collapse)
 				{

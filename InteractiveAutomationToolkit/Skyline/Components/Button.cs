@@ -8,7 +8,7 @@
 	/// <summary>
 	///     A button that can be pressed.
 	/// </summary>
-	public class Button : InteractiveWidget
+	public class Button : InteractiveWidget, IButton
 	{
 		private bool pressed;
 
@@ -29,10 +29,7 @@
 		{
 		}
 
-		/// <summary>
-		///     Gets or sets the tooltip.
-		/// </summary>
-		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
+		/// <inheritdoc />
 		public string Tooltip
 		{
 			get
@@ -51,10 +48,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Triggered when the button is pressed.
-		///     WantsOnChange will be set to true when this event is subscribed to.
-		/// </summary>
+		/// <inheritdoc />
 		public event EventHandler<EventArgs> Pressed
 		{
 			add
@@ -75,9 +69,7 @@
 
 		private event EventHandler<EventArgs> OnPressed;
 
-		/// <summary>
-		///     Gets or sets the text displayed in the button.
-		/// </summary>
+		/// <inheritdoc />
 		public string Text
 		{
 			get

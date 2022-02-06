@@ -8,7 +8,7 @@
 	/// <summary>
 	///     Widget that is used to edit and display text.
 	/// </summary>
-	public class TextBox : InteractiveWidget
+	public class TextBox : InteractiveWidget, ITextBox
 	{
 		private bool changed;
 		private string previous;
@@ -33,10 +33,7 @@
 		{
 		}
 
-		/// <summary>
-		///     Triggered when the text in the text box changes.
-		///     WantsOnChange will be set to true when this event is subscribed to.
-		/// </summary>
+		/// <inheritdoc />
 		public event EventHandler<TextBoxChangedEventArgs> Changed
 		{
 			add
@@ -57,9 +54,7 @@
 
 		private event EventHandler<TextBoxChangedEventArgs> OnChanged;
 
-		/// <summary>
-		///     Gets or sets a value indicating whether users are able to enter multiple lines of text.
-		/// </summary>
+		/// <inheritdoc />
 		public bool IsMultiline
 		{
 			get
@@ -73,9 +68,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the text displayed in the text box.
-		/// </summary>
+		/// <inheritdoc />
 		public string Text
 		{
 			get
@@ -89,10 +82,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the tooltip.
-		/// </summary>
-		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
+		/// <inheritdoc />
 		public string Tooltip
 		{
 			get
@@ -111,10 +101,7 @@
 			}
 		}
 
-		/// <summary>
-		///		Gets or sets the text that should be displayed as a placeholder.
-		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
+		/// <inheritdoc />
 		public string PlaceHolder
 		{
 			get
@@ -128,11 +115,7 @@
 			}
 		}
 
-		/// <summary>
-		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by the client to add a visual marker on the input field.
-		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
+		/// <inheritdoc />
 		public UIValidationState ValidationState
 		{
 			get
@@ -146,11 +129,7 @@
 			}
 		}
 
-		/// <summary>
-		///		Gets or sets the text that is shown if the validation state is invalid.
-		///		This should be used by the client to add a visual marker on the input field.
-		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
+		/// <inheritdoc />
 		public string ValidationText
 		{
 			get
@@ -192,7 +171,7 @@
 		/// </summary>
 		public class TextBoxChangedEventArgs : EventArgs
 		{
-			internal TextBoxChangedEventArgs(string value, string previous)
+			public TextBoxChangedEventArgs(string value, string previous)
 			{
 				Value = value;
 				Previous = previous;

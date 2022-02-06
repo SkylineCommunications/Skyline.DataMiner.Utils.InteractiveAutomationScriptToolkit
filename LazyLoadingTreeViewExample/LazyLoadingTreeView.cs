@@ -97,9 +97,9 @@ public class FileSelectorDialog : Dialog
 		AddWidget(ExitButton, 2, 0);
 	}
 
-	public TreeView TreeView { get; private set; }
+	public ITreeView TreeView { get; private set; }
 
-	public TextBox SelectedFilesTextBox { get; private set; }
+	public ITextBox SelectedFilesTextBox { get; private set; }
 
-	public Button ExitButton { get; private set; }
+	public IButton ExitButton { get; private set; }
 }

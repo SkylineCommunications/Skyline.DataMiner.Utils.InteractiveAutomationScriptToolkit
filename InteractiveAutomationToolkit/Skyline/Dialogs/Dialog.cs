@@ -541,10 +541,9 @@
 
 			KeyValuePair<IWidget, IWidgetLayout> defaultKeyValuePair = default(KeyValuePair<IWidget, IWidgetLayout>);
 			int rowIndex = 0;
-			int columnIndex = 0;
 			foreach (int rowInUse in rowsInUse)
 			{
-				columnIndex = 0;
+				var columnIndex = 0;
 				foreach (int columnInUse in columnsInUse)
 				{
 					foreach (KeyValuePair<IWidget, IWidgetLayout> keyValuePair in widgetLayouts.Where(x => x.Key.IsVisible && x.Key.Type != UIBlockType.Undefined && x.Value.Row.Equals(rowInUse) && x.Value.Column.Equals(columnInUse)))

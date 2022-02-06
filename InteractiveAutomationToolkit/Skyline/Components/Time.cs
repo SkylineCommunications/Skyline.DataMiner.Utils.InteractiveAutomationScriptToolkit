@@ -9,7 +9,7 @@
 	/// <summary>
 	///     Widget to show/edit a time duration.
 	/// </summary>
-	public class Time : InteractiveWidget
+	public class Time : InteractiveWidget, ITime
 	{
 		private bool changed;
 		private TimeSpan previous;
@@ -34,10 +34,7 @@
 		{
 		}
 
-		/// <summary>
-		///     Triggered when the timespan changes.
-		///     WantsOnChange will be set to true when this event is subscribed to.
-		/// </summary>
+		/// <inheritdoc />
 		public event EventHandler<TimeChangedEventArgs> Changed
 		{
 			add
@@ -58,10 +55,7 @@
 
 		private event EventHandler<TimeChangedEventArgs> OnChanged;
 
-		/// <summary>
-		///     Gets or sets a value indicating whether the value is clipped to the range.
-		///     Default: <c>false</c>
-		/// </summary>
+		/// <inheritdoc />
 		public bool ClipValueToRange
 		{
 			get
@@ -75,10 +69,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the number of digits to be used in order to represent the fractions of seconds.
-		///     Default: <c>0</c>
-		/// </summary>
+		/// <inheritdoc />
 		public int Decimals
 		{
 			get
@@ -97,10 +88,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets a value indicating whether seconds are displayed in the time widget.
-		///     Default: <c>true</c>
-		/// </summary>
+		/// <inheritdoc />
 		public bool HasSeconds
 		{
 			get
@@ -114,10 +102,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets a value indicating whether a spinner button is shown.
-		///     Default: <c>true</c>
-		/// </summary>
+		/// <inheritdoc />
 		public bool HasSpinnerButton
 		{
 			get
@@ -131,10 +116,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets a value indicating whether the spinner button is enabled.
-		///     Default: <c>true</c>
-		/// </summary>
+		/// <inheritdoc />
 		public bool IsSpinnerButtonEnabled
 		{
 			get
@@ -148,10 +130,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the tooltip.
-		/// </summary>
-		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
+		/// <inheritdoc />
 		public string Tooltip
 		{
 			get
@@ -170,11 +149,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the maximum timespan.
-		///     Default: <c>TimeSpan.MaxValue</c>
-		/// </summary>
-		/// <exception cref="ArgumentOutOfRangeException">When the maximum is smaller than the minimum.</exception>
+		/// <inheritdoc />
 		public TimeSpan Maximum
 		{
 			get
@@ -193,11 +168,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the minimum timespan.
-		///     Default: <c>TimeSpan.MinValue</c>
-		/// </summary>
-		/// <exception cref="ArgumentOutOfRangeException">When the minimum is larger than the maximum.</exception>
+		/// <inheritdoc />
 		public TimeSpan Minimum
 		{
 			get
@@ -216,9 +187,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the timespan displayed in the time widget.
-		/// </summary>
+		/// <inheritdoc />
 		public TimeSpan TimeSpan
 		{
 			get
@@ -235,10 +204,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets a value indicating whether the widget will only trigger an event when the enter key is pressed.
-		///     Default: <c>false</c>
-		/// </summary>
+		/// <inheritdoc />
 		public bool UpdateOnEnter
 		{
 			get
@@ -252,11 +218,7 @@
 			}
 		}
 
-		/// <summary>
-		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by the client to add a visual marker on the input field.
-		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
+		/// <inheritdoc />
 		public UIValidationState ValidationState
 		{
 			get
@@ -270,11 +232,7 @@
 			}
 		}
 
-		/// <summary>
-		///		Gets or sets the text that is shown if the validation state is invalid.
-		///		This should be used by the client to add a visual marker on the input field.
-		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
+		/// <inheritdoc />
 		public string ValidationText
 		{
 			get
@@ -336,7 +294,7 @@
 		/// </summary>
 		public class TimeChangedEventArgs : EventArgs
 		{
-			internal TimeChangedEventArgs(TimeSpan timeSpan, TimeSpan previous)
+			public TimeChangedEventArgs(TimeSpan timeSpan, TimeSpan previous)
 			{
 				TimeSpan = timeSpan;
 				Previous = previous;

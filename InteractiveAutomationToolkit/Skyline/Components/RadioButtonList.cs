@@ -10,7 +10,7 @@
 	/// <summary>
 	///     A group of radio buttons.
 	/// </summary>
-	public class RadioButtonList : InteractiveWidget
+	public class RadioButtonList : InteractiveWidget, IRadioButtonList
 	{
 		private readonly OptionsCollection optionsCollection;
 		private bool changed;
@@ -40,10 +40,7 @@
 			Selected = selected;
 		}
 
-		/// <summary>
-		///     Triggered when a different option is selected.
-		///     WantsOnChange will be set to true when this event is subscribed to.
-		/// </summary>
+		/// <inheritdoc />
 		public event EventHandler<RadioButtonChangedEventArgs> Changed
 		{
 			add
@@ -64,10 +61,7 @@
 
 		private event EventHandler<RadioButtonChangedEventArgs> OnChanged;
 
-		/// <summary>
-		///     Gets or sets a value indicating whether the options are sorted naturally.
-		/// </summary>
-		/// <remarks>Available from DataMiner 9.5.6 onwards.</remarks>
+		/// <inheritdoc />
 		public bool IsSorted
 		{
 			get
@@ -81,9 +75,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets all options.
-		/// </summary>
+		/// <inheritdoc />
 		public ICollection<string> Options
 		{
 			get
@@ -92,10 +84,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the tooltip.
-		/// </summary>
-		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
+		/// <inheritdoc />
 		public string Tooltip
 		{
 			get
@@ -114,11 +103,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the selected option.
-		///		Will do nothing if the option does not exist.
-		/// </summary>
-		/// <remarks><c>null</c> is allowed to show nothing is selected.</remarks>
+		/// <inheritdoc />
 		public string Selected
 		{
 			get
@@ -141,11 +126,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Adds a radio button to the group.
-		/// </summary>
-		/// <param name="option">Option to add.</param>
-		/// <exception cref="ArgumentNullException">When option is null.</exception>
+		/// <inheritdoc />
 		public void AddOption(string option)
 		{
 			if (option == null)
@@ -156,15 +137,7 @@
 			Options.Add(option);
 		}
 
-		/// <summary>
-		/// 	Removes an option from the radio button list.
-		/// </summary>
-		/// <remarks>
-		/// If the currently selected option is removed,
-		/// <see cref="Selected"/> will be set to <c>null</c>.
-		/// </remarks>
-		/// <param name="option">Option to remove.</param>
-		/// <exception cref="ArgumentNullException">When option is null.</exception>
+		/// <inheritdoc />
 		public void RemoveOption(string option)
 		{
 			if (option == null)
@@ -175,12 +148,7 @@
 			Options.Remove(option);
 		}
 
-		/// <summary>
-		///     Sets the displayed options.
-		///     Replaces existing options.
-		/// </summary>
-		/// <param name="optionsToSet">Options to set.</param>
-		/// <exception cref="ArgumentNullException">When optionsToSet is null.</exception>
+		/// <inheritdoc />
 		public void SetOptions(IEnumerable<string> optionsToSet)
 		{
 			if (optionsToSet == null)
@@ -233,7 +201,7 @@
 		/// </summary>
 		public class RadioButtonChangedEventArgs : EventArgs
 		{
-			internal RadioButtonChangedEventArgs(string selectedValue, string previous)
+			public RadioButtonChangedEventArgs(string selectedValue, string previous)
 			{
 				SelectedValue = selectedValue;
 				Previous = previous;

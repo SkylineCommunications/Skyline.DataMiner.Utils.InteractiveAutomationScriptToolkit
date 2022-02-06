@@ -10,7 +10,7 @@
 	///     A spinner or numeric up-down control.
 	///     Has a slider when the range is limited.
 	/// </summary>
-	public class Numeric : InteractiveWidget
+	public class Numeric : InteractiveWidget, INumeric
 	{
 		private bool changed;
 		private double previous;
@@ -39,10 +39,7 @@
 		{
 		}
 
-		/// <summary>
-		///     Triggered when the value of the numeric changes.
-		///     WantsOnChange will be set to true when this event is subscribed to.
-		/// </summary>
+		/// <inheritdoc />
 		public event EventHandler<NumericChangedEventArgs> Changed
 		{
 			add
@@ -63,10 +60,7 @@
 
 		private event EventHandler<NumericChangedEventArgs> OnChanged;
 
-		/// <summary>
-		///     Gets or sets the number of decimals to show.
-		/// </summary>
-		/// <exception cref="ArgumentOutOfRangeException">When the value is smaller than 0.</exception>
+		/// <inheritdoc />
 		public int Decimals
 		{
 			get
@@ -85,11 +79,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the maximum value of the range.
-		/// </summary>
-		/// <exception cref="ArgumentException">When the value is smaller than the minimum.</exception>
-		/// <exception cref="ArgumentException">When the value is <c>Double.NaN</c> or infinity.</exception>
+		/// <inheritdoc />
 		public double Maximum
 		{
 			get
@@ -111,11 +101,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the minimum value of the range.
-		/// </summary>
-		/// <exception cref="ArgumentException">When the value is larger than the maximum.</exception>
-		/// <exception cref="ArgumentException">When the value is <c>Double.NaN</c> or infinity.</exception>
+		/// <inheritdoc />
 		public double Minimum
 		{
 			get
@@ -137,10 +123,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the tooltip.
-		/// </summary>
-		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
+		/// <inheritdoc />
 		public string Tooltip
 		{
 			get
@@ -159,10 +142,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the step size.
-		/// </summary>
-		/// <exception cref="ArgumentException">When the value is <c>Double.NaN</c> or infinity.</exception>
+		/// <inheritdoc />
 		public double StepSize
 		{
 			get
@@ -177,9 +157,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the value of the numeric.
-		/// </summary>
+		/// <inheritdoc />
 		public double Value
 		{
 			get
@@ -195,11 +173,7 @@
 			}
 		}
 
-		/// <summary>
-		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by the client to add a visual marker on the input field.
-		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
+		/// <inheritdoc />
 		public UIValidationState ValidationState
 		{
 			get
@@ -213,11 +187,7 @@
 			}
 		}
 
-		/// <summary>
-		///		Gets or sets the text that is shown if the validation state is invalid.
-		///		This should be used by the client to add a visual marker on the input field.
-		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
+		/// <inheritdoc />
 		public string ValidationText
 		{
 			get
@@ -297,7 +267,7 @@
 		/// </summary>
 		public class NumericChangedEventArgs : EventArgs
 		{
-			internal NumericChangedEventArgs(double value, double previous)
+			public NumericChangedEventArgs(double value, double previous)
 			{
 				Value = value;
 				Previous = previous;

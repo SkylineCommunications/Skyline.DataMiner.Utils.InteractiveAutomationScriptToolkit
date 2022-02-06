@@ -8,7 +8,7 @@
 	///     A text box for passwords.
 	/// </summary>
 	/// <remarks>Available from DataMiner 9.6.6 onwards.</remarks>
-	public class PasswordBox : InteractiveWidget
+	public class PasswordBox : InteractiveWidget, IPasswordBox
 	{
 		private bool changed;
 		private string previous;
@@ -33,15 +33,10 @@
 		{
 		}
 
-		/// <summary>
-		///     Triggered when the password changes.
-		/// </summary>
+		/// <inheritdoc />
 		public event EventHandler<PasswordBoxChangedEventArgs> Changed;
 
-		/// <summary>
-		///     Gets or sets a value indicating whether the peek icon to reveal the password is shown.
-		///     Default: <c>false</c>
-		/// </summary>
+		/// <inheritdoc />
 		public bool HasPeekIcon
 		{
 			get
@@ -55,9 +50,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the password set in the password box.
-		/// </summary>
+		/// <inheritdoc />
 		public string Password
 		{
 			get
@@ -71,10 +64,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the tooltip.
-		/// </summary>
-		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
+		/// <inheritdoc />
 		public string Tooltip
 		{
 			get
@@ -93,10 +83,7 @@
 			}
 		}
 
-		/// <summary>
-		///		Gets or sets the text that should be displayed as a placeholder.
-		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
+		/// <inheritdoc />
 		public string PlaceHolder
 		{
 			get
@@ -110,11 +97,7 @@
 			}
 		}
 
-		/// <summary>
-		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by the client to add a visual marker on the input field.
-		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
+		/// <inheritdoc />
 		public UIValidationState ValidationState
 		{
 			get
@@ -128,11 +111,7 @@
 			}
 		}
 
-		/// <summary>
-		///		Gets or sets the text that is shown if the validation state is invalid.
-		///		This should be used by the client to add a visual marker on the input field.
-		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
+		/// <inheritdoc />
 		public string ValidationText
 		{
 			get
@@ -175,7 +154,7 @@
 		/// </summary>
 		public class PasswordBoxChangedEventArgs : EventArgs
 		{
-			internal PasswordBoxChangedEventArgs(string password, string previous)
+			public PasswordBoxChangedEventArgs(string password, string previous)
 			{
 				Password = password;
 				Previous = previous;

@@ -8,7 +8,7 @@
 	/// <summary>
 	///     A checkbox that can be selected or cleared.
 	/// </summary>
-	public class CheckBox : InteractiveWidget
+	public class CheckBox : InteractiveWidget, ICheckBox
 	{
 		private bool changed;
 		private bool isChecked;
@@ -31,10 +31,7 @@
 		{
 		}
 
-		/// <summary>
-		///     Triggered when the state of the checkbox changes.
-		///     WantsOnChange will be set to true when this event is subscribed to.
-		/// </summary>
+		/// <inheritdoc />
 		public event EventHandler<CheckBoxChangedEventArgs> Changed
 		{
 			add
@@ -57,10 +54,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Triggered when the checkbox is selected.
-		///     WantsOnChange will be set to true when this event is subscribed to.
-		/// </summary>
+		/// <inheritdoc />
 		public event EventHandler<EventArgs> Checked
 		{
 			add
@@ -83,10 +77,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Triggered when the checkbox is cleared.
-		///     WantsOnChange will be set to true when this event is subscribed to.
-		/// </summary>
+		/// <inheritdoc />
 		public event EventHandler<EventArgs> UnChecked
 		{
 			add
@@ -115,9 +106,7 @@
 
 		private event EventHandler<EventArgs> OnUnChecked;
 
-		/// <summary>
-		///     Gets or sets a value indicating whether the checkbox is selected.
-		/// </summary>
+		/// <inheritdoc />
 		public bool IsChecked
 		{
 			get
@@ -132,9 +121,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the displayed text next to the checkbox.
-		/// </summary>
+		/// <inheritdoc />
 		public string Text
 		{
 			get
@@ -148,10 +135,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the tooltip.
-		/// </summary>
-		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
+		/// <inheritdoc />
 		public string Tooltip
 		{
 			get
@@ -212,7 +196,7 @@
 		/// </summary>
 		public class CheckBoxChangedEventArgs : EventArgs
 		{
-			internal CheckBoxChangedEventArgs(bool isChecked)
+			public CheckBoxChangedEventArgs(bool isChecked)
 			{
 				IsChecked = isChecked;
 			}

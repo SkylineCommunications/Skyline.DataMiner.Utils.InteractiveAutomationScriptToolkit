@@ -10,7 +10,7 @@
 	/// <summary>
 	///     A list of checkboxes.
 	/// </summary>
-	public class CheckBoxList : InteractiveWidget
+	public class CheckBoxList : InteractiveWidget, ICheckBoxList
 	{
 		private readonly OptionsCollection optionsCollection;
 		private readonly CheckedCollection checkedCollection;
@@ -46,10 +46,7 @@
 			ValidationState = UIValidationState.NotValidated;
 		}
 
-		/// <summary>
-		///     Triggered when the state of a checkbox changes.
-		///     WantsOnChange will be set to true when this event is subscribed to.
-		/// </summary>
+		/// <inheritdoc />
 		public event EventHandler<CheckBoxListChangedEventArgs> Changed
 		{
 			add
@@ -70,9 +67,7 @@
 
 		private event EventHandler<CheckBoxListChangedEventArgs> OnChanged;
 
-		/// <summary>
-		///     Gets all selected options.
-		/// </summary>
+		/// <inheritdoc />
 		public ICollection<string> Checked
 		{
 			get
@@ -81,10 +76,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets a value indicating whether the options are sorted naturally.
-		/// </summary>
-		/// <remarks>Available from DataMiner 9.5.6 onwards.</remarks>
+		/// <inheritdoc />
 		public bool IsSorted
 		{
 			get
@@ -98,10 +90,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the tooltip.
-		/// </summary>
-		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
+		/// <inheritdoc />
 		public string Tooltip
 		{
 			get
@@ -120,9 +109,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets all options.
-		/// </summary>
+		/// <inheritdoc />
 		public ICollection<string> Options
 		{
 			get
@@ -131,9 +118,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets all options that are not selected.
-		/// </summary>
+		/// <inheritdoc />
 		public ICollection<string> Unchecked
 		{
 			get
@@ -142,11 +127,7 @@
 			}
 		}
 
-		/// <summary>
-		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by the client to add a visual marker on the input field.
-		/// </summary>
-		/// <remarks>Available from DataMiner 10.0.5 onwards.</remarks>
+		/// <inheritdoc />
 		public UIValidationState ValidationState
 		{
 			get
@@ -160,12 +141,7 @@
 			}
 		}
 
-		/// <summary>
-		///		Gets or sets the text that is shown if the validation state is invalid.
-		///		This should be used by the client to add a visual marker on the input field.
-		///		The validation text is not displayed for a checkbox list, but if this value is not explicitly set, the validation state will have no influence on the way the component is displayed.
-		/// </summary>
-		/// <remarks>Available from DataMiner 10.0.5 onwards.</remarks>
+		/// <inheritdoc />
 		public string ValidationText
 		{
 			get
@@ -179,11 +155,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Adds an option to the checkbox list.
-		/// </summary>
-		/// <param name="option">Option to add.</param>
-		/// <exception cref="ArgumentNullException">When options is null.</exception>
+		/// <inheritdoc />
 		public void AddOption(string option)
 		{
 			if (option == null)
@@ -194,12 +166,7 @@
 			Options.Add(option);
 		}
 
-		/// <summary>
-		///     Selects an option.
-		/// </summary>
-		/// <param name="option">Option to be selected.</param>
-		/// <exception cref="ArgumentNullException">When option is null.</exception>
-		/// <exception cref="ArgumentException">When the option does not exist.</exception>
+		/// <inheritdoc />
 		public void Check(string option)
 		{
 			if (option == null)
@@ -210,20 +177,13 @@
 			Checked.Add(option);
 		}
 
-		/// <summary>
-		///     Selects all options.
-		/// </summary>
+		/// <inheritdoc />
 		public void CheckAll()
 		{
 			Unchecked.Clear();
 		}
 
-		/// <summary>
-		///     Sets the displayed options.
-		///     Replaces existing options.
-		/// </summary>
-		/// <param name="options">Options to set.</param>
-		/// <exception cref="ArgumentNullException">When options is null.</exception>
+		/// <inheritdoc />
 		public void SetOptions(IEnumerable<string> options)
 		{
 			if (options == null) throw new ArgumentNullException(nameof(options));
@@ -235,11 +195,7 @@
 			}
 		}
 
-		/// <summary>
-		/// 	Removes an option from the checkbox list.
-		/// </summary>
-		/// <param name="option">Option to remove.</param>
-		/// <exception cref="NullReferenceException">When option is null.</exception>
+		/// <inheritdoc />
 		public void RemoveOption(string option)
 		{
 			if (option == null)
@@ -250,12 +206,7 @@
 			Options.Remove(option);
 		}
 
-		/// <summary>
-		///     Clears an option.
-		/// </summary>
-		/// <param name="option">Option to be cleared.</param>
-		/// <exception cref="ArgumentNullException">When option is null.</exception>
-		/// <exception cref="ArgumentException">When the option does not exist.</exception>
+		/// <inheritdoc />
 		public void Uncheck(string option)
 		{
 			if (option == null)
@@ -266,9 +217,7 @@
 			Unchecked.Add(option);
 		}
 
-		/// <summary>
-		///     Clears all options.
-		/// </summary>
+		/// <inheritdoc />
 		public void UncheckAll()
 		{
 			Checked.Clear();
@@ -327,7 +276,7 @@
 		/// </summary>
 		public class CheckBoxListChangedEventArgs : EventArgs
 		{
-			internal CheckBoxListChangedEventArgs(string option, bool isChecked)
+			public CheckBoxListChangedEventArgs(string option, bool isChecked)
 			{
 				Option = option;
 				IsChecked = isChecked;
