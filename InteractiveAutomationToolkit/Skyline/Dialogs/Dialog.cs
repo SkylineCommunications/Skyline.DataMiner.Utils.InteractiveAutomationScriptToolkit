@@ -51,11 +51,7 @@
 			RowCount = 0;
 			ColumnCount = 0;
 			Title = "Dialog";
-			AllowOverlappingWidgets = false;
 		}
-
-		/// <inheritdoc />
-		public bool AllowOverlappingWidgets { get; set; }
 
 		/// <inheritdoc />
 		public event EventHandler<EventArgs> Back;
@@ -491,38 +487,6 @@
 			}
 		}
 
-		/// <summary>
-		/// Checks if any visible widgets in the Dialog overlap.
-		/// </summary>
-		/// <exception cref="OverlappingWidgetsException">Thrown when two visible widgets overlap with each other.</exception>
-		private void CheckIfVisibleWidgetsOverlap()
-		{
-			if (AllowOverlappingWidgets) return;
-
-			foreach (Widget widget in widgetLayouts.Keys)
-			{
-				if (!widget.IsVisible) continue;
-
-				IWidgetLayout widgetLayout = widgetLayouts[widget];
-				for (int column = widgetLayout.Column; column < widgetLayout.Column + widgetLayout.ColumnSpan; column++)
-				{
-					for (int row = widgetLayout.Row; row < widgetLayout.Row + widgetLayout.RowSpan; row++)
-					{
-						foreach (Widget otherWidget in widgetLayouts.Keys)
-						{
-							if (!otherWidget.IsVisible || widget.Equals(otherWidget)) continue;
-
-							IWidgetLayout otherWidgetLayout = widgetLayouts[otherWidget];
-							if (column >= otherWidgetLayout.Column && column < otherWidgetLayout.Column + otherWidgetLayout.ColumnSpan && row >= otherWidgetLayout.Row && row < otherWidgetLayout.Row + otherWidgetLayout.RowSpan)
-							{
-								throw new OverlappingWidgetsException(String.Format("The widget overlaps with another widget in the Dialog on Row {0}, Column {1}, RowSpan {2}, ColumnSpan {3}", widgetLayout.Row, widgetLayout.Column, widgetLayout.RowSpan, widgetLayout.ColumnSpan));
-							}
-						}
-					}
-				}
-			}
-		}
-
 		private string GetRowDefinitions(SortedSet<int> rowsInUse)
 		{
 			string[] definitions = new string[rowsInUse.Count];
@@ -573,9 +537,6 @@
 			SortedSet<int> rowsInUse;
 			SortedSet<int> columnsInUse;
 			FillRowsAndColumnsInUse(out rowsInUse, out columnsInUse);
-
-			// Check if visible widgets overlap and throw exception if this is the case
-			CheckIfVisibleWidgetsOverlap();
 
 			// Initialize UI Builder
 			var uiBuilder = new UIBuilder

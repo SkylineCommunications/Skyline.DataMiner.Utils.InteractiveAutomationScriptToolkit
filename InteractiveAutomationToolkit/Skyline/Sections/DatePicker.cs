@@ -5,7 +5,7 @@
 	using System.Linq;
 
 	/// <summary>
-	/// Custom control used to display a date. Make sure that <see cref="Dialog.AllowOverlappingWidgets"/> is set to true when you use this control.
+	/// Custom control used to display a date.
 	/// </summary>
 	[Obsolete("Use a DateTimePicker with the LongDate or ShortDate format.")]
 	public class DatePicker : Section

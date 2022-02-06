@@ -237,30 +237,6 @@
 			ColumnCount = 0;
 		}
 
-		/// <summary>
-		///		Checks if the widget layout overlaps with another widget in the Dialog.
-		/// </summary>
-		/// <param name="widgetLayout">Layout to be checked.</param>
-		/// <returns>True if the layout overlaps with another layout, else false.</returns>
-		private bool Overlaps(IWidgetLayout widgetLayout)
-		{
-			for (int column = widgetLayout.Column; column < widgetLayout.Column + widgetLayout.ColumnSpan; column++)
-			{
-				for (int row = widgetLayout.Row; row < widgetLayout.Row + widgetLayout.RowSpan; row++)
-				{
-					foreach (IWidgetLayout existingWidgetLayout in widgetLayouts.Values)
-					{
-						if (column >= existingWidgetLayout.Column && column < existingWidgetLayout.Column + existingWidgetLayout.ColumnSpan && row >= existingWidgetLayout.Row && row < existingWidgetLayout.Row + existingWidgetLayout.RowSpan)
-						{
-							return true;
-						}
-					}
-				}
-			}
-
-			return false;
-		}
-
 		private void CheckWidgetExits(Widget widget)
 		{
 			if (widget == null)

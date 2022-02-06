@@ -65,13 +65,6 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		bool IsEnabled { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating whether overlapping widgets are allowed or not.
-		/// Can be used in case you want to add multiple widgets to the same cell in the dialog.
-		/// You can use the Margin property on the widgets to place them apart.
-		/// </summary>
-		bool AllowOverlappingWidgets { get; set; }
-
-		/// <summary>
 		///     Gets the number of columns of the grid layout.
 		/// </summary>
 		int ColumnCount { get; }
