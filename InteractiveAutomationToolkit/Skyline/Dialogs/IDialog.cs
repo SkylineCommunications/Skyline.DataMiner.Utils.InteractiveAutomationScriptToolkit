@@ -60,11 +60,6 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		int Width { get; set; }
 
 		/// <summary>
-		///		Gets or sets a value indicating whether the interactive widgets within the dialog are enabled or not.
-		/// </summary>
-		bool IsEnabled { get; set; }
-
-		/// <summary>
 		///     Gets the number of columns of the grid layout.
 		/// </summary>
 		int ColumnCount { get; }
@@ -255,5 +250,17 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		/// Removes all widgets from the dialog.
 		/// </summary>
 		void Clear();
+
+		/// <summary>
+		/// Enables all widgets added to this dialog.
+		/// Sets the <see cref="InteractiveWidget.IsEnabled"/> property of all <see cref="InteractiveWidget"/> to <c>true</c>.
+		/// </summary>
+		void EnableAllWidgets();
+
+		/// <summary>
+		/// Disables all widgets added to this dialog.
+		/// Sets the <see cref="InteractiveWidget.IsEnabled"/> property of all <see cref="InteractiveWidget"/> to <c>false</c>.
+		/// </summary>
+		void DisableAllWidgets();
 	}
 }

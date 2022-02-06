@@ -28,7 +28,6 @@
 		private int minHeight;
 		private int minWidth;
 		private int width;
-		private bool isEnabled = true;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Dialog" /> class.
@@ -165,28 +164,6 @@
 
 		/// <inheritdoc />
 		public int RowCount { get; private set; }
-
-		/// <inheritdoc />
-		public bool IsEnabled
-		{
-			get
-			{
-				return isEnabled;
-			}
-
-			set
-			{
-				isEnabled = value;
-				foreach (Widget widget in Widgets)
-				{
-					InteractiveWidget interactiveWidget = widget as InteractiveWidget;
-					if (interactiveWidget != null && !(interactiveWidget is CollapseButton))
-					{
-						interactiveWidget.IsEnabled = isEnabled;
-					}
-				}
-			}
-		}
 
 		/// <inheritdoc />
 		public string Title { get; set; }
@@ -439,6 +416,18 @@
 			ColumnCount = 0;
 		}
 
+		/// <inheritdoc />
+		public void EnableAllWidgets()
+		{
+			SetWidgetsEnabled(true);
+		}
+
+		/// <inheritdoc />
+		public void DisableAllWidgets()
+		{
+			SetWidgetsEnabled(false);
+		}
+
 		private static string AlignmentToUiString(HorizontalAlignment horizontalAlignment)
 		{
 			switch (horizontalAlignment)
@@ -629,6 +618,14 @@
 			if (!widgetLayouts.ContainsKey(widget))
 			{
 				throw new ArgumentException("Widget is not part of this dialog");
+			}
+		}
+
+		private void SetWidgetsEnabled(bool enabled)
+		{
+			foreach (InteractiveWidget widget in Widgets.OfType<InteractiveWidget>())
+			{
+				widget.IsEnabled = enabled;
 			}
 		}
 
