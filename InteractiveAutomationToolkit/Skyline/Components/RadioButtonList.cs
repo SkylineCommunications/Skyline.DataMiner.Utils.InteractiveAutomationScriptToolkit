@@ -1,6 +1,7 @@
 ﻿namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
 	using System;
+	using System.Collections;
 	using System.Collections.Generic;
 	using System.Linq;
 	using Skyline.DataMiner.Automation;
@@ -10,7 +11,7 @@
 	/// </summary>
 	public class RadioButtonList : InteractiveWidget
 	{
-		private readonly HashSet<string> options = new HashSet<string>();
+		private readonly OptionsCollection optionsCollection;
 		private bool changed;
 		private string previous;
 
@@ -28,8 +29,13 @@
 		/// <param name="selected">Selected option.</param>
 		public RadioButtonList(IEnumerable<string> options, string selected = null)
 		{
+			if (options == null) throw new ArgumentNullException(nameof(options));
+
 			Type = UIBlockType.RadioButtonList;
+			optionsCollection = new OptionsCollection(this);
+
 			SetOptions(options);
+
 			Selected = selected;
 		}
 
@@ -77,16 +83,11 @@
 		/// <summary>
 		///     Gets all options.
 		/// </summary>
-		public IEnumerable<string> Options
+		public ICollection<string> Options
 		{
 			get
 			{
-				return options;
-			}
-
-			set
-			{
-				SetOptions(value);
+				return optionsCollection;
 			}
 		}
 
@@ -114,7 +115,9 @@
 
 		/// <summary>
 		///     Gets or sets the selected option.
+		///		Will do nothing if the option does not exist.
 		/// </summary>
+		/// <remarks><c>null</c> is allowed to show nothing is selected.</remarks>
 		public string Selected
 		{
 			get
@@ -124,7 +127,16 @@
 
 			set
 			{
-				BlockDefinition.InitialValue = value;
+				if (value == null)
+				{
+					BlockDefinition.InitialValue = null;
+					return;
+				}
+
+				if (Options.Contains(value))
+				{
+					BlockDefinition.InitialValue = value;
+				}
 			}
 		}
 
@@ -140,16 +152,16 @@
 				throw new ArgumentNullException("option");
 			}
 
-			if (!options.Contains(option))
-			{
-				options.Add(option);
-				BlockDefinition.AddCheckBoxListOption(option);
-			}
+			Options.Add(option);
 		}
 
 		/// <summary>
 		/// 	Removes an option from the radio button list.
 		/// </summary>
+		/// <remarks>
+		/// If the currently selected option is removed,
+		/// <see cref="Selected"/> will be set to <c>null</c>.
+		/// </remarks>
 		/// <param name="option">Option to remove.</param>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		public void RemoveOption(string option)
@@ -159,19 +171,7 @@
 				throw new ArgumentNullException("option");
 			}
 
-			if (options.Remove(option))
-			{
-				RecreateUiBlock();
-				foreach (string optionToAdd in options)
-				{
-					BlockDefinition.AddCheckBoxListOption(optionToAdd);
-				}
-
-				if (Selected == option)
-				{
-					Selected = options.FirstOrDefault();
-				}
-			}
+			Options.Remove(option);
 		}
 
 		/// <summary>
@@ -187,16 +187,15 @@
 				throw new ArgumentNullException("optionsToSet");
 			}
 
-			ClearOptions();
+			string previousSelected = Selected;
+
+			Options.Clear();
 			foreach (string option in optionsToSet)
 			{
-				AddOption(option);
+				Options.Add(option);
 			}
 
-			if (Selected == null || !optionsToSet.Contains(Selected))
-			{
-				Selected = optionsToSet.FirstOrDefault();
-			}
+			Selected = previousSelected;
 		}
 
 		internal override void LoadResult(UIResults uiResults)
@@ -228,12 +227,6 @@
 			changed = false;
 		}
 
-		private void ClearOptions()
-		{
-			options.Clear();
-			RecreateUiBlock();
-		}
-
 		/// <summary>
 		///     Provides data for the <see cref="Changed" /> event.
 		/// </summary>
@@ -254,6 +247,89 @@
 			///     Gets the option that has been selected.
 			/// </summary>
 			public string SelectedValue { get; private set; }
+		}
+
+		private class OptionsCollection : ICollection<string>, IReadOnlyCollection<string>
+		{
+			private readonly RadioButtonList owner;
+			private readonly ICollection<string> options;
+
+			// At time of writing, the options collection is implemented as List.
+			// Use a hashset to improve performance,
+			// although by the time performance matters, the list will be impractically large.
+			private readonly HashSet<string> optionsHashSet;
+
+			public OptionsCollection(RadioButtonList owner)
+			{
+				this.owner = owner;
+				options = owner.BlockDefinition.GetOptionsCollection();
+				optionsHashSet = new HashSet<string>(options);
+			}
+
+			public IEnumerator<string> GetEnumerator()
+			{
+				return options.GetEnumerator();
+			}
+
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return ((IEnumerable)options).GetEnumerator();
+			}
+
+			public void Add(string item)
+			{
+				if (item == null) throw new ArgumentNullException(nameof(item));
+
+				if (!optionsHashSet.Add(item)) return;
+
+				options.Add(item);
+			}
+
+			public void Clear()
+			{
+				optionsHashSet.Clear();
+				options.Clear();
+				owner.Selected = null;
+			}
+
+			public bool Contains(string item)
+			{
+				return optionsHashSet.Contains(item);
+			}
+
+			public void CopyTo(string[] array, int arrayIndex)
+			{
+				options.CopyTo(array, arrayIndex);
+			}
+
+			public bool Remove(string item)
+			{
+				if (!optionsHashSet.Remove(item)) return false;
+
+				options.Remove(item);
+				if (owner.Selected == item)
+				{
+					owner.Selected = null;
+				}
+
+				return true;
+			}
+
+			public int Count
+			{
+				get
+				{
+					return options.Count;
+				}
+			}
+
+			public bool IsReadOnly
+			{
+				get
+				{
+					return options.IsReadOnly;
+				}
+			}
 		}
 	}
 }

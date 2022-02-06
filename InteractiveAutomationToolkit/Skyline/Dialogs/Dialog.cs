@@ -244,7 +244,7 @@
 		/// <summary>
 		///     Gets widgets that are added to the dialog.
 		/// </summary>
-		public IEnumerable<Widget> Widgets
+		public IReadOnlyCollection<Widget> Widgets
 		{
 			get
 			{

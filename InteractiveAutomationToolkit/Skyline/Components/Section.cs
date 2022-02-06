@@ -74,7 +74,7 @@
 		/// <summary>
 		///     Gets widgets that have been added to the section.
 		/// </summary>
-		public IEnumerable<Widget> Widgets
+		public IReadOnlyCollection<Widget> Widgets
 		{
 			get
 			{

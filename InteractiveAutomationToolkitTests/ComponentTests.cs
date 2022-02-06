@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Diagnostics;
 	using System.Linq;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 	using Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit;
@@ -447,6 +448,46 @@
 		private void TimePicker_Changed(object sender, TimePicker.TimePickerChangedEventArgs e)
 		{
 			// do nothing
+		}
+
+		[TestMethod]
+		public void DropDownFirstOptionSelectedAtConstruction()
+		{
+			var dropDown = new DropDown(new[] { "a", "b" });
+			Assert.AreEqual("a", dropDown.Selected);
+		}
+
+		[TestMethod]
+		public void DropDownFirstOptionSelectedAfterSet()
+		{
+			var dropDown = new DropDown();
+			dropDown.SetOptions(new[] { "a", "b" });
+			Assert.AreEqual("a", dropDown.Selected);
+		}
+
+		[TestMethod]
+		public void DropDownFirstOptionSelectedAfterAdd()
+		{
+			var dropDown = new DropDown();
+			dropDown.Options.Add("a");
+			dropDown.Options.Add("b");
+			Assert.AreEqual("a", dropDown.Selected);
+		}
+
+		[TestMethod]
+		public void DropDownNoNullSelectedAfterRemove()
+		{
+			var dropDown = new DropDown(new[] { "a", "b" }, "a");
+			dropDown.Options.Remove("a");
+			Assert.AreEqual("b", dropDown.Selected);
+		}
+
+		[TestMethod]
+		public void DropDownNullSelectedAfterClear()
+		{
+			var dropDown = new DropDown(new[] { "a", "b" });
+			dropDown.Options.Clear();
+			Assert.AreEqual(null, dropDown.Selected);
 		}
 	}
 
