@@ -104,6 +104,7 @@
     <Compile Include="Skyline\Dialogs\MessageDialog.cs" />
     <Compile Include="Skyline\Dialogs\ProgressDialog.cs" />
     <Compile Include="Skyline\Exceptions\TreeViewDuplicateItemsException.cs" />
+    <Compile Include="Skyline\IInteractiveController.cs" />
     <Compile Include="Skyline\InteractiveController.cs" />
     <Compile Include="Skyline\Layout\HorizontalAlignment.cs" />
     <Compile Include="Skyline\Layout\ILayout.cs" />

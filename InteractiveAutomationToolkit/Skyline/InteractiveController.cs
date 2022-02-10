@@ -7,7 +7,7 @@
 	/// <summary>
 	///     Event loop of the interactive Automation script.
 	/// </summary>
-	public class InteractiveController
+	public class InteractiveController : IInteractiveController
 	{
 		private bool isManualModeRequested;
 		private Action manualAction;
@@ -29,46 +29,26 @@
 			Engine = engine;
 		}
 
-		/// <summary>
-		///     Gets the dialog that is shown to the user.
-		/// </summary>
+		/// <inheritdoc />
 		public IDialog CurrentDialog { get; private set; }
 
-		/// <summary>
-		///     Gets the link to the SLManagedAutomation process.
-		/// </summary>
+		/// <inheritdoc />
 		public IEngine Engine { get; private set; }
 
-		/// <summary>
-		///     Gets a value indicating whether the event loop is updated manually or automatically.
-		/// </summary>
+		/// <inheritdoc />
 		public bool IsManualMode { get; private set; }
 
-		/// <summary>
-		///     Gets a value indicating whether the event loop has been started.
-		/// </summary>
+		/// <inheritdoc />
 		public bool IsRunning { get; private set; }
 
-		/// <summary>
-		///     Switches the event loop to manual control.
-		///     This mode allows the dialog to be updated without user interaction using <see cref="Update" />.
-		///     The passed action method will be called when all events have been processed.
-		///     The app returns to automatic user interaction mode when the method is exited.
-		/// </summary>
-		/// <param name="action">Method that will control the event loop manually.</param>
+		/// <inheritdoc />
 		public void RequestManualMode(Action action)
 		{
 			isManualModeRequested = true;
 			manualAction = action;
 		}
 
-		/// <summary>
-		///     Starts the application event loop.
-		///     Updates the displayed dialog after each user interaction.
-		///     Only user interaction on widgets with the WantsOnChange property set to true will cause updates.
-		///     Use <see cref="RequestManualMode" /> if you want to manually control when the dialog is updated.
-		/// </summary>
-		/// <param name="startDialog">Dialog to be shown first.</param>
+		/// <inheritdoc />
 		public void Run(IDialog startDialog)
 		{
 			if (startDialog == null)
@@ -107,12 +87,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Sets the dialog that will be shown after user interaction events are processed,
-		///     or when <see cref="Update" /> is called in manual mode.
-		/// </summary>
-		/// <param name="dialog">The next dialog to be shown.</param>
-		/// <exception cref="ArgumentNullException">When dialog is null.</exception>
+		/// <inheritdoc />
 		public void ShowDialog(IDialog dialog)
 		{
 			if (dialog == null)
@@ -123,13 +98,7 @@
 			nextDialog = dialog;
 		}
 
-		/// <summary>
-		///     Manually updates the dialog.
-		///     Use this method when you want to update the dialog without user interaction.
-		///     Note that no events will be raised.
-		/// </summary>
-		/// <exception cref="InvalidOperationException">When not in manual mode.</exception>
-		/// <exception cref="InvalidOperationException">When no dialog has been set.</exception>
+		/// <inheritdoc />
 		public void Update()
 		{
 			if (!IsManualMode)
@@ -146,10 +115,7 @@
 			CurrentDialog.Show(false);
 		}
 
-		/// <summary>
-		/// Stops the event loop.
-		/// Code will continue from the <see cref="Run"/> method after all event handlers have finished.
-		/// </summary>
+		/// <inheritdoc />
 		public void Stop()
 		{
 			IsRunning = false;
