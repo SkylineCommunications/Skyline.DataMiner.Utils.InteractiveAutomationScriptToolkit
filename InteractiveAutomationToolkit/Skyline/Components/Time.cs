@@ -25,6 +25,8 @@
 			Type = UIBlockType.Time;
 			TimeUpDownOptions = new AutomationTimeUpDownOptions { UpdateValueOnEnterKey = false };
 			TimeSpan = timeSpan;
+			ValidationText = "Invalid Input";
+			ValidationState = UIValidationState.NotValidated;
 		}
 
 		/// <summary>
