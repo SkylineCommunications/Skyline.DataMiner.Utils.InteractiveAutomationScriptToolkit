@@ -183,6 +183,21 @@
 		}
 
 		/// <summary>
+		/// Removes the widgets from the section off this section.
+		/// </summary>
+		/// <param name="section">Section to be removed from this section.</param>
+		/// <exception cref="ArgumentNullException">When <paramref name="section"/> is <c>null</c>.</exception>
+		public void RemoveSection(Section section)
+		{
+			if (section == null) throw new ArgumentNullException(nameof(section));
+
+			foreach (IWidget widget in section.Widgets)
+			{
+				RemoveWidget(widget);
+			}
+		}
+
+		/// <summary>
 		///     Gets the layout of the widget in the dialog.
 		/// </summary>
 		/// <param name="widget">A widget that is part of the dialog.</param>

@@ -295,6 +295,17 @@
 		}
 
 		/// <inheritdoc />
+		public void RemoveSection(Section section)
+		{
+			if (section == null) throw new ArgumentNullException(nameof(section));
+
+			foreach (IWidget widget in section.Widgets)
+			{
+				RemoveWidget(widget);
+			}
+		}
+
+		/// <inheritdoc />
 		public void SetColumnWidth(int column, int columnWidth)
 		{
 			if (column < 0) throw new ArgumentOutOfRangeException(nameof(column));

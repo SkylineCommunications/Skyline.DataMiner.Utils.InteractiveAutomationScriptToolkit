@@ -262,5 +262,12 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		/// Sets the <see cref="IInteractiveWidget.IsEnabled"/> property of all <see cref="IInteractiveWidget"/> to <c>false</c>.
 		/// </summary>
 		void DisableAllWidgets();
+
+		/// <summary>
+		/// Removes a section from the dialog.
+		/// </summary>
+		/// <param name="section">Section to remove</param>
+		/// <exception cref="ArgumentNullException">When <paramref name="section"/> is <c>null</c>.</exception>
+		void RemoveSection(Section section);
 	}
 }
