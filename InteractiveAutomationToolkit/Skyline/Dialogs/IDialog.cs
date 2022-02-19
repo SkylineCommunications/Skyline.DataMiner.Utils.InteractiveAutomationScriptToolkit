@@ -108,7 +108,7 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		/// <returns>The dialog.</returns>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
-		IDialog AddWidget(IWidget widget, IWidgetLayout widgetLayout);
+		IDialog AddWidget(IWidget widget, WidgetLayout widgetLayout);
 
 		/// <summary>
 		///     Adds a widget to the dialog.
@@ -157,7 +157,7 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		/// <returns>The widget layout in the dialog.</returns>
 		/// <exception cref="NullReferenceException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget is not part of the dialog.</exception>
-		IWidgetLayout GetWidgetLayout(IWidget widget);
+		WidgetLayout GetWidgetLayout(IWidget widget);
 
 		/// <summary>
 		///     Removes a widget from the dialog.
@@ -236,7 +236,7 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		/// <param name="widgetLayout">The layout to apply to the widget.</param>
 		/// <exception cref="NullReferenceException">When widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget is not part of the dialog.</exception>
-		void SetWidgetLayout(IWidget widget, IWidgetLayout widgetLayout);
+		void SetWidgetLayout(IWidget widget, WidgetLayout widgetLayout);
 
 		/// <summary>
 		///     Shows the dialog window.

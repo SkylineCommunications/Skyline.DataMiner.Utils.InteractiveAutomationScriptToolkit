@@ -107,8 +107,6 @@
     <Compile Include="Skyline\IInteractiveController.cs" />
     <Compile Include="Skyline\InteractiveController.cs" />
     <Compile Include="Skyline\Layout\HorizontalAlignment.cs" />
-    <Compile Include="Skyline\Layout\ILayout.cs" />
-    <Compile Include="Skyline\Layout\IWidgetLayout.cs" />
     <Compile Include="Skyline\Layout\Margin.cs" />
     <Compile Include="Skyline\Layout\SectionLayout.cs" />
     <Compile Include="Skyline\Layout\TextStyle.cs" />

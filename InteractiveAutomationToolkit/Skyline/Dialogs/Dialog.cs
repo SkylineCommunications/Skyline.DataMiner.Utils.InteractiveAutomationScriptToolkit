@@ -17,7 +17,7 @@
 		private const string Auto = "auto";
 		private const string Stretch = "*";
 
-		private readonly Dictionary<IWidget, IWidgetLayout> widgetLayouts = new Dictionary<IWidget, IWidgetLayout>();
+		private readonly Dictionary<IWidget, WidgetLayout> widgetLayouts = new Dictionary<IWidget, WidgetLayout>();
 
 		private readonly Dictionary<int, string> columnDefinitions = new Dictionary<int, string>();
 		private readonly Dictionary<int, string> rowDefinitions = new Dictionary<int, string>();
@@ -197,7 +197,7 @@
 		}
 
 		/// <inheritdoc />
-		public IDialog AddWidget(IWidget widget, IWidgetLayout widgetLayout)
+		public IDialog AddWidget(IWidget widget, WidgetLayout widgetLayout)
 		{
 			if (widget == null)
 			{
@@ -247,7 +247,7 @@
 		}
 
 		/// <inheritdoc />
-		public IWidgetLayout GetWidgetLayout(IWidget widget)
+		public WidgetLayout GetWidgetLayout(IWidget widget)
 		{
 			CheckWidgetExists(widget);
 			return widgetLayouts[widget];
@@ -273,7 +273,7 @@
 		{
 			foreach (IWidget widget in section.Widgets)
 			{
-				IWidgetLayout widgetLayout = section.GetWidgetLayout(widget);
+				WidgetLayout widgetLayout = section.GetWidgetLayout(widget);
 				AddWidget(
 					widget,
 					new WidgetLayout(
@@ -398,7 +398,7 @@
 		}
 
 		/// <inheritdoc />
-		public void SetWidgetLayout(IWidget widget, IWidgetLayout widgetLayout)
+		public void SetWidgetLayout(IWidget widget, WidgetLayout widgetLayout)
 		{
 			CheckWidgetExists(widget);
 			widgetLayouts[widget] = widgetLayout;
@@ -550,14 +550,14 @@
 				Title = Title
 			};
 
-			KeyValuePair<IWidget, IWidgetLayout> defaultKeyValuePair = default(KeyValuePair<IWidget, IWidgetLayout>);
+			KeyValuePair<IWidget, WidgetLayout> defaultKeyValuePair = default(KeyValuePair<IWidget, WidgetLayout>);
 			int rowIndex = 0;
 			foreach (int rowInUse in rowsInUse)
 			{
 				var columnIndex = 0;
 				foreach (int columnInUse in columnsInUse)
 				{
-					foreach (KeyValuePair<IWidget, IWidgetLayout> keyValuePair in widgetLayouts.Where(x => x.Key.IsVisible && x.Key.Type != UIBlockType.Undefined && x.Value.Row.Equals(rowInUse) && x.Value.Column.Equals(columnInUse)))
+					foreach (KeyValuePair<IWidget, WidgetLayout> keyValuePair in widgetLayouts.Where(x => x.Key.IsVisible && x.Key.Type != UIBlockType.Undefined && x.Value.Row.Equals(rowInUse) && x.Value.Column.Equals(columnInUse)))
 					{
 						if (keyValuePair.Equals(defaultKeyValuePair)) continue;
 
@@ -566,7 +566,7 @@
 						if (treeView != null) treeView.UpdateItemCache();
 
 						UIBlockDefinition widgetBlockDefinition = keyValuePair.Key.BlockDefinition;
-						IWidgetLayout widgetLayout = keyValuePair.Value;
+						WidgetLayout widgetLayout = keyValuePair.Value;
 
 						widgetBlockDefinition.Column = columnIndex;
 						widgetBlockDefinition.ColumnSpan = widgetLayout.ColumnSpan;
@@ -597,7 +597,7 @@
 		{
 			rowsInUse = new SortedSet<int>();
 			columnsInUse = new SortedSet<int>();
-			foreach (KeyValuePair<IWidget, IWidgetLayout> keyValuePair in widgetLayouts)
+			foreach (KeyValuePair<IWidget, WidgetLayout> keyValuePair in widgetLayouts)
 			{
 				if (keyValuePair.Key.IsVisible && keyValuePair.Key.Type != UIBlockType.Undefined)
 				{

@@ -5,7 +5,7 @@
 	/// <summary>
 	/// Used to define the position of a section in another section or dialog.
 	/// </summary>
-	public class SectionLayout : ILayout
+	public class SectionLayout
 	{
 		private int column;
 		private int row;

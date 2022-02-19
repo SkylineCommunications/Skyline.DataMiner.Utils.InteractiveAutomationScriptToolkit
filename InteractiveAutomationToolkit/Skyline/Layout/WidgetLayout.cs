@@ -2,8 +2,10 @@
 {
 	using System;
 
-	/// <inheritdoc />
-	public class WidgetLayout : IWidgetLayout
+	/// <summary>
+	/// Used to define the position of a widget in a grid layout.
+	/// </summary>
+	public class WidgetLayout
 	{
 		private int column;
 		private int columnSpan;
@@ -100,10 +102,15 @@
 			}
 		}
 
-		/// <inheritdoc />
+		/// <summary>
+		///     Gets or sets the horizontal alignment of the widget.
+		/// </summary>
 		public HorizontalAlignment HorizontalAlignment { get; set; }
 
-		/// <inheritdoc />
+		/// <summary>
+		///     Gets or sets the margin around the widget.
+		/// </summary>
+		/// <exception cref="ArgumentNullException">When the value is null.</exception>
 		public Margin Margin
 		{
 			get
@@ -164,7 +171,9 @@
 			}
 		}
 
-		/// <inheritdoc />
+		/// <summary>
+		///     Gets or sets the vertical alignment of the widget.
+		/// </summary>
 		public VerticalAlignment VerticalAlignment { get; set; }
 
 		/// <inheritdoc />

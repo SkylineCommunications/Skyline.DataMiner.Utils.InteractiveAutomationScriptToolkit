@@ -9,7 +9,7 @@
 	/// </summary>
 	public class Section
 	{
-		private readonly Dictionary<IWidget, IWidgetLayout> widgetLayouts = new Dictionary<IWidget, IWidgetLayout>();
+		private readonly Dictionary<IWidget, WidgetLayout> widgetLayouts = new Dictionary<IWidget, WidgetLayout>();
 
 		private bool isEnabled = true;
 		private bool isVisible = true;
@@ -87,7 +87,7 @@
 		/// <returns>The dialog.</returns>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget has already been added to the <see cref="Section" />.</exception>
-		public Section AddWidget(IWidget widget, IWidgetLayout widgetLayout)
+		public Section AddWidget(IWidget widget, WidgetLayout widgetLayout)
 		{
 			if (widget == null)
 			{
@@ -163,11 +163,11 @@
 		/// <param name="section">Section to be added to the section.</param>
 		/// <param name="layout">Left-top position of the section within the parent section.</param>
 		/// <returns>The updated section.</returns>
-		public Section AddSection(Section section, ILayout layout)
+		public Section AddSection(Section section, SectionLayout layout)
 		{
 			foreach (IWidget widget in section.Widgets)
 			{
-				IWidgetLayout widgetLayout = section.GetWidgetLayout(widget);
+				WidgetLayout widgetLayout = section.GetWidgetLayout(widget);
 				AddWidget(
 					widget,
 					new WidgetLayout(
@@ -204,7 +204,7 @@
 		/// <returns>The widget layout in the dialog.</returns>
 		/// <exception cref="NullReferenceException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget is not part of the dialog.</exception>
-		public IWidgetLayout GetWidgetLayout(IWidget widget)
+		public WidgetLayout GetWidgetLayout(IWidget widget)
 		{
 			CheckWidgetExits(widget);
 			return widgetLayouts[widget];
@@ -234,7 +234,7 @@
 		/// <exception cref="NullReferenceException">When widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget is not part of the section.</exception>
 		/// <exception cref="NullReferenceException">When widgetLayout is null.</exception>
-		public void SetWidgetLayout(IWidget widget, IWidgetLayout widgetLayout)
+		public void SetWidgetLayout(IWidget widget, WidgetLayout widgetLayout)
 		{
 			if (widgetLayout == null) throw new ArgumentNullException(nameof(widgetLayout));
 
