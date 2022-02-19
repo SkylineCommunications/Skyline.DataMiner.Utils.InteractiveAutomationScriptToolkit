@@ -176,6 +176,20 @@
 		/// </summary>
 		public VerticalAlignment VerticalAlignment { get; set; }
 
+		/// <summary>
+		///		Determines if the current layout overlaps with the specified other layout.
+		/// </summary>
+		/// <param name="other">The other layout to compare the current layout to.</param>
+		/// <returns>Whether the layout overlaps with <paramref name="other"/>.</returns>
+		public bool Overlaps(WidgetLayout other)
+		{
+			// https://stackoverflow.com/a/20925869
+			bool rowsOverlap = row + rowSpan > other.row && other.row + other.rowSpan > row;
+			bool columnsOverlap = column + columnSpan > other.column && other.column + other.columnSpan > column;
+
+			return rowsOverlap && columnsOverlap;
+		}
+
 		/// <inheritdoc />
 		public override bool Equals(object obj)
 		{

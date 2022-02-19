@@ -103,6 +103,7 @@
     <Compile Include="Skyline\Dialogs\IDialog.cs" />
     <Compile Include="Skyline\Dialogs\MessageDialog.cs" />
     <Compile Include="Skyline\Dialogs\ProgressDialog.cs" />
+    <Compile Include="Skyline\Exceptions\OverlappingWidgetsException.cs" />
     <Compile Include="Skyline\Exceptions\TreeViewDuplicateItemsException.cs" />
     <Compile Include="Skyline\IInteractiveController.cs" />
     <Compile Include="Skyline\InteractiveController.cs" />

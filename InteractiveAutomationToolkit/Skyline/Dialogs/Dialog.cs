@@ -50,7 +50,11 @@
 			RowCount = 0;
 			ColumnCount = 0;
 			Title = "Dialog";
+			AllowOverlappingWidgets = false;
 		}
+
+		/// <inheritdoc />
+		public bool AllowOverlappingWidgets { get; set; }
 
 		/// <inheritdoc />
 		public event EventHandler<EventArgs> Back;
@@ -533,6 +537,11 @@
 
 		private UIBuilder Build()
 		{
+			if (!AllowOverlappingWidgets)
+			{
+				CheckIfVisibleWidgetsOverlap();
+			}
+
 			// Check rows and columns in use
 			SortedSet<int> rowsInUse;
 			SortedSet<int> columnsInUse;
@@ -636,6 +645,32 @@
 			foreach (IInteractiveWidget widget in Widgets.OfType<IInteractiveWidget>())
 			{
 				widget.IsEnabled = enabled;
+			}
+		}
+
+		private void CheckIfVisibleWidgetsOverlap()
+		{
+			var builder = new OverlappingWidgetsException.Builder();
+
+			KeyValuePair<IWidget, WidgetLayout>[] visible = widgetLayouts.Where(pair => pair.Key.IsVisible).ToArray();
+			for (var i = 0; i < visible.Length; i++)
+			{
+				IWidget widget = visible[i].Key;
+				WidgetLayout layout = visible[i].Value;
+				for (int j = i + 1; j < visible.Length; j++)
+				{
+					IWidget otherWidget = visible[j].Key;
+					WidgetLayout otherLayout = visible[j].Value;
+					if (layout.Overlaps(otherLayout))
+					{
+						builder.Add(widget, layout, otherWidget, otherLayout);
+					}
+				}
+			}
+
+			if (builder.Count != 0)
+			{
+				throw builder.Build();
 			}
 		}
 

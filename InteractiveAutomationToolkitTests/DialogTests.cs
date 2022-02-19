@@ -5,6 +5,8 @@ namespace InteractiveAutomationToolkitTests
 
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+	using Moq;
+
 	using Skyline.DataMiner.Automation;
 	using Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit;
 
@@ -17,9 +19,9 @@ namespace InteractiveAutomationToolkitTests
 		[TestMethod]
 		public void AddSingleWidgetCheckColumnCount()
 		{
-			TestDialog testDialog = new TestDialog(new Engine());
-			testDialog.AddWidget(new Label("Label1"), 0, 0);
-			Assert.AreEqual(1, testDialog.ColumnCount);
+			Dialog dialog = new Dialog(Mock.Of<IEngine>());
+			dialog.AddWidget(new Label("Label1"), 0, 0);
+			Assert.AreEqual(1, dialog.ColumnCount);
 		}
 
 		/// <summary>
@@ -31,17 +33,17 @@ namespace InteractiveAutomationToolkitTests
 			Label label1 = new Label("Label 1");
 			Label label2 = new Label("Label 2");
 
-			TestDialog testDialog = new TestDialog(new Engine());
-			testDialog.AddWidget(label1, 0, 0);
-			testDialog.AddWidget(label2, 0, 1);
+			Dialog dialog = new Dialog(Mock.Of<IEngine>());
+			dialog.AddWidget(label1, 0, 0);
+			dialog.AddWidget(label2, 0, 1);
 
-			Assert.AreEqual(2, testDialog.ColumnCount);
+			Assert.AreEqual(2, dialog.ColumnCount);
 
-			testDialog.RemoveWidget(label1);
-			Assert.AreEqual(1, testDialog.ColumnCount);
+			dialog.RemoveWidget(label1);
+			Assert.AreEqual(1, dialog.ColumnCount);
 
-			testDialog.RemoveWidget(label2);
-			Assert.AreEqual(0, testDialog.ColumnCount);
+			dialog.RemoveWidget(label2);
+			Assert.AreEqual(0, dialog.ColumnCount);
 		}
 
 		/// <summary>
@@ -53,13 +55,13 @@ namespace InteractiveAutomationToolkitTests
 			Label label1 = new Label("Label 1");
 			Label label2 = new Label("Label 2");
 
-			TestDialog testDialog = new TestDialog(new Engine());
-			testDialog.AddWidget(label1, 0, 0, 1, 3);
-			testDialog.AddWidget(label2, 1, 0, 1, 2);
-			Assert.AreEqual(3, testDialog.ColumnCount);
+			Dialog dialog = new Dialog(Mock.Of<IEngine>());
+			dialog.AddWidget(label1, 0, 0, 1, 3);
+			dialog.AddWidget(label2, 1, 0, 1, 2);
+			Assert.AreEqual(3, dialog.ColumnCount);
 
-			testDialog.RemoveWidget(label1);
-			Assert.AreEqual(2, testDialog.ColumnCount);
+			dialog.RemoveWidget(label1);
+			Assert.AreEqual(2, dialog.ColumnCount);
 		}
 
 		/// <summary>
@@ -71,13 +73,13 @@ namespace InteractiveAutomationToolkitTests
 			Label label1 = new Label("Label 1");
 			Label label2 = new Label("Label 2");
 
-			TestDialog testDialog = new TestDialog(new Engine());
-			testDialog.AddWidget(label1, 0, 0, 1, 3);
-			testDialog.AddWidget(label2, 0, 100, 1, 2);
-			Assert.AreEqual(5, testDialog.ColumnCount);
+			Dialog dialog = new Dialog(Mock.Of<IEngine>());
+			dialog.AddWidget(label1, 0, 0, 1, 3);
+			dialog.AddWidget(label2, 0, 100, 1, 2);
+			Assert.AreEqual(5, dialog.ColumnCount);
 
-			testDialog.RemoveWidget(label1);
-			Assert.AreEqual(2, testDialog.ColumnCount);
+			dialog.RemoveWidget(label1);
+			Assert.AreEqual(2, dialog.ColumnCount);
 		}
 
 		/// <summary>
@@ -86,9 +88,9 @@ namespace InteractiveAutomationToolkitTests
 		[TestMethod]
 		public void AddSingleWidgetCheckRowCount()
 		{
-			TestDialog testDialog = new TestDialog(new Engine());
-			testDialog.AddWidget(new Label("Label1"), 0, 0);
-			Assert.AreEqual(1, testDialog.RowCount);
+			Dialog dialog = new Dialog(Mock.Of<IEngine>());
+			dialog.AddWidget(new Label("Label1"), 0, 0);
+			Assert.AreEqual(1, dialog.RowCount);
 		}
 
 		/// <summary>
@@ -100,17 +102,17 @@ namespace InteractiveAutomationToolkitTests
 			Label label1 = new Label("Label 1");
 			Label label2 = new Label("Label 2");
 
-			TestDialog testDialog = new TestDialog(new Engine());
-			testDialog.AddWidget(label1, 0, 0);
-			testDialog.AddWidget(label2, 1, 0);
+			Dialog dialog = new Dialog(Mock.Of<IEngine>());
+			dialog.AddWidget(label1, 0, 0);
+			dialog.AddWidget(label2, 1, 0);
 
-			Assert.AreEqual(2, testDialog.RowCount);
+			Assert.AreEqual(2, dialog.RowCount);
 
-			testDialog.RemoveWidget(label1);
-			Assert.AreEqual(1, testDialog.RowCount);
+			dialog.RemoveWidget(label1);
+			Assert.AreEqual(1, dialog.RowCount);
 
-			testDialog.RemoveWidget(label2);
-			Assert.AreEqual(0, testDialog.RowCount);
+			dialog.RemoveWidget(label2);
+			Assert.AreEqual(0, dialog.RowCount);
 		}
 
 		/// <summary>
@@ -122,13 +124,13 @@ namespace InteractiveAutomationToolkitTests
 			Label label1 = new Label("Label 1");
 			Label label2 = new Label("Label 2");
 
-			TestDialog testDialog = new TestDialog(new Engine());
-			testDialog.AddWidget(label1, 0, 0, 3, 1);
-			testDialog.AddWidget(label2, 0, 1, 2, 1);
-			Assert.AreEqual(3, testDialog.RowCount);
+			Dialog dialog = new Dialog(Mock.Of<IEngine>());
+			dialog.AddWidget(label1, 0, 0, 3, 1);
+			dialog.AddWidget(label2, 0, 1, 2, 1);
+			Assert.AreEqual(3, dialog.RowCount);
 
-			testDialog.RemoveWidget(label1);
-			Assert.AreEqual(2, testDialog.RowCount);
+			dialog.RemoveWidget(label1);
+			Assert.AreEqual(2, dialog.RowCount);
 		}
 
 		/// <summary>
@@ -140,36 +142,106 @@ namespace InteractiveAutomationToolkitTests
 			Label label1 = new Label("Label 1");
 			Label label2 = new Label("Label 2");
 
-			TestDialog testDialog = new TestDialog(new Engine());
-			testDialog.AddWidget(label1, 0, 0, 3, 1);
-			testDialog.AddWidget(label2, 100, 0, 2, 1);
-			Assert.AreEqual(5, testDialog.RowCount);
+			Dialog dialog = new Dialog(Mock.Of<IEngine>());
+			dialog.AddWidget(label1, 0, 0, 3, 1);
+			dialog.AddWidget(label2, 100, 0, 2, 1);
+			Assert.AreEqual(5, dialog.RowCount);
 
-			testDialog.RemoveWidget(label1);
-			Assert.AreEqual(2, testDialog.RowCount);
+			dialog.RemoveWidget(label1);
+			Assert.AreEqual(2, dialog.RowCount);
 		}
 
 		/// <summary>
 		/// This test will add the same label to a dialog twice and checks if an exception is thrown when the widget is being added for the second time.
 		/// </summary>
 		[TestMethod]
+		[ExpectedException(typeof(ArgumentException))]
 		public void TryAddSingleWidgetTwice()
 		{
 			Label label1 = new Label("Label 1");
-			TestDialog testDialog = new TestDialog(new Engine());
-			testDialog.AddWidget(label1, 0, 0);
+			Dialog dialog = new Dialog(Mock.Of<IEngine>());
+			dialog.AddWidget(label1, 0, 0);
 
-			ArgumentException exception = null;
-			try
-			{
-				testDialog.AddWidget(label1, 0, 1);
-			}
-			catch (ArgumentException e)
-			{
-				exception = e;
-			}
+			dialog.AddWidget(label1, 0, 1);
+		}
 
-			Assert.IsNotNull(exception);
+		/// <summary>
+		/// This test will add two different labels (without spanning) on the same position of the dialog and check if an exception is thrown.
+		/// </summary>
+		[TestMethod]
+		[ExpectedException(typeof(OverlappingWidgetsException))]
+		public void TryAddWidgetsSamePosition()
+		{
+			Label label1 = new Label("Label 1");
+			Label label2 = new Label("Label 2");
+			Dialog dialog = new Dialog(Mock.Of<IEngine>());
+			dialog.AddWidget(label1, 0, 0);
+			dialog.AddWidget(label2, 0, 0);
+
+			dialog.Show(false);
+		}
+
+		/// <summary>
+		/// This test will add two different overlapping labels (with column spanning) to the dialog and check if an exception is thrown.
+		/// </summary>
+		[TestMethod]
+		[ExpectedException(typeof(OverlappingWidgetsException))]
+		public void TryAddOverlappingColumnSpanningWidgets()
+		{
+			Label label1 = new Label("Label 1");
+			Label label2 = new Label("Label 2");
+			Dialog dialog = new Dialog(Mock.Of<IEngine>());
+			dialog.AddWidget(label1, 0, 0, 1, 3);
+			dialog.AddWidget(label2, 0, 2, 1, 2);
+
+			dialog.Show(false);
+		}
+
+		/// <summary>
+		/// This test will add two different overlapping labels (with row spanning) to the dialog and check if an exception is thrown.
+		/// </summary>
+		[TestMethod]
+		[ExpectedException(typeof(OverlappingWidgetsException))]
+		public void TryAddOverlappingRowSpanningWidgets()
+		{
+			Label label1 = new Label("Label 1");
+			Label label2 = new Label("Label 2");
+			Dialog dialog = new Dialog(Mock.Of<IEngine>());
+			dialog.AddWidget(label1, 0, 0, 3, 1);
+			dialog.AddWidget(label2, 2, 0, 2, 1);
+
+			dialog.Show(false);
+		}
+
+		/// <summary>
+		/// This test will add two different overlapping labels (with column and row spanning) to the dialog and check if an exception is thrown.
+		/// </summary>
+		[TestMethod]
+		[ExpectedException(typeof(OverlappingWidgetsException))]
+		public void TryAddOverlappingColumnAndRowSpanningWidgets()
+		{
+			Label label1 = new Label("Label 1");
+			Label label2 = new Label("Label 2");
+			Dialog dialog = new Dialog(Mock.Of<IEngine>());
+			dialog.AddWidget(label1, 0, 0, 2, 2);
+			dialog.AddWidget(label2, 1, 1, 2, 3);
+
+			dialog.Show(false);
+		}
+
+		/// <summary>
+		/// This test will add two different overlapping invisble labels (with column and row spanning) to the dialog and check if no exception is thrown.
+		/// </summary>
+		[TestMethod]
+		public void TryAddOverlappingInvisibleColumnAndRowSpanningWidgets()
+		{
+			Label label1 = new Label("Label 1");
+			Label label2 = new Label("Label 2") { IsVisible = false };
+			Dialog dialog = new Dialog(Mock.Of<IEngine>());
+			dialog.AddWidget(label1, 0, 0, 2, 2);
+			dialog.AddWidget(label2, 1, 1, 2, 3);
+
+			dialog.Show(false);
 		}
 
 		/// <summary>
@@ -180,22 +252,15 @@ namespace InteractiveAutomationToolkitTests
 		{
 			Label label1 = new Label("Label 1");
 			Label label2 = new Label("Label 2") { IsVisible = false };
-			TestDialog testDialog = new TestDialog(new Engine());
-			testDialog.AddWidget(label1, 0, 0, 2, 2);
-			testDialog.AddWidget(label2, 1, 1, 2, 3);
+			Dialog dialog = new Dialog(Mock.Of<IEngine>());
+			dialog.AddWidget(label1, 0, 0, 2, 2);
+			dialog.AddWidget(label2, 1, 1, 2, 3);
 
-			Assert.AreEqual(2, testDialog.Widgets.Count());
+			Assert.AreEqual(2, dialog.Widgets.Count());
 
-			testDialog.Clear();
+			dialog.Clear();
 
-			Assert.AreEqual(0, testDialog.Widgets.Count());
-		}
-	}
-
-	public class TestDialog : Dialog
-	{
-		public TestDialog(Engine engine) : base(engine)
-		{
+			Assert.AreEqual(0, dialog.Widgets.Count());
 		}
 	}
 }

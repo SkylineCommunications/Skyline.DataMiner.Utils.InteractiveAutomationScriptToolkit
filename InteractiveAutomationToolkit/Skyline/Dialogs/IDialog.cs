@@ -86,6 +86,13 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		IReadOnlyCollection<IWidget> Widgets { get; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether overlapping widgets are allowed or not.
+		/// Can be used in case you want to add multiple widgets to the same cell in the dialog.
+		/// You can use the Margin property on the widgets to place them apart.
+		/// </summary>
+		bool AllowOverlappingWidgets { get; set; }
+
+		/// <summary>
 		///     Triggered when the back button of the dialog is pressed.
 		/// </summary>
 		event EventHandler<EventArgs> Back;
