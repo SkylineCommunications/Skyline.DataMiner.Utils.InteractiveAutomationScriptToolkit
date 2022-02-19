@@ -12,7 +12,7 @@
 	///     You can show widgets in the window by adding them to the dialog.
 	///     The dialog uses a grid to determine the layout of its widgets.
 	/// </summary>
-	public abstract class Dialog : IDialog
+	public class Dialog : IDialog
 	{
 		private const string Auto = "auto";
 		private const string Stretch = "*";
@@ -33,7 +33,7 @@
 		/// Initializes a new instance of the <see cref="Dialog" /> class.
 		/// </summary>
 		/// <param name="engine"></param>
-		protected Dialog(IEngine engine)
+		public Dialog(IEngine engine)
 		{
 			if (engine == null)
 			{
