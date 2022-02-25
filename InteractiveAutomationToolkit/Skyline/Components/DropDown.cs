@@ -225,7 +225,9 @@
 			}
 
 			previous = Selected;
-			Selected = selectedValue;
+
+			// Write to BlockDefinition instead of Selected property so a force selected option does not reset after every interaction
+			BlockDefinition.InitialValue = selectedValue;
 		}
 
 		/// <inheritdoc />
