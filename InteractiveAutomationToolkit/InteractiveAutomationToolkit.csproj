@@ -50,8 +50,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Content Include="Settings.StyleCop" />
-    <Content Include=".editorconfig" />
+    <Link Include="InteractiveAutomationToolkit.nuspec" />
+    <Link Include="Settings.StyleCop" />
+    <Link Include=".editorconfig" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NamespaceDoc.cs" />
