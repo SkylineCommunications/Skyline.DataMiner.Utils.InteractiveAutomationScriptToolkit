@@ -43,7 +43,7 @@
 		}
 
 		/// <inheritdoc />
-		public event EventHandler<IEnumerable<TreeViewItem>> Changed
+		public event EventHandler<ChangedEventArgs> Changed
 		{
 			add
 			{
@@ -61,10 +61,10 @@
 			}
 		}
 
-		private event EventHandler<IEnumerable<TreeViewItem>> OnChanged;
+		private event EventHandler<ChangedEventArgs> OnChanged;
 
 		/// <inheritdoc />
-		public event EventHandler<IEnumerable<TreeViewItem>> Checked
+		public event EventHandler<CheckedEventArgs> Checked
 		{
 			add
 			{
@@ -82,10 +82,10 @@
 			}
 		}
 
-		private event EventHandler<IEnumerable<TreeViewItem>> OnChecked;
+		private event EventHandler<CheckedEventArgs> OnChecked;
 
 		/// <inheritdoc />
-		public event EventHandler<IEnumerable<TreeViewItem>> Unchecked
+		public event EventHandler<UncheckedEventArgs> Unchecked
 		{
 			add
 			{
@@ -103,10 +103,10 @@
 			}
 		}
 
-		private event EventHandler<IEnumerable<TreeViewItem>> OnUnchecked;
+		private event EventHandler<UncheckedEventArgs> OnUnchecked;
 
 		/// <inheritdoc />
-		public event EventHandler<IEnumerable<TreeViewItem>> Expanded
+		public event EventHandler<ExpandedEventArgs> Expanded
 		{
 			add
 			{
@@ -119,10 +119,10 @@
 			}
 		}
 
-		private event EventHandler<IEnumerable<TreeViewItem>> OnExpanded;
+		private event EventHandler<ExpandedEventArgs> OnExpanded;
 
 		/// <inheritdoc />
-		public event EventHandler<IEnumerable<TreeViewItem>> Collapsed
+		public event EventHandler<CollapsedEventArgs> Collapsed
 		{
 			add
 			{
@@ -135,7 +135,7 @@
 			}
 		}
 
-		private event EventHandler<IEnumerable<TreeViewItem>> OnCollapsed;
+		private event EventHandler<CollapsedEventArgs> OnCollapsed;
 
 		/// <inheritdoc />
 		public void Collapse()
@@ -409,19 +409,19 @@
 		protected internal override void RaiseResultEvents()
 		{
 			// Expanded items
-			if (itemsExpanded && OnExpanded != null) OnExpanded(this, expandedItems);
+			if (itemsExpanded && OnExpanded != null) OnExpanded(this, new ExpandedEventArgs(expandedItems));
 
 			// Collapsed items
-			if (itemsCollapsed && OnCollapsed != null) OnCollapsed(this, collapsedItems);
+			if (itemsCollapsed && OnCollapsed != null) OnCollapsed(this, new CollapsedEventArgs(collapsedItems));
 
 			// Checked items
-			if (itemsChecked && OnChecked != null) OnChecked(this, checkedItems);
+			if (itemsChecked && OnChecked != null) OnChecked(this, new CheckedEventArgs(checkedItems));
 
 			// Unchecked items
-			if (itemsUnchecked && OnUnchecked != null) OnUnchecked(this, uncheckedItems);
+			if (itemsUnchecked && OnUnchecked != null) OnUnchecked(this, new UncheckedEventArgs(uncheckedItems));
 
 			// Changed items
-			if (itemsChanged && OnChanged != null) OnChanged(this, changedItems);
+			if (itemsChanged && OnChanged != null) OnChanged(this, new ChangedEventArgs(changedItems));
 
 			itemsExpanded = false;
 			itemsCollapsed = false;
@@ -430,6 +430,106 @@
 			itemsChanged = false;
 
 			UpdateItemCache();
+		}
+
+		/// <summary>
+		/// Provides data for the <see cref="Changed" /> event.
+		/// </summary>
+		public class ChangedEventArgs : EventArgs
+		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="ChangedEventArgs"/> class.
+			/// </summary>
+			/// <param name="changed">The items that have been changed.</param>
+			public ChangedEventArgs(IReadOnlyCollection<TreeViewItem> changed)
+			{
+				Changed = changed;
+			}
+
+			/// <summary>
+			/// Gets the items that have been changed.
+			/// </summary>
+			public IReadOnlyCollection<TreeViewItem> Changed { get; private set; }
+		}
+
+		/// <summary>
+		/// Provides data for the <see cref="Expanded" /> event.
+		/// </summary>
+		public class ExpandedEventArgs : EventArgs
+		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="ExpandedEventArgs"/> class.
+			/// </summary>
+			/// <param name="expanded">The items that have been expanded.</param>
+			public ExpandedEventArgs(IReadOnlyCollection<TreeViewItem> expanded)
+			{
+				Expanded = expanded;
+			}
+
+			/// <summary>
+			/// Gets the items that have been expanded.
+			/// </summary>
+			public IReadOnlyCollection<TreeViewItem> Expanded { get; private set; }
+		}
+
+		/// <summary>
+		/// Provides data for the <see cref="Collapsed" /> event.
+		/// </summary>
+		public class CollapsedEventArgs : EventArgs
+		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="CollapsedEventArgs"/> class.
+			/// </summary>
+			/// <param name="collapsed">The items that have been collapsed.</param>
+			public CollapsedEventArgs(IReadOnlyCollection<TreeViewItem> collapsed)
+			{
+				Collapsed = collapsed;
+			}
+
+			/// <summary>
+			/// Gets the items that have been collapsed.
+			/// </summary>
+			public IReadOnlyCollection<TreeViewItem> Collapsed { get; private set; }
+		}
+
+		/// <summary>
+		/// Provides data for the <see cref="Checked" /> event.
+		/// </summary>
+		public class CheckedEventArgs : EventArgs
+		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="CheckedEventArgs"/> class.
+			/// </summary>
+			/// <param name="checked">The items that have been checked.</param>
+			public CheckedEventArgs(IReadOnlyCollection<TreeViewItem> @checked)
+			{
+				Checked = @checked;
+			}
+
+			/// <summary>
+			/// Gets the items that have been checked.
+			/// </summary>
+			public IReadOnlyCollection<TreeViewItem> Checked { get; private set; }
+		}
+
+		/// <summary>
+		/// Provides data for the <see cref="Unchecked" /> event.
+		/// </summary>
+		public class UncheckedEventArgs : EventArgs
+		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="UncheckedEventArgs"/> class.
+			/// </summary>
+			/// <param name="unchecked">The items that have been unchecked.</param>
+			public UncheckedEventArgs(IReadOnlyCollection<TreeViewItem> @unchecked)
+			{
+				Unchecked = @unchecked;
+			}
+
+			/// <summary>
+			/// Gets the items that have been unchecked.
+			/// </summary>
+			public IReadOnlyCollection<TreeViewItem> Unchecked { get; private set; }
 		}
 	}
 }

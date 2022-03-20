@@ -38,32 +38,32 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		///     Triggered when a different item is selected or no longer selected.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
-		event EventHandler<IEnumerable<TreeViewItem>> Changed;
+		event EventHandler<TreeView.ChangedEventArgs> Changed;
 
 		/// <summary>
 		///  Triggered whenever an item is selected.
 		///  WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
-		event EventHandler<IEnumerable<TreeViewItem>> Checked;
+		event EventHandler<TreeView.CheckedEventArgs> Checked;
 
 		/// <summary>
 		///  Triggered whenever an item is no longer selected.
 		///  WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
-		event EventHandler<IEnumerable<TreeViewItem>> Unchecked;
+		event EventHandler<TreeView.UncheckedEventArgs> Unchecked;
 
 		/// <summary>
 		///  Triggered whenever an item is expanded.
 		///  Can be used for lazy loading.
 		///  Will be triggered whenever a node with SupportsLazyLoading set to true is expanded.
 		/// </summary>
-		event EventHandler<IEnumerable<TreeViewItem>> Expanded;
+		event EventHandler<TreeView.ExpandedEventArgs> Expanded;
 
 		/// <summary>
 		///  Triggered whenever an item is collapsed.
 		///  Will be triggered whenever a node with SupportsLazyLoading set to true is collapsed.
 		/// </summary>
-		event EventHandler<IEnumerable<TreeViewItem>> Collapsed;
+		event EventHandler<TreeView.CollapsedEventArgs> Collapsed;
 
 		/// <summary>
 		/// Sets the IsCollapsed state for all items in the tree view to true, causing the entire tree view to be collapsed.

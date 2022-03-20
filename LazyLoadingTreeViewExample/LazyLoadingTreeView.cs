@@ -48,9 +48,9 @@ public class Script
 		app.Run(fileSelectorDialog);
 	}
 
-	private void TreeView_Expanded(object sender, IEnumerable<TreeViewItem> e)
+	private void TreeView_Expanded(object sender, TreeView.ExpandedEventArgs e)
 	{
-		foreach (var item in e)
+		foreach (var item in e.Expanded)
 		{
 			string[] directories = Directory.GetDirectories(item.KeyValue);
 			string[] files = Directory.GetFiles(item.KeyValue);
