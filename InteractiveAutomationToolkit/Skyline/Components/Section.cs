@@ -11,7 +11,6 @@
 	{
 		private readonly Dictionary<IWidget, WidgetLayout> widgetLayouts = new Dictionary<IWidget, WidgetLayout>();
 
-		private bool isEnabled = true;
 		private bool isVisible = true;
 
 		/// <summary>
@@ -40,30 +39,6 @@
 				foreach (IWidget widget in Widgets)
 				{
 					widget.IsVisible = isVisible;
-				}
-			}
-		}
-
-		/// <summary>
-		///		Gets or sets a value indicating whether the interactive widgets within the section are enabled or not.
-		/// </summary>
-		public bool IsEnabled
-		{
-			get
-			{
-				return isEnabled;
-			}
-
-			set
-			{
-				isEnabled = value;
-				foreach (IWidget widget in Widgets)
-				{
-					IInteractiveWidget interactiveWidget = widget as IInteractiveWidget;
-					if (interactiveWidget != null)
-					{
-						interactiveWidget.IsEnabled = isEnabled;
-					}
 				}
 			}
 		}
@@ -250,6 +225,32 @@
 			widgetLayouts.Clear();
 			RowCount = 0;
 			ColumnCount = 0;
+		}
+
+		/// <summary>
+		/// Enables all widgets added to this section.
+		/// Sets the <see cref="IInteractiveWidget.IsEnabled"/> property of all <see cref="IInteractiveWidget"/> to <c>true</c>.
+		/// </summary>
+		public void EnableAllWidgets()
+		{
+			SetWidgetsEnabled(true);
+		}
+
+		/// <summary>
+		/// Disables all widgets added to this section.
+		/// Sets the <see cref="IInteractiveWidget.IsEnabled"/> property of all <see cref="IInteractiveWidget"/> to <c>false</c>.
+		/// </summary>
+		public void DisableAllWidgets()
+		{
+			SetWidgetsEnabled(false);
+		}
+
+		private void SetWidgetsEnabled(bool enabled)
+		{
+			foreach (IInteractiveWidget widget in Widgets.OfType<IInteractiveWidget>())
+			{
+				widget.IsEnabled = enabled;
+			}
 		}
 
 		private void CheckWidgetExits(IWidget widget)
