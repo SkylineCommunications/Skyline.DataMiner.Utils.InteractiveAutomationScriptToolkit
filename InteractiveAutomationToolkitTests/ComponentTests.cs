@@ -21,10 +21,10 @@
 			Button button = new Button("Button 1");
 			Assert.IsFalse(button.WantsOnChange);
 
-			button.Pressed += Button_Pressed;
+			button.Pressed += DoNothing;
 			Assert.IsTrue(button.WantsOnChange);
 
-			button.Pressed -= Button_Pressed;
+			button.Pressed -= DoNothing;
 			Assert.IsFalse(button.WantsOnChange);
 		}
 
@@ -37,10 +37,10 @@
 			CheckBox checkBox = new CheckBox();
 			Assert.IsFalse(checkBox.WantsOnChange);
 
-			checkBox.Changed += CheckBox_Changed;
+			checkBox.Changed += DoNothing;
 			Assert.IsTrue(checkBox.WantsOnChange);
 
-			checkBox.Changed -= CheckBox_Changed;
+			checkBox.Changed -= DoNothing;
 			Assert.IsFalse(checkBox.WantsOnChange);
 		}
 
@@ -53,10 +53,10 @@
 			CheckBox checkBox = new CheckBox();
 			Assert.IsFalse(checkBox.WantsOnChange);
 
-			checkBox.Checked += CheckBox_Checked;
+			checkBox.Checked += DoNothing;
 			Assert.IsTrue(checkBox.WantsOnChange);
 
-			checkBox.Checked -= CheckBox_Checked;
+			checkBox.Checked -= DoNothing;
 			Assert.IsFalse(checkBox.WantsOnChange);
 		}
 
@@ -69,10 +69,10 @@
 			CheckBox checkBox = new CheckBox();
 			Assert.IsFalse(checkBox.WantsOnChange);
 
-			checkBox.UnChecked += CheckBox_UnChecked;
+			checkBox.UnChecked += DoNothing;
 			Assert.IsTrue(checkBox.WantsOnChange);
 
-			checkBox.UnChecked -= CheckBox_UnChecked;
+			checkBox.UnChecked -= DoNothing;
 			Assert.IsFalse(checkBox.WantsOnChange);
 		}
 
@@ -86,10 +86,10 @@
 			CheckBoxList checkBoxList = new CheckBoxList(options);
 			Assert.IsFalse(checkBoxList.WantsOnChange);
 
-			checkBoxList.Changed += CheckBoxList_Changed;
+			checkBoxList.Changed += DoNothing;
 			Assert.IsTrue(checkBoxList.WantsOnChange);
 
-			checkBoxList.Changed -= CheckBoxList_Changed;
+			checkBoxList.Changed -= DoNothing;
 			Assert.IsFalse(checkBoxList.WantsOnChange);
 		}
 
@@ -103,10 +103,10 @@
 			var collapseButton = new CollapseButton(widgets, false);
 			Assert.IsTrue(collapseButton.WantsOnChange);
 
-			collapseButton.Pressed += CollapseButton_Pressed;
+			collapseButton.Pressed += DoNothing;
 			Assert.IsTrue(collapseButton.WantsOnChange);
 
-			collapseButton.Pressed -= CollapseButton_Pressed;
+			collapseButton.Pressed -= DoNothing;
 			Assert.IsTrue(collapseButton.WantsOnChange);
 		}
 
@@ -119,10 +119,10 @@
 			Calendar calendar = new Calendar();
 			Assert.IsFalse(calendar.WantsOnChange);
 
-			calendar.Changed += Calendar_Changed;
+			calendar.Changed += DoNothing;
 			Assert.IsTrue(calendar.WantsOnChange);
 
-			calendar.Changed -= Calendar_Changed;
+			calendar.Changed -= DoNothing;
 			Assert.IsFalse(calendar.WantsOnChange);
 		}
 
@@ -135,10 +135,10 @@
 			DateTimePicker dateTimePicker = new DateTimePicker();
 			Assert.IsFalse(dateTimePicker.WantsOnChange);
 
-			dateTimePicker.Changed += DateTimePicker_Changed;
+			dateTimePicker.Changed += DoNothing;
 			Assert.IsTrue(dateTimePicker.WantsOnChange);
 
-			dateTimePicker.Changed -= DateTimePicker_Changed;
+			dateTimePicker.Changed -= DoNothing;
 			Assert.IsFalse(dateTimePicker.WantsOnChange);
 		}
 
@@ -152,10 +152,10 @@
 			DropDown dropDown = new DropDown(options);
 			Assert.IsFalse(dropDown.WantsOnChange);
 
-			dropDown.Changed += DropDown_Changed;
+			dropDown.Changed += DoNothing;
 			Assert.IsTrue(dropDown.WantsOnChange);
 
-			dropDown.Changed -= DropDown_Changed;
+			dropDown.Changed -= DoNothing;
 			Assert.IsFalse(dropDown.WantsOnChange);
 		}
 
@@ -168,10 +168,10 @@
 			Numeric numeric = new Numeric();
 			Assert.IsFalse(numeric.WantsOnChange);
 
-			numeric.Changed += Numeric_Changed;
+			numeric.Changed += DoNothing;
 			Assert.IsTrue(numeric.WantsOnChange);
 
-			numeric.Changed -= Numeric_Changed;
+			numeric.Changed -= DoNothing;
 			Assert.IsFalse(numeric.WantsOnChange);
 		}
 
@@ -185,10 +185,10 @@
 			RadioButtonList radioButtonList = new RadioButtonList(options);
 			Assert.IsFalse(radioButtonList.WantsOnChange);
 
-			radioButtonList.Changed += RadioButtonList_Changed;
+			radioButtonList.Changed += DoNothing;
 			Assert.IsTrue(radioButtonList.WantsOnChange);
 
-			radioButtonList.Changed -= RadioButtonList_Changed;
+			radioButtonList.Changed -= DoNothing;
 			Assert.IsFalse(radioButtonList.WantsOnChange);
 		}
 
@@ -201,10 +201,10 @@
 			TextBox textBox = new TextBox();
 			Assert.IsFalse(textBox.WantsOnChange);
 
-			textBox.Changed += TextBox_Changed;
+			textBox.Changed += DoNothing;
 			Assert.IsTrue(textBox.WantsOnChange);
 
-			textBox.Changed -= TextBox_Changed;
+			textBox.Changed -= DoNothing;
 			Assert.IsFalse(textBox.WantsOnChange);
 		}
 
@@ -217,10 +217,10 @@
 			TimePicker timePicker = new TimePicker();
 			Assert.IsFalse(timePicker.WantsOnChange);
 
-			timePicker.Changed += TimePicker_Changed;
+			timePicker.Changed += DoNothing;
 			Assert.IsTrue(timePicker.WantsOnChange);
 
-			timePicker.Changed -= TimePicker_Changed;
+			timePicker.Changed -= DoNothing;
 			Assert.IsFalse(timePicker.WantsOnChange);
 		}
 
@@ -259,7 +259,7 @@
 		[TestMethod]
 		public void TestSection()
 		{
-			TestSection section = new TestSection();
+			Section section = new Section();
 			section.AddWidget(new Label("Label 1"), 0, 0);
 			section.AddWidget(new Label("Label 2"), 1, 0);
 
@@ -281,7 +281,7 @@
 		[TestMethod]
 		public void RemoveWidgetsFromSection()
 		{
-			TestSection section = new TestSection();
+			Section section = new Section();
 			Label label1 = new Label("Label 1");
 			Label label2 = new Label("Label 2");
 
@@ -421,67 +421,7 @@
 			Assert.AreEqual(0, itemsOnDepth3.Count);
 		}
 
-		private void Button_Pressed(object sender, EventArgs e)
-		{
-			// do nothing
-		}
-
-		private void CheckBox_Changed(object sender, CheckBox.CheckBoxChangedEventArgs e)
-		{
-			// do nothing
-		}
-
-		private void CheckBox_Checked(object sender, EventArgs e)
-		{
-			// do nothing
-		}
-
-		private void CheckBox_UnChecked(object sender, EventArgs e)
-		{
-			// do nothing
-		}
-
-		private void CheckBoxList_Changed(object sender, CheckBoxList.CheckBoxListChangedEventArgs e)
-		{
-			// do nothing
-		}
-
-		private void CollapseButton_Pressed(object sender, EventArgs e)
-		{
-			// do nothing
-		}
-
-		private void Calendar_Changed(object sender, Calendar.CalendarChangedEventArgs e)
-		{
-			// do nothing
-		}
-
-		private void DateTimePicker_Changed(object sender, DateTimePicker.DateTimePickerChangedEventArgs e)
-		{
-			// do nothing
-		}
-
-		private void DropDown_Changed(object sender, DropDown.DropDownChangedEventArgs e)
-		{
-			// do nothing
-		}
-
-		private void Numeric_Changed(object sender, Numeric.NumericChangedEventArgs e)
-		{
-			// do nothing
-		}
-
-		private void RadioButtonList_Changed(object sender, RadioButtonList.RadioButtonChangedEventArgs e)
-		{
-			// do nothing
-		}
-
-		private void TextBox_Changed(object sender, TextBox.TextBoxChangedEventArgs e)
-		{
-			// do nothing
-		}
-
-		private void TimePicker_Changed(object sender, TimePicker.TimePickerChangedEventArgs e)
+		private void DoNothing(object sender, EventArgs e)
 		{
 			// do nothing
 		}
@@ -525,9 +465,5 @@
 			dropDown.Options.Clear();
 			Assert.AreEqual(null, dropDown.Selected);
 		}
-	}
-
-	public class TestSection : Section
-	{
 	}
 }

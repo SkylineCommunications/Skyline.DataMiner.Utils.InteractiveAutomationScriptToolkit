@@ -155,21 +155,19 @@ namespace InteractiveAutomationToolkitTests
 		/// This test will add the same label to a dialog twice and checks if an exception is thrown when the widget is being added for the second time.
 		/// </summary>
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentException))]
 		public void TryAddSingleWidgetTwice()
 		{
 			Label label1 = new Label("Label 1");
 			Dialog dialog = new Dialog(Mock.Of<IEngine>());
 			dialog.AddWidget(label1, 0, 0);
 
-			dialog.AddWidget(label1, 0, 1);
+			Assert.ThrowsException<ArgumentException>(() => dialog.AddWidget(label1, 0, 1));
 		}
 
 		/// <summary>
 		/// This test will add two different labels (without spanning) on the same position of the dialog and check if an exception is thrown.
 		/// </summary>
 		[TestMethod]
-		[ExpectedException(typeof(OverlappingWidgetsException))]
 		public void TryAddWidgetsSamePosition()
 		{
 			Label label1 = new Label("Label 1");
@@ -178,14 +176,13 @@ namespace InteractiveAutomationToolkitTests
 			dialog.AddWidget(label1, 0, 0);
 			dialog.AddWidget(label2, 0, 0);
 
-			dialog.Show(false);
+			Assert.ThrowsException<OverlappingWidgetsException>(() => dialog.Show(false));
 		}
 
 		/// <summary>
 		/// This test will add two different overlapping labels (with column spanning) to the dialog and check if an exception is thrown.
 		/// </summary>
 		[TestMethod]
-		[ExpectedException(typeof(OverlappingWidgetsException))]
 		public void TryAddOverlappingColumnSpanningWidgets()
 		{
 			Label label1 = new Label("Label 1");
@@ -194,14 +191,13 @@ namespace InteractiveAutomationToolkitTests
 			dialog.AddWidget(label1, 0, 0, 1, 3);
 			dialog.AddWidget(label2, 0, 2, 1, 2);
 
-			dialog.Show(false);
+			Assert.ThrowsException<OverlappingWidgetsException>(() => dialog.Show(false));
 		}
 
 		/// <summary>
 		/// This test will add two different overlapping labels (with row spanning) to the dialog and check if an exception is thrown.
 		/// </summary>
 		[TestMethod]
-		[ExpectedException(typeof(OverlappingWidgetsException))]
 		public void TryAddOverlappingRowSpanningWidgets()
 		{
 			Label label1 = new Label("Label 1");
@@ -210,14 +206,13 @@ namespace InteractiveAutomationToolkitTests
 			dialog.AddWidget(label1, 0, 0, 3, 1);
 			dialog.AddWidget(label2, 2, 0, 2, 1);
 
-			dialog.Show(false);
+			Assert.ThrowsException<OverlappingWidgetsException>(() => dialog.Show(false));
 		}
 
 		/// <summary>
 		/// This test will add two different overlapping labels (with column and row spanning) to the dialog and check if an exception is thrown.
 		/// </summary>
 		[TestMethod]
-		[ExpectedException(typeof(OverlappingWidgetsException))]
 		public void TryAddOverlappingColumnAndRowSpanningWidgets()
 		{
 			Label label1 = new Label("Label 1");
@@ -226,7 +221,7 @@ namespace InteractiveAutomationToolkitTests
 			dialog.AddWidget(label1, 0, 0, 2, 2);
 			dialog.AddWidget(label2, 1, 1, 2, 3);
 
-			dialog.Show(false);
+			Assert.ThrowsException<OverlappingWidgetsException>(() => dialog.Show(false));
 		}
 
 		/// <summary>
@@ -241,7 +236,14 @@ namespace InteractiveAutomationToolkitTests
 			dialog.AddWidget(label1, 0, 0, 2, 2);
 			dialog.AddWidget(label2, 1, 1, 2, 3);
 
-			dialog.Show(false);
+			try
+			{
+				dialog.Show(false);
+			}
+			catch (Exception ex)
+			{
+				Assert.Fail("Expected no exception, but got: " + ex.Message);
+			}
 		}
 
 		/// <summary>
