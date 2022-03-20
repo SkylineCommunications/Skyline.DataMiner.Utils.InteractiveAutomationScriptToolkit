@@ -154,7 +154,8 @@
 			}
 		}
 
-		internal override void LoadResult(UIResults uiResults)
+		/// <inheritdoc />
+		protected internal override void LoadResult(UIResults uiResults)
 		{
 			bool result = uiResults.GetChecked(this);
 			if (WantsOnChange)
@@ -166,7 +167,7 @@
 		}
 
 		/// <inheritdoc />
-		internal override void RaiseResultEvents()
+		protected internal override void RaiseResultEvents()
 		{
 			if (!changed)
 			{

@@ -1,7 +1,6 @@
 ﻿namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
 	using System;
-	using System.ComponentModel;
 
 	using Automation;
 
@@ -22,8 +21,7 @@
 		/// <summary>
 		///     Gets the alias that will be used to retrieve the value entered or selected by the user from the UIResults object.
 		/// </summary>
-		/// <remarks>Use methods <see cref="UiResultsExtensions" /> to retrieve the result instead.</remarks>
-		internal string DestVar
+		protected internal string DestVar
 		{
 			get
 			{
@@ -56,14 +54,24 @@
 				return BlockDefinition.WantsOnChange;
 			}
 
-			set
+			protected set
 			{
 				BlockDefinition.WantsOnChange = value;
 			}
 		}
 
-		internal abstract void LoadResult(UIResults uiResults);
+		/// <summary>
+		/// Load any changes made through user interaction.
+		/// </summary>
+		/// <param name="uiResults">Represents the information a user has entered or selected in a dialog box of an interactive Automation script.</param>
+		/// <remarks><see cref="DestVar"/> should be used as key to get the changes for this widget.</remarks>
+		protected internal abstract void LoadResult(UIResults uiResults);
 
-		internal abstract void RaiseResultEvents();
+		/// <summary>
+		/// Raises zero or more events of the widget.
+		/// This method is called after <see cref="LoadResult"/> was called on all widgets.
+		/// </summary>
+		/// <remarks>It is up to the implementer to determine if an event must be raised.</remarks>
+		protected internal abstract void RaiseResultEvents();
 	}
 }

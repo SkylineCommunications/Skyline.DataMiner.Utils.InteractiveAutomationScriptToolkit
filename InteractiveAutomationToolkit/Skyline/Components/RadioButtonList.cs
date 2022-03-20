@@ -167,7 +167,8 @@
 			Selected = previousSelected;
 		}
 
-		internal override void LoadResult(UIResults uiResults)
+		/// <inheritdoc />
+		protected internal override void LoadResult(UIResults uiResults)
 		{
 			string result = uiResults.GetString(this);
 			if (String.IsNullOrWhiteSpace(result)) return;
@@ -186,7 +187,7 @@
 		}
 
 		/// <inheritdoc />
-		internal override void RaiseResultEvents()
+		protected internal override void RaiseResultEvents()
 		{
 			if (changed && OnChanged != null)
 			{

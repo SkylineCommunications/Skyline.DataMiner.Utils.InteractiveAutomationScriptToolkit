@@ -113,12 +113,14 @@
 			}
 		}
 
-		internal override void LoadResult(UIResults uiResults)
+		/// <inheritdoc />
+		protected internal override void LoadResult(UIResults uiResults)
 		{
 			UploadedFilePaths = uiResults.GetUploadedFilePaths(this) ?? Array.Empty<string>();
 		}
 
-		internal override void RaiseResultEvents()
+		/// <inheritdoc />
+		protected internal override void RaiseResultEvents()
 		{
 			// Nothing to do
 		}

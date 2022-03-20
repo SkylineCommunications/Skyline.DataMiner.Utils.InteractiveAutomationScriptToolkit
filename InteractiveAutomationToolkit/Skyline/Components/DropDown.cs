@@ -216,7 +216,8 @@
 			BlockDefinition.InitialValue = selected;
 		}
 
-		internal override void LoadResult(UIResults uiResults)
+		/// <inheritdoc />
+		protected internal override void LoadResult(UIResults uiResults)
 		{
 			string selectedValue = uiResults.GetString(this);
 			if (WantsOnChange)
@@ -231,7 +232,7 @@
 		}
 
 		/// <inheritdoc />
-		internal override void RaiseResultEvents()
+		protected internal override void RaiseResultEvents()
 		{
 			if (changed && OnChanged != null)
 			{

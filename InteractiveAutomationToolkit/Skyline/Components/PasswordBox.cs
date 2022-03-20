@@ -126,7 +126,7 @@
 		}
 
 		/// <inheritdoc />
-		internal override void LoadResult(UIResults uiResults)
+		protected internal override void LoadResult(UIResults uiResults)
 		{
 			string result = uiResults.GetString(this);
 			if (WantsOnChange && result != Password)
@@ -139,7 +139,7 @@
 		}
 
 		/// <inheritdoc />
-		internal override void RaiseResultEvents()
+		protected internal override void RaiseResultEvents()
 		{
 			if (changed && Changed != null)
 			{

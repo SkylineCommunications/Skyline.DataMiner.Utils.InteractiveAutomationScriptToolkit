@@ -285,7 +285,7 @@
 		}
 
 		/// <inheritdoc />
-		internal override void LoadResult(UIResults uiResults)
+		protected internal override void LoadResult(UIResults uiResults)
 		{
 			string isoString = uiResults.GetString(DestVar);
 			DateTime result = DateTime.Parse(isoString);
@@ -300,7 +300,7 @@
 		}
 
 		/// <inheritdoc />
-		internal override void RaiseResultEvents()
+		protected internal override void RaiseResultEvents()
 		{
 			if (changed && OnChanged != null)
 			{

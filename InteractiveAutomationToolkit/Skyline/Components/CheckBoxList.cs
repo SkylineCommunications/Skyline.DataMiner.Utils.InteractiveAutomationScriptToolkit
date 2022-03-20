@@ -223,7 +223,8 @@
 			Checked.Clear();
 		}
 
-		internal override void LoadResult(UIResults uiResults)
+		/// <inheritdoc />
+		protected internal override void LoadResult(UIResults uiResults)
 		{
 			string results = uiResults.GetString(this);
 			if (results == null)
@@ -261,7 +262,7 @@
 		}
 
 		/// <inheritdoc />
-		internal override void RaiseResultEvents()
+		protected internal override void RaiseResultEvents()
 		{
 			if (changed && OnChanged != null)
 			{

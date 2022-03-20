@@ -321,7 +321,8 @@
 			}
 		}
 
-		internal override void LoadResult(UIResults uiResults)
+		/// <inheritdoc />
+		protected internal override void LoadResult(UIResults uiResults)
 		{
 			var checkedItemKeys = uiResults.GetCheckedItemKeys(this); // this includes all checked items
 			var expandedItemKeys = uiResults.GetExpandedItemKeys(this); // this includes all expanded items with LazyLoading set to true
@@ -405,7 +406,7 @@
 		}
 
 		/// <inheritdoc />
-		internal override void RaiseResultEvents()
+		protected internal override void RaiseResultEvents()
 		{
 			// Expanded items
 			if (itemsExpanded && OnExpanded != null) OnExpanded(this, expandedItems);
