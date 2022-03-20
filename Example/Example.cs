@@ -142,15 +142,15 @@ public class DemoDialog : Dialog
 		AddWidget(TitleLabel, 0, 0, 1, 2, HorizontalAlignment.Center);
 		SetRowHeight(0, 50);
 
-		CheckBox = new CheckBox("checkbox") { WantsOnChange = true };
+		CheckBox = new CheckBox("checkbox");
 		AddWidget(CheckBox, 1, 0);
 		CheckBox.Changed += OnCheckBoxOnChanged;
 
-		DropDown = new DropDown(new[] { "Title", "Heading", "Bold", "None" }) { WantsOnChange = true };
+		DropDown = new DropDown(new[] { "Title", "Heading", "Bold", "None" });
 		AddWidget(DropDown, 1, 1);
 		DropDown.Changed += OnDropDownOnChanged;
 
-		CheckBoxList = new CheckBoxList(new[] { "title", "checkbox", "dropdown" }) { WantsOnChange = true };
+		CheckBoxList = new CheckBoxList(new[] { "title", "checkbox", "dropdown" });
 		CheckBoxList.CheckAll();
 		AddWidget(CheckBoxList, 2, 0);
 		CheckBoxList.Changed += OnCheckBoxListOnChanged;
@@ -160,7 +160,6 @@ public class DemoDialog : Dialog
 
 		Numeric = new Numeric(30)
 		{
-			WantsOnChange = true,
 			Decimals = 1,
 			Minimum = 30,
 			Maximum = 200,
@@ -174,16 +173,16 @@ public class DemoDialog : Dialog
 		RadioButtonList = new RadioButtonList(new[] { "a", "b", "c" });
 		AddWidget(RadioButtonList, 4, 0);
 
-		DateTimePicker = new DateTimePicker { WantsOnChange = true };
+		DateTimePicker = new DateTimePicker();
 		AddWidget(DateTimePicker, 4, 1);
 
-		Time = new Time(new TimeSpan(16, 45, 30)) { WantsOnChange = true };
+		Time = new Time(new TimeSpan(16, 45, 30));
 		AddWidget(Time, 5, 0);
 
-		TimePicker = new TimePicker { WantsOnChange = true };
+		TimePicker = new TimePicker();
 		AddWidget(TimePicker, 5, 1);
 
-		Calendar = new Calendar { WantsOnChange = true };
+		Calendar = new Calendar();
 		AddWidget(Calendar, 6, 1);
 
 		ResetButton = new Button("Reset");
