@@ -10,7 +10,7 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		///     Triggered when the timespan changes.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
-		event EventHandler<Time.TimeChangedEventArgs> Changed;
+		event EventHandler<Time.ChangedEventArgs> Changed;
 
 		/// <summary>
 		///     Gets or sets the timespan displayed in the time widget.

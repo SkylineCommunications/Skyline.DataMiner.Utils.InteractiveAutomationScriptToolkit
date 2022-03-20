@@ -10,7 +10,7 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		///     Triggered when a different datetime is picked.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
-		event EventHandler<DateTimePicker.DateTimePickerChangedEventArgs> Changed;
+		event EventHandler<DateTimePicker.ChangedEventArgs> Changed;
 
 		/// <summary>
 		///     Gets or sets the datetime displayed in the datetime picker.

@@ -32,7 +32,7 @@
 		}
 
 		/// <inheritdoc />
-		public event EventHandler<CheckBoxChangedEventArgs> Changed
+		public event EventHandler<ChangedEventArgs> Changed
 		{
 			add
 			{
@@ -100,7 +100,7 @@
 			}
 		}
 
-		private event EventHandler<CheckBoxChangedEventArgs> OnChanged;
+		private event EventHandler<ChangedEventArgs> OnChanged;
 
 		private event EventHandler<EventArgs> OnChecked;
 
@@ -176,7 +176,7 @@
 
 			if (OnChanged != null)
 			{
-				OnChanged(this, new CheckBoxChangedEventArgs(IsChecked));
+				OnChanged(this, new ChangedEventArgs(IsChecked));
 			}
 
 			if (OnChecked != null && IsChecked)
@@ -195,9 +195,13 @@
 		/// <summary>
 		///     Provides data for the <see cref="Changed" /> event.
 		/// </summary>
-		public class CheckBoxChangedEventArgs : EventArgs
+		public class ChangedEventArgs : EventArgs
 		{
-			public CheckBoxChangedEventArgs(bool isChecked)
+			/// <summary>
+			/// Initializes a new instance of the <see cref="ChangedEventArgs"/> class.
+			/// </summary>
+			/// <param name="isChecked">The new checked state.</param>
+			public ChangedEventArgs(bool isChecked)
 			{
 				IsChecked = isChecked;
 			}

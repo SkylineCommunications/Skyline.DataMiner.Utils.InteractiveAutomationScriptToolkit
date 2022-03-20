@@ -40,7 +40,7 @@
 		}
 
 		/// <inheritdoc />
-		public event EventHandler<TimePickerChangedEventArgs> Changed
+		public event EventHandler<ChangedEventArgs> Changed
 		{
 			add
 			{
@@ -58,7 +58,7 @@
 			}
 		}
 
-		private event EventHandler<TimePickerChangedEventArgs> OnChanged;
+		private event EventHandler<ChangedEventArgs> OnChanged;
 
 		/// <inheritdoc />
 		public TimeSpan EndTime
@@ -268,7 +268,7 @@
 		{
 			if (changed && OnChanged != null)
 			{
-				OnChanged(this, new TimePickerChangedEventArgs(Time, previous));
+				OnChanged(this, new ChangedEventArgs(Time, previous));
 			}
 
 			changed = false;
@@ -285,9 +285,14 @@
 		/// <summary>
 		///     Provides data for the <see cref="Changed" /> event.
 		/// </summary>
-		public class TimePickerChangedEventArgs : EventArgs
+		public class ChangedEventArgs : EventArgs
 		{
-			public TimePickerChangedEventArgs(TimeSpan timeSpan, TimeSpan previous)
+			/// <summary>
+			/// Initializes a new instance of the <see cref="ChangedEventArgs"/> class.
+			/// </summary>
+			/// <param name="timeSpan">The new time of day.</param>
+			/// <param name="previous">The previous time of day.</param>
+			public ChangedEventArgs(TimeSpan timeSpan, TimeSpan previous)
 			{
 				TimeSpan = timeSpan;
 				Previous = previous;

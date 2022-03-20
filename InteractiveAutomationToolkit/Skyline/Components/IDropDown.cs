@@ -11,7 +11,7 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		///     Triggered when a different option is selected.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
-		event EventHandler<DropDown.DropDownChangedEventArgs> Changed;
+		event EventHandler<DropDown.ChangedEventArgs> Changed;
 
 		/// <summary>
 		///     Gets or sets the possible options.

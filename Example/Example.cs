@@ -217,7 +217,7 @@ public class DemoDialog : Dialog
 
 	public Label TitleLabel { get; private set; }
 
-	private void OnCheckBoxListOnChanged(object sender, CheckBoxList.CheckBoxListChangedEventArgs args)
+	private void OnCheckBoxListOnChanged(object sender, CheckBoxList.ChangedEventArgs args)
 	{
 		switch (args.Option)
 		{
@@ -235,12 +235,12 @@ public class DemoDialog : Dialog
 		}
 	}
 
-	private void OnCheckBoxOnChanged(object sender, CheckBox.CheckBoxChangedEventArgs args)
+	private void OnCheckBoxOnChanged(object sender, CheckBox.ChangedEventArgs args)
 	{
 		TitleLabel.Text = args.IsChecked ? "Checked" : "UnChecked";
 	}
 
-	private void OnDropDownOnChanged(object sender, DropDown.DropDownChangedEventArgs args)
+	private void OnDropDownOnChanged(object sender, DropDown.ChangedEventArgs args)
 	{
 		switch (DropDown.Selected)
 		{
@@ -262,7 +262,7 @@ public class DemoDialog : Dialog
 		}
 	}
 
-	private void OnNumericOnChanged(object sender, Numeric.NumericChangedEventArgs args)
+	private void OnNumericOnChanged(object sender, Numeric.ChangedEventArgs args)
 	{
 		var height = (int)args.Value;
 		Engine.GenerateInformation(height.ToString());

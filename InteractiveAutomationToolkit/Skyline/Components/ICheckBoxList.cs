@@ -11,7 +11,7 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		///     Triggered when the state of a checkbox changes.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
-		event EventHandler<CheckBoxList.CheckBoxListChangedEventArgs> Changed;
+		event EventHandler<CheckBoxList.ChangedEventArgs> Changed;
 
 		/// <summary>
 		///     Gets all selected options.

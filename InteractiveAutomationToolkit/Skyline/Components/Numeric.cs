@@ -40,7 +40,7 @@
 		}
 
 		/// <inheritdoc />
-		public event EventHandler<NumericChangedEventArgs> Changed
+		public event EventHandler<ChangedEventArgs> Changed
 		{
 			add
 			{
@@ -58,7 +58,7 @@
 			}
 		}
 
-		private event EventHandler<NumericChangedEventArgs> OnChanged;
+		private event EventHandler<ChangedEventArgs> OnChanged;
 
 		/// <inheritdoc />
 		public int Decimals
@@ -230,7 +230,7 @@
 		{
 			if (changed && OnChanged != null)
 			{
-				OnChanged(this, new NumericChangedEventArgs(Value, previous));
+				OnChanged(this, new ChangedEventArgs(Value, previous));
 			}
 
 			changed = false;
@@ -265,9 +265,14 @@
 		/// <summary>
 		///     Provides data for the <see cref="Changed" /> event.
 		/// </summary>
-		public class NumericChangedEventArgs : EventArgs
+		public class ChangedEventArgs : EventArgs
 		{
-			public NumericChangedEventArgs(double value, double previous)
+			/// <summary>
+			/// Initializes a new instance of the <see cref="ChangedEventArgs"/> class.
+			/// </summary>
+			/// <param name="value">The new value of the numeric.</param>
+			/// <param name="previous">The previous value of the numeric.</param>
+			public ChangedEventArgs(double value, double previous)
 			{
 				Value = value;
 				Previous = previous;

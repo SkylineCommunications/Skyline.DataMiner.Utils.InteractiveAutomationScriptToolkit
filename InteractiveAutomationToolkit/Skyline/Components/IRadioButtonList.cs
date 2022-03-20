@@ -9,7 +9,7 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		///     Triggered when a different option is selected.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
-		event EventHandler<RadioButtonList.RadioButtonChangedEventArgs> Changed;
+		event EventHandler<RadioButtonList.ChangedEventArgs> Changed;
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the options are sorted naturally.

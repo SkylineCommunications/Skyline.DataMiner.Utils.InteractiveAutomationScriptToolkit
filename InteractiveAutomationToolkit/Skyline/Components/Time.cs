@@ -37,7 +37,7 @@
 		}
 
 		/// <inheritdoc />
-		public event EventHandler<TimeChangedEventArgs> Changed
+		public event EventHandler<ChangedEventArgs> Changed
 		{
 			add
 			{
@@ -55,7 +55,7 @@
 			}
 		}
 
-		private event EventHandler<TimeChangedEventArgs> OnChanged;
+		private event EventHandler<ChangedEventArgs> OnChanged;
 
 		/// <inheritdoc />
 		public bool ClipValueToRange
@@ -285,7 +285,7 @@
 		{
 			if (changed && OnChanged != null)
 			{
-				OnChanged(this, new TimeChangedEventArgs(TimeSpan, previous));
+				OnChanged(this, new ChangedEventArgs(TimeSpan, previous));
 			}
 
 			changed = false;
@@ -294,9 +294,14 @@
 		/// <summary>
 		///     Provides data for the <see cref="Changed" /> event.
 		/// </summary>
-		public class TimeChangedEventArgs : EventArgs
+		public class ChangedEventArgs : EventArgs
 		{
-			public TimeChangedEventArgs(TimeSpan timeSpan, TimeSpan previous)
+			/// <summary>
+			/// Initializes a new instance of the <see cref="ChangedEventArgs"/> class.
+			/// </summary>
+			/// <param name="timeSpan">The new timespan.</param>
+			/// <param name="previous">The previous timespan.</param>
+			public ChangedEventArgs(TimeSpan timeSpan, TimeSpan previous)
 			{
 				TimeSpan = timeSpan;
 				Previous = previous;

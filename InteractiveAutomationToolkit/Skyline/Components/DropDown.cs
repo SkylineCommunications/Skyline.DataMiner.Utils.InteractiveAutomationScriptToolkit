@@ -45,7 +45,7 @@
 		}
 
 		/// <inheritdoc />
-		public event EventHandler<DropDownChangedEventArgs> Changed
+		public event EventHandler<ChangedEventArgs> Changed
 		{
 			add
 			{
@@ -63,7 +63,7 @@
 			}
 		}
 
-		private event EventHandler<DropDownChangedEventArgs> OnChanged;
+		private event EventHandler<ChangedEventArgs> OnChanged;
 
 		/// <inheritdoc />
 		public ICollection<string> Options
@@ -236,7 +236,7 @@
 		{
 			if (changed && OnChanged != null)
 			{
-				OnChanged(this, new DropDownChangedEventArgs(Selected, previous));
+				OnChanged(this, new ChangedEventArgs(Selected, previous));
 			}
 
 			changed = false;
@@ -245,9 +245,14 @@
 		/// <summary>
 		///     Provides data for the <see cref="Changed" /> event.
 		/// </summary>
-		public class DropDownChangedEventArgs : EventArgs
+		public class ChangedEventArgs : EventArgs
 		{
-			public DropDownChangedEventArgs(string selected, string previous)
+			/// <summary>
+			/// Initializes a new instance of the <see cref="ChangedEventArgs"/> class.
+			/// </summary>
+			/// <param name="selected">The option that has been selected.</param>
+			/// <param name="previous">The previously selected option.</param>
+			public ChangedEventArgs(string selected, string previous)
 			{
 				Selected = selected;
 				Previous = previous;

@@ -39,7 +39,7 @@
 		}
 
 		/// <inheritdoc />
-		public event EventHandler<DateTimePickerChangedEventArgs> Changed
+		public event EventHandler<ChangedEventArgs> Changed
 		{
 			add
 			{
@@ -57,7 +57,7 @@
 			}
 		}
 
-		private event EventHandler<DateTimePickerChangedEventArgs> OnChanged;
+		private event EventHandler<ChangedEventArgs> OnChanged;
 
 		/// <inheritdoc />
 		public bool DisplayServerTime
@@ -304,7 +304,7 @@
 		{
 			if (changed && OnChanged != null)
 			{
-				OnChanged(this, new DateTimePickerChangedEventArgs(DateTime, previous));
+				OnChanged(this, new ChangedEventArgs(DateTime, previous));
 			}
 
 			changed = false;
@@ -313,9 +313,14 @@
 		/// <summary>
 		///     Provides data for the <see cref="Changed" /> event.
 		/// </summary>
-		public class DateTimePickerChangedEventArgs : EventArgs
+		public class ChangedEventArgs : EventArgs
 		{
-			public DateTimePickerChangedEventArgs(DateTime dateTime, DateTime previous)
+			/// <summary>
+			/// Initializes a new instance of the <see cref="ChangedEventArgs"/> class.
+			/// </summary>
+			/// <param name="dateTime">The new datetime value.</param>
+			/// <param name="previous">The previous datetime value.</param>
+			public ChangedEventArgs(DateTime dateTime, DateTime previous)
 			{
 				DateTime = dateTime;
 				Previous = previous;

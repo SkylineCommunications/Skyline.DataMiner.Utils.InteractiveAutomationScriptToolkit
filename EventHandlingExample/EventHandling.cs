@@ -42,7 +42,7 @@ public class MyEventDialog : Dialog
 		Interacted += OnInteracted;
 	}
 
-	private void OnTextBoxChanged(object sender, TextBox.TextBoxChangedEventArgs args)
+	private void OnTextBoxChanged(object sender, TextBox.ChangedEventArgs args)
 	{
 		string message = String.Format("Text changed from '{0}' to '{1}'", args.Previous, args.Value);
 		Engine.GenerateInformation(message);

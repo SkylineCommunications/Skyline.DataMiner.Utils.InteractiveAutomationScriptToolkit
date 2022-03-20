@@ -10,7 +10,7 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		///     Triggered when a different time is picked.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
-		event EventHandler<TimePicker.TimePickerChangedEventArgs> Changed;
+		event EventHandler<TimePicker.ChangedEventArgs> Changed;
 
 		/// <summary>
 		///     Gets or sets the height of the time picker control.

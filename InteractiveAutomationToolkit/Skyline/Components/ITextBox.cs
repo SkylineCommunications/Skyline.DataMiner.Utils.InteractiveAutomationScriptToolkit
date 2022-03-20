@@ -10,7 +10,7 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		///     Triggered when the text in the text box changes.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
-		event EventHandler<TextBox.TextBoxChangedEventArgs> Changed;
+		event EventHandler<TextBox.ChangedEventArgs> Changed;
 
 		/// <summary>
 		///     Gets or sets a value indicating whether users are able to enter multiple lines of text.

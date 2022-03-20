@@ -34,7 +34,7 @@
 		}
 
 		/// <inheritdoc />
-		public event EventHandler<PasswordBoxChangedEventArgs> Changed;
+		public event EventHandler<ChangedEventArgs> Changed;
 
 		/// <inheritdoc />
 		public bool HasPeekIcon
@@ -143,7 +143,7 @@
 		{
 			if (changed && Changed != null)
 			{
-				Changed(this, new PasswordBoxChangedEventArgs(Password, previous));
+				Changed(this, new ChangedEventArgs(Password, previous));
 			}
 
 			changed = false;
@@ -152,16 +152,21 @@
 		/// <summary>
 		///     Provides data for the <see cref="Changed" /> event.
 		/// </summary>
-		public class PasswordBoxChangedEventArgs : EventArgs
+		public class ChangedEventArgs : EventArgs
 		{
-			public PasswordBoxChangedEventArgs(string password, string previous)
+			/// <summary>
+			/// Initializes a new instance of the <see cref="ChangedEventArgs"/> class.
+			/// </summary>
+			/// <param name="password">The new password.</param>
+			/// <param name="previous">The previous password.</param>
+			public ChangedEventArgs(string password, string previous)
 			{
 				Password = password;
 				Previous = previous;
 			}
 
 			/// <summary>
-			///     Gets the password.
+			///     Gets the new password.
 			/// </summary>
 			public string Password { get; private set; }
 

@@ -35,7 +35,7 @@
 		}
 
 		/// <inheritdoc />
-		public event EventHandler<CalendarChangedEventArgs> Changed
+		public event EventHandler<ChangedEventArgs> Changed
 		{
 			add
 			{
@@ -53,7 +53,7 @@
 			}
 		}
 
-		private event EventHandler<CalendarChangedEventArgs> OnChanged;
+		private event EventHandler<ChangedEventArgs> OnChanged;
 
 		/// <inheritdoc />
 		public DateTime DateTime
@@ -136,7 +136,7 @@
 		{
 			if (changed && OnChanged != null)
 			{
-				OnChanged(this, new CalendarChangedEventArgs(DateTime, previous));
+				OnChanged(this, new ChangedEventArgs(DateTime, previous));
 			}
 
 			changed = false;
@@ -145,9 +145,14 @@
 		/// <summary>
 		///     Provides data for the <see cref="Changed" /> event.
 		/// </summary>
-		public class CalendarChangedEventArgs : EventArgs
+		public class ChangedEventArgs : EventArgs
 		{
-			public CalendarChangedEventArgs(DateTime dateTime, DateTime previous)
+			/// <summary>
+			/// Initializes a new instance of the <see cref="ChangedEventArgs"/> class.
+			/// </summary>
+			/// <param name="dateTime">The new value.</param>
+			/// <param name="previous">The previous value.</param>
+			public ChangedEventArgs(DateTime dateTime, DateTime previous)
 			{
 				DateTime = dateTime;
 				Previous = previous;

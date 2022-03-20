@@ -34,7 +34,7 @@
 		}
 
 		/// <inheritdoc />
-		public event EventHandler<TextBoxChangedEventArgs> Changed
+		public event EventHandler<ChangedEventArgs> Changed
 		{
 			add
 			{
@@ -52,7 +52,7 @@
 			}
 		}
 
-		private event EventHandler<TextBoxChangedEventArgs> OnChanged;
+		private event EventHandler<ChangedEventArgs> OnChanged;
 
 		/// <inheritdoc />
 		public bool IsMultiline
@@ -161,7 +161,7 @@
 		{
 			if (changed && OnChanged != null)
 			{
-				OnChanged(this, new TextBoxChangedEventArgs(Text, previous));
+				OnChanged(this, new ChangedEventArgs(Text, previous));
 			}
 
 			changed = false;
@@ -170,9 +170,14 @@
 		/// <summary>
 		///     Provides data for the <see cref="Changed" /> event.
 		/// </summary>
-		public class TextBoxChangedEventArgs : EventArgs
+		public class ChangedEventArgs : EventArgs
 		{
-			public TextBoxChangedEventArgs(string value, string previous)
+			/// <summary>
+			/// Initializes a new instance of the <see cref="ChangedEventArgs"/> class.
+			/// </summary>
+			/// <param name="value">The changed text.</param>
+			/// <param name="previous">The text before the change.</param>
+			public ChangedEventArgs(string value, string previous)
 			{
 				Value = value;
 				Previous = previous;

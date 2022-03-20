@@ -47,7 +47,7 @@
 		}
 
 		/// <inheritdoc />
-		public event EventHandler<CheckBoxListChangedEventArgs> Changed
+		public event EventHandler<ChangedEventArgs> Changed
 		{
 			add
 			{
@@ -65,7 +65,7 @@
 			}
 		}
 
-		private event EventHandler<CheckBoxListChangedEventArgs> OnChanged;
+		private event EventHandler<ChangedEventArgs> OnChanged;
 
 		/// <inheritdoc />
 		public ICollection<string> Checked
@@ -266,7 +266,7 @@
 		{
 			if (changed && OnChanged != null)
 			{
-				OnChanged(this, new CheckBoxListChangedEventArgs(changedOption, changedValue));
+				OnChanged(this, new ChangedEventArgs(changedOption, changedValue));
 			}
 
 			changed = false;
@@ -275,9 +275,14 @@
 		/// <summary>
 		///     Provides data for the <see cref="Changed" /> event.
 		/// </summary>
-		public class CheckBoxListChangedEventArgs : EventArgs
+		public class ChangedEventArgs : EventArgs
 		{
-			public CheckBoxListChangedEventArgs(string option, bool isChecked)
+			/// <summary>
+			/// Initializes a new instance of the <see cref="ChangedEventArgs"/> class.
+			/// </summary>
+			/// <param name="option">The option of which the state has changed.</param>
+			/// <param name="isChecked">The new checked state of that option.</param>
+			public ChangedEventArgs(string option, bool isChecked)
 			{
 				Option = option;
 				IsChecked = isChecked;

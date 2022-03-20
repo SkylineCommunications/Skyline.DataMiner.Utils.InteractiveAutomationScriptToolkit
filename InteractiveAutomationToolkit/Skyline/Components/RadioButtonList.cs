@@ -41,7 +41,7 @@
 		}
 
 		/// <inheritdoc />
-		public event EventHandler<RadioButtonChangedEventArgs> Changed
+		public event EventHandler<ChangedEventArgs> Changed
 		{
 			add
 			{
@@ -59,7 +59,7 @@
 			}
 		}
 
-		private event EventHandler<RadioButtonChangedEventArgs> OnChanged;
+		private event EventHandler<ChangedEventArgs> OnChanged;
 
 		/// <inheritdoc />
 		public bool IsSorted
@@ -191,7 +191,7 @@
 		{
 			if (changed && OnChanged != null)
 			{
-				OnChanged(this, new RadioButtonChangedEventArgs(Selected, previous));
+				OnChanged(this, new ChangedEventArgs(Selected, previous));
 			}
 
 			changed = false;
@@ -200,9 +200,14 @@
 		/// <summary>
 		///     Provides data for the <see cref="Changed" /> event.
 		/// </summary>
-		public class RadioButtonChangedEventArgs : EventArgs
+		public class ChangedEventArgs : EventArgs
 		{
-			public RadioButtonChangedEventArgs(string selectedValue, string previous)
+			/// <summary>
+			/// Initializes a new instance of the <see cref="ChangedEventArgs"/> class.
+			/// </summary>
+			/// <param name="selectedValue">The option that has been selected.</param>
+			/// <param name="previous">The previously selected option.</param>
+			public ChangedEventArgs(string selectedValue, string previous)
 			{
 				SelectedValue = selectedValue;
 				Previous = previous;

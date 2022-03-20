@@ -10,7 +10,7 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		///     Triggered when the value of the numeric changes.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
-		event EventHandler<Numeric.NumericChangedEventArgs> Changed;
+		event EventHandler<Numeric.ChangedEventArgs> Changed;
 
 		/// <summary>
 		///     Gets or sets the value of the numeric.

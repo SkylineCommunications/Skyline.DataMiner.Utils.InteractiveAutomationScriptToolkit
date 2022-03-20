@@ -9,7 +9,7 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		/// <summary>
 		///     Triggered when the password changes.
 		/// </summary>
-		event EventHandler<PasswordBox.PasswordBoxChangedEventArgs> Changed;
+		event EventHandler<PasswordBox.ChangedEventArgs> Changed;
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the peek icon to reveal the password is shown.
