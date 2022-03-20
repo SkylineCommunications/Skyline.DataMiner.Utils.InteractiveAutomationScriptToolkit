@@ -100,7 +100,7 @@
 		public void WantsOnChangeCollapseButtonOnPressedEvent()
 		{
 			IEnumerable<IWidget> widgets = new IWidget[] { new Label("Label1"), new Label("Label2") };
-			ICollapseButton collapseButton = new CollapseButton(widgets, false);
+			var collapseButton = new CollapseButton(widgets, false);
 			Assert.IsTrue(collapseButton.WantsOnChange);
 
 			collapseButton.Pressed += CollapseButton_Pressed;

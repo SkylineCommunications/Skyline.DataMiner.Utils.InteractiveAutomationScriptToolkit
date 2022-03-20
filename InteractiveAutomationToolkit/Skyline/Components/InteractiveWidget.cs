@@ -45,9 +45,11 @@
 			}
 		}
 
-		/// <inheritdoc />
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		public bool WantsOnChange
+		/// <summary>
+		///     Gets or sets a value indicating whether an update of the current value of the dialog box item will trigger an event.
+		/// </summary>
+		/// <remarks>Should not be used as this value is set automatically when subscribing to events!</remarks>
+		protected internal bool WantsOnChange
 		{
 			get
 			{
