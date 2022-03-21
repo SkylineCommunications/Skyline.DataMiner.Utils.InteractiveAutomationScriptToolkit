@@ -36,10 +36,10 @@
     <LangVersion>6</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SLManagedAutomation">
+    <Reference Include="SLManagedAutomation, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <HintPath>..\JenkinsDependencies\SLManagedAutomation.dll</HintPath>
     </Reference>
-    <Reference Include="SLNetTypes">
+    <Reference Include="SLNetTypes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9789b1eac4cb1b12, processorArchitecture=MSIL">
       <HintPath>..\JenkinsDependencies\SLNetTypes.dll</HintPath>
     </Reference>
     <Reference Include="System" />
