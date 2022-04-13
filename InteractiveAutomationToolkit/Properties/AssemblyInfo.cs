@@ -1,16 +1,17 @@
-﻿using System.Reflection;
+﻿using System.Resources;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("InteractiveAutomationToolkit")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("SLC.CLib.IASToolkit")]
+[assembly: AssemblyDescription("Framework used to create Interactive Automation Scripts in DataMiner for DMA version larger than 10.0.5")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Skyline Communications")]
 [assembly: AssemblyProduct("InteractiveAutomationToolkit")]
-[assembly: AssemblyCopyright("Copyright ©  2019")]
+[assembly: AssemblyCopyright("Skyline Communications ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -22,6 +22,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7205AF92-2E45-49BB-805E-9D2829678A89}"
 ProjectSection(SolutionItems) = preProject
 	manifest.xml = manifest.xml
+	JenkinsNuGetConfiguration.xml = JenkinsNuGetConfiguration.xml
 EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JenkinsDependencies", "JenkinsDependencies", "{F3239EA4-E4BB-469C-BE1F-4E2DC6A16EAB}"
