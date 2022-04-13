@@ -6,8 +6,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("InteractiveAutomationToolkit")]
-[assembly: AssemblyDescription("Framework used to create Interactive Automation Scripts for DataMiner")]
+[assembly: AssemblyTitle("SLC.CLib.IASToolkit")]
+[assembly: AssemblyDescription("Framework used to create Interactive Automation Scripts in DataMiner for DMA version larger than 10.1.8")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Skyline Communications")]
 [assembly: AssemblyProduct("InteractiveAutomationToolkit")]
