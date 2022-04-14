@@ -239,8 +239,10 @@
 
 		/// <summary>
 		/// This method is used to update the cached TreeViewItems and lookup table.
+		/// This is done after loading the results from the UI Block, after handling the Events or when setting the Items.
+		/// This method should only be called from outside the TreeView if you are checking or collapsing items from outside of the TreeView and need to access the CheckedItems or CollapsedItems.
 		/// </summary>
-		internal void UpdateItemCache()
+		public void UpdateItemCache()
 		{
 			checkedItemCache = new Dictionary<string, bool>();
 			collapsedItemCache = new Dictionary<string, bool>();
