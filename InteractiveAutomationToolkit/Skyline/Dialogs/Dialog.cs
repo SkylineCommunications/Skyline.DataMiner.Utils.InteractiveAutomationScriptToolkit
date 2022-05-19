@@ -2,7 +2,6 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using System.ComponentModel;
 	using System.Linq;
 
 	using Automation;
@@ -10,14 +9,14 @@
 	/// <summary>
 	///     A dialog represents a single window that can be shown.
 	///     You can show widgets in the window by adding them to the dialog.
-	///     The dialog uses a grid to determine the layout of its widgets.
+	///     The dialog uses a grid layout.
 	/// </summary>
 	public class Dialog : IDialog
 	{
 		private const string Auto = "auto";
 		private const string Stretch = "*";
 
-		private readonly Dictionary<IWidget, WidgetLayout> widgetLayouts = new Dictionary<IWidget, WidgetLayout>();
+		private readonly Dictionary<IWidget, WidgetLocation> widgetLocations = new Dictionary<IWidget, WidgetLocation>();
 
 		private readonly Dictionary<int, string> columnDefinitions = new Dictionary<int, string>();
 		private readonly Dictionary<int, string> rowDefinitions = new Dictionary<int, string>();
@@ -177,7 +176,7 @@
 		{
 			get
 			{
-				return widgetLayouts.Keys;
+				return widgetLocations.Keys;
 			}
 		}
 
@@ -201,19 +200,19 @@
 		}
 
 		/// <inheritdoc />
-		public IDialog AddWidget(IWidget widget, WidgetLayout widgetLayout)
+		public IDialog AddWidget(IWidget widget, WidgetLocation widgetLocation)
 		{
 			if (widget == null)
 			{
 				throw new ArgumentNullException(nameof(widget));
 			}
 
-			if (widgetLayouts.ContainsKey(widget))
+			if (widgetLocations.ContainsKey(widget))
 			{
 				throw new ArgumentException("Widget is already added to the dialog");
 			}
 
-			widgetLayouts.Add(widget, widgetLayout);
+			widgetLocations.Add(widget, widgetLocation);
 
 			SortedSet<int> rowsInUse;
 			SortedSet<int> columnsInUse;
@@ -223,38 +222,24 @@
 		}
 
 		/// <inheritdoc />
-		public IDialog AddWidget(
-			IWidget widget,
-			int row,
-			int column,
-			HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left,
-			VerticalAlignment verticalAlignment = VerticalAlignment.Center)
+		public IDialog AddWidget(IWidget widget, int row, int column)
 		{
-			AddWidget(widget, new WidgetLayout(row, column, horizontalAlignment, verticalAlignment));
+			AddWidget(widget, new WidgetLocation(row, column));
 			return this;
 		}
 
 		/// <inheritdoc />
-		public IDialog AddWidget(
-			IWidget widget,
-			int fromRow,
-			int fromColumn,
-			int rowSpan,
-			int colSpan,
-			HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left,
-			VerticalAlignment verticalAlignment = VerticalAlignment.Center)
+		public IDialog AddWidget(IWidget widget, int fromRow, int fromColumn, int rowSpan, int colSpan)
 		{
-			AddWidget(
-				widget,
-				new WidgetLayout(fromRow, fromColumn, rowSpan, colSpan, horizontalAlignment, verticalAlignment));
+			AddWidget(widget, new WidgetLocation(fromRow, fromColumn, rowSpan, colSpan));
 			return this;
 		}
 
 		/// <inheritdoc />
-		public WidgetLayout GetWidgetLayout(IWidget widget)
+		public WidgetLocation GetWidgetLocation(IWidget widget)
 		{
 			CheckWidgetExists(widget);
-			return widgetLayouts[widget];
+			return widgetLocations[widget];
 		}
 
 		/// <inheritdoc />
@@ -265,7 +250,7 @@
 				throw new ArgumentNullException(nameof(widget));
 			}
 
-			widgetLayouts.Remove(widget);
+			widgetLocations.Remove(widget);
 
 			SortedSet<int> rowsInUse;
 			SortedSet<int> columnsInUse;
@@ -273,20 +258,18 @@
 		}
 
 		/// <inheritdoc />
-		public IDialog AddSection(Section section, SectionLayout layout)
+		public IDialog AddSection(Section section, SectionLocation location)
 		{
 			foreach (IWidget widget in section.Widgets)
 			{
-				WidgetLayout widgetLayout = section.GetWidgetLayout(widget);
+				WidgetLocation widgetLocation = section.GetWidgetLocation(widget);
 				AddWidget(
 					widget,
-					new WidgetLayout(
-						widgetLayout.Row + layout.Row,
-						widgetLayout.Column + layout.Column,
-						widgetLayout.RowSpan,
-						widgetLayout.ColumnSpan,
-						widgetLayout.HorizontalAlignment,
-						widgetLayout.VerticalAlignment));
+					new WidgetLocation(
+						widgetLocation.Row + location.Row,
+						widgetLocation.Column + location.Column,
+						widgetLocation.RowSpan,
+						widgetLocation.ColumnSpan));
 			}
 
 			return this;
@@ -295,7 +278,7 @@
 		/// <inheritdoc />
 		public IDialog AddSection(Section section, int fromRow, int fromColumn)
 		{
-			return AddSection(section, new SectionLayout(fromRow, fromColumn));
+			return AddSection(section, new SectionLocation(fromRow, fromColumn));
 		}
 
 		/// <inheritdoc />
@@ -402,10 +385,10 @@
 		}
 
 		/// <inheritdoc />
-		public void SetWidgetLayout(IWidget widget, WidgetLayout widgetLayout)
+		public void MoveWidget(IWidget widget, WidgetLocation widgetLocation)
 		{
 			CheckWidgetExists(widget);
-			widgetLayouts[widget] = widgetLayout;
+			widgetLocations[widget] = widgetLocation;
 		}
 
 		/// <inheritdoc />
@@ -426,7 +409,7 @@
 		/// <inheritdoc />
 		public void Clear()
 		{
-			widgetLayouts.Clear();
+			widgetLocations.Clear();
 			RowCount = 0;
 			ColumnCount = 0;
 		}
@@ -441,54 +424,6 @@
 		public void DisableAllWidgets()
 		{
 			SetWidgetsEnabled(false);
-		}
-
-		private static string AlignmentToUiString(HorizontalAlignment horizontalAlignment)
-		{
-			switch (horizontalAlignment)
-			{
-				case HorizontalAlignment.Center:
-					return "Center";
-
-				case HorizontalAlignment.Left:
-					return "Left";
-
-				case HorizontalAlignment.Right:
-					return "Right";
-
-				case HorizontalAlignment.Stretch:
-					return "Stretch";
-
-				default:
-					throw new InvalidEnumArgumentException(
-						nameof(horizontalAlignment),
-						(int)horizontalAlignment,
-						typeof(HorizontalAlignment));
-			}
-		}
-
-		private static string AlignmentToUiString(VerticalAlignment verticalAlignment)
-		{
-			switch (verticalAlignment)
-			{
-				case VerticalAlignment.Center:
-					return "Center";
-
-				case VerticalAlignment.Top:
-					return "Top";
-
-				case VerticalAlignment.Bottom:
-					return "Bottom";
-
-				case VerticalAlignment.Stretch:
-					return "Stretch";
-
-				default:
-					throw new InvalidEnumArgumentException(
-						nameof(verticalAlignment),
-						(int)verticalAlignment,
-						typeof(VerticalAlignment));
-			}
 		}
 
 		private string GetRowDefinitions(SortedSet<int> rowsInUse)
@@ -559,14 +494,14 @@
 				Title = Title
 			};
 
-			KeyValuePair<IWidget, WidgetLayout> defaultKeyValuePair = default(KeyValuePair<IWidget, WidgetLayout>);
+			KeyValuePair<IWidget, WidgetLocation> defaultKeyValuePair = default(KeyValuePair<IWidget, WidgetLocation>);
 			int rowIndex = 0;
 			foreach (int rowInUse in rowsInUse)
 			{
 				var columnIndex = 0;
 				foreach (int columnInUse in columnsInUse)
 				{
-					foreach (KeyValuePair<IWidget, WidgetLayout> keyValuePair in widgetLayouts.Where(x => x.Key.IsVisible && x.Key.Type != UIBlockType.Undefined && x.Value.Row.Equals(rowInUse) && x.Value.Column.Equals(columnInUse)))
+					foreach (KeyValuePair<IWidget, WidgetLocation> keyValuePair in widgetLocations.Where(x => x.Key.IsVisible && x.Key.Type != UIBlockType.Undefined && x.Value.Row.Equals(rowInUse) && x.Value.Column.Equals(columnInUse)))
 					{
 						if (keyValuePair.Equals(defaultKeyValuePair)) continue;
 
@@ -575,15 +510,12 @@
 						if (treeView != null) treeView.UpdateItemCache();
 
 						UIBlockDefinition widgetBlockDefinition = keyValuePair.Key.BlockDefinition;
-						WidgetLayout widgetLayout = keyValuePair.Value;
+						WidgetLocation widgetLocation = keyValuePair.Value;
 
 						widgetBlockDefinition.Column = columnIndex;
-						widgetBlockDefinition.ColumnSpan = widgetLayout.ColumnSpan;
+						widgetBlockDefinition.ColumnSpan = widgetLocation.ColumnSpan;
 						widgetBlockDefinition.Row = rowIndex;
-						widgetBlockDefinition.RowSpan = widgetLayout.RowSpan;
-						widgetBlockDefinition.HorizontalAlignment = AlignmentToUiString(widgetLayout.HorizontalAlignment);
-						widgetBlockDefinition.VerticalAlignment = AlignmentToUiString(widgetLayout.VerticalAlignment);
-						widgetBlockDefinition.Margin = widgetLayout.Margin.ToString();
+						widgetBlockDefinition.RowSpan = widgetLocation.RowSpan;
 
 						uiBuilder.AppendBlock(widgetBlockDefinition);
 					}
@@ -606,7 +538,7 @@
 		{
 			rowsInUse = new SortedSet<int>();
 			columnsInUse = new SortedSet<int>();
-			foreach (KeyValuePair<IWidget, WidgetLayout> keyValuePair in widgetLayouts)
+			foreach (KeyValuePair<IWidget, WidgetLocation> keyValuePair in widgetLocations)
 			{
 				if (keyValuePair.Key.IsVisible && keyValuePair.Key.Type != UIBlockType.Undefined)
 				{
@@ -634,7 +566,7 @@
 				throw new ArgumentNullException(nameof(widget));
 			}
 
-			if (!widgetLayouts.ContainsKey(widget))
+			if (!widgetLocations.ContainsKey(widget))
 			{
 				throw new ArgumentException("Widget is not part of this dialog");
 			}
@@ -652,18 +584,18 @@
 		{
 			var builder = new OverlappingWidgetsException.Builder();
 
-			KeyValuePair<IWidget, WidgetLayout>[] visible = widgetLayouts.Where(pair => pair.Key.IsVisible).ToArray();
+			KeyValuePair<IWidget, WidgetLocation>[] visible = widgetLocations.Where(pair => pair.Key.IsVisible).ToArray();
 			for (var i = 0; i < visible.Length; i++)
 			{
 				IWidget widget = visible[i].Key;
-				WidgetLayout layout = visible[i].Value;
+				WidgetLocation location = visible[i].Value;
 				for (int j = i + 1; j < visible.Length; j++)
 				{
 					IWidget otherWidget = visible[j].Key;
-					WidgetLayout otherLayout = visible[j].Value;
-					if (layout.Overlaps(otherLayout))
+					WidgetLocation otherLocation = visible[j].Value;
+					if (location.Overlaps(otherLocation))
 					{
-						builder.Add(widget, layout, otherWidget, otherLayout);
+						builder.Add(widget, location, otherWidget, otherLocation);
 					}
 				}
 			}

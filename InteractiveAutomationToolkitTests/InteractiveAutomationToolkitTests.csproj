@@ -78,7 +78,7 @@
     <Compile Include="ComponentTests.cs" />
     <Compile Include="DialogTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WidgetLayoutTests.cs" />
+    <Compile Include="WidgetLocationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

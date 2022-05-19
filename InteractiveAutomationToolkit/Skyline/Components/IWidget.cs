@@ -5,6 +5,9 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 
 	using Automation;
 
+	/// <summary>
+	/// Represents a widget.
+	/// </summary>
 	public interface IWidget
 	{
 		/// <summary>
@@ -66,6 +69,16 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		/// <remarks>A widget should implement everything, so you don't need to use this object!</remarks>
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		UIBlockDefinition BlockDefinition { get; }
+
+		/// <summary>
+		///     Gets or sets the horizontal alignment of the widget.
+		/// </summary>
+		HorizontalAlignment HorizontalAlignment { get; set; }
+
+		/// <summary>
+		///     Gets or sets the vertical alignment of the widget.
+		/// </summary>
+		VerticalAlignment VerticalAlignment { get; set; }
 
 		/// <summary>
 		///     Set the height of the widget based on its content.

@@ -114,18 +114,22 @@ This is an example application to showcase the widgets
 
 public class WelcomeDialog : Dialog
 {
-	private readonly Label titleLabel = new Label("Welcome") { Style = TextStyle.Title };
+	private readonly Label titleLabel = new Label("Welcome")
+	{
+		Style = TextStyle.Title,
+		HorizontalAlignment = HorizontalAlignment.Center
+	};
 
 	public WelcomeDialog(Engine engine) : base(engine)
 	{
 		Title = "Welcome";
 
 		TextBox = new TextBox { IsMultiline = true };
-		ContinueButton = new Button("Continue");
+		ContinueButton = new Button("Continue") { HorizontalAlignment = HorizontalAlignment.Right };
 
-		AddWidget(titleLabel, 0, 0, 1, 3, HorizontalAlignment.Center);
+		AddWidget(titleLabel, 0, 0, 1, 3);
 		AddWidget(TextBox, 1, 0, 1, 3);
-		AddWidget(ContinueButton, 2, 2, HorizontalAlignment.Right);
+		AddWidget(ContinueButton, 2, 2);
 	}
 
 	public TextBox TextBox { get; private set; }
@@ -138,8 +142,12 @@ public class DemoDialog : Dialog
 	/// <inheritdoc />
 	public DemoDialog(Engine engine) : base(engine)
 	{
-		TitleLabel = new Label("Feature Demo") { Style = TextStyle.Title };
-		AddWidget(TitleLabel, 0, 0, 1, 2, HorizontalAlignment.Center);
+		TitleLabel = new Label("Feature Demo")
+		{
+			Style = TextStyle.Title,
+			HorizontalAlignment = HorizontalAlignment.Center
+		};
+		AddWidget(TitleLabel, 0, 0, 1, 2);
 		SetRowHeight(0, 50);
 
 		CheckBox = new CheckBox("checkbox");

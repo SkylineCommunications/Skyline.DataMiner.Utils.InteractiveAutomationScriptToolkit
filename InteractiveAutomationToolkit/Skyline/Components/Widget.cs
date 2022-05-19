@@ -10,7 +10,8 @@
 	/// </summary>
 	public class Widget : IWidget
 	{
-		private readonly UIBlockDefinition blockDefinition = new UIBlockDefinition();
+		private HorizontalAlignment horizontalAlignment;
+		private VerticalAlignment verticalAlignment;
 
 		/// <summary>
 		/// Initializes a new instance of the Widget class.
@@ -19,6 +20,9 @@
 		{
 			Type = UIBlockType.Undefined;
 			IsVisible = true;
+			Margin = new Margin(4);
+			HorizontalAlignment = HorizontalAlignment.Left;
+			VerticalAlignment = VerticalAlignment.Center;
 			SetHeightAuto();
 			SetWidthAuto();
 		}
@@ -169,14 +173,38 @@
 		}
 
 		/// <inheritdoc />
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		public UIBlockDefinition BlockDefinition
+		public HorizontalAlignment HorizontalAlignment
 		{
 			get
 			{
-				return blockDefinition;
+				return horizontalAlignment;
+			}
+
+			set
+			{
+				horizontalAlignment = value;
+				BlockDefinition.HorizontalAlignment = AlignmentToUiString(value);
 			}
 		}
+
+		/// <inheritdoc />
+		public VerticalAlignment VerticalAlignment
+		{
+			get
+			{
+				return verticalAlignment;
+			}
+
+			set
+			{
+				verticalAlignment = value;
+				BlockDefinition.VerticalAlignment = AlignmentToUiString(value);
+			}
+		}
+
+		/// <inheritdoc />
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public UIBlockDefinition BlockDefinition { get; } = new UIBlockDefinition();
 
 		/// <inheritdoc />
 		public void SetHeightAuto()
@@ -192,6 +220,54 @@
 			BlockDefinition.Width = -1;
 			BlockDefinition.MaxWidth = -1;
 			BlockDefinition.MinWidth = -1;
+		}
+
+		private static string AlignmentToUiString(HorizontalAlignment horizontalAlignment)
+		{
+			switch (horizontalAlignment)
+			{
+				case HorizontalAlignment.Center:
+					return "Center";
+
+				case HorizontalAlignment.Left:
+					return "Left";
+
+				case HorizontalAlignment.Right:
+					return "Right";
+
+				case HorizontalAlignment.Stretch:
+					return "Stretch";
+
+				default:
+					throw new InvalidEnumArgumentException(
+						nameof(horizontalAlignment),
+						(int)horizontalAlignment,
+						typeof(HorizontalAlignment));
+			}
+		}
+
+		private static string AlignmentToUiString(VerticalAlignment verticalAlignment)
+		{
+			switch (verticalAlignment)
+			{
+				case VerticalAlignment.Center:
+					return "Center";
+
+				case VerticalAlignment.Top:
+					return "Top";
+
+				case VerticalAlignment.Bottom:
+					return "Bottom";
+
+				case VerticalAlignment.Stretch:
+					return "Stretch";
+
+				default:
+					throw new InvalidEnumArgumentException(
+						nameof(verticalAlignment),
+						(int)verticalAlignment,
+						typeof(VerticalAlignment));
+			}
 		}
 	}
 }

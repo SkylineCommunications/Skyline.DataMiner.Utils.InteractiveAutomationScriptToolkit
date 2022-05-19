@@ -250,10 +250,11 @@
 		public void TestWidgetMargins()
 		{
 			Button button = new Button("Button");
-			Assert.AreEqual(0, button.Margin.Left);
+			Assert.AreEqual(new Margin(4), button.Margin);
 
-			button.Margin = new Margin(10, 5, 2, 1);
-			Assert.AreEqual(2, button.Margin.Right);
+			Margin expected = new Margin(10, 5, 2, 1);
+			button.Margin = expected;
+			Assert.AreEqual(expected, button.Margin);
 		}
 
 		[TestMethod]

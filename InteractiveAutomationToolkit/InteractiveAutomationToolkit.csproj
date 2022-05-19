@@ -110,10 +110,10 @@
     <Compile Include="Skyline\InteractiveController.cs" />
     <Compile Include="Skyline\Layout\HorizontalAlignment.cs" />
     <Compile Include="Skyline\Layout\Margin.cs" />
-    <Compile Include="Skyline\Layout\SectionLayout.cs" />
+    <Compile Include="Skyline\Layout\SectionLocation.cs" />
     <Compile Include="Skyline\Layout\TextStyle.cs" />
     <Compile Include="Skyline\Layout\VerticalAlignment.cs" />
-    <Compile Include="Skyline\Layout\WidgetLayout.cs" />
+    <Compile Include="Skyline\Layout\WidgetLocation.cs" />
     <Compile Include="Skyline\UIBlockDefinitionExtensions.cs" />
     <Compile Include="Skyline\UiResultsExtensions.cs" />
   </ItemGroup>

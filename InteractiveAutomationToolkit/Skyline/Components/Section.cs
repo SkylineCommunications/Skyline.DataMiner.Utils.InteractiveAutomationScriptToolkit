@@ -9,7 +9,7 @@
 	/// </summary>
 	public class Section
 	{
-		private readonly Dictionary<IWidget, WidgetLayout> widgetLayouts = new Dictionary<IWidget, WidgetLayout>();
+		private readonly Dictionary<IWidget, WidgetLocation> widgetLocations = new Dictionary<IWidget, WidgetLocation>();
 
 		private bool isVisible = true;
 
@@ -50,7 +50,7 @@
 		{
 			get
 			{
-				return widgetLayouts.Keys;
+				return widgetLocations.Keys;
 			}
 		}
 
@@ -58,23 +58,23 @@
 		///     Adds a widget to the section.
 		/// </summary>
 		/// <param name="widget">Widget to add to the <see cref="Section" />.</param>
-		/// <param name="widgetLayout">Location of the widget in the grid layout.</param>
+		/// <param name="widgetLocation">Location of the widget in the grid.</param>
 		/// <returns>The dialog.</returns>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget has already been added to the <see cref="Section" />.</exception>
-		public Section AddWidget(IWidget widget, WidgetLayout widgetLayout)
+		public Section AddWidget(IWidget widget, WidgetLocation widgetLocation)
 		{
 			if (widget == null)
 			{
 				throw new ArgumentNullException(nameof(widget));
 			}
 
-			if (widgetLayouts.ContainsKey(widget))
+			if (widgetLocations.ContainsKey(widget))
 			{
 				throw new ArgumentException("Widget is already added to the section");
 			}
 
-			widgetLayouts.Add(widget, widgetLayout);
+			widgetLocations.Add(widget, widgetLocation);
 			UpdateRowAndColumnCount();
 
 			return this;
@@ -86,8 +86,6 @@
 		/// <param name="widget">Widget to add to the section.</param>
 		/// <param name="row">Row location of the widget on the grid.</param>
 		/// <param name="column">Column location of the widget on the grid.</param>
-		/// <param name="horizontalAlignment">Horizontal alignment of the widget.</param>
-		/// <param name="verticalAlignment">Vertical alignment of the widget.</param>
 		/// <returns>The updated section.</returns>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the location is out of bounds of the grid.</exception>
@@ -95,11 +93,9 @@
 		public Section AddWidget(
 			IWidget widget,
 			int row,
-			int column,
-			HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left,
-			VerticalAlignment verticalAlignment = VerticalAlignment.Center)
+			int column)
 		{
-			AddWidget(widget, new WidgetLayout(row, column, horizontalAlignment, verticalAlignment));
+			AddWidget(widget, new WidgetLocation(row, column));
 			return this;
 		}
 
@@ -111,8 +107,6 @@
 		/// <param name="fromColumn">Column location of the widget on the grid.</param>
 		/// <param name="rowSpan">Number of rows the widget will use.</param>
 		/// <param name="colSpan">Number of columns the widget will use.</param>
-		/// <param name="horizontalAlignment">Horizontal alignment of the widget.</param>
-		/// <param name="verticalAlignment">Vertical alignment of the widget.</param>
 		/// <returns>The updated section.</returns>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the location is out of bounds of the grid.</exception>
@@ -122,36 +116,30 @@
 			int fromRow,
 			int fromColumn,
 			int rowSpan,
-			int colSpan,
-			HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left,
-			VerticalAlignment verticalAlignment = VerticalAlignment.Center)
+			int colSpan)
 		{
-			AddWidget(
-				widget,
-				new WidgetLayout(fromRow, fromColumn, rowSpan, colSpan, horizontalAlignment, verticalAlignment));
+			AddWidget(widget, new WidgetLocation(fromRow, fromColumn, rowSpan, colSpan));
 			return this;
 		}
 
 		/// <summary>
 		/// Adds the widgets from the section to the section.
 		/// </summary>
-		/// <param name="section">Section to be added to the section.</param>
-		/// <param name="layout">Left-top position of the section within the parent section.</param>
+		/// <param name="section">Section to be added to this section.</param>
+		/// <param name="location">Starting location of the section within the parent section.</param>
 		/// <returns>The updated section.</returns>
-		public Section AddSection(Section section, SectionLayout layout)
+		public Section AddSection(Section section, SectionLocation location)
 		{
 			foreach (IWidget widget in section.Widgets)
 			{
-				WidgetLayout widgetLayout = section.GetWidgetLayout(widget);
+				WidgetLocation widgetLocation = section.GetWidgetLocation(widget);
 				AddWidget(
 					widget,
-					new WidgetLayout(
-						widgetLayout.Row + layout.Row,
-						widgetLayout.Column + layout.Column,
-						widgetLayout.RowSpan,
-						widgetLayout.ColumnSpan,
-						widgetLayout.HorizontalAlignment,
-						widgetLayout.VerticalAlignment));
+					new WidgetLocation(
+						widgetLocation.Row + location.Row,
+						widgetLocation.Column + location.Column,
+						widgetLocation.RowSpan,
+						widgetLocation.ColumnSpan));
 			}
 
 			return this;
@@ -173,16 +161,16 @@
 		}
 
 		/// <summary>
-		///     Gets the layout of the widget in the dialog.
+		///     Gets the location of the widget in the dialog.
 		/// </summary>
 		/// <param name="widget">A widget that is part of the dialog.</param>
-		/// <returns>The widget layout in the dialog.</returns>
+		/// <returns>The location of the widget in the dialog.</returns>
 		/// <exception cref="NullReferenceException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget is not part of the dialog.</exception>
-		public WidgetLayout GetWidgetLayout(IWidget widget)
+		public WidgetLocation GetWidgetLocation(IWidget widget)
 		{
 			CheckWidgetExits(widget);
-			return widgetLayouts[widget];
+			return widgetLocations[widget];
 		}
 
 		/// <summary>
@@ -197,24 +185,22 @@
 				throw new ArgumentNullException(nameof(widget));
 			}
 
-			widgetLayouts.Remove(widget);
+			widgetLocations.Remove(widget);
 			UpdateRowAndColumnCount();
 		}
 
 		/// <summary>
-		///     Sets the layout of a widget in the section.
+		///     Moves the widget within the section.
 		/// </summary>
 		/// <param name="widget">A widget that is part of the section.</param>
-		/// <param name="widgetLayout">The layout to apply to the widget.</param>
+		/// <param name="widgetLocation">The new location of the widget.</param>
 		/// <exception cref="NullReferenceException">When widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget is not part of the section.</exception>
-		/// <exception cref="NullReferenceException">When widgetLayout is null.</exception>
-		public void SetWidgetLayout(IWidget widget, WidgetLayout widgetLayout)
+		/// <exception cref="NullReferenceException">When widgetLocation is null.</exception>
+		public void MoveWidget(IWidget widget, WidgetLocation widgetLocation)
 		{
-			if (widgetLayout == null) throw new ArgumentNullException(nameof(widgetLayout));
-
 			CheckWidgetExits(widget);
-			widgetLayouts[widget] = widgetLayout;
+			widgetLocations[widget] = widgetLocation;
 		}
 
 		/// <summary>
@@ -222,7 +208,7 @@
 		/// </summary>
 		public void Clear()
 		{
-			widgetLayouts.Clear();
+			widgetLocations.Clear();
 			RowCount = 0;
 			ColumnCount = 0;
 		}
@@ -260,7 +246,7 @@
 				throw new ArgumentNullException(nameof(widget));
 			}
 
-			if (!widgetLayouts.ContainsKey(widget))
+			if (!widgetLocations.ContainsKey(widget))
 			{
 				throw new ArgumentException("Widget is not part of this dialog");
 			}
@@ -271,10 +257,10 @@
 		/// </summary>
 		private void UpdateRowAndColumnCount()
 		{
-			if (widgetLayouts.Any())
+			if (widgetLocations.Any())
 			{
-				RowCount = widgetLayouts.Values.Max(w => w.Row + w.RowSpan);
-				ColumnCount = widgetLayouts.Values.Max(w => w.Column + w.ColumnSpan);
+				RowCount = widgetLocations.Values.Max(w => w.Row + w.RowSpan);
+				ColumnCount = widgetLocations.Values.Max(w => w.Column + w.ColumnSpan);
 			}
 			else
 			{

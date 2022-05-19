@@ -5,7 +5,7 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 	using System.Text;
 
 	/// <summary>
-	/// This exception is used to indicate that two widgets have overlapping positions on the same dialog.
+	/// This exception is used to indicate that two widgets have overlapping locations on the same dialog.
 	/// </summary>
 	[Serializable]
 	public class OverlappingWidgetsException : Exception
@@ -51,7 +51,7 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 
 			public int Count { get; private set; }
 
-			public Builder Add(IWidget widget, WidgetLayout layout, IWidget otherWidget, WidgetLayout otherLayout)
+			public Builder Add(IWidget widget, WidgetLocation location, IWidget otherWidget, WidgetLocation otherLocation)
 			{
 				Count++;
 
@@ -63,15 +63,15 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 				stringBuilder.AppendFormat(
 					"{0} (Row {1}, Column {2}, RowSpan {3} ColumnSpan {4}) overlaps with {5} (Row {6}, Column {7}, RowSpan {8} ColumnSpan {9}).",
 					widget.GetType().Name,
-					layout.Row,
-					layout.Column,
-					layout.RowSpan,
-					layout.ColumnSpan,
+					location.Row,
+					location.Column,
+					location.RowSpan,
+					location.ColumnSpan,
 					otherWidget.GetType().Name,
-					otherLayout.Row,
-					otherLayout.Column,
-					otherLayout.RowSpan,
-					otherLayout.ColumnSpan);
+					otherLocation.Row,
+					otherLocation.Column,
+					otherLocation.RowSpan,
+					otherLocation.ColumnSpan);
 
 				return this;
 			}

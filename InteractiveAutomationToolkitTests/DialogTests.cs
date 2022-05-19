@@ -165,10 +165,10 @@ namespace InteractiveAutomationToolkitTests
 		}
 
 		/// <summary>
-		/// This test will add two different labels (without spanning) on the same position of the dialog and check if an exception is thrown.
+		/// This test will add two different labels (without spanning) on the same location and check if an exception is thrown.
 		/// </summary>
 		[TestMethod]
-		public void TryAddWidgetsSamePosition()
+		public void TryAddWidgetsSameLocation()
 		{
 			Label label1 = new Label("Label 1");
 			Label label2 = new Label("Label 2");

@@ -5,6 +5,9 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 
 	using Automation;
 
+	/// <summary>
+	///     A dialog represents a single window that can be shown.
+	/// </summary>
 	public interface IDialog
 	{
 		/// <summary>
@@ -60,7 +63,7 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		int Width { get; set; }
 
 		/// <summary>
-		///     Gets the number of columns of the grid layout.
+		///     Gets the current number of columns allocated in the grid.
 		/// </summary>
 		int ColumnCount { get; }
 
@@ -70,7 +73,7 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		IEngine Engine { get; }
 
 		/// <summary>
-		///     Gets the number of rows in the grid layout.
+		///     Gets the current number of rows allocated in the grid.
 		/// </summary>
 		int RowCount { get; }
 
@@ -111,11 +114,11 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		///     Adds a widget to the dialog.
 		/// </summary>
 		/// <param name="widget">Widget to add to the dialog.</param>
-		/// <param name="widgetLayout">Location of the widget on the grid layout.</param>
+		/// <param name="widgetLocation">Location of the widget on the grid.</param>
 		/// <returns>The dialog.</returns>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
-		IDialog AddWidget(IWidget widget, WidgetLayout widgetLayout);
+		IDialog AddWidget(IWidget widget, WidgetLocation widgetLocation);
 
 		/// <summary>
 		///     Adds a widget to the dialog.
@@ -123,17 +126,10 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		/// <param name="widget">Widget to add to the dialog.</param>
 		/// <param name="row">Row location of widget on the grid.</param>
 		/// <param name="column">Column location of the widget on the grid.</param>
-		/// <param name="horizontalAlignment">Horizontal alignment of the widget.</param>
-		/// <param name="verticalAlignment">Vertical alignment of the widget.</param>
 		/// <returns>The dialog.</returns>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
-		IDialog AddWidget(
-			IWidget widget,
-			int row,
-			int column,
-			HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left,
-			VerticalAlignment verticalAlignment = VerticalAlignment.Center);
+		IDialog AddWidget(IWidget widget, int row, int column);
 
 		/// <summary>
 		///     Adds a widget to the dialog.
@@ -143,28 +139,19 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		/// <param name="fromColumn">Column location of the widget on the grid.</param>
 		/// <param name="rowSpan">Number of rows the widget will use.</param>
 		/// <param name="colSpan">Number of columns the widget will use.</param>
-		/// <param name="horizontalAlignment">Horizontal alignment of the widget.</param>
-		/// <param name="verticalAlignment">Vertical alignment of the widget.</param>
 		/// <returns>The dialog.</returns>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
-		IDialog AddWidget(
-			IWidget widget,
-			int fromRow,
-			int fromColumn,
-			int rowSpan,
-			int colSpan,
-			HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left,
-			VerticalAlignment verticalAlignment = VerticalAlignment.Center);
+		IDialog AddWidget(IWidget widget, int fromRow, int fromColumn, int rowSpan, int colSpan);
 
 		/// <summary>
-		///     Gets the layout of the widget in the dialog.
+		///     Gets the location of the widget in the dialog.
 		/// </summary>
 		/// <param name="widget">A widget that is part of the dialog.</param>
-		/// <returns>The widget layout in the dialog.</returns>
+		/// <returns>The widget location in the dialog.</returns>
 		/// <exception cref="NullReferenceException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget is not part of the dialog.</exception>
-		WidgetLayout GetWidgetLayout(IWidget widget);
+		WidgetLocation GetWidgetLocation(IWidget widget);
 
 		/// <summary>
 		///     Removes a widget from the dialog.
@@ -177,9 +164,9 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		/// Adds the widgets from the section to the dialog.
 		/// </summary>
 		/// <param name="section">Section to be added to the dialog.</param>
-		/// <param name="layout">Left top position of the section within the dialog.</param>
+		/// <param name="location">Starting location of the section within the dialog.</param>
 		/// <returns>Updated dialog.</returns>
-		IDialog AddSection(Section section, SectionLayout layout);
+		IDialog AddSection(Section section, SectionLocation location);
 
 		/// <summary>
 		/// Adds the widgets from the section to the dialog.
@@ -237,13 +224,13 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		void SetRowHeightStretch(int row);
 
 		/// <summary>
-		///     Sets the layout of the widget in the dialog.
+		///     Moves the widget within the dialog.
 		/// </summary>
 		/// <param name="widget">A widget that is part of the dialog.</param>
-		/// <param name="widgetLayout">The layout to apply to the widget.</param>
+		/// <param name="widgetLocation">The new location of the widget.</param>
 		/// <exception cref="NullReferenceException">When widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget is not part of the dialog.</exception>
-		void SetWidgetLayout(IWidget widget, WidgetLayout widgetLayout);
+		void MoveWidget(IWidget widget, WidgetLocation widgetLocation);
 
 		/// <summary>
 		///     Shows the dialog window.
