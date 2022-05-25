@@ -11,8 +11,6 @@
 	{
 		private readonly Dictionary<IWidget, WidgetLocation> widgetLocations = new Dictionary<IWidget, WidgetLocation>();
 
-		private bool isVisible = true;
-
 		/// <summary>
 		/// Number of columns that are currently defined by the widgets that have been added to this section.
 		/// </summary>
@@ -22,26 +20,6 @@
 		/// Number of rows that are currently defined by the widgets that have been added to this section.
 		/// </summary>
 		public int RowCount { get; private set; }
-
-		/// <summary>
-		///		Gets or sets a value indicating whether the widgets within the section are visible or not.
-		/// </summary>
-		public bool IsVisible
-		{
-			get
-			{
-				return isVisible;
-			}
-
-			set
-			{
-				isVisible = value;
-				foreach (IWidget widget in Widgets)
-				{
-					widget.IsVisible = isVisible;
-				}
-			}
-		}
 
 		/// <summary>
 		///     Gets widgets that have been added to the section.
