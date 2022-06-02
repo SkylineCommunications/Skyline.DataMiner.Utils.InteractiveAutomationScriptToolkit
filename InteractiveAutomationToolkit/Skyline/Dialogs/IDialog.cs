@@ -1,14 +1,13 @@
 namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
 	using System;
-	using System.Collections.Generic;
 
 	using Automation;
 
 	/// <summary>
 	///     A dialog represents a single window that can be shown.
 	/// </summary>
-	public interface IDialog
+	public interface IDialog : ISection
 	{
 		/// <summary>
 		///     Gets or sets the fixed height (in pixels) of the dialog.
@@ -63,30 +62,15 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		int Width { get; set; }
 
 		/// <summary>
-		///     Gets the current number of columns allocated in the grid.
-		/// </summary>
-		int ColumnCount { get; }
-
-		/// <summary>
 		///     Gets the link to the SLAutomation process.
 		/// </summary>
 		IEngine Engine { get; }
-
-		/// <summary>
-		///     Gets the current number of rows allocated in the grid.
-		/// </summary>
-		int RowCount { get; }
 
 		/// <summary>
 		///     Gets or sets the title at the top of the window.
 		/// </summary>
 		/// <remarks>Available from DataMiner 9.6.6 onwards.</remarks>
 		string Title { get; set; }
-
-		/// <summary>
-		///     Gets widgets that are added to the dialog.
-		/// </summary>
-		IReadOnlyCollection<IWidget> Widgets { get; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether overlapping widgets are allowed or not.
@@ -109,73 +93,6 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		///     Triggered when there is any user interaction.
 		/// </summary>
 		event EventHandler<EventArgs> Interacted;
-
-		/// <summary>
-		///     Adds a widget to the dialog.
-		/// </summary>
-		/// <param name="widget">Widget to add to the dialog.</param>
-		/// <param name="widgetLocation">Location of the widget on the grid.</param>
-		/// <returns>The dialog.</returns>
-		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
-		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
-		IDialog AddWidget(IWidget widget, WidgetLocation widgetLocation);
-
-		/// <summary>
-		///     Adds a widget to the dialog.
-		/// </summary>
-		/// <param name="widget">Widget to add to the dialog.</param>
-		/// <param name="row">Row location of widget on the grid.</param>
-		/// <param name="column">Column location of the widget on the grid.</param>
-		/// <returns>The dialog.</returns>
-		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
-		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
-		IDialog AddWidget(IWidget widget, int row, int column);
-
-		/// <summary>
-		///     Adds a widget to the dialog.
-		/// </summary>
-		/// <param name="widget">Widget to add to the dialog.</param>
-		/// <param name="fromRow">Row location of widget on the grid.</param>
-		/// <param name="fromColumn">Column location of the widget on the grid.</param>
-		/// <param name="rowSpan">Number of rows the widget will use.</param>
-		/// <param name="colSpan">Number of columns the widget will use.</param>
-		/// <returns>The dialog.</returns>
-		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
-		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
-		IDialog AddWidget(IWidget widget, int fromRow, int fromColumn, int rowSpan, int colSpan);
-
-		/// <summary>
-		///     Gets the location of the widget in the dialog.
-		/// </summary>
-		/// <param name="widget">A widget that is part of the dialog.</param>
-		/// <returns>The widget location in the dialog.</returns>
-		/// <exception cref="NullReferenceException">When the widget is null.</exception>
-		/// <exception cref="ArgumentException">When the widget is not part of the dialog.</exception>
-		WidgetLocation GetWidgetLocation(IWidget widget);
-
-		/// <summary>
-		///     Removes a widget from the dialog.
-		/// </summary>
-		/// <param name="widget">Widget to remove.</param>
-		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
-		void RemoveWidget(IWidget widget);
-
-		/// <summary>
-		/// Adds the widgets from the section to the dialog.
-		/// </summary>
-		/// <param name="section">Section to be added to the dialog.</param>
-		/// <param name="location">Starting location of the section within the dialog.</param>
-		/// <returns>Updated dialog.</returns>
-		IDialog AddSection(Section section, SectionLocation location);
-
-		/// <summary>
-		/// Adds the widgets from the section to the dialog.
-		/// </summary>
-		/// <param name="section">Section to be added to the dialog.</param>
-		/// <param name="fromRow">Row in the dialog where the section should be added.</param>
-		/// <param name="fromColumn">Column in the dialog where the section should be added.</param>
-		/// <returns>Updated dialog.</returns>
-		IDialog AddSection(Section section, int fromRow, int fromColumn);
 
 		/// <summary>
 		///     Applies a fixed width (in pixels) to a column.
@@ -224,44 +141,11 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		void SetRowHeightStretch(int row);
 
 		/// <summary>
-		///     Moves the widget within the dialog.
-		/// </summary>
-		/// <param name="widget">A widget that is part of the dialog.</param>
-		/// <param name="widgetLocation">The new location of the widget.</param>
-		/// <exception cref="NullReferenceException">When widget is null.</exception>
-		/// <exception cref="ArgumentException">When the widget is not part of the dialog.</exception>
-		void MoveWidget(IWidget widget, WidgetLocation widgetLocation);
-
-		/// <summary>
 		///     Shows the dialog window.
 		///     Also loads changes and triggers events when <paramref name="requireResponse" /> is <c>true</c>.
 		/// </summary>
 		/// <param name="requireResponse">If the dialog expects user interaction.</param>
 		/// <remarks>Should only be used when you create your own event loop.</remarks>
 		void Show(bool requireResponse = true);
-
-		/// <summary>
-		/// Removes all widgets from the dialog.
-		/// </summary>
-		void Clear();
-
-		/// <summary>
-		/// Enables all widgets added to this dialog.
-		/// Sets the <see cref="IInteractiveWidget.IsEnabled"/> property of all <see cref="IInteractiveWidget"/> to <c>true</c>.
-		/// </summary>
-		void EnableAllWidgets();
-
-		/// <summary>
-		/// Disables all widgets added to this dialog.
-		/// Sets the <see cref="IInteractiveWidget.IsEnabled"/> property of all <see cref="IInteractiveWidget"/> to <c>false</c>.
-		/// </summary>
-		void DisableAllWidgets();
-
-		/// <summary>
-		/// Removes a section from the dialog.
-		/// </summary>
-		/// <param name="section">Section to remove</param>
-		/// <exception cref="ArgumentNullException">When <paramref name="section"/> is <c>null</c>.</exception>
-		void RemoveSection(Section section);
 	}
 }

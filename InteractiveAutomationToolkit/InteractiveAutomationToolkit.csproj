@@ -33,7 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>6</LangVersion>
+    <LangVersion>7.3</LangVersion>
     <DocumentationFile>bin\Release\SLC.CLib.IASToolkit.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
@@ -66,6 +66,7 @@
     <Compile Include="Skyline\Components\DateTimePicker.cs" />
     <Compile Include="Skyline\Components\DropDown.cs" />
     <Compile Include="Skyline\Components\FileSelector.cs" />
+    <Compile Include="Skyline\Components\ISection.cs" />
     <Compile Include="Skyline\Components\IButton.cs" />
     <Compile Include="Skyline\Components\ICalendar.cs" />
     <Compile Include="Skyline\Components\ICheckBox.cs" />

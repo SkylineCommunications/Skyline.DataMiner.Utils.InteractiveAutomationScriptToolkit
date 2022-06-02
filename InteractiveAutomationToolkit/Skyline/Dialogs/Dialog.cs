@@ -11,12 +11,10 @@
 	///     You can show widgets in the window by adding them to the dialog.
 	///     The dialog uses a grid layout.
 	/// </summary>
-	public class Dialog : IDialog
+	public class Dialog : Section, IDialog
 	{
 		private const string Auto = "auto";
 		private const string Stretch = "*";
-
-		private readonly Dictionary<IWidget, WidgetLocation> widgetLocations = new Dictionary<IWidget, WidgetLocation>();
 
 		private readonly Dictionary<int, string> columnDefinitions = new Dictionary<int, string>();
 		private readonly Dictionary<int, string> rowDefinitions = new Dictionary<int, string>();
@@ -46,8 +44,6 @@
 			MinHeight = 1;
 			MaxWidth = Int32.MaxValue;
 			MinWidth = 1;
-			RowCount = 0;
-			ColumnCount = 0;
 			Title = "Dialog";
 			AllowOverlappingWidgets = false;
 		}
@@ -63,9 +59,6 @@
 
 		/// <inheritdoc />
 		public event EventHandler<EventArgs> Interacted;
-
-		/// <inheritdoc />
-		public int ColumnCount { get; private set; }
 
 		/// <inheritdoc />
 		public IEngine Engine { get; private set; }
@@ -166,19 +159,7 @@
 		}
 
 		/// <inheritdoc />
-		public int RowCount { get; private set; }
-
-		/// <inheritdoc />
 		public string Title { get; set; }
-
-		/// <inheritdoc />
-		public IReadOnlyCollection<IWidget> Widgets
-		{
-			get
-			{
-				return widgetLocations.Keys;
-			}
-		}
 
 		/// <inheritdoc />
 		public int Width
@@ -200,195 +181,79 @@
 		}
 
 		/// <inheritdoc />
-		public IDialog AddWidget(IWidget widget, WidgetLocation widgetLocation)
-		{
-			if (widget == null)
-			{
-				throw new ArgumentNullException(nameof(widget));
-			}
-
-			if (widgetLocations.ContainsKey(widget))
-			{
-				throw new ArgumentException("Widget is already added to the dialog");
-			}
-
-			widgetLocations.Add(widget, widgetLocation);
-
-			SortedSet<int> rowsInUse;
-			SortedSet<int> columnsInUse;
-			FillRowsAndColumnsInUse(out rowsInUse, out columnsInUse);
-
-			return this;
-		}
-
-		/// <inheritdoc />
-		public IDialog AddWidget(IWidget widget, int row, int column)
-		{
-			AddWidget(widget, new WidgetLocation(row, column));
-			return this;
-		}
-
-		/// <inheritdoc />
-		public IDialog AddWidget(IWidget widget, int fromRow, int fromColumn, int rowSpan, int colSpan)
-		{
-			AddWidget(widget, new WidgetLocation(fromRow, fromColumn, rowSpan, colSpan));
-			return this;
-		}
-
-		/// <inheritdoc />
-		public WidgetLocation GetWidgetLocation(IWidget widget)
-		{
-			CheckWidgetExists(widget);
-			return widgetLocations[widget];
-		}
-
-		/// <inheritdoc />
-		public void RemoveWidget(IWidget widget)
-		{
-			if (widget == null)
-			{
-				throw new ArgumentNullException(nameof(widget));
-			}
-
-			widgetLocations.Remove(widget);
-
-			SortedSet<int> rowsInUse;
-			SortedSet<int> columnsInUse;
-			FillRowsAndColumnsInUse(out rowsInUse, out columnsInUse);
-		}
-
-		/// <inheritdoc />
-		public IDialog AddSection(Section section, SectionLocation location)
-		{
-			foreach (IWidget widget in section.Widgets)
-			{
-				WidgetLocation widgetLocation = section.GetWidgetLocation(widget);
-				AddWidget(
-					widget,
-					new WidgetLocation(
-						widgetLocation.Row + location.Row,
-						widgetLocation.Column + location.Column,
-						widgetLocation.RowSpan,
-						widgetLocation.ColumnSpan));
-			}
-
-			return this;
-		}
-
-		/// <inheritdoc />
-		public IDialog AddSection(Section section, int fromRow, int fromColumn)
-		{
-			return AddSection(section, new SectionLocation(fromRow, fromColumn));
-		}
-
-		/// <inheritdoc />
-		public void RemoveSection(Section section)
-		{
-			if (section == null) throw new ArgumentNullException(nameof(section));
-
-			foreach (IWidget widget in section.Widgets)
-			{
-				RemoveWidget(widget);
-			}
-		}
-
-		/// <inheritdoc />
 		public void SetColumnWidth(int column, int columnWidth)
 		{
-			if (column < 0) throw new ArgumentOutOfRangeException(nameof(column));
-			if (columnWidth < 0) throw new ArgumentOutOfRangeException(nameof(columnWidth));
+			if (column < 0)
+			{
+				throw new ArgumentOutOfRangeException(nameof(column));
+			}
 
-			if (columnDefinitions.ContainsKey(column))
+			if (columnWidth < 0)
 			{
-				columnDefinitions[column] = columnWidth.ToString();
+				throw new ArgumentOutOfRangeException(nameof(columnWidth));
 			}
-			else
-			{
-				columnDefinitions.Add(column, columnWidth.ToString());
-			}
+
+			columnDefinitions[column] = columnWidth.ToString();
 		}
 
 		/// <inheritdoc />
 		public void SetColumnWidthAuto(int column)
 		{
-			if (column < 0) throw new ArgumentOutOfRangeException(nameof(column));
+			if (column < 0)
+			{
+				throw new ArgumentOutOfRangeException(nameof(column));
+			}
 
-			if (columnDefinitions.ContainsKey(column))
-			{
-				columnDefinitions[column] = Auto;
-			}
-			else
-			{
-				columnDefinitions.Add(column, Auto);
-			}
+			columnDefinitions[column] = Auto;
 		}
 
 		/// <inheritdoc />
 		public void SetColumnWidthStretch(int column)
 		{
-			if (column < 0) throw new ArgumentOutOfRangeException(nameof(column));
+			if (column < 0)
+			{
+				throw new ArgumentOutOfRangeException(nameof(column));
+			}
 
-			if (columnDefinitions.ContainsKey(column))
-			{
-				columnDefinitions[column] = Stretch;
-			}
-			else
-			{
-				columnDefinitions.Add(column, Stretch);
-			}
+			columnDefinitions[column] = Stretch;
 		}
 
 		/// <inheritdoc />
 		public void SetRowHeight(int row, int rowHeight)
 		{
-			if (row < 0) throw new ArgumentOutOfRangeException(nameof(row));
-			if (rowHeight <= 0) throw new ArgumentOutOfRangeException(nameof(rowHeight));
+			if (row < 0)
+			{
+				throw new ArgumentOutOfRangeException(nameof(row));
+			}
 
-			if (rowDefinitions.ContainsKey(row))
+			if (rowHeight <= 0)
 			{
-				rowDefinitions[row] = rowHeight.ToString();
+				throw new ArgumentOutOfRangeException(nameof(rowHeight));
 			}
-			else
-			{
-				rowDefinitions.Add(row, rowHeight.ToString());
-			}
+
+			rowDefinitions[row] = rowHeight.ToString();
 		}
 
 		/// <inheritdoc />
 		public void SetRowHeightAuto(int row)
 		{
-			if (row < 0) throw new ArgumentOutOfRangeException(nameof(row));
+			if (row < 0)
+			{
+				throw new ArgumentOutOfRangeException(nameof(row));
+			}
 
-			if (rowDefinitions.ContainsKey(row))
-			{
-				rowDefinitions[row] = Auto;
-			}
-			else
-			{
-				rowDefinitions.Add(row, Auto);
-			}
+			rowDefinitions[row] = Auto;
 		}
 
 		/// <inheritdoc />
 		public void SetRowHeightStretch(int row)
 		{
-			if (row < 0) throw new ArgumentOutOfRangeException(nameof(row));
-
-			if (rowDefinitions.ContainsKey(row))
+			if (row < 0)
 			{
-				rowDefinitions[row] = Stretch;
+				throw new ArgumentOutOfRangeException(nameof(row));
 			}
-			else
-			{
-				rowDefinitions.Add(row, Stretch);
-			}
-		}
 
-		/// <inheritdoc />
-		public void MoveWidget(IWidget widget, WidgetLocation widgetLocation)
-		{
-			CheckWidgetExists(widget);
-			widgetLocations[widget] = widgetLocation;
+			rowDefinitions[row] = Stretch;
 		}
 
 		/// <inheritdoc />
@@ -406,81 +271,46 @@
 			}
 		}
 
-		/// <inheritdoc />
-		public void Clear()
+		private string GetRowDefinitions()
 		{
-			widgetLocations.Clear();
-			RowCount = 0;
-			ColumnCount = 0;
+			return GetDefinitions(rowDefinitions);
 		}
 
-		/// <inheritdoc />
-		public void EnableAllWidgets()
+		private string GetColumnDefinitions()
 		{
-			SetWidgetsEnabled(true);
+			return GetDefinitions(columnDefinitions);
 		}
 
-		/// <inheritdoc />
-		public void DisableAllWidgets()
+		private string GetDefinitions(Dictionary<int, string> definitions)
 		{
-			SetWidgetsEnabled(false);
-		}
+			return String.Join(";", GetDefinitionsEnumerator() ?? Array.Empty<string>());
 
-		private string GetRowDefinitions(SortedSet<int> rowsInUse)
-		{
-			string[] definitions = new string[rowsInUse.Count];
-			int currentIndex = 0;
-			foreach (int rowInUse in rowsInUse)
+			IEnumerable<string> GetDefinitionsEnumerator()
 			{
-				string value;
-				if (rowDefinitions.TryGetValue(rowInUse, out value))
+				for (var i = 0; i < RowCount; i++)
 				{
-					definitions[currentIndex] = value;
+					if (definitions.TryGetValue(i, out string s))
+					{
+						yield return s;
+					}
+					else
+					{
+						yield return "a";
+					}
 				}
-				else
-				{
-					definitions[currentIndex] = Auto;
-				}
-
-				currentIndex++;
 			}
-
-			return String.Join(";", definitions);
-		}
-
-		private string GetColumnDefinitions(SortedSet<int> columnsInUse)
-		{
-			string[] definitions = new string[columnsInUse.Count];
-			int currentIndex = 0;
-			foreach (int columnInUse in columnsInUse)
-			{
-				string value;
-				if (columnDefinitions.TryGetValue(columnInUse, out value))
-				{
-					definitions[currentIndex] = value;
-				}
-				else
-				{
-					definitions[currentIndex] = Auto;
-				}
-
-				currentIndex++;
-			}
-
-			return String.Join(";", definitions);
 		}
 
 		private UIBuilder Build()
 		{
+			WidgetLocationPair[] visibleWidgetLocationPairs = GetAbsoluteWidgetLocations()
+				.Where(pair => pair.Widget.IsVisible)
+				.ToArray();
+
 			if (!AllowOverlappingWidgets)
 			{
-				CheckIfVisibleWidgetsOverlap();
+				CheckIfWidgetsOverlap(visibleWidgetLocationPairs);
 			}
-
-			// Check rows and columns in use
-			SortedSet<int> rowsInUse;
-			SortedSet<int> columnsInUse;
-			FillRowsAndColumnsInUse(out rowsInUse, out columnsInUse);
 
 			// Initialize UI Builder
 			var uiBuilder = new UIBuilder
@@ -489,110 +319,50 @@
 				MinHeight = MinHeight,
 				Width = Width,
 				MinWidth = MinWidth,
-				RowDefs = GetRowDefinitions(rowsInUse),
-				ColumnDefs = GetColumnDefinitions(columnsInUse),
+				RowDefs = GetRowDefinitions(),
+				ColumnDefs = GetColumnDefinitions(),
 				Title = Title
 			};
 
-			KeyValuePair<IWidget, WidgetLocation> defaultKeyValuePair = default(KeyValuePair<IWidget, WidgetLocation>);
-			int rowIndex = 0;
-			foreach (int rowInUse in rowsInUse)
+			foreach (WidgetLocationPair widgetLocationPair in visibleWidgetLocationPairs)
 			{
-				var columnIndex = 0;
-				foreach (int columnInUse in columnsInUse)
+				IWidget widget = widgetLocationPair.Widget;
+				WidgetLocation location = widgetLocationPair.Location;
+
+				if (widget.Type == UIBlockType.Undefined)
 				{
-					foreach (KeyValuePair<IWidget, WidgetLocation> keyValuePair in widgetLocations.Where(x => x.Key.IsVisible && x.Key.Type != UIBlockType.Undefined && x.Value.Row.Equals(rowInUse) && x.Value.Column.Equals(columnInUse)))
-					{
-						if (keyValuePair.Equals(defaultKeyValuePair)) continue;
-
-						// Can be removed once we retrieve all collapsed states from the UI
-						TreeView treeView = keyValuePair.Key as TreeView;
-						if (treeView != null) treeView.UpdateItemCache();
-
-						UIBlockDefinition widgetBlockDefinition = keyValuePair.Key.BlockDefinition;
-						WidgetLocation widgetLocation = keyValuePair.Value;
-
-						widgetBlockDefinition.Column = columnIndex;
-						widgetBlockDefinition.ColumnSpan = widgetLocation.ColumnSpan;
-						widgetBlockDefinition.Row = rowIndex;
-						widgetBlockDefinition.RowSpan = widgetLocation.RowSpan;
-
-						uiBuilder.AppendBlock(widgetBlockDefinition);
-					}
-
-					columnIndex++;
+					continue;
 				}
 
-				rowIndex++;
+				// Can be removed once we retrieve all collapsed states from the UI
+				if (widget is TreeView treeView)
+				{
+					treeView.UpdateItemCache();
+				}
+
+				UIBlockDefinition uiBlockDefinition = widget.BlockDefinition;
+				uiBlockDefinition.Row = location.Row;
+				uiBlockDefinition.RowSpan = location.RowSpan;
+				uiBlockDefinition.Column = location.Column;
+				uiBlockDefinition.ColumnSpan = location.ColumnSpan;
+				uiBuilder.AppendBlock(uiBlockDefinition);
 			}
 
 			return uiBuilder;
 		}
 
-		/// <summary>
-		/// Used to retrieve the rows and columns that are being used and updates the RowCount and ColumnCount properties based on the Widgets added to the dialog.
-		/// </summary>
-		/// <param name="rowsInUse">Collection containing the rows that are defined by the Widgets in the Dialog.</param>
-		/// <param name="columnsInUse">Collection containing the columns that are defined by the Widgets in the Dialog.</param>
-		private void FillRowsAndColumnsInUse(out SortedSet<int> rowsInUse, out SortedSet<int> columnsInUse)
-		{
-			rowsInUse = new SortedSet<int>();
-			columnsInUse = new SortedSet<int>();
-			foreach (KeyValuePair<IWidget, WidgetLocation> keyValuePair in widgetLocations)
-			{
-				if (keyValuePair.Key.IsVisible && keyValuePair.Key.Type != UIBlockType.Undefined)
-				{
-					for (int i = keyValuePair.Value.Row; i < keyValuePair.Value.Row + keyValuePair.Value.RowSpan; i++)
-					{
-						rowsInUse.Add(i);
-					}
-
-					for (int i = keyValuePair.Value.Column; i < keyValuePair.Value.Column + keyValuePair.Value.ColumnSpan; i++)
-					{
-						columnsInUse.Add(i);
-					}
-				}
-			}
-
-			RowCount = rowsInUse.Count;
-			ColumnCount = columnsInUse.Count;
-		}
-
-		// ReSharper disable once ParameterOnlyUsedForPreconditionCheck.Local
-		private void CheckWidgetExists(IWidget widget)
-		{
-			if (widget == null)
-			{
-				throw new ArgumentNullException(nameof(widget));
-			}
-
-			if (!widgetLocations.ContainsKey(widget))
-			{
-				throw new ArgumentException("Widget is not part of this dialog");
-			}
-		}
-
-		private void SetWidgetsEnabled(bool enabled)
-		{
-			foreach (IInteractiveWidget widget in Widgets.OfType<IInteractiveWidget>())
-			{
-				widget.IsEnabled = enabled;
-			}
-		}
-
-		private void CheckIfVisibleWidgetsOverlap()
+		private void CheckIfWidgetsOverlap(WidgetLocationPair[] widgetLocationPairs)
 		{
 			var builder = new OverlappingWidgetsException.Builder();
 
-			KeyValuePair<IWidget, WidgetLocation>[] visible = widgetLocations.Where(pair => pair.Key.IsVisible).ToArray();
-			for (var i = 0; i < visible.Length; i++)
+			for (var i = 0; i < widgetLocationPairs.Length; i++)
 			{
-				IWidget widget = visible[i].Key;
-				WidgetLocation location = visible[i].Value;
-				for (int j = i + 1; j < visible.Length; j++)
+				IWidget widget = widgetLocationPairs[i].Widget;
+				WidgetLocation location = widgetLocationPairs[i].Location;
+				for (int j = i + 1; j < widgetLocationPairs.Length; j++)
 				{
-					IWidget otherWidget = visible[j].Key;
-					WidgetLocation otherLocation = visible[j].Value;
+					IWidget otherWidget = widgetLocationPairs[j].Widget;
+					WidgetLocation otherLocation = widgetLocationPairs[j].Location;
 					if (location.Overlaps(otherLocation))
 					{
 						builder.Add(widget, location, otherWidget, otherLocation);
@@ -608,7 +378,7 @@
 
 		private void LoadChanges(UIResults uir)
 		{
-			foreach (InteractiveWidget interactiveWidget in Widgets.OfType<InteractiveWidget>())
+			foreach (InteractiveWidget interactiveWidget in GetWidgets().OfType<InteractiveWidget>())
 			{
 				if (interactiveWidget.IsVisible)
 				{
@@ -637,13 +407,78 @@
 			}
 
 			// ToList is necessary to prevent InvalidOperationException when adding or removing widgets from a event handler.
-			List<InteractiveWidget> intractableWidgets = Widgets.OfType<InteractiveWidget>()
+			List<InteractiveWidget> intractableWidgets = GetWidgets()
+				.OfType<InteractiveWidget>()
 				.Where(widget => widget.WantsOnChange)
 				.ToList();
 
 			foreach (InteractiveWidget intractable in intractableWidgets)
 			{
 				intractable.RaiseResultEvents();
+			}
+		}
+
+		private IEnumerable<WidgetLocationPair> GetAbsoluteWidgetLocations()
+		{
+			return GetAbsoluteWidgetLocations(this, new SectionLocation(0, 0));
+		}
+
+		private static IEnumerable<WidgetLocationPair> GetAbsoluteWidgetLocations(ISection section, SectionLocation location)
+		{
+			foreach (IWidget widget in section.GetWidgets(false))
+			{
+				WidgetLocation widgetLocation = section.GetWidgetLocation(widget);
+				yield return new WidgetLocationPair(widget, widgetLocation.AddOffset(location));
+			}
+
+			foreach (ISection subsection in section.GetSections(false))
+			{
+				SectionLocation subsectionLocation = section.GetSectionLocation(subsection).AddOffset(location);
+				foreach (WidgetLocationPair widgetLocationPair in GetAbsoluteWidgetLocations(subsection, subsectionLocation))
+				{
+					yield return widgetLocationPair;
+				}
+			}
+		}
+
+		private readonly struct WidgetLocationPair : IEquatable<WidgetLocationPair>
+		{
+			public WidgetLocationPair(IWidget widget, WidgetLocation location)
+			{
+				Widget = widget;
+				Location = location;
+			}
+
+			public IWidget Widget { get; }
+
+			public WidgetLocation Location { get; }
+
+			public static bool operator ==(WidgetLocationPair left, WidgetLocationPair right)
+			{
+				return left.Equals(right);
+			}
+
+			public static bool operator !=(WidgetLocationPair left, WidgetLocationPair right)
+			{
+				return !left.Equals(right);
+			}
+
+			public bool Equals(WidgetLocationPair other)
+			{
+				return Equals(Widget, other.Widget) && Location.Equals(other.Location);
+			}
+
+			public override bool Equals(object obj)
+			{
+				return obj is WidgetLocationPair other && Equals(other);
+			}
+
+			public override int GetHashCode()
+			{
+				unchecked
+				{
+					return ((Widget != null ? Widget.GetHashCode() : 0) * 397) ^ Location.GetHashCode();
+				}
 			}
 		}
 	}

@@ -77,8 +77,15 @@
 		{
 			progressLabel.Text = progress.ToString();
 
-			if (!Widgets.Contains(progressLabel)) AddWidget(progressLabel, 0, 0);
-			if (!Widgets.Contains(OkButton)) AddWidget(OkButton, 1, 0);
+			if (!GetWidgets().Contains(progressLabel))
+			{
+				AddWidget(progressLabel, 0, 0);
+			}
+
+			if (!GetWidgets().Contains(OkButton))
+			{
+				AddWidget(OkButton, 1, 0);
+			}
 		}
 	}
 }
