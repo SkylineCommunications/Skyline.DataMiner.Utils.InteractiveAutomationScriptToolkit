@@ -11,9 +11,6 @@
 	/// </summary>
 	public class CollapseButton : InteractiveWidget, ICollapseButton
 	{
-		private const string COLLAPSE = "Collapse";
-		private const string EXPAND = "Expand";
-
 		private string collapseText;
 		private string expandText;
 
@@ -29,8 +26,8 @@
 		{
 			Type = UIBlockType.Button;
 			LinkedWidgets = new List<IWidget>(linkedWidgets);
-			CollapseText = COLLAPSE;
-			ExpandText = EXPAND;
+			CollapseText = "Collapse";
+			ExpandText = "Expand";
 
 			IsCollapsed = isCollapsed;
 
