@@ -1,7 +1,5 @@
 namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
-	using System.ComponentModel;
-
 	public interface IInteractiveWidget : IWidget
 	{
 		/// <summary>

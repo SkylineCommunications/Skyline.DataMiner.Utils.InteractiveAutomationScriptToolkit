@@ -100,10 +100,16 @@
 		/// <inheritdoc />
 		public void CopyUploadedFiles(string folderPath)
 		{
-			if (String.IsNullOrWhiteSpace(folderPath)) throw new ArgumentException("folderPath");
+			if (String.IsNullOrWhiteSpace(folderPath))
+			{
+				throw new ArgumentException("folderPath");
+			}
 
 			DirectoryInfo directoryInfo = new DirectoryInfo(folderPath);
-			if (!directoryInfo.Exists) directoryInfo.Create();
+			if (!directoryInfo.Exists)
+			{
+				directoryInfo.Create();
+			}
 
 			foreach (string filePath in UploadedFilePaths)
 			{

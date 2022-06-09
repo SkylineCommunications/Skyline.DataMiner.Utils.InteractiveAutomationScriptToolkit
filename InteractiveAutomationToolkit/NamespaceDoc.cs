@@ -6,7 +6,7 @@
 	/// The Interactive Automation Toolkit is a Class Library that is used to help development of Interactive Automation Scripts.
 	/// </summary>
 	[CompilerGenerated]
-	class NamespaceDoc
+	internal class NamespaceDoc
 	{
 	}
 }

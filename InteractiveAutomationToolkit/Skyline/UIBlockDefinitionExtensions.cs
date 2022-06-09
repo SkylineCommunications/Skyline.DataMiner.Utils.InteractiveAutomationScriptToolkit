@@ -24,7 +24,10 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		public static ICollection<string> GetOptionsCollection(this UIBlockDefinition definition)
 		{
 			var options = (ICollection<string>)DropdownOptionsField.GetValue(definition);
-			if (options != null) return options;
+			if (options != null)
+			{
+				return options;
+			}
 
 			// field is not initialized during construction of UIBlockDefinition.
 			// So we need to take care of it ourselves.

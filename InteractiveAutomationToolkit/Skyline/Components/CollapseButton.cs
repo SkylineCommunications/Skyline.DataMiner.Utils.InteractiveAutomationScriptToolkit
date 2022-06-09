@@ -87,10 +87,16 @@
 
 			set
 			{
-				if (String.IsNullOrWhiteSpace(value)) throw new ArgumentException("The Collapse text cannot be empty.");
+				if (String.IsNullOrWhiteSpace(value))
+				{
+					throw new ArgumentException("The Collapse text cannot be empty.");
+				}
 
 				collapseText = value;
-				if (!IsCollapsed) BlockDefinition.Text = collapseText;
+				if (!IsCollapsed)
+				{
+					BlockDefinition.Text = collapseText;
+				}
 			}
 		}
 
@@ -123,10 +129,16 @@
 
 			set
 			{
-				if (String.IsNullOrWhiteSpace(value)) throw new ArgumentException("The Expand text cannot be empty.");
+				if (String.IsNullOrWhiteSpace(value))
+				{
+					throw new ArgumentException("The Expand text cannot be empty.");
+				}
 
 				expandText = value;
-				if (IsCollapsed) BlockDefinition.Text = expandText;
+				if (IsCollapsed)
+				{
+					BlockDefinition.Text = expandText;
+				}
 			}
 		}
 
@@ -157,7 +169,10 @@
 			if (pressed)
 			{
 				IsCollapsed = !IsCollapsed;
-				if (OnPressed != null) OnPressed(this, EventArgs.Empty);
+				if (OnPressed != null)
+				{
+					OnPressed(this, EventArgs.Empty);
+				}
 			}
 
 			pressed = false;

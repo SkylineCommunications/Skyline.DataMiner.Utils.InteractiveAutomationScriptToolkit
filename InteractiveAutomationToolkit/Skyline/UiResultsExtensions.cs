@@ -51,13 +51,12 @@
 		public static TimeSpan GetTime(this UIResults uiResults, Time time)
 		{
 			string receivedTime = uiResults.GetString(time);
-			TimeSpan result;
 
 			// This try catch is here because of a bug in Dashboards
 			// The string that is received from Dashboards is a DateTime (e.g. 2021-11-16T00:00:16.0000000Z), while the string from Cube is an actual TimeSpan (e.g. 1.06:00:03).
 			// This means that when using the Time component from Dashboards, you are restricted to 24h and can only enter HH:mm times.
 			// See task: 171211
-			if (TimeSpan.TryParse(receivedTime, out result))
+			if (TimeSpan.TryParse(receivedTime, out TimeSpan result))
 			{
 				return result;
 			}
@@ -73,7 +72,10 @@
 		public static string[] GetExpandedItemKeys(this UIResults uiResults, TreeView treeView)
 		{
 			string[] expandedItems = uiResults.GetExpanded(treeView.DestVar);
-			if (expandedItems == null) return Array.Empty<string>();
+			if (expandedItems == null)
+			{
+				return Array.Empty<string>();
+			}
 
 			return expandedItems.Where(x => !String.IsNullOrWhiteSpace(x)).ToArray();
 		}
@@ -81,7 +83,10 @@
 		public static string[] GetCheckedItemKeys(this UIResults uiResults, TreeView treeView)
 		{
 			string result = uiResults.GetString(treeView.DestVar);
-			if (String.IsNullOrEmpty(result)) return Array.Empty<string>();
+			if (String.IsNullOrEmpty(result))
+			{
+				return Array.Empty<string>();
+			}
 
 			return result.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
 		}

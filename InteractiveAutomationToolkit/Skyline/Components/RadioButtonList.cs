@@ -30,7 +30,10 @@
 		/// <param name="selected">Selected option.</param>
 		public RadioButtonList(IEnumerable<string> options, string selected = null)
 		{
-			if (options == null) throw new ArgumentNullException(nameof(options));
+			if (options == null)
+			{
+				throw new ArgumentNullException(nameof(options));
+			}
 
 			Type = UIBlockType.RadioButtonList;
 			optionsCollection = new OptionsCollection(this);
@@ -171,7 +174,10 @@
 		protected internal override void LoadResult(UIResults uiResults)
 		{
 			string result = uiResults.GetString(this);
-			if (String.IsNullOrWhiteSpace(result)) return;
+			if (String.IsNullOrWhiteSpace(result))
+			{
+				return;
+			}
 
 			string[] checkedOptions = result.Split(';');
 			foreach (string checkedOption in checkedOptions)
@@ -253,9 +259,15 @@
 
 			public void Add(string item)
 			{
-				if (item == null) throw new ArgumentNullException(nameof(item));
+				if (item == null)
+				{
+					throw new ArgumentNullException(nameof(item));
+				}
 
-				if (!optionsHashSet.Add(item)) return;
+				if (!optionsHashSet.Add(item))
+				{
+					return;
+				}
 
 				options.Add(item);
 			}
@@ -279,7 +291,10 @@
 
 			public bool Remove(string item)
 			{
-				if (!optionsHashSet.Remove(item)) return false;
+				if (!optionsHashSet.Remove(item))
+				{
+					return false;
+				}
 
 				options.Remove(item);
 				if (owner.Selected == item)
