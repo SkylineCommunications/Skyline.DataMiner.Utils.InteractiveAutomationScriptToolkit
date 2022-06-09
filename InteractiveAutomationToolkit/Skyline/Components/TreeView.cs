@@ -209,7 +209,7 @@
 		/// <summary>
 		/// This method is used to update the cached TreeViewItems and lookup table.
 		/// </summary>
-		internal void UpdateItemCache()
+		public void UpdateItemCache()
 		{
 			checkedItemCache = new Dictionary<string, bool>();
 			collapsedItemCache = new Dictionary<string, bool>();
