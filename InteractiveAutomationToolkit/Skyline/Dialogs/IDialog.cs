@@ -90,7 +90,7 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		event EventHandler<EventArgs> Forward;
 
 		/// <summary>
-		///     Triggered when there is any user interaction.
+		///     Triggered when there is any user interaction before any other widget event.
 		/// </summary>
 		event EventHandler<EventArgs> Interacted;
 
