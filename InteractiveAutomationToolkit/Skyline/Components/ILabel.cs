@@ -2,6 +2,9 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 {
 	using System;
 
+	/// <summary>
+	///     Represents a label is used to display text in different styles.
+	/// </summary>
 	public interface ILabel : IWidget
 	{
 		/// <summary>

@@ -6,6 +6,9 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 
 	using Automation;
 
+	/// <summary>
+	/// Provides a set of methods to manipulate <see cref="UIBlockDefinition"/> objects.
+	/// </summary>
 	public static class UIBlockDefinitionExtensions
 	{
 		private static readonly Type UIBlockDefinitionType = typeof(UIBlockDefinition);

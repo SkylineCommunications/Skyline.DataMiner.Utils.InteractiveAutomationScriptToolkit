@@ -2,6 +2,9 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 {
 	using System;
 
+	/// <summary>
+	///     Represents a checkbox that can be selected or cleared.
+	/// </summary>
 	public interface ICheckBox : IInteractiveWidget
 	{
 		/// <summary>

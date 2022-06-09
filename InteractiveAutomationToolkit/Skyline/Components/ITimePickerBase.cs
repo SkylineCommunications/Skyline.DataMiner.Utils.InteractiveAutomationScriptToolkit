@@ -4,6 +4,9 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 
 	using Automation;
 
+	/// <summary>
+	/// Interface for the base class for time-based widgets that rely on the <see cref="AutomationDateTimeUpDownOptions" />.
+	/// </summary>
 	public interface ITimePickerBase : IInteractiveWidget
 	{
 		/// <summary>

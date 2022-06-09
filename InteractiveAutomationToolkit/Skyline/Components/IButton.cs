@@ -2,6 +2,9 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 {
 	using System;
 
+	/// <summary>
+	///     Represents a button that can be pressed.
+	/// </summary>
 	public interface IButton : IInteractiveWidget
 	{
 		/// <summary>

@@ -3,6 +3,9 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 	using System;
 	using System.Collections.Generic;
 
+	/// <summary>
+	///		Represents a button that can be used to show/hide a collection of widgets.
+	/// </summary>
 	public interface ICollapseButton : IInteractiveWidget
 	{
 		/// <summary>
