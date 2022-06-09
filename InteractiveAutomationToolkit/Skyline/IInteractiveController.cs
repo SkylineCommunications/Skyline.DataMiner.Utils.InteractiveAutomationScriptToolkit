@@ -4,6 +4,9 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 
 	using Automation;
 
+	/// <summary>
+	///     Represents the event loop of the interactive Automation script.
+	/// </summary>
 	public interface IInteractiveController
 	{
 		/// <summary>

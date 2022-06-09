@@ -1,7 +1,8 @@
 namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
-	using System.ComponentModel;
-
+	/// <summary>
+	/// Represents a widget that requires user input.
+	/// </summary>
 	public interface IInteractiveWidget : IWidget
 	{
 		/// <summary>

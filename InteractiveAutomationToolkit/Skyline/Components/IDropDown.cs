@@ -5,6 +5,9 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 
 	using Automation;
 
+	/// <summary>
+	///     Represents a drop-down list.
+	/// </summary>
 	public interface IDropDown : IInteractiveWidget
 	{
 		/// <summary>

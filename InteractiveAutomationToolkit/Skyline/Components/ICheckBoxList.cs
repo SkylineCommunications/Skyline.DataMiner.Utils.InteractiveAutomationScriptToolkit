@@ -5,6 +5,9 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 
 	using Automation;
 
+	/// <summary>
+	///     Represents a list of checkboxes.
+	/// </summary>
 	public interface ICheckBoxList : IInteractiveWidget
 	{
 		/// <summary>

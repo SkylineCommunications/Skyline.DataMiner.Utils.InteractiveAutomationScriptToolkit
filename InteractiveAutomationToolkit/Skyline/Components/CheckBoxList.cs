@@ -34,7 +34,10 @@
 		/// <exception cref="ArgumentNullException">When options is null.</exception>
 		public CheckBoxList(IEnumerable<string> options)
 		{
-			if (options == null) throw new ArgumentNullException(nameof(options));
+			if (options == null)
+			{
+				throw new ArgumentNullException(nameof(options));
+			}
 
 			Type = UIBlockType.CheckBoxList;
 			optionsCollection = new OptionsCollection(this);
@@ -186,7 +189,10 @@
 		/// <inheritdoc />
 		public void SetOptions(IEnumerable<string> options)
 		{
-			if (options == null) throw new ArgumentNullException(nameof(options));
+			if (options == null)
+			{
+				throw new ArgumentNullException(nameof(options));
+			}
 
 			Options.Clear();
 			foreach (string option in options)
@@ -328,9 +334,15 @@
 
 			public void Add(string item)
 			{
-				if (item == null) throw new ArgumentNullException(nameof(item));
+				if (item == null)
+				{
+					throw new ArgumentNullException(nameof(item));
+				}
 
-				if (!optionsHashSet.Add(item)) return;
+				if (!optionsHashSet.Add(item))
+				{
+					return;
+				}
 
 				options.Add(item);
 				owner.Unchecked.Add(item);
@@ -356,7 +368,10 @@
 
 			public bool Remove(string item)
 			{
-				if (!optionsHashSet.Remove(item)) return false;
+				if (!optionsHashSet.Remove(item))
+				{
+					return false;
+				}
 
 				options.Remove(item);
 				owner.Checked.Remove(item);
@@ -404,9 +419,15 @@
 
 			public void Add(string item)
 			{
-				if (!owner.Options.Contains(item)) return;
+				if (!owner.Options.Contains(item))
+				{
+					return;
+				}
 
-				if (!@checked.Add(item)) return;
+				if (!@checked.Add(item))
+				{
+					return;
+				}
 
 				owner.Unchecked.Remove(item);
 				owner.BlockDefinition.InitialValue = String.Join(";", @checked);
@@ -435,7 +456,10 @@
 
 			public bool Remove(string item)
 			{
-				if (!@checked.Remove(item)) return false;
+				if (!@checked.Remove(item))
+				{
+					return false;
+				}
 
 				owner.Unchecked.Add(item);
 				owner.BlockDefinition.InitialValue = String.Join(";", item);
@@ -482,9 +506,15 @@
 
 			public void Add(string item)
 			{
-				if (!owner.Options.Contains(item)) return;
+				if (!owner.Options.Contains(item))
+				{
+					return;
+				}
 
-				if (!@unchecked.Add(item)) return;
+				if (!@unchecked.Add(item))
+				{
+					return;
+				}
 
 				owner.Checked.Remove(item);
 			}
@@ -510,7 +540,10 @@
 
 			public bool Remove(string item)
 			{
-				if (!@unchecked.Remove(item)) return false;
+				if (!@unchecked.Remove(item))
+				{
+					return false;
+				}
 
 				owner.Checked.Add(item);
 

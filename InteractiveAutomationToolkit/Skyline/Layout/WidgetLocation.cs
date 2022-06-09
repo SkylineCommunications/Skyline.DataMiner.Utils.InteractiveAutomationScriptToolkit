@@ -5,7 +5,7 @@
 	/// <summary>
 	/// Used to define the location of a widget in a grid layout.
 	/// </summary>
-	public struct WidgetLocation : IEquatable<WidgetLocation>
+	public readonly struct WidgetLocation : IEquatable<WidgetLocation>
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WidgetLocation"/> class.
@@ -97,6 +97,11 @@
 		public static bool operator !=(WidgetLocation left, WidgetLocation right)
 		{
 			return !left.Equals(right);
+		}
+
+		internal WidgetLocation AddOffset(SectionLocation offset)
+		{
+			return new WidgetLocation(Row + offset.Row, Column + offset.Row, RowSpan, ColumnSpan);
 		}
 
 		/// <summary>

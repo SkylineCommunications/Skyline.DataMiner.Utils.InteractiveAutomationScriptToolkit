@@ -258,53 +258,6 @@
 		}
 
 		[TestMethod]
-		public void TestSection()
-		{
-			Section section = new Section();
-			section.AddWidget(new Label("Label 1"), 0, 0);
-			section.AddWidget(new Label("Label 2"), 1, 0);
-
-			Assert.AreEqual(2, section.RowCount);
-			Assert.AreEqual(1, section.ColumnCount);
-
-			section.AddWidget(new Label("Label 3"), 3, 1);
-
-			Assert.AreEqual(4, section.RowCount);
-			Assert.AreEqual(2, section.ColumnCount);
-
-			Assert.AreEqual(3, section.Widgets.Count());
-
-			section.Clear();
-
-			Assert.AreEqual(0, section.Widgets.Count());
-		}
-
-		[TestMethod]
-		public void RemoveWidgetsFromSection()
-		{
-			Section section = new Section();
-			Label label1 = new Label("Label 1");
-			Label label2 = new Label("Label 2");
-
-			section.AddWidget(label1, 0, 0);
-			section.AddWidget(label2, 1, 0);
-
-			Assert.AreEqual(2, section.Widgets.Count());
-			Assert.AreEqual(2, section.RowCount);
-			Assert.AreEqual(1, section.ColumnCount);
-
-			section.RemoveWidget(label2);
-			Assert.AreEqual(1, section.Widgets.Count());
-			Assert.AreEqual(1, section.RowCount);
-			Assert.AreEqual(1, section.ColumnCount);
-
-			section.RemoveWidget(label1);
-			Assert.AreEqual(0, section.Widgets.Count());
-			Assert.AreEqual(0, section.RowCount);
-			Assert.AreEqual(0, section.ColumnCount);
-		}
-
-		[TestMethod]
 		public void RecreateUiBlockTest()
 		{
 			Exception exception = null;

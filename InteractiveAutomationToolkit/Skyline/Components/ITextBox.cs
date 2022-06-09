@@ -4,6 +4,9 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 
 	using Automation;
 
+	/// <summary>
+	///     Represents a widget that is used to edit and display text.
+	/// </summary>
 	public interface ITextBox : IInteractiveWidget
 	{
 		/// <summary>

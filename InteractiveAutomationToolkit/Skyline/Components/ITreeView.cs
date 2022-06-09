@@ -5,6 +5,9 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 
 	using Net.AutomationUI.Objects;
 
+	/// <summary>
+	///  Represents a tree view structure.
+	/// </summary>
 	public interface ITreeView : IInteractiveWidget
 	{
 		/// <summary>

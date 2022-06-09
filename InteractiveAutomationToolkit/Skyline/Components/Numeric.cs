@@ -204,12 +204,11 @@
 		/// <inheritdoc />
 		protected internal override void LoadResult(UIResults uiResults)
 		{
-			double result;
 			if (!Double.TryParse(
 					uiResults.GetString(this),
 					NumberStyles.Float,
 					CultureInfo.InvariantCulture,
-					out result))
+					out double result))
 			{
 				return;
 			}

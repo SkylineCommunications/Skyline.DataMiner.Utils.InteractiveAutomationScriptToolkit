@@ -3,6 +3,9 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 	using System;
 	using System.Collections.Generic;
 
+	/// <summary>
+	///     Represents a group of radio buttons.
+	/// </summary>
 	public interface IRadioButtonList : IInteractiveWidget
 	{
 		/// <summary>

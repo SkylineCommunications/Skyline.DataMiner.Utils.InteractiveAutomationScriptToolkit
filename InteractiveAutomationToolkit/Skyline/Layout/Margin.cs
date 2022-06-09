@@ -5,7 +5,7 @@
 	/// <summary>
 	/// Defines the whitespace that is displayed around a widget.
 	/// </summary>
-	public struct Margin : IEquatable<Margin>
+	public readonly struct Margin : IEquatable<Margin>
 	{
 		/// <summary>
 		/// Initializes a new instance of the Margin class.
@@ -103,19 +103,30 @@
 			}
 
 			string[] splitMargin = margin.Split(';');
-			if (splitMargin.Length != 4) throw new FormatException("Margin should have the following format: left;top;right;bottom");
+			if (splitMargin.Length != 4)
+			{
+				throw new FormatException("Margin should have the following format: left;top;right;bottom");
+			}
 
-			int left;
-			if (!Int32.TryParse(splitMargin[0], out left)) throw new FormatException("Left margin is not a number");
+			if (!Int32.TryParse(splitMargin[0], out int left))
+			{
+				throw new FormatException("Left margin is not a number");
+			}
 
-			int top;
-			if (!Int32.TryParse(splitMargin[1], out top)) throw new FormatException("Top margin is not a number");
+			if (!Int32.TryParse(splitMargin[1], out int top))
+			{
+				throw new FormatException("Top margin is not a number");
+			}
 
-			int right;
-			if (!Int32.TryParse(splitMargin[2], out right)) throw new FormatException("Right margin is not a number");
+			if (!Int32.TryParse(splitMargin[2], out int right))
+			{
+				throw new FormatException("Right margin is not a number");
+			}
 
-			int bottom;
-			if (!Int32.TryParse(splitMargin[3], out bottom)) throw new FormatException("Bottom margin is not a number");
+			if (!Int32.TryParse(splitMargin[3], out int bottom))
+			{
+				throw new FormatException("Bottom margin is not a number");
+			}
 
 			if (left < 0)
 			{

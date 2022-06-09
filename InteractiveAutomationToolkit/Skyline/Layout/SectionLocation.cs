@@ -5,7 +5,7 @@
 	/// <summary>
 	/// Used to define the location of a section in another section or dialog.
 	/// </summary>
-	public struct SectionLocation : IEquatable<SectionLocation>
+	public readonly struct SectionLocation : IEquatable<SectionLocation>
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SectionLocation"/> class.
@@ -39,6 +39,11 @@
 		/// </summary>
 		/// <remarks>The top-left location is (0, 0) by default.</remarks>
 		public int Row { get; }
+
+		internal SectionLocation AddOffset(SectionLocation offset)
+		{
+			return new SectionLocation(Row + offset.Row, Column + offset.Column);
+		}
 
 		/// <summary>
 		/// Determines whether two specified instances of <see cref="SectionLocation"/> are equal.

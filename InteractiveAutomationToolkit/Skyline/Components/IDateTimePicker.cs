@@ -4,6 +4,9 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 
 	using Automation;
 
+	/// <summary>
+	///     Represents a widget to show/edit date and time.
+	/// </summary>
 	public interface IDateTimePicker : ITimePickerBase
 	{
 		/// <summary>

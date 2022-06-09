@@ -4,6 +4,10 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 
 	using Automation;
 
+	/// <summary>
+	///     Represents a spinner or numeric up-down control.
+	///     Has a slider when the range is limited.
+	/// </summary>
 	public interface INumeric : IInteractiveWidget
 	{
 		/// <summary>

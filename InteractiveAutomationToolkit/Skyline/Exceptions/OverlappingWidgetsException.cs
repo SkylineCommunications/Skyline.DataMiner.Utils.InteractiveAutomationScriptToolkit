@@ -45,7 +45,7 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		{
 		}
 
-		public class Builder
+		internal class Builder
 		{
 			private readonly StringBuilder stringBuilder = new StringBuilder();
 

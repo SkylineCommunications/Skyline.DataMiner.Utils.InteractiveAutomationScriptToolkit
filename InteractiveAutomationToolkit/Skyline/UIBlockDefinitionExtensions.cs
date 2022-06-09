@@ -6,6 +6,9 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 
 	using Automation;
 
+	/// <summary>
+	/// Provides a set of methods to manipulate <see cref="UIBlockDefinition"/> objects.
+	/// </summary>
 	public static class UIBlockDefinitionExtensions
 	{
 		private static readonly Type UIBlockDefinitionType = typeof(UIBlockDefinition);
@@ -24,7 +27,10 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		public static ICollection<string> GetOptionsCollection(this UIBlockDefinition definition)
 		{
 			var options = (ICollection<string>)DropdownOptionsField.GetValue(definition);
-			if (options != null) return options;
+			if (options != null)
+			{
+				return options;
+			}
 
 			// field is not initialized during construction of UIBlockDefinition.
 			// So we need to take care of it ourselves.

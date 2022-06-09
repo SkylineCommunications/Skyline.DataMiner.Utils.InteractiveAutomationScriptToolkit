@@ -165,7 +165,10 @@
 
 			set
 			{
-				if (value == null) throw new ArgumentNullException(nameof(value));
+				if (value == null)
+				{
+					throw new ArgumentNullException(nameof(value));
+				}
 
 				BlockDefinition.TreeViewItems = new List<TreeViewItem>(value);
 				UpdateItemCache();
@@ -220,7 +223,11 @@
 				try
 				{
 					checkedItemCache.Add(item.KeyValue, item.IsChecked);
-					if (item.SupportsLazyLoading) collapsedItemCache.Add(item.KeyValue, item.IsCollapsed);
+					if (item.SupportsLazyLoading)
+					{
+						collapsedItemCache.Add(item.KeyValue, item.IsCollapsed);
+					}
+
 					lookupTable.Add(item.KeyValue, item);
 				}
 				catch (Exception e)
@@ -409,19 +416,34 @@
 		protected internal override void RaiseResultEvents()
 		{
 			// Expanded items
-			if (itemsExpanded && OnExpanded != null) OnExpanded(this, new ExpandedEventArgs(expandedItems));
+			if (itemsExpanded && OnExpanded != null)
+			{
+				OnExpanded(this, new ExpandedEventArgs(expandedItems));
+			}
 
 			// Collapsed items
-			if (itemsCollapsed && OnCollapsed != null) OnCollapsed(this, new CollapsedEventArgs(collapsedItems));
+			if (itemsCollapsed && OnCollapsed != null)
+			{
+				OnCollapsed(this, new CollapsedEventArgs(collapsedItems));
+			}
 
 			// Checked items
-			if (itemsChecked && OnChecked != null) OnChecked(this, new CheckedEventArgs(checkedItems));
+			if (itemsChecked && OnChecked != null)
+			{
+				OnChecked(this, new CheckedEventArgs(checkedItems));
+			}
 
 			// Unchecked items
-			if (itemsUnchecked && OnUnchecked != null) OnUnchecked(this, new UncheckedEventArgs(uncheckedItems));
+			if (itemsUnchecked && OnUnchecked != null)
+			{
+				OnUnchecked(this, new UncheckedEventArgs(uncheckedItems));
+			}
 
 			// Changed items
-			if (itemsChanged && OnChanged != null) OnChanged(this, new ChangedEventArgs(changedItems));
+			if (itemsChanged && OnChanged != null)
+			{
+				OnChanged(this, new ChangedEventArgs(changedItems));
+			}
 
 			itemsExpanded = false;
 			itemsCollapsed = false;

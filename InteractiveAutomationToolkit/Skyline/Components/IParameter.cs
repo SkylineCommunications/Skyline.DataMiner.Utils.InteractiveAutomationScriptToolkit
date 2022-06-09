@@ -1,5 +1,8 @@
 namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
+	/// <summary>
+	///     Represents a widget that can display the value of a protocol parameter.
+	/// </summary>
 	public interface IParameter : IWidget
 	{
 		/// <summary>
