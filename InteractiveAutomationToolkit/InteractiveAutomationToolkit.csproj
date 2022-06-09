@@ -13,7 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
-    <LangVersion>4</LangVersion>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,8 +23,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>6</LangVersion>
     <DocumentationFile>bin\Debug\SLC.CLib.IASToolkit.xml</DocumentationFile>
+	  <CodeAnalysisRuleSet>..\Internal\Code Analysis\qaction-debug.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,8 +33,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>7.3</LangVersion>
     <DocumentationFile>bin\Release\SLC.CLib.IASToolkit.xml</DocumentationFile>
+	  <CodeAnalysisRuleSet>..\Internal\Code Analysis\qaction-release.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="SLManagedAutomation, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
@@ -99,25 +99,35 @@
     <Compile Include="Skyline\Components\TimePicker.cs" />
     <Compile Include="Skyline\Components\TimePickerBase.cs" />
     <Compile Include="Skyline\Components\TreeView.cs" />
-    <Compile Include="Skyline\Components\WhiteSpace.cs" />
-    <Compile Include="Skyline\Components\Widget.cs" />
-    <Compile Include="Skyline\Dialogs\Dialog.cs" />
-    <Compile Include="Skyline\Dialogs\ExceptionDialog.cs" />
-    <Compile Include="Skyline\Dialogs\IDialog.cs" />
-    <Compile Include="Skyline\Dialogs\MessageDialog.cs" />
-    <Compile Include="Skyline\Dialogs\ProgressDialog.cs" />
-    <Compile Include="Skyline\Exceptions\OverlappingWidgetsException.cs" />
-    <Compile Include="Skyline\Exceptions\TreeViewDuplicateItemsException.cs" />
-    <Compile Include="Skyline\IInteractiveController.cs" />
-    <Compile Include="Skyline\InteractiveController.cs" />
-    <Compile Include="Skyline\Layout\HorizontalAlignment.cs" />
-    <Compile Include="Skyline\Layout\Margin.cs" />
-    <Compile Include="Skyline\Layout\SectionLocation.cs" />
-    <Compile Include="Skyline\Layout\TextStyle.cs" />
-    <Compile Include="Skyline\Layout\VerticalAlignment.cs" />
-    <Compile Include="Skyline\Layout\WidgetLocation.cs" />
-    <Compile Include="Skyline\UIBlockDefinitionExtensions.cs" />
-    <Compile Include="Skyline\UiResultsExtensions.cs" />
+	  <Compile Include="Skyline\Components\WhiteSpace.cs"/>
+	  <Compile Include="Skyline\Components\Widget.cs"/>
+	  <Compile Include="Skyline\Dialogs\Dialog.cs"/>
+	  <Compile Include="Skyline\Dialogs\ExceptionDialog.cs"/>
+	  <Compile Include="Skyline\Dialogs\IDialog.cs"/>
+	  <Compile Include="Skyline\Dialogs\MessageDialog.cs"/>
+	  <Compile Include="Skyline\Dialogs\ProgressDialog.cs"/>
+	  <Compile Include="Skyline\Exceptions\OverlappingWidgetsException.cs"/>
+	  <Compile Include="Skyline\Exceptions\TreeViewDuplicateItemsException.cs"/>
+	  <Compile Include="Skyline\IInteractiveController.cs"/>
+	  <Compile Include="Skyline\InteractiveController.cs"/>
+	  <Compile Include="Skyline\Layout\HorizontalAlignment.cs"/>
+	  <Compile Include="Skyline\Layout\Margin.cs"/>
+	  <Compile Include="Skyline\Layout\SectionLocation.cs"/>
+	  <Compile Include="Skyline\Layout\TextStyle.cs"/>
+	  <Compile Include="Skyline\Layout\VerticalAlignment.cs"/>
+	  <Compile Include="Skyline\Layout\WidgetLocation.cs"/>
+	  <Compile Include="Skyline\UIBlockDefinitionExtensions.cs"/>
+	  <Compile Include="Skyline\UiResultsExtensions.cs"/>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+	<ItemGroup>
+		<None Include="packages.config"/>
+	</ItemGroup>
+	<ItemGroup>
+		<Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll"/>
+		<Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.dll"/>
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="stylecop.json"/>
+	</ItemGroup>
+	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
 </Project>

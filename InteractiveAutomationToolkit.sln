@@ -33,6 +33,14 @@ ProjectSection(SolutionItems) = preProject
 	JenkinsNuGetConfiguration.xml = JenkinsNuGetConfiguration.xml
 EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Internal", "Internal", "{42720D7B-1144-4A58-ABBB-A95D90088C0C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Code Analysis", "Code Analysis", "{767BFC55-F3B5-4FBC-B290-7FBBAAFE616A}"
+	ProjectSection(SolutionItems) = preProject
+		Internal\Code Analysis\qaction-debug.ruleset = Internal\Code Analysis\qaction-debug.ruleset
+		Internal\Code Analysis\qaction-release.ruleset = Internal\Code Analysis\qaction-release.ruleset
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -82,6 +90,7 @@ Global
 		{B1F8E36D-D5F3-4EC2-94A1-607D2B299133} = {246FE326-48F1-4D98-BBCA-B157023F4C5E}
 		{FB6C75D5-19D8-4D8C-A984-4F25E1A3EE7E} = {246FE326-48F1-4D98-BBCA-B157023F4C5E}
 		{466B34D1-12C5-44F1-9745-1C83A8F2F2B7} = {246FE326-48F1-4D98-BBCA-B157023F4C5E}
+		{767BFC55-F3B5-4FBC-B290-7FBBAAFE616A} = {42720D7B-1144-4A58-ABBB-A95D90088C0C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {63CE52E0-29CA-4259-B07D-CBD0C547125D}
