@@ -99,5 +99,10 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		/// <param name="depth">Depth of the requested items.</param>
 		/// <returns>All items in the tree view that are located at the provided depth.</returns>
 		IEnumerable<TreeViewItem> GetItems(int depth);
+
+		/// <summary>
+		/// This method is used to update the cached TreeViewItems and lookup table.
+		/// </summary>
+		void UpdateItemCache();
 	}
 }

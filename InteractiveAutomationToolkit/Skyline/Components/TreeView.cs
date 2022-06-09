@@ -209,9 +209,7 @@
 			return item != null;
 		}
 
-		/// <summary>
-		/// This method is used to update the cached TreeViewItems and lookup table.
-		/// </summary>
+		/// <inheritdoc />
 		public void UpdateItemCache()
 		{
 			checkedItemCache = new Dictionary<string, bool>();
