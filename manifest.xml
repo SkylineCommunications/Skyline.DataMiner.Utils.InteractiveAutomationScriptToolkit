@@ -2,7 +2,7 @@
 <CodePackage xmlns="http://www.skyline.be/ClassLibrary">
 	<Identity>
 		<Name>InteractiveAutomationToolkit</Name>
-		<Version>1.7.1.1</Version>
+		<Version>2.3.0</Version>
 	</Identity>
-	<MinimumRequiredVersion>10.1.8</MinimumRequiredVersion>
+	<MinimumRequiredVersion>2.3.0</MinimumRequiredVersion>
 </CodePackage>
