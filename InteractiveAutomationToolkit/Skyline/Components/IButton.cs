@@ -14,14 +14,14 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		event EventHandler<EventArgs> Pressed;
 
 		/// <summary>
+		///     Gets or sets the text displayed in the button.
+		/// </summary>
+		string Text { get; set; }
+
+		/// <summary>
 		///     Gets or sets the tooltip.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		string Tooltip { get; set; }
-
-		/// <summary>
-		///     Gets or sets the text displayed in the button.
-		/// </summary>
-		string Text { get; set; }
 	}
 }

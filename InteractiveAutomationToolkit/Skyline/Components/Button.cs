@@ -3,7 +3,7 @@
 	using System;
 	using System.Linq;
 
-	using Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     A button that can be pressed.
@@ -25,27 +25,9 @@
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Button" /> class.
 		/// </summary>
-		public Button() : this(String.Empty)
+		public Button()
+			: this(String.Empty)
 		{
-		}
-
-		/// <inheritdoc />
-		public string Tooltip
-		{
-			get
-			{
-				return BlockDefinition.TooltipText;
-			}
-
-			set
-			{
-				if (value == null)
-				{
-					throw new ArgumentNullException(nameof(value));
-				}
-
-				BlockDefinition.TooltipText = value;
-			}
 		}
 
 		/// <inheritdoc />
@@ -72,21 +54,30 @@
 		/// <inheritdoc />
 		public string Text
 		{
-			get
-			{
-				return BlockDefinition.Text;
-			}
+			get => BlockDefinition.Text;
+			set => BlockDefinition.Text = value;
+		}
+
+		/// <inheritdoc />
+		public string Tooltip
+		{
+			get => BlockDefinition.TooltipText;
 
 			set
 			{
-				BlockDefinition.Text = value;
+				if (value == null)
+				{
+					throw new ArgumentNullException(nameof(value));
+				}
+
+				BlockDefinition.TooltipText = value;
 			}
 		}
 
 		/// <inheritdoc />
-		protected internal override void LoadResult(UIResults uiResults)
+		protected internal override void LoadResult(UIResults results)
 		{
-			pressed = uiResults.WasButtonPressed(this);
+			pressed = results.WasButtonPressed(this);
 		}
 
 		/// <inheritdoc />

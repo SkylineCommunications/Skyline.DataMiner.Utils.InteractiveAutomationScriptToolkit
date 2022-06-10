@@ -4,7 +4,7 @@
 	using System.Collections.Generic;
 	using System.Linq;
 
-	using Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     A dialog represents a single window that can be shown.
@@ -27,17 +27,12 @@
 		private int width;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Dialog" /> class.
+		///     Initializes a new instance of the <see cref="Dialog" /> class.
 		/// </summary>
-		/// <param name="engine"></param>
+		/// <param name="engine">Allows interaction with the DataMiner System.</param>
 		public Dialog(IEngine engine)
 		{
-			if (engine == null)
-			{
-				throw new ArgumentNullException(nameof(engine));
-			}
-
-			Engine = engine;
+			Engine = engine ?? throw new ArgumentNullException(nameof(engine));
 			width = -1;
 			height = -1;
 			MaxHeight = Int32.MaxValue;
@@ -49,9 +44,6 @@
 		}
 
 		/// <inheritdoc />
-		public bool AllowOverlappingWidgets { get; set; }
-
-		/// <inheritdoc />
 		public event EventHandler<EventArgs> Back;
 
 		/// <inheritdoc />
@@ -61,15 +53,15 @@
 		public event EventHandler<EventArgs> Interacted;
 
 		/// <inheritdoc />
-		public IEngine Engine { get; private set; }
+		public IEngine Engine { get; }
+
+		/// <inheritdoc />
+		public bool AllowOverlappingWidgets { get; set; }
 
 		/// <inheritdoc />
 		public int Height
 		{
-			get
-			{
-				return height;
-			}
+			get => height;
 
 			set
 			{
@@ -85,10 +77,7 @@
 		/// <inheritdoc />
 		public int MaxHeight
 		{
-			get
-			{
-				return maxHeight;
-			}
+			get => maxHeight;
 
 			set
 			{
@@ -104,10 +93,7 @@
 		/// <inheritdoc />
 		public int MaxWidth
 		{
-			get
-			{
-				return maxWidth;
-			}
+			get => maxWidth;
 
 			set
 			{
@@ -123,10 +109,7 @@
 		/// <inheritdoc />
 		public int MinHeight
 		{
-			get
-			{
-				return minHeight;
-			}
+			get => minHeight;
 
 			set
 			{
@@ -142,10 +125,7 @@
 		/// <inheritdoc />
 		public int MinWidth
 		{
-			get
-			{
-				return minWidth;
-			}
+			get => minWidth;
 
 			set
 			{
@@ -164,10 +144,7 @@
 		/// <inheritdoc />
 		public int Width
 		{
-			get
-			{
-				return width;
-			}
+			get => width;
 
 			set
 			{
@@ -296,9 +273,79 @@
 			}
 		}
 
-		private string GetRowDefinitions()
+		private static IEnumerable<WidgetLocationPair> GetAbsoluteWidgetLocations(
+			ISection section,
+			SectionLocation location)
 		{
-			return GetDefinitions(rowDefinitions);
+			foreach (IWidget widget in section.GetWidgets(false))
+			{
+				WidgetLocation widgetLocation = section.GetWidgetLocation(widget);
+				yield return new WidgetLocationPair(widget, widgetLocation.AddOffset(location));
+			}
+
+			foreach (ISection subsection in section.GetSections(false))
+			{
+				SectionLocation subsectionLocation = section.GetSectionLocation(subsection).AddOffset(location);
+				foreach (WidgetLocationPair pair in GetAbsoluteWidgetLocations(subsection, subsectionLocation))
+				{
+					yield return pair;
+				}
+			}
+		}
+
+		private UIBuilder Build()
+		{
+			WidgetLocationPair[] visibleWidgetLocationPairs = GetAbsoluteWidgetLocations()
+				.Where(pair => pair.Widget.IsVisible)
+				.ToArray();
+
+			if (!AllowOverlappingWidgets)
+			{
+				CheckIfWidgetsOverlap(visibleWidgetLocationPairs);
+			}
+
+			// Initialize UI Builder
+			var builder = new UIBuilder
+			{
+				Height = Height,
+				MinHeight = MinHeight,
+				Width = Width,
+				MinWidth = MinWidth,
+				RowDefs = GetRowDefinitions(),
+				ColumnDefs = GetColumnDefinitions(),
+				Title = Title
+			};
+
+			foreach (WidgetLocationPair widgetLocationPair in visibleWidgetLocationPairs)
+			{
+				IWidget widget = widgetLocationPair.Widget;
+				WidgetLocation location = widgetLocationPair.Location;
+
+				if (widget.Type == UIBlockType.Undefined)
+				{
+					continue;
+				}
+
+				// Can be removed once we retrieve all collapsed states from the UI
+				if (widget is TreeView treeView)
+				{
+					treeView.UpdateItemCache();
+				}
+
+				UIBlockDefinition blockDefinition = widget.BlockDefinition;
+				blockDefinition.Row = location.Row;
+				blockDefinition.RowSpan = location.RowSpan;
+				blockDefinition.Column = location.Column;
+				blockDefinition.ColumnSpan = location.ColumnSpan;
+				builder.AppendBlock(blockDefinition);
+			}
+
+			return builder;
+		}
+
+		private IEnumerable<WidgetLocationPair> GetAbsoluteWidgetLocations()
+		{
+			return GetAbsoluteWidgetLocations(this, new SectionLocation(0, 0));
 		}
 
 		private string GetColumnDefinitions()
@@ -326,54 +373,9 @@
 			}
 		}
 
-		private UIBuilder Build()
+		private string GetRowDefinitions()
 		{
-			WidgetLocationPair[] visibleWidgetLocationPairs = GetAbsoluteWidgetLocations()
-				.Where(pair => pair.Widget.IsVisible)
-				.ToArray();
-
-			if (!AllowOverlappingWidgets)
-			{
-				CheckIfWidgetsOverlap(visibleWidgetLocationPairs);
-			}
-
-			// Initialize UI Builder
-			var uiBuilder = new UIBuilder
-			{
-				Height = Height,
-				MinHeight = MinHeight,
-				Width = Width,
-				MinWidth = MinWidth,
-				RowDefs = GetRowDefinitions(),
-				ColumnDefs = GetColumnDefinitions(),
-				Title = Title
-			};
-
-			foreach (WidgetLocationPair widgetLocationPair in visibleWidgetLocationPairs)
-			{
-				IWidget widget = widgetLocationPair.Widget;
-				WidgetLocation location = widgetLocationPair.Location;
-
-				if (widget.Type == UIBlockType.Undefined)
-				{
-					continue;
-				}
-
-				// Can be removed once we retrieve all collapsed states from the UI
-				if (widget is TreeView treeView)
-				{
-					treeView.UpdateItemCache();
-				}
-
-				UIBlockDefinition uiBlockDefinition = widget.BlockDefinition;
-				uiBlockDefinition.Row = location.Row;
-				uiBlockDefinition.RowSpan = location.RowSpan;
-				uiBlockDefinition.Column = location.Column;
-				uiBlockDefinition.ColumnSpan = location.ColumnSpan;
-				uiBuilder.AppendBlock(uiBlockDefinition);
-			}
-
-			return uiBuilder;
+			return GetDefinitions(rowDefinitions);
 		}
 
 		private void LoadChanges(UIResults uir)
@@ -389,10 +391,7 @@
 
 		private void RaiseResultEvents(UIResults uir)
 		{
-			if (Interacted != null)
-			{
-				Interacted(this, EventArgs.Empty);
-			}
+			Interacted?.Invoke(this, EventArgs.Empty);
 
 			if (uir.WasBack() && Back != null)
 			{
@@ -415,29 +414,6 @@
 			foreach (InteractiveWidget intractable in intractableWidgets)
 			{
 				intractable.RaiseResultEvents();
-			}
-		}
-
-		private IEnumerable<WidgetLocationPair> GetAbsoluteWidgetLocations()
-		{
-			return GetAbsoluteWidgetLocations(this, new SectionLocation(0, 0));
-		}
-
-		private static IEnumerable<WidgetLocationPair> GetAbsoluteWidgetLocations(ISection section, SectionLocation location)
-		{
-			foreach (IWidget widget in section.GetWidgets(false))
-			{
-				WidgetLocation widgetLocation = section.GetWidgetLocation(widget);
-				yield return new WidgetLocationPair(widget, widgetLocation.AddOffset(location));
-			}
-
-			foreach (ISection subsection in section.GetSections(false))
-			{
-				SectionLocation subsectionLocation = section.GetSectionLocation(subsection).AddOffset(location);
-				foreach (WidgetLocationPair widgetLocationPair in GetAbsoluteWidgetLocations(subsection, subsectionLocation))
-				{
-					yield return widgetLocationPair;
-				}
 			}
 		}
 
@@ -477,7 +453,7 @@
 			{
 				unchecked
 				{
-					return ((Widget != null ? Widget.GetHashCode() : 0) * 397) ^ Location.GetHashCode();
+					return (Widget != null ? Widget.GetHashCode() : 0) * 397 ^ Location.GetHashCode();
 				}
 			}
 		}

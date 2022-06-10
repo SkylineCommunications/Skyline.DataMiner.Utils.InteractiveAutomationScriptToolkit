@@ -4,7 +4,7 @@
 	using System.Globalization;
 	using System.Linq;
 
-	using Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     Widget to show/edit a time duration.
@@ -32,7 +32,8 @@
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Time" /> class.
 		/// </summary>
-		public Time() : this(new TimeSpan())
+		public Time()
+			: this(default)
 		{
 		}
 
@@ -60,24 +61,14 @@
 		/// <inheritdoc />
 		public bool ClipValueToRange
 		{
-			get
-			{
-				return TimeUpDownOptions.ClipValueToMinMax;
-			}
-
-			set
-			{
-				TimeUpDownOptions.ClipValueToMinMax = value;
-			}
+			get => TimeUpDownOptions.ClipValueToMinMax;
+			set => TimeUpDownOptions.ClipValueToMinMax = value;
 		}
 
 		/// <inheritdoc />
 		public int Decimals
 		{
-			get
-			{
-				return TimeUpDownOptions.FractionalSecondsDigitsCount;
-			}
+			get => TimeUpDownOptions.FractionalSecondsDigitsCount;
 
 			set
 			{
@@ -93,71 +84,28 @@
 		/// <inheritdoc />
 		public bool HasSeconds
 		{
-			get
-			{
-				return TimeUpDownOptions.ShowSeconds;
-			}
-
-			set
-			{
-				TimeUpDownOptions.ShowSeconds = value;
-			}
+			get => TimeUpDownOptions.ShowSeconds;
+			set => TimeUpDownOptions.ShowSeconds = value;
 		}
 
 		/// <inheritdoc />
 		public bool HasSpinnerButton
 		{
-			get
-			{
-				return TimeUpDownOptions.ShowButtonSpinner;
-			}
-
-			set
-			{
-				TimeUpDownOptions.ShowButtonSpinner = value;
-			}
+			get => TimeUpDownOptions.ShowButtonSpinner;
+			set => TimeUpDownOptions.ShowButtonSpinner = value;
 		}
 
 		/// <inheritdoc />
 		public bool IsSpinnerButtonEnabled
 		{
-			get
-			{
-				return TimeUpDownOptions.AllowSpin;
-			}
-
-			set
-			{
-				TimeUpDownOptions.AllowSpin = value;
-			}
-		}
-
-		/// <inheritdoc />
-		public string Tooltip
-		{
-			get
-			{
-				return BlockDefinition.TooltipText;
-			}
-
-			set
-			{
-				if (value == null)
-				{
-					throw new ArgumentNullException(nameof(value));
-				}
-
-				BlockDefinition.TooltipText = value;
-			}
+			get => TimeUpDownOptions.AllowSpin;
+			set => TimeUpDownOptions.AllowSpin = value;
 		}
 
 		/// <inheritdoc />
 		public TimeSpan Maximum
 		{
-			get
-			{
-				return TimeUpDownOptions.Maximum ?? TimeSpan.MaxValue;
-			}
+			get => TimeUpDownOptions.Maximum ?? TimeSpan.MaxValue;
 
 			set
 			{
@@ -173,10 +121,7 @@
 		/// <inheritdoc />
 		public TimeSpan Minimum
 		{
-			get
-			{
-				return TimeUpDownOptions.Minimum ?? TimeSpan.MinValue;
-			}
+			get => TimeUpDownOptions.Minimum ?? TimeSpan.MinValue;
 
 			set
 			{
@@ -192,10 +137,7 @@
 		/// <inheritdoc />
 		public TimeSpan TimeSpan
 		{
-			get
-			{
-				return timeSpan;
-			}
+			get => timeSpan;
 
 			set
 			{
@@ -207,53 +149,9 @@
 		}
 
 		/// <inheritdoc />
-		public bool UpdateOnEnter
+		public string Tooltip
 		{
-			get
-			{
-				return TimeUpDownOptions.UpdateValueOnEnterKey;
-			}
-
-			set
-			{
-				TimeUpDownOptions.UpdateValueOnEnterKey = value;
-			}
-		}
-
-		/// <inheritdoc />
-		public UIValidationState ValidationState
-		{
-			get
-			{
-				return BlockDefinition.ValidationState;
-			}
-
-			set
-			{
-				BlockDefinition.ValidationState = value;
-			}
-		}
-
-		/// <inheritdoc />
-		public string ValidationText
-		{
-			get
-			{
-				return BlockDefinition.ValidationText;
-			}
-
-			set
-			{
-				BlockDefinition.ValidationText = value;
-			}
-		}
-
-		private AutomationTimeUpDownOptions TimeUpDownOptions
-		{
-			get
-			{
-				return timeUpDownOptions;
-			}
+			get => BlockDefinition.TooltipText;
 
 			set
 			{
@@ -262,15 +160,46 @@
 					throw new ArgumentNullException(nameof(value));
 				}
 
-				timeUpDownOptions = value;
+				BlockDefinition.TooltipText = value;
+			}
+		}
+
+		/// <inheritdoc />
+		public bool UpdateOnEnter
+		{
+			get => TimeUpDownOptions.UpdateValueOnEnterKey;
+			set => TimeUpDownOptions.UpdateValueOnEnterKey = value;
+		}
+
+		/// <inheritdoc />
+		public UIValidationState ValidationState
+		{
+			get => BlockDefinition.ValidationState;
+			set => BlockDefinition.ValidationState = value;
+		}
+
+		/// <inheritdoc />
+		public string ValidationText
+		{
+			get => BlockDefinition.ValidationText;
+			set => BlockDefinition.ValidationText = value;
+		}
+
+		private AutomationTimeUpDownOptions TimeUpDownOptions
+		{
+			get => timeUpDownOptions;
+
+			set
+			{
+				timeUpDownOptions = value ?? throw new ArgumentNullException(nameof(value));
 				BlockDefinition.ConfigOptions = value;
 			}
 		}
 
 		/// <inheritdoc />
-		protected internal override void LoadResult(UIResults uiResults)
+		protected internal override void LoadResult(UIResults results)
 		{
-			TimeSpan result = uiResults.GetTime(this);
+			TimeSpan result = results.GetTime(this);
 			if (result != TimeSpan && WantsOnChange)
 			{
 				changed = true;
@@ -297,7 +226,7 @@
 		public class ChangedEventArgs : EventArgs
 		{
 			/// <summary>
-			/// Initializes a new instance of the <see cref="ChangedEventArgs"/> class.
+			///     Initializes a new instance of the <see cref="ChangedEventArgs" /> class.
 			/// </summary>
 			/// <param name="timeSpan">The new timespan.</param>
 			/// <param name="previous">The previous timespan.</param>
@@ -310,12 +239,12 @@
 			/// <summary>
 			///     Gets the previous timespan.
 			/// </summary>
-			public TimeSpan Previous { get; private set; }
+			public TimeSpan Previous { get; }
 
 			/// <summary>
 			///     Gets the new timespan.
 			/// </summary>
-			public TimeSpan TimeSpan { get; private set; }
+			public TimeSpan TimeSpan { get; }
 		}
 	}
 }

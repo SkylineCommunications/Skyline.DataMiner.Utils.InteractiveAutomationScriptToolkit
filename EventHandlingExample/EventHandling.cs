@@ -4,12 +4,12 @@ using Skyline.DataMiner.Automation;
 using Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit;
 
 /// <summary>
-/// DataMiner Script Class.
+///     DataMiner Script Class.
 /// </summary>
-class Script
+internal class Script
 {
 	/// <summary>
-	/// The Script entry point.
+	///     The Script entry point.
 	/// </summary>
 	/// <param name="engine">Link with SLScripting process.</param>
 	public void Run(Engine engine)
@@ -24,7 +24,8 @@ public class MyEventDialog : Dialog
 {
 	private readonly TextBox textBox;
 
-	public MyEventDialog(Engine engine) : base(engine)
+	public MyEventDialog(Engine engine)
+		: base(engine)
 	{
 		textBox = new TextBox("Foo");
 		AddWidget(textBox, 0, 0, 1, 2);
@@ -42,13 +43,6 @@ public class MyEventDialog : Dialog
 		Interacted += OnInteracted;
 	}
 
-	private void OnTextBoxChanged(object sender, TextBox.ChangedEventArgs args)
-	{
-		string message = String.Format("Text changed from '{0}' to '{1}'", args.Previous, args.Value);
-		Engine.GenerateInformation(message);
-		Engine.Log(message);
-	}
-
 	private void OnAppendButtonPressed(object sender, EventArgs args)
 	{
 		string text = textBox.Text + Environment.NewLine + "Bar";
@@ -60,5 +54,12 @@ public class MyEventDialog : Dialog
 		const string Message = "User interaction occured";
 		Engine.GenerateInformation(Message);
 		Engine.Log(Message);
+	}
+
+	private void OnTextBoxChanged(object sender, TextBox.ChangedEventArgs args)
+	{
+		var message = $"Text changed from '{args.Previous}' to '{args.Value}'";
+		Engine.GenerateInformation(message);
+		Engine.Log(message);
 	}
 }

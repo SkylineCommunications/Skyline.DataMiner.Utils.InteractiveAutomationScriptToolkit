@@ -2,15 +2,15 @@
 {
 	using System;
 
-	using Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
-	///		A whitespace.
+	///     A whitespace.
 	/// </summary>
 	public class WhiteSpace : Widget
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="WhiteSpace"/> class.
+		///     Initializes a new instance of the <see cref="WhiteSpace" /> class.
 		/// </summary>
 		public WhiteSpace()
 		{

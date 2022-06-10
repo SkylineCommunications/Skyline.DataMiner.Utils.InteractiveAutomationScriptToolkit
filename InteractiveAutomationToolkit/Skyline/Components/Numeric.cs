@@ -4,7 +4,7 @@
 	using System.Globalization;
 	using System.Linq;
 
-	using Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     A spinner or numeric up-down control.
@@ -35,7 +35,8 @@
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Numeric" /> class.
 		/// </summary>
-		public Numeric() : this(0)
+		public Numeric()
+			: this(0)
 		{
 		}
 
@@ -63,10 +64,7 @@
 		/// <inheritdoc />
 		public int Decimals
 		{
-			get
-			{
-				return BlockDefinition.Decimals;
-			}
+			get => BlockDefinition.Decimals;
 
 			set
 			{
@@ -82,10 +80,7 @@
 		/// <inheritdoc />
 		public double Maximum
 		{
-			get
-			{
-				return BlockDefinition.RangeHigh;
-			}
+			get => BlockDefinition.RangeHigh;
 
 			set
 			{
@@ -104,10 +99,7 @@
 		/// <inheritdoc />
 		public double Minimum
 		{
-			get
-			{
-				return BlockDefinition.RangeLow;
-			}
+			get => BlockDefinition.RangeLow;
 
 			set
 			{
@@ -124,12 +116,21 @@
 		}
 
 		/// <inheritdoc />
+		public double StepSize
+		{
+			get => BlockDefinition.RangeStep;
+
+			set
+			{
+				CheckDouble(value);
+				BlockDefinition.RangeStep = value;
+			}
+		}
+
+		/// <inheritdoc />
 		public string Tooltip
 		{
-			get
-			{
-				return BlockDefinition.TooltipText;
-			}
+			get => BlockDefinition.TooltipText;
 
 			set
 			{
@@ -143,27 +144,23 @@
 		}
 
 		/// <inheritdoc />
-		public double StepSize
+		public UIValidationState ValidationState
 		{
-			get
-			{
-				return BlockDefinition.RangeStep;
-			}
+			get => BlockDefinition.ValidationState;
+			set => BlockDefinition.ValidationState = value;
+		}
 
-			set
-			{
-				CheckDouble(value);
-				BlockDefinition.RangeStep = value;
-			}
+		/// <inheritdoc />
+		public string ValidationText
+		{
+			get => BlockDefinition.ValidationText;
+			set => BlockDefinition.ValidationText = value;
 		}
 
 		/// <inheritdoc />
 		public double Value
 		{
-			get
-			{
-				return value;
-			}
+			get => value;
 
 			set
 			{
@@ -174,38 +171,10 @@
 		}
 
 		/// <inheritdoc />
-		public UIValidationState ValidationState
-		{
-			get
-			{
-				return BlockDefinition.ValidationState;
-			}
-
-			set
-			{
-				BlockDefinition.ValidationState = value;
-			}
-		}
-
-		/// <inheritdoc />
-		public string ValidationText
-		{
-			get
-			{
-				return BlockDefinition.ValidationText;
-			}
-
-			set
-			{
-				BlockDefinition.ValidationText = value;
-			}
-		}
-
-		/// <inheritdoc />
-		protected internal override void LoadResult(UIResults uiResults)
+		protected internal override void LoadResult(UIResults results)
 		{
 			if (!Double.TryParse(
-					uiResults.GetString(this),
+					results.GetString(this),
 					NumberStyles.Float,
 					CultureInfo.InvariantCulture,
 					out double result))
@@ -267,7 +236,7 @@
 		public class ChangedEventArgs : EventArgs
 		{
 			/// <summary>
-			/// Initializes a new instance of the <see cref="ChangedEventArgs"/> class.
+			///     Initializes a new instance of the <see cref="ChangedEventArgs" /> class.
 			/// </summary>
 			/// <param name="value">The new value of the numeric.</param>
 			/// <param name="previous">The previous value of the numeric.</param>
@@ -280,12 +249,12 @@
 			/// <summary>
 			///     Gets the previous value of the numeric.
 			/// </summary>
-			public double Previous { get; private set; }
+			public double Previous { get; }
 
 			/// <summary>
 			///     Gets the new value of the numeric.
 			/// </summary>
-			public double Value { get; private set; }
+			public double Value { get; }
 		}
 	}
 }

@@ -3,21 +3,21 @@
 	using System;
 
 	/// <summary>
-	/// Defines the whitespace that is displayed around a widget.
+	///     Defines the whitespace that is displayed around a widget.
 	/// </summary>
 	public readonly struct Margin : IEquatable<Margin>
 	{
 		/// <summary>
-		/// Initializes a new instance of the Margin class.
+		///     Initializes a new instance of the <see cref="Margin" /> struct.
 		/// </summary>
 		/// <param name="left">Amount of margin on the left-hand side of the widget in pixels.</param>
 		/// <param name="top">Amount of margin at the top of the widget in pixels.</param>
 		/// <param name="right">Amount of margin on the right-hand side of the widget in pixels.</param>
 		/// <param name="bottom">Amount of margin at the bottom of the widget in pixels.</param>
-		/// <exception cref="ArgumentOutOfRangeException"><paramref name="left"/> is less than 0.</exception>
-		/// <exception cref="ArgumentOutOfRangeException"><paramref name="top"/> is less than 0.</exception>
-		/// <exception cref="ArgumentOutOfRangeException"><paramref name="right"/> is less than 0.</exception>
-		/// <exception cref="ArgumentOutOfRangeException"><paramref name="bottom"/> is less than 0.</exception>
+		/// <exception cref="ArgumentOutOfRangeException"><paramref name="left" /> is less than 0.</exception>
+		/// <exception cref="ArgumentOutOfRangeException"><paramref name="top" /> is less than 0.</exception>
+		/// <exception cref="ArgumentOutOfRangeException"><paramref name="right" /> is less than 0.</exception>
+		/// <exception cref="ArgumentOutOfRangeException"><paramref name="bottom" /> is less than 0.</exception>
 		/// <remarks>All widgets have a default margin of 4 pixels on all sides.</remarks>
 		public Margin(int left, int top, int right, int bottom)
 		{
@@ -48,48 +48,52 @@
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the Margin class.
+		///     Initializes a new instance of the <see cref="Margin" /> struct.
 		/// </summary>
 		/// <param name="leftRight">Amount of margin on the left and right sides of the widget in pixels.</param>
 		/// <param name="top">Amount of margin at the top of the widget in pixels.</param>
-		/// <param name="bottom">Amount of margin at the top of the widget in pixels.</param>
-		/// <exception cref="ArgumentOutOfRangeException"><paramref name="leftRight"/> is less than 0.</exception>
-		/// <exception cref="ArgumentOutOfRangeException"><paramref name="top"/> is less than 0.</exception>
-		/// <exception cref="ArgumentOutOfRangeException"><paramref name="bottom"/> is less than 0.</exception>
+		/// <param name="bottom">Amount of margin at the bottom of the widget in pixels.</param>
+		/// <exception cref="ArgumentOutOfRangeException"><paramref name="leftRight" /> is less than 0.</exception>
+		/// <exception cref="ArgumentOutOfRangeException"><paramref name="top" /> is less than 0.</exception>
+		/// <exception cref="ArgumentOutOfRangeException"><paramref name="bottom" /> is less than 0.</exception>
 		/// <remarks>All widgets have a default margin of 4 pixels on all sides.</remarks>
-		public Margin(int leftRight, int top, int bottom) : this(leftRight, top, leftRight, bottom)
+		public Margin(int leftRight, int top, int bottom)
+			: this(leftRight, top, leftRight, bottom)
 		{
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the Margin class.
+		///     Initializes a new instance of the <see cref="Margin" /> struct.
 		/// </summary>
 		/// <param name="leftRight">Amount of margin on the left and right sides of the widget in pixels.</param>
 		/// <param name="topBottom">Amount of margin on the top and bottom sides of the widget in pixels.</param>
-		/// <exception cref="ArgumentOutOfRangeException"><paramref name="leftRight"/> is less than 0.</exception>
-		/// <exception cref="ArgumentOutOfRangeException"><paramref name="topBottom"/> is less than 0.</exception>
+		/// <exception cref="ArgumentOutOfRangeException"><paramref name="leftRight" /> is less than 0.</exception>
+		/// <exception cref="ArgumentOutOfRangeException"><paramref name="topBottom" /> is less than 0.</exception>
 		/// <remarks>All widgets have a default margin of 4 pixels on all sides.</remarks>
-		public Margin(int leftRight, int topBottom) : this(leftRight, topBottom, leftRight, topBottom)
+		public Margin(int leftRight, int topBottom)
+			: this(leftRight, topBottom, leftRight, topBottom)
 		{
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the Margin class.
+		///     Initializes a new instance of the <see cref="Margin" /> struct.
 		/// </summary>
 		/// <param name="all">Amount of margin on all sides of the widget in pixels.</param>
-		/// <exception cref="ArgumentOutOfRangeException"><paramref name="all"/> is less than 0.</exception>
+		/// <exception cref="ArgumentOutOfRangeException"><paramref name="all" /> is less than 0.</exception>
 		/// <remarks>All widgets have a default margin of 4 pixels on all sides.</remarks>
-		public Margin(int all) : this(all, all, all, all)
+		public Margin(int all)
+			: this(all, all, all, all)
 		{
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the Margin class based on a string.
-		/// This string should have the following syntax: left;top;right;bottom
+		///     Initializes a new instance of the <see cref="Margin" /> struct.
 		/// </summary>
-		/// <exception cref="FormatException">If the string does not match the predefined syntax, or if any of the margins is not a number.</exception>
+		/// <exception cref="FormatException">
+		///     If the string does not match the predefined syntax, or if any of the margins is not a number.
+		/// </exception>
 		/// <exception cref="ArgumentException">If one of the sides is less than 0.</exception>
-		/// <param name="margin">Margin in string format.</param>
+		/// <param name="margin">Margin in string format with the following syntax: left;top;right;bottom.</param>
 		/// <remarks>All widgets have a default margin of 4 pixels on all sides.</remarks>
 		public Margin(string margin)
 		{
@@ -155,49 +159,56 @@
 		}
 
 		/// <summary>
-		/// Amount of margin in pixels at the bottom of the widget.
+		///     Gets the amount of margin in pixels at the bottom of the widget.
 		/// </summary>
 		public int Bottom { get; }
 
 		/// <summary>
-		/// Amount of margin in pixels at the left-hand side of the widget.
+		///     Gets the amount of margin in pixels at the left-hand side of the widget.
 		/// </summary>
 		public int Left { get; }
 
 		/// <summary>
-		/// Amount of margin in pixels at the right-hand side of the widget.
+		///     Gets the amount of margin in pixels at the right-hand side of the widget.
 		/// </summary>
 		public int Right { get; }
 
 		/// <summary>
-		/// Amount of margin in pixels at the top of the widget.
+		///     Gets the amount of margin in pixels at the top of the widget.
 		/// </summary>
 		public int Top { get; }
 
 		/// <summary>
-		/// Determines whether two specified instances of <see cref="Margin"/> are equal.
+		///     Determines whether two specified instances of <see cref="Margin" /> are equal.
 		/// </summary>
 		/// <param name="left">The first object to compare.</param>
 		/// <param name="right">The second object to compare.</param>
-		/// <returns><c>true</c> if <paramref name="left"/> and <paramref name="right"/> represent the same margin; otherwise, <c>false</c>.</returns>
+		/// <returns>
+		///     <c>true</c> if <paramref name="left" /> and <paramref name="right" /> represent the same margin; otherwise,
+		///     <c>false</c>.
+		/// </returns>
 		public static bool operator ==(Margin left, Margin right)
 		{
 			return left.Equals(right);
 		}
 
 		/// <summary>
-		/// Determines whether two specified instances of <see cref="Margin"/> are not equal.
+		///     Determines whether two specified instances of <see cref="Margin" /> are not equal.
 		/// </summary>
 		/// <param name="left">The first object to compare.</param>
 		/// <param name="right">The second object to compare.</param>
-		/// <returns><c>true</c> if <paramref name="left"/> and <paramref name="right"/> do not represent the same margin; otherwise, <c>false</c>.</returns>
+		/// <returns>
+		///     <c>true</c> if <paramref name="left" /> and <paramref name="right" /> do not represent the same margin;
+		///     otherwise, <c>false</c>.
+		/// </returns>
 		public static bool operator !=(Margin left, Margin right)
 		{
 			return !left.Equals(right);
 		}
 
 		/// <summary>
-		/// Returns a value indicating whether the value of this instance is equal to the value of the specified <see cref="Margin"/> instance.
+		///     Returns a value indicating whether the value of this instance is equal to the value of the specified
+		///     <see cref="Margin" /> instance.
 		/// </summary>
 		/// <param name="other">The object to compare to this instance.</param>
 		/// <returns><c>true</c> if the value parameter equals the value of this instance; otherwise, <c>false</c>.</returns>
@@ -214,7 +225,7 @@
 				return false;
 			}
 
-			return obj is Margin && Equals((Margin)obj);
+			return obj is Margin margin && Equals(margin);
 		}
 
 		/// <inheritdoc />
@@ -223,9 +234,9 @@
 			unchecked
 			{
 				int hashCode = Bottom;
-				hashCode = (hashCode * 397) ^ Left;
-				hashCode = (hashCode * 397) ^ Right;
-				hashCode = (hashCode * 397) ^ Top;
+				hashCode = hashCode * 397 ^ Left;
+				hashCode = hashCode * 397 ^ Right;
+				hashCode = hashCode * 397 ^ Top;
 				return hashCode;
 			}
 		}

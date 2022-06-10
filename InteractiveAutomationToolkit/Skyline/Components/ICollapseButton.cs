@@ -4,34 +4,35 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 	using System.Collections.Generic;
 
 	/// <summary>
-	///		Represents a button that can be used to show/hide a collection of widgets.
+	///     Represents a button that can be used to show/hide a collection of widgets.
 	/// </summary>
 	public interface ICollapseButton : IInteractiveWidget
 	{
 		/// <summary>
-		/// This method is used to collapse the collapse button.
+		///     Triggered when the button is pressed.
+		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
-		void Collapse();
+		event EventHandler<EventArgs> Pressed;
 
 		/// <summary>
-		/// This method is used to expand the collapse button.
+		///     Gets a collection of widgets that are affected by this collapse button.
 		/// </summary>
-		void Expand();
+		List<IWidget> LinkedWidgets { get; }
 
 		/// <summary>
-		/// Gets or sets the text to be displayed in the collapse button when the button is expanded.
+		///     Gets or sets the text to be displayed in the collapse button when the button is expanded.
 		/// </summary>
 		string CollapseText { get; set; }
 
 		/// <summary>
-		/// Gets or sets the text to be displayed in the collapse button when the button is collapsed.
+		///     Gets or sets the text to be displayed in the collapse button when the button is collapsed.
 		/// </summary>
 		string ExpandText { get; set; }
 
 		/// <summary>
-		/// Indicates if the collapse button is collapsed or not.
-		/// If the collapse button is collapsed, the IsVisible property of all linked widgets is set to false.
-		/// If the collapse button is not collapsed, the IsVisible property of all linked widgets is set to true.
+		///     Gets or sets a value indicating whether indicates if the collapse button is collapsed or not.
+		///     If the collapse button is collapsed, the IsVisible property of all linked widgets is set to false.
+		///     If the collapse button is not collapsed, the IsVisible property of all linked widgets is set to true.
 		/// </summary>
 		bool IsCollapsed { get; set; }
 
@@ -42,14 +43,13 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		string Tooltip { get; set; }
 
 		/// <summary>
-		/// Collection of widgets that are affected by this collapse button.
+		///     This method is used to collapse the collapse button.
 		/// </summary>
-		List<IWidget> LinkedWidgets { get; }
+		void Collapse();
 
 		/// <summary>
-		///     Triggered when the button is pressed.
-		///     WantsOnChange will be set to true when this event is subscribed to.
+		///     This method is used to expand the collapse button.
 		/// </summary>
-		event EventHandler<EventArgs> Pressed;
+		void Expand();
 	}
 }

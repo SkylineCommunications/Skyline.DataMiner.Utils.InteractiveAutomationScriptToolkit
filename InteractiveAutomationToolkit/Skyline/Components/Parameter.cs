@@ -2,7 +2,7 @@
 {
 	using System;
 
-	using Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     Displays the value of a protocol parameter.
@@ -36,21 +36,19 @@
 		/// <param name="element">Element that has the parameter.</param>
 		/// <param name="parameterId">ID of the parameter.</param>
 		/// <param name="index">Primary key of the table entry. Is null for standalone parameters.</param>
-		public Parameter(IActionableElement element, int parameterId, string index = null) : this(
-			element.DmaId,
-			element.ElementId,
-			parameterId,
-			index)
+		public Parameter(IActionableElement element, int parameterId, string index = null)
+			: this(
+				element.DmaId,
+				element.ElementId,
+				parameterId,
+				index)
 		{
 		}
 
 		/// <inheritdoc />
 		public int DmaId
 		{
-			get
-			{
-				return dmaId;
-			}
+			get => dmaId;
 
 			set
 			{
@@ -67,10 +65,7 @@
 		/// <inheritdoc />
 		public int ElementId
 		{
-			get
-			{
-				return elementId;
-			}
+			get => elementId;
 
 			set
 			{
@@ -87,10 +82,7 @@
 		/// <inheritdoc />
 		public string Index
 		{
-			get
-			{
-				return index;
-			}
+			get => index;
 
 			set
 			{
@@ -102,10 +94,7 @@
 		/// <inheritdoc />
 		public int ParameterId
 		{
-			get
-			{
-				return parameterId;
-			}
+			get => parameterId;
 
 			set
 			{
@@ -121,7 +110,7 @@
 
 		private string GenerateExtra()
 		{
-			return String.Format("{0}/{1}:{2}:{3}", dmaId, elementId, parameterId, index);
+			return $"{dmaId}/{elementId}:{parameterId}:{index}";
 		}
 	}
 }

@@ -2,7 +2,7 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 {
 	using System;
 
-	using Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     Represents a spinner or numeric up-down control.
@@ -15,11 +15,6 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
 		event EventHandler<Numeric.ChangedEventArgs> Changed;
-
-		/// <summary>
-		///     Gets or sets the value of the numeric.
-		/// </summary>
-		double Value { get; set; }
 
 		/// <summary>
 		///     Gets or sets the number of decimals to show.
@@ -42,29 +37,34 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		double Minimum { get; set; }
 
 		/// <summary>
-		///     Gets or sets the tooltip.
-		/// </summary>
-		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
-		string Tooltip { get; set; }
-
-		/// <summary>
 		///     Gets or sets the step size.
 		/// </summary>
 		/// <exception cref="ArgumentException">When the value is <c>Double.NaN</c> or infinity.</exception>
 		double StepSize { get; set; }
 
 		/// <summary>
-		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by the client to add a visual marker on the input field.
+		///     Gets or sets the tooltip.
+		/// </summary>
+		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
+		string Tooltip { get; set; }
+
+		/// <summary>
+		///     Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
+		///     This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		UIValidationState ValidationState { get; set; }
 
 		/// <summary>
-		///		Gets or sets the text that is shown if the validation state is invalid.
-		///		This should be used by the client to add a visual marker on the input field.
+		///     Gets or sets the text that is shown if the validation state is invalid.
+		///     This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		string ValidationText { get; set; }
+
+		/// <summary>
+		///     Gets or sets the value of the numeric.
+		/// </summary>
+		double Value { get; set; }
 	}
 }

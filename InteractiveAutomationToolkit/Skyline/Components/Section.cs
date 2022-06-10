@@ -5,14 +5,19 @@
 	using System.Linq;
 
 	/// <summary>
-	/// A section is a special component that can be used to group widgets together.
+	///     A section is a special component that can be used to group widgets together.
 	/// </summary>
 	public class Section : ISection
 	{
-		private readonly HashSet<IWidget> widgets = new HashSet<IWidget>();
+		private readonly Dictionary<ISection, SectionLocation> sectionLocations =
+			new Dictionary<ISection, SectionLocation>();
+
 		private readonly HashSet<ISection> sections = new HashSet<ISection>();
-		private readonly Dictionary<IWidget, WidgetLocation> widgetLocations = new Dictionary<IWidget, WidgetLocation>();
-		private readonly Dictionary<ISection, SectionLocation> sectionLocations = new Dictionary<ISection, SectionLocation>();
+
+		private readonly Dictionary<IWidget, WidgetLocation>
+			widgetLocations = new Dictionary<IWidget, WidgetLocation>();
+
+		private readonly HashSet<IWidget> widgets = new HashSet<IWidget>();
 
 		/// <inheritdoc />
 		public int ColumnCount
@@ -59,17 +64,38 @@
 		}
 
 		/// <inheritdoc />
-		public IEnumerable<IWidget> GetWidgets()
+		public ISection AddSection(ISection section, SectionLocation location)
 		{
-			return GetWidgets(true);
+			if (section == null)
+			{
+				throw new ArgumentNullException(nameof(section));
+			}
+
+			if (section == this)
+			{
+				throw new ArgumentException("Cannot add a section to itself.");
+			}
+
+			if (GetSections().Contains(section) || section.GetSections().Contains(this))
+			{
+				throw new ArgumentException("Section is already added to the component or nested components.");
+			}
+
+			if (GetWidgets().Intersect(section.GetWidgets()).Any())
+			{
+				throw new ArgumentException(
+					"Section contains widgets that are already part of this component or nested components.");
+			}
+
+			sections.Add(section);
+			sectionLocations.Add(section, location);
+			return this;
 		}
 
 		/// <inheritdoc />
-		public IEnumerable<IWidget> GetWidgets(bool includeNested)
+		public ISection AddSection(ISection section, int fromRow, int fromColumn)
 		{
-			return includeNested
-				? widgets.Concat(sections.SelectMany(section => section.GetWidgets()))
-				: widgets;
+			return AddSection(section, new SectionLocation(fromRow, fromColumn));
 		}
 
 		/// <inheritdoc />
@@ -105,15 +131,130 @@
 		}
 
 		/// <inheritdoc />
-		public void RemoveWidget(IWidget widget)
+		public void Clear()
+		{
+			widgetLocations.Clear();
+			widgets.Clear();
+			sectionLocations.Clear();
+			sections.Clear();
+		}
+
+		/// <inheritdoc />
+		public void DisableWidgets()
+		{
+			DisableWidgets(true);
+		}
+
+		/// <inheritdoc />
+		public void DisableWidgets(bool includeNested)
+		{
+			SetWidgetsEnabled(false, true);
+		}
+
+		/// <inheritdoc />
+		public void EnableWidgets()
+		{
+			EnableWidgets(true);
+		}
+
+		/// <inheritdoc />
+		public void EnableWidgets(bool includeNested)
+		{
+			SetWidgetsEnabled(true, includeNested);
+		}
+
+		/// <inheritdoc />
+		public SectionLocation GetSectionLocation(ISection section)
+		{
+			if (section == null)
+			{
+				throw new ArgumentNullException(nameof(section));
+			}
+
+			if (!sectionLocations.TryGetValue(section, out SectionLocation location))
+			{
+				throw new ArgumentException("Widget is not part of this component.");
+			}
+
+			return location;
+		}
+
+		/// <inheritdoc />
+		public IEnumerable<ISection> GetSections()
+		{
+			return GetSections(true);
+		}
+
+		/// <inheritdoc />
+		public IEnumerable<ISection> GetSections(bool includeNested)
+		{
+			return includeNested
+				? sections.Concat(sections.SelectMany(section => section.GetSections()))
+				: sections;
+		}
+
+		/// <inheritdoc />
+		public WidgetLocation GetWidgetLocation(IWidget widget)
 		{
 			if (widget == null)
 			{
 				throw new ArgumentNullException(nameof(widget));
 			}
 
-			widgets.Remove(widget);
-			widgetLocations.Remove(widget);
+			if (!widgetLocations.TryGetValue(widget, out WidgetLocation widgetLocation))
+			{
+				throw new ArgumentException("Widget is not part of this component.");
+			}
+
+			return widgetLocation;
+		}
+
+		/// <inheritdoc />
+		public IEnumerable<IWidget> GetWidgets()
+		{
+			return GetWidgets(true);
+		}
+
+		/// <inheritdoc />
+		public IEnumerable<IWidget> GetWidgets(bool includeNested)
+		{
+			return includeNested
+				? widgets.Concat(sections.SelectMany(section => section.GetWidgets()))
+				: widgets;
+		}
+
+		/// <inheritdoc />
+		public void HideWidgets()
+		{
+			HideWidgets(true);
+		}
+
+		/// <inheritdoc />
+		public void HideWidgets(bool includeNested)
+		{
+			SetWidgetsVisible(false, true);
+		}
+
+		/// <inheritdoc />
+		public void MoveSection(ISection section, SectionLocation location)
+		{
+			if (section == null)
+			{
+				throw new ArgumentNullException(nameof(section));
+			}
+
+			if (!sections.Contains(section))
+			{
+				throw new ArgumentException("Widget is not part of this component.");
+			}
+
+			sectionLocations[section] = location;
+		}
+
+		/// <inheritdoc />
+		public void MoveSection(ISection section, int fromRow, int fromColumn)
+		{
+			MoveSection(section, new SectionLocation(fromRow, fromColumn));
 		}
 
 		/// <inheritdoc />
@@ -145,70 +286,6 @@
 		}
 
 		/// <inheritdoc />
-		public WidgetLocation GetWidgetLocation(IWidget widget)
-		{
-			if (widget == null)
-			{
-				throw new ArgumentNullException(nameof(widget));
-			}
-
-			if (!widgetLocations.TryGetValue(widget, out WidgetLocation widgetLocation))
-			{
-				throw new ArgumentException("Widget is not part of this component.");
-			}
-
-			return widgetLocation;
-		}
-
-		/// <inheritdoc />
-		public IEnumerable<ISection> GetSections()
-		{
-			return GetSections(true);
-		}
-
-		/// <inheritdoc />
-		public IEnumerable<ISection> GetSections(bool includeNested)
-		{
-			return includeNested
-				? sections.Concat(sections.SelectMany(section => section.GetSections()))
-				: sections;
-		}
-
-		/// <inheritdoc />
-		public ISection AddSection(ISection section, SectionLocation location)
-		{
-			if (section == null)
-			{
-				throw new ArgumentNullException(nameof(section));
-			}
-
-			if (section == this)
-			{
-				throw new ArgumentException("Cannot add a section to itself.");
-			}
-
-			if (GetSections().Contains(section) || section.GetSections().Contains(this))
-			{
-				throw new ArgumentException("Section is already added to the component or nested components.");
-			}
-
-			if (GetWidgets().Intersect(section.GetWidgets()).Any())
-			{
-				throw new ArgumentException("Section contains widgets that are already part of this component or nested components.");
-			}
-
-			sections.Add(section);
-			sectionLocations.Add(section, location);
-			return this;
-		}
-
-		/// <inheritdoc />
-		public ISection AddSection(ISection section, int fromRow, int fromColumn)
-		{
-			return AddSection(section, new SectionLocation(fromRow, fromColumn));
-		}
-
-		/// <inheritdoc />
 		public void RemoveSection(ISection section)
 		{
 			if (section == null)
@@ -221,65 +298,15 @@
 		}
 
 		/// <inheritdoc />
-		public void MoveSection(ISection section, SectionLocation location)
+		public void RemoveWidget(IWidget widget)
 		{
-			if (section == null)
+			if (widget == null)
 			{
-				throw new ArgumentNullException(nameof(section));
+				throw new ArgumentNullException(nameof(widget));
 			}
 
-			if (!sections.Contains(section))
-			{
-				throw new ArgumentException("Widget is not part of this component.");
-			}
-
-			sectionLocations[section] = location;
-		}
-
-		/// <inheritdoc />
-		public void MoveSection(ISection section, int fromRow, int fromColumn)
-		{
-			MoveSection(section, new SectionLocation(fromRow, fromColumn));
-		}
-
-		/// <inheritdoc />
-		public SectionLocation GetSectionLocation(ISection section)
-		{
-			if (section == null)
-			{
-				throw new ArgumentNullException(nameof(section));
-			}
-
-			if (!sectionLocations.TryGetValue(section, out SectionLocation location))
-			{
-				throw new ArgumentException("Widget is not part of this component.");
-			}
-
-			return location;
-		}
-
-		/// <inheritdoc />
-		public void EnableWidgets()
-		{
-			EnableWidgets(true);
-		}
-
-		/// <inheritdoc />
-		public void EnableWidgets(bool includeNested)
-		{
-			SetWidgetsEnabled(true, includeNested);
-		}
-
-		/// <inheritdoc />
-		public void DisableWidgets()
-		{
-			DisableWidgets(true);
-		}
-
-		/// <inheritdoc />
-		public void DisableWidgets(bool includeNested)
-		{
-			SetWidgetsEnabled(false, true);
+			widgets.Remove(widget);
+			widgetLocations.Remove(widget);
 		}
 
 		/// <inheritdoc />
@@ -288,6 +315,15 @@
 			foreach (IInteractiveWidget widget in GetWidgets(includeNested).OfType<IInteractiveWidget>())
 			{
 				widget.IsEnabled = enabled;
+			}
+		}
+
+		/// <inheritdoc />
+		public void SetWidgetsVisible(bool visible, bool includeNested)
+		{
+			foreach (IWidget widget in GetWidgets(includeNested))
+			{
+				widget.IsVisible = visible;
 			}
 		}
 
@@ -301,36 +337,6 @@
 		public void ShowWidgets(bool includeNested)
 		{
 			SetWidgetsVisible(true, true);
-		}
-
-		/// <inheritdoc />
-		public void HideWidgets()
-		{
-			HideWidgets(true);
-		}
-
-		/// <inheritdoc />
-		public void HideWidgets(bool includeNested)
-		{
-			SetWidgetsVisible(false, true);
-		}
-
-		/// <inheritdoc />
-		public void SetWidgetsVisible(bool visible, bool includeNested)
-		{
-			foreach (IWidget widget in GetWidgets(includeNested))
-			{
-				widget.IsVisible = visible;
-			}
-		}
-
-		/// <inheritdoc />
-		public void Clear()
-		{
-			widgetLocations.Clear();
-			widgets.Clear();
-			sectionLocations.Clear();
-			sections.Clear();
 		}
 	}
 }

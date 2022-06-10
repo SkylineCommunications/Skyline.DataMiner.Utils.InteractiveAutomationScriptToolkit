@@ -2,7 +2,7 @@
 {
 	using System;
 
-	using Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     A label is used to display text.
@@ -26,17 +26,15 @@
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Label" /> class.
 		/// </summary>
-		public Label() : this("Label")
+		public Label()
+			: this("Label")
 		{
 		}
 
 		/// <inheritdoc />
 		public TextStyle Style
 		{
-			get
-			{
-				return style;
-			}
+			get => style;
 
 			set
 			{
@@ -48,24 +46,14 @@
 		/// <inheritdoc />
 		public string Text
 		{
-			get
-			{
-				return BlockDefinition.Text;
-			}
-
-			set
-			{
-				BlockDefinition.Text = value;
-			}
+			get => BlockDefinition.Text;
+			set => BlockDefinition.Text = value;
 		}
 
 		/// <inheritdoc />
 		public string Tooltip
 		{
-			get
-			{
-				return BlockDefinition.TooltipText;
-			}
+			get => BlockDefinition.TooltipText;
 
 			set
 			{

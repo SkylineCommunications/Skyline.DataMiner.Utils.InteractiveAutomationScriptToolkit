@@ -3,7 +3,7 @@
 	using System;
 	using System.Linq;
 
-	using Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     A checkbox that can be selected or cleared.
@@ -27,7 +27,8 @@
 		/// <summary>
 		///     Initializes a new instance of the <see cref="CheckBox" /> class.
 		/// </summary>
-		public CheckBox() : this(String.Empty)
+		public CheckBox()
+			: this(String.Empty)
 		{
 		}
 
@@ -109,10 +110,7 @@
 		/// <inheritdoc />
 		public bool IsChecked
 		{
-			get
-			{
-				return isChecked;
-			}
+			get => isChecked;
 
 			set
 			{
@@ -124,24 +122,14 @@
 		/// <inheritdoc />
 		public string Text
 		{
-			get
-			{
-				return BlockDefinition.Text;
-			}
-
-			set
-			{
-				BlockDefinition.Text = value;
-			}
+			get => BlockDefinition.Text;
+			set => BlockDefinition.Text = value;
 		}
 
 		/// <inheritdoc />
 		public string Tooltip
 		{
-			get
-			{
-				return BlockDefinition.TooltipText;
-			}
+			get => BlockDefinition.TooltipText;
 
 			set
 			{
@@ -155,9 +143,9 @@
 		}
 
 		/// <inheritdoc />
-		protected internal override void LoadResult(UIResults uiResults)
+		protected internal override void LoadResult(UIResults results)
 		{
-			bool result = uiResults.GetChecked(this);
+			bool result = results.GetChecked(this);
 			if (WantsOnChange)
 			{
 				changed = result != IsChecked;
@@ -174,10 +162,7 @@
 				return;
 			}
 
-			if (OnChanged != null)
-			{
-				OnChanged(this, new ChangedEventArgs(IsChecked));
-			}
+			OnChanged?.Invoke(this, new ChangedEventArgs(IsChecked));
 
 			if (OnChecked != null && IsChecked)
 			{
@@ -198,18 +183,15 @@
 		public class ChangedEventArgs : EventArgs
 		{
 			/// <summary>
-			/// Initializes a new instance of the <see cref="ChangedEventArgs"/> class.
+			///     Initializes a new instance of the <see cref="ChangedEventArgs" /> class.
 			/// </summary>
 			/// <param name="isChecked">The new checked state.</param>
-			public ChangedEventArgs(bool isChecked)
-			{
-				IsChecked = isChecked;
-			}
+			public ChangedEventArgs(bool isChecked) => IsChecked = isChecked;
 
 			/// <summary>
 			///     Gets a value indicating whether the checkbox has been checked.
 			/// </summary>
-			public bool IsChecked { get; private set; }
+			public bool IsChecked { get; }
 		}
 	}
 }

@@ -3,15 +3,15 @@
 	using System;
 	using System.IO;
 
-	using Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
-	/// Widget that can be used to upload files to the DMA.
+	///     Widget that can be used to upload files to the DMA.
 	/// </summary>
 	public class FileSelector : InteractiveWidget, IFileSelector
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="FileSelector"/> class.
+		///     Initializes a new instance of the <see cref="FileSelector" /> class.
 		/// </summary>
 		public FileSelector()
 		{
@@ -22,27 +22,21 @@
 		/// <inheritdoc />
 		public bool AllowMultipleFiles
 		{
-			get
-			{
-				return BlockDefinition.AllowMultipleFiles;
-			}
-
-			set
-			{
-				BlockDefinition.AllowMultipleFiles = value;
-			}
+			get => BlockDefinition.AllowMultipleFiles;
+			set => BlockDefinition.AllowMultipleFiles = value;
 		}
 
 		/// <inheritdoc />
-		public string[] UploadedFilePaths { get; private set; } = Array.Empty<string>();
+		public string PlaceHolder
+		{
+			get => BlockDefinition.PlaceholderText;
+			set => BlockDefinition.PlaceholderText = value;
+		}
 
 		/// <inheritdoc />
 		public string Tooltip
 		{
-			get
-			{
-				return BlockDefinition.TooltipText;
-			}
+			get => BlockDefinition.TooltipText;
 
 			set
 			{
@@ -56,45 +50,20 @@
 		}
 
 		/// <inheritdoc />
-		public string PlaceHolder
-		{
-			get
-			{
-				return BlockDefinition.PlaceholderText;
-			}
-
-			set
-			{
-				BlockDefinition.PlaceholderText = value;
-			}
-		}
+		public string[] UploadedFilePaths { get; private set; } = Array.Empty<string>();
 
 		/// <inheritdoc />
 		public UIValidationState ValidationState
 		{
-			get
-			{
-				return BlockDefinition.ValidationState;
-			}
-
-			set
-			{
-				BlockDefinition.ValidationState = value;
-			}
+			get => BlockDefinition.ValidationState;
+			set => BlockDefinition.ValidationState = value;
 		}
 
 		/// <inheritdoc />
 		public string ValidationText
 		{
-			get
-			{
-				return BlockDefinition.ValidationText;
-			}
-
-			set
-			{
-				BlockDefinition.ValidationText = value;
-			}
+			get => BlockDefinition.ValidationText;
+			set => BlockDefinition.ValidationText = value;
 		}
 
 		/// <inheritdoc />
@@ -105,7 +74,7 @@
 				throw new ArgumentException("folderPath");
 			}
 
-			DirectoryInfo directoryInfo = new DirectoryInfo(folderPath);
+			var directoryInfo = new DirectoryInfo(folderPath);
 			if (!directoryInfo.Exists)
 			{
 				directoryInfo.Create();
@@ -113,16 +82,17 @@
 
 			foreach (string filePath in UploadedFilePaths)
 			{
-				FileInfo fileInfo = new FileInfo(filePath);
-				string destFileName = directoryInfo.FullName.TrimEnd(Path.DirectorySeparatorChar) + Path.DirectorySeparatorChar + fileInfo.Name;
+				var fileInfo = new FileInfo(filePath);
+				string destFileName = directoryInfo.FullName.TrimEnd(Path.DirectorySeparatorChar) +
+					Path.DirectorySeparatorChar + fileInfo.Name;
 				fileInfo.CopyTo(destFileName);
 			}
 		}
 
 		/// <inheritdoc />
-		protected internal override void LoadResult(UIResults uiResults)
+		protected internal override void LoadResult(UIResults results)
 		{
-			UploadedFilePaths = uiResults.GetUploadedFilePaths(this) ?? Array.Empty<string>();
+			UploadedFilePaths = results.GetUploadedFilePaths(this) ?? Array.Empty<string>();
 		}
 
 		/// <inheritdoc />

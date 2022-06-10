@@ -4,7 +4,7 @@
 	using System.Globalization;
 	using System.Linq;
 
-	using Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     Widget to show/edit a datetime.
@@ -30,7 +30,8 @@
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Calendar" /> class.
 		/// </summary>
-		public Calendar() : this(DateTime.Now)
+		public Calendar()
+			: this(DateTime.Now)
 		{
 		}
 
@@ -58,25 +59,21 @@
 		/// <inheritdoc />
 		public DateTime DateTime
 		{
-			get
-			{
-				return dateTime;
-			}
+			get => dateTime;
 
 			set
 			{
 				dateTime = value;
-				BlockDefinition.InitialValue = value.ToString(AutomationConfigOptions.GlobalDateTimeFormat, CultureInfo.InvariantCulture);
+				BlockDefinition.InitialValue = value.ToString(
+					AutomationConfigOptions.GlobalDateTimeFormat,
+					CultureInfo.InvariantCulture);
 			}
 		}
 
 		/// <inheritdoc />
 		public string Tooltip
 		{
-			get
-			{
-				return BlockDefinition.TooltipText;
-			}
+			get => BlockDefinition.TooltipText;
 
 			set
 			{
@@ -92,35 +89,21 @@
 		/// <inheritdoc />
 		public UIValidationState ValidationState
 		{
-			get
-			{
-				return BlockDefinition.ValidationState;
-			}
-
-			set
-			{
-				BlockDefinition.ValidationState = value;
-			}
+			get => BlockDefinition.ValidationState;
+			set => BlockDefinition.ValidationState = value;
 		}
 
 		/// <inheritdoc />
 		public string ValidationText
 		{
-			get
-			{
-				return BlockDefinition.ValidationText;
-			}
-
-			set
-			{
-				BlockDefinition.ValidationText = value;
-			}
+			get => BlockDefinition.ValidationText;
+			set => BlockDefinition.ValidationText = value;
 		}
 
 		/// <inheritdoc />
-		protected internal override void LoadResult(UIResults uiResults)
+		protected internal override void LoadResult(UIResults results)
 		{
-			DateTime result = uiResults.GetDateTime(DestVar);
+			DateTime result = results.GetDateTime(DestVar);
 
 			if (WantsOnChange && result != DateTime)
 			{
@@ -148,7 +131,7 @@
 		public class ChangedEventArgs : EventArgs
 		{
 			/// <summary>
-			/// Initializes a new instance of the <see cref="ChangedEventArgs"/> class.
+			///     Initializes a new instance of the <see cref="ChangedEventArgs" /> class.
 			/// </summary>
 			/// <param name="dateTime">The new value.</param>
 			/// <param name="previous">The previous value.</param>
@@ -161,12 +144,12 @@
 			/// <summary>
 			///     Gets the new datetime value.
 			/// </summary>
-			public DateTime DateTime { get; private set; }
+			public DateTime DateTime { get; }
 
 			/// <summary>
 			///     Gets the previous datetime value.
 			/// </summary>
-			public DateTime Previous { get; private set; }
+			public DateTime Previous { get; }
 		}
 	}
 }

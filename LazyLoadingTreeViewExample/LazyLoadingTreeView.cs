@@ -7,8 +7,8 @@ using Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit;
 using Skyline.DataMiner.Net.AutomationUI.Objects;
 
 /// <summary>
-/// DataMiner Script Class.
-/// Engine.ShowUI();
+///     DataMiner Script Class.
+///     Engine.ShowUI();
 /// </summary>
 public class Script
 {
@@ -16,7 +16,7 @@ public class Script
 	private InteractiveController app;
 
 	/// <summary>
-	/// The Script entry point.
+	///     The Script entry point.
 	/// </summary>
 	/// <param name="engine">Link with SLScripting process.</param>
 	public void Run(Engine engine)
@@ -41,37 +41,21 @@ public class Script
 	{
 		app = new InteractiveController(engine);
 
-		FileSelectorDialog fileSelectorDialog = new FileSelectorDialog(engine, @"C:\Skyline DataMiner");
-		fileSelectorDialog.TreeView.Changed += (sender, args) => { fileSelectorDialog.SelectedFilesTextBox.Text = String.Join(Environment.NewLine, fileSelectorDialog.TreeView.CheckedItems.Select(x => x.DisplayValue)); };
+		var fileSelectorDialog = new FileSelectorDialog(engine, @"C:\Skyline DataMiner");
+		fileSelectorDialog.TreeView.Changed += (sender, args) =>
+		{
+			fileSelectorDialog.SelectedFilesTextBox.Text = String.Join(Environment.NewLine,
+				fileSelectorDialog.TreeView.CheckedItems.Select(x => x.DisplayValue));
+		};
 		fileSelectorDialog.TreeView.Expanded += TreeView_Expanded;
 		app.Run(fileSelectorDialog);
 	}
 
-	private void TreeView_Expanded(object sender, TreeView.ExpandedEventArgs e)
-	{
-		foreach (var item in e.Expanded)
-		{
-			string[] directories = Directory.GetDirectories(item.KeyValue);
-			string[] files = Directory.GetFiles(item.KeyValue);
-
-			foreach (string directory in directories)
-			{
-				item.ChildItems.Add(new TreeViewItem(directory.Split(Path.DirectorySeparatorChar).Last(), directory) { ItemType = TreeViewItem.TreeViewItemType.Empty, IsCollapsed = true, SupportsLazyLoading = true });
-			}
-
-			foreach (string file in files)
-			{
-				item.ChildItems.Add(new TreeViewItem(Path.GetFileName(file), file) { ItemType = TreeViewItem.TreeViewItemType.CheckBox });
-			}
-
-			item.SupportsLazyLoading = false;
-		}
-	}
-
 	private void ShowExceptionDialog(Engine engine, Exception exception)
 	{
-		ExceptionDialog dialog = new ExceptionDialog(engine, exception);
-		dialog.OkButton.Pressed += (sender, args) => engine.ExitSuccess("Something went wrong during the creation of the new event.");
+		var dialog = new ExceptionDialog(engine, exception);
+		dialog.OkButton.Pressed += (sender, args) =>
+			engine.ExitSuccess("Something went wrong during the creation of the new event.");
 		if (app.IsRunning)
 		{
 			app.ShowDialog(dialog);
@@ -81,13 +65,41 @@ public class Script
 			app.Run(dialog);
 		}
 	}
+
+	private void TreeView_Expanded(object sender, TreeView.ExpandedEventArgs e)
+	{
+		foreach (TreeViewItem item in e.Expanded)
+		{
+			string[] directories = Directory.GetDirectories(item.KeyValue);
+			string[] files = Directory.GetFiles(item.KeyValue);
+
+			foreach (string directory in directories)
+			{
+				item.ChildItems.Add(new TreeViewItem(directory.Split(Path.DirectorySeparatorChar).Last(), directory)
+					{ ItemType = TreeViewItem.TreeViewItemType.Empty, IsCollapsed = true, SupportsLazyLoading = true });
+			}
+
+			foreach (string file in files)
+			{
+				item.ChildItems.Add(new TreeViewItem(Path.GetFileName(file), file)
+					{ ItemType = TreeViewItem.TreeViewItemType.CheckBox });
+			}
+
+			item.SupportsLazyLoading = false;
+		}
+	}
 }
 
 public class FileSelectorDialog : Dialog
 {
-	public FileSelectorDialog(Engine engine, string rootPath) : base(engine)
+	public FileSelectorDialog(Engine engine, string rootPath)
+		: base(engine)
 	{
-		TreeView = new TreeView(new[] { new TreeViewItem(rootPath, rootPath) { IsCollapsed = true, SupportsLazyLoading = true, ItemType = TreeViewItem.TreeViewItemType.Empty } });
+		TreeView = new TreeView(new[]
+		{
+			new TreeViewItem(rootPath, rootPath)
+				{ IsCollapsed = true, SupportsLazyLoading = true, ItemType = TreeViewItem.TreeViewItemType.Empty }
+		});
 		SelectedFilesTextBox = new TextBox { IsMultiline = true, Height = 250, Width = 500 };
 		ExitButton = new Button("Exit");
 
@@ -96,9 +108,9 @@ public class FileSelectorDialog : Dialog
 		AddWidget(ExitButton, 2, 0);
 	}
 
-	public ITreeView TreeView { get; private set; }
+	public IButton ExitButton { get; }
 
-	public ITextBox SelectedFilesTextBox { get; private set; }
+	public ITextBox SelectedFilesTextBox { get; }
 
-	public IButton ExitButton { get; private set; }
+	public ITreeView TreeView { get; }
 }

@@ -4,7 +4,7 @@
 	using System.Globalization;
 	using System.Linq;
 
-	using Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     Widget to show/edit a time of day.
@@ -23,7 +23,8 @@
 		///     Initializes a new instance of the <see cref="TimePicker" /> class.
 		/// </summary>
 		/// <param name="time">Time displayed in the time picker.</param>
-		public TimePicker(TimeSpan time) : base(new AutomationTimePickerOptions())
+		public TimePicker(TimeSpan time)
+			: base(new AutomationTimePickerOptions())
 		{
 			Type = UIBlockType.Time;
 			Time = time;
@@ -35,7 +36,8 @@
 		/// <summary>
 		///     Initializes a new instance of the <see cref="TimePicker" /> class.
 		/// </summary>
-		public TimePicker() : this(DateTime.Now.TimeOfDay)
+		public TimePicker()
+			: this(DateTime.Now.TimeOfDay)
 		{
 		}
 
@@ -63,10 +65,7 @@
 		/// <inheritdoc />
 		public TimeSpan EndTime
 		{
-			get
-			{
-				return TimePickerOptions.EndTime;
-			}
+			get => TimePickerOptions.EndTime;
 
 			set
 			{
@@ -78,24 +77,14 @@
 		/// <inheritdoc />
 		public bool HasDropDownButton
 		{
-			get
-			{
-				return TimePickerOptions.ShowDropDownButton;
-			}
-
-			set
-			{
-				TimePickerOptions.ShowDropDownButton = value;
-			}
+			get => TimePickerOptions.ShowDropDownButton;
+			set => TimePickerOptions.ShowDropDownButton = value;
 		}
 
 		/// <inheritdoc />
 		public int MaxDropDownHeight
 		{
-			get
-			{
-				return maxDropDownHeight;
-			}
+			get => maxDropDownHeight;
 
 			set
 			{
@@ -105,63 +94,35 @@
 		}
 
 		/// <inheritdoc />
-		public string Tooltip
-		{
-			get
-			{
-				return BlockDefinition.TooltipText;
-			}
-
-			set
-			{
-				if (value == null)
-				{
-					throw new ArgumentNullException(nameof(value));
-				}
-
-				BlockDefinition.TooltipText = value;
-			}
-		}
-
-		/// <inheritdoc />
 		public TimeSpan Maximum
 		{
-			get
-			{
-				return maximum;
-			}
+			get => maximum;
 
 			set
 			{
 				CheckTimeOfDay(value);
 				maximum = value;
-				DateTimeUpDownOptions.Maximum = new DateTime() + value;
+				DateTimeUpDownOptions.Maximum = default(DateTime) + value;
 			}
 		}
 
 		/// <inheritdoc />
 		public TimeSpan Minimum
 		{
-			get
-			{
-				return minimum;
-			}
+			get => minimum;
 
 			set
 			{
 				CheckTimeOfDay(value);
 				minimum = value;
-				DateTimeUpDownOptions.Minimum = new DateTime() + value;
+				DateTimeUpDownOptions.Minimum = default(DateTime) + value;
 			}
 		}
 
 		/// <inheritdoc />
 		public TimeSpan StartTime
 		{
-			get
-			{
-				return TimePickerOptions.StartTime;
-			}
+			get => TimePickerOptions.StartTime;
 
 			set
 			{
@@ -173,10 +134,7 @@
 		/// <inheritdoc />
 		public TimeSpan Time
 		{
-			get
-			{
-				return time;
-			}
+			get => time;
 
 			set
 			{
@@ -191,10 +149,7 @@
 		/// <inheritdoc />
 		public TimeSpan TimeInterval
 		{
-			get
-			{
-				return TimePickerOptions.TimeInterval;
-			}
+			get => TimePickerOptions.TimeInterval;
 
 			set
 			{
@@ -204,39 +159,9 @@
 		}
 
 		/// <inheritdoc />
-		public UIValidationState ValidationState
+		public string Tooltip
 		{
-			get
-			{
-				return BlockDefinition.ValidationState;
-			}
-
-			set
-			{
-				BlockDefinition.ValidationState = value;
-			}
-		}
-
-		/// <inheritdoc />
-		public string ValidationText
-		{
-			get
-			{
-				return BlockDefinition.ValidationText;
-			}
-
-			set
-			{
-				BlockDefinition.ValidationText = value;
-			}
-		}
-
-		private AutomationTimePickerOptions TimePickerOptions
-		{
-			get
-			{
-				return timePickerOptions;
-			}
+			get => BlockDefinition.TooltipText;
 
 			set
 			{
@@ -245,15 +170,39 @@
 					throw new ArgumentNullException(nameof(value));
 				}
 
-				timePickerOptions = value;
+				BlockDefinition.TooltipText = value;
+			}
+		}
+
+		/// <inheritdoc />
+		public UIValidationState ValidationState
+		{
+			get => BlockDefinition.ValidationState;
+			set => BlockDefinition.ValidationState = value;
+		}
+
+		/// <inheritdoc />
+		public string ValidationText
+		{
+			get => BlockDefinition.ValidationText;
+			set => BlockDefinition.ValidationText = value;
+		}
+
+		private AutomationTimePickerOptions TimePickerOptions
+		{
+			get => timePickerOptions;
+
+			set
+			{
+				timePickerOptions = value ?? throw new ArgumentNullException(nameof(value));
 				BlockDefinition.ConfigOptions = value;
 			}
 		}
 
 		/// <inheritdoc />
-		protected internal override void LoadResult(UIResults uiResults)
+		protected internal override void LoadResult(UIResults results)
 		{
-			TimeSpan result = uiResults.GetTime(this);
+			TimeSpan result = results.GetTime(this);
 			if (result != Time && WantsOnChange)
 			{
 				changed = true;
@@ -288,7 +237,7 @@
 		public class ChangedEventArgs : EventArgs
 		{
 			/// <summary>
-			/// Initializes a new instance of the <see cref="ChangedEventArgs"/> class.
+			///     Initializes a new instance of the <see cref="ChangedEventArgs" /> class.
 			/// </summary>
 			/// <param name="timeSpan">The new time of day.</param>
 			/// <param name="previous">The previous time of day.</param>
@@ -301,12 +250,12 @@
 			/// <summary>
 			///     Gets the previous time of day.
 			/// </summary>
-			public TimeSpan Previous { get; private set; }
+			public TimeSpan Previous { get; }
 
 			/// <summary>
 			///     Gets the new time of day.
 			/// </summary>
-			public TimeSpan TimeSpan { get; private set; }
+			public TimeSpan TimeSpan { get; }
 		}
 	}
 }

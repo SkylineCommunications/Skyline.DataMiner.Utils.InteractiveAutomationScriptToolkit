@@ -4,10 +4,10 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 	using System.Collections.Generic;
 	using System.Reflection;
 
-	using Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
-	/// Provides a set of methods to manipulate <see cref="UIBlockDefinition"/> objects.
+	///     Provides a set of methods to manipulate <see cref="UIBlockDefinition" /> objects.
 	/// </summary>
 	public static class UIBlockDefinitionExtensions
 	{
@@ -20,10 +20,10 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 			DropdownOptionsField.FieldType.GetConstructor(Type.EmptyTypes);
 
 		/// <summary>
-		/// Exposes the private _dropDownOptions field used by Dropdown, CheckBoxList and RadioButtonList Widgets.
+		///     Exposes the private _dropDownOptions field used by Dropdown, CheckBoxList and RadioButtonList Widgets.
 		/// </summary>
-		/// <param name="definition">A <see cref="UIBlockDefinition"/> to get the options list from.</param>
-		/// <returns>An <see cref="ICollection{T}"/> containing all options.</returns>
+		/// <param name="definition">A <see cref="UIBlockDefinition" /> to get the options list from.</param>
+		/// <returns>An <see cref="ICollection{T}" /> containing all options.</returns>
 		public static ICollection<string> GetOptionsCollection(this UIBlockDefinition definition)
 		{
 			var options = (ICollection<string>)DropdownOptionsField.GetValue(definition);

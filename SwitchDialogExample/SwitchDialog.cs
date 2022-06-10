@@ -2,12 +2,12 @@
 using Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit;
 
 /// <summary>
-/// DataMiner Script Class.
+///     DataMiner Script Class.
 /// </summary>
-class Script
+internal class Script
 {
 	/// <summary>
-	/// The Script entry point.
+	///     The Script entry point.
 	/// </summary>
 	/// <param name="engine">Link with SLScripting process.</param>
 	public void Run(Engine engine)
@@ -30,9 +30,8 @@ class Script
 
 public class WelcomeDialog : Dialog
 {
-	public Button NextButton { get; private set; }
-
-	public WelcomeDialog(Engine engine) : base(engine)
+	public WelcomeDialog(Engine engine)
+		: base(engine)
 	{
 		var label = new Label("Click Next to Continue!");
 		AddWidget(label, 0, 0);
@@ -40,15 +39,16 @@ public class WelcomeDialog : Dialog
 		NextButton = new Button("Next");
 		AddWidget(NextButton, 1, 0);
 	}
+
+	public Button NextButton { get; }
 }
 
 public class SelectionDialog : Dialog
 {
 	private readonly DropDown dropDown;
 
-	public Button NextButton { get; private set; }
-
-	public SelectionDialog(Engine engine) : base(engine)
+	public SelectionDialog(Engine engine)
+		: base(engine)
 	{
 		var label = new Label("Please select an option.");
 		AddWidget(label, 0, 0);
@@ -60,13 +60,9 @@ public class SelectionDialog : Dialog
 		AddWidget(NextButton, 2, 0);
 	}
 
-	public string SelectedOption
-	{
-		get
-		{
-			return dropDown.Selected;
-		}
-	}
+	public Button NextButton { get; }
+
+	public string SelectedOption => dropDown.Selected;
 }
 
 public class ConfirmationDialog : Dialog
@@ -74,7 +70,8 @@ public class ConfirmationDialog : Dialog
 	private readonly Label label;
 	private string option;
 
-	public ConfirmationDialog(Engine engine) : base(engine)
+	public ConfirmationDialog(Engine engine)
+		: base(engine)
 	{
 		label = new Label { Style = TextStyle.Bold };
 		AddWidget(label, 0, 0);

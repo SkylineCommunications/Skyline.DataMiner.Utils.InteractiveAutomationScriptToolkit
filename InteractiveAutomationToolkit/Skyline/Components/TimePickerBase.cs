@@ -2,17 +2,17 @@
 {
 	using System;
 
-	using Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
-	/// Base class for time-based widgets that rely on the <see cref="AutomationDateTimeUpDownOptions" />.
+	///     Base class for time-based widgets that rely on the <see cref="AutomationDateTimeUpDownOptions" />.
 	/// </summary>
 	public abstract class TimePickerBase : InteractiveWidget, ITimePickerBase
 	{
 		private AutomationDateTimeUpDownOptions dateTimeUpDownOptions;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="TimePickerBase" />
+		///     Initializes a new instance of the <see cref="TimePickerBase" /> class.
 		/// </summary>
 		/// <param name="dateTimeUpDownOptions">Configuration for the new TimePickerBase instance.</param>
 		protected TimePickerBase(AutomationDateTimeUpDownOptions dateTimeUpDownOptions)
@@ -23,68 +23,16 @@
 		}
 
 		/// <inheritdoc />
-		public bool IsSpinnerButtonEnabled
+		public bool ClipValueToRange
 		{
-			get
-			{
-				return DateTimeUpDownOptions.AllowSpin;
-			}
-
-			set
-			{
-				DateTimeUpDownOptions.AllowSpin = value;
-			}
-		}
-
-		/// <inheritdoc />
-		public bool HasSpinnerButton
-		{
-			get
-			{
-				return DateTimeUpDownOptions.ShowButtonSpinner;
-			}
-
-			set
-			{
-				DateTimeUpDownOptions.ShowButtonSpinner = value;
-			}
-		}
-
-		/// <inheritdoc />
-		public bool UpdateOnEnter
-		{
-			get
-			{
-				return DateTimeUpDownOptions.UpdateValueOnEnterKey;
-			}
-
-			set
-			{
-				DateTimeUpDownOptions.UpdateValueOnEnterKey = value;
-			}
-		}
-
-		/// <inheritdoc />
-		public DateTimeFormat DateTimeFormat
-		{
-			get
-			{
-				return DateTimeUpDownOptions.Format;
-			}
-
-			set
-			{
-				DateTimeUpDownOptions.Format = value;
-			}
+			get => DateTimeUpDownOptions.ClipValueToMinMax;
+			set => DateTimeUpDownOptions.ClipValueToMinMax = value;
 		}
 
 		/// <inheritdoc />
 		public string CustomDateTimeFormat
 		{
-			get
-			{
-				return DateTimeUpDownOptions.FormatString;
-			}
+			get => DateTimeUpDownOptions.FormatString;
 
 			set
 			{
@@ -94,51 +42,50 @@
 		}
 
 		/// <inheritdoc />
-		public DateTimeKind Kind
+		public DateTimeFormat DateTimeFormat
 		{
-			get
-			{
-				return DateTimeUpDownOptions.Kind;
-			}
-
-			set
-			{
-				DateTimeUpDownOptions.Kind = value;
-			}
+			get => DateTimeUpDownOptions.Format;
+			set => DateTimeUpDownOptions.Format = value;
 		}
 
 		/// <inheritdoc />
-		public bool ClipValueToRange
+		public bool HasSpinnerButton
 		{
-			get
-			{
-				return DateTimeUpDownOptions.ClipValueToMinMax;
-			}
+			get => DateTimeUpDownOptions.ShowButtonSpinner;
+			set => DateTimeUpDownOptions.ShowButtonSpinner = value;
+		}
 
-			set
-			{
-				DateTimeUpDownOptions.ClipValueToMinMax = value;
-			}
+		/// <inheritdoc />
+		public bool IsSpinnerButtonEnabled
+		{
+			get => DateTimeUpDownOptions.AllowSpin;
+			set => DateTimeUpDownOptions.AllowSpin = value;
+		}
+
+		/// <inheritdoc />
+		public DateTimeKind Kind
+		{
+			get => DateTimeUpDownOptions.Kind;
+			set => DateTimeUpDownOptions.Kind = value;
+		}
+
+		/// <inheritdoc />
+		public bool UpdateOnEnter
+		{
+			get => DateTimeUpDownOptions.UpdateValueOnEnterKey;
+			set => DateTimeUpDownOptions.UpdateValueOnEnterKey = value;
 		}
 
 		/// <summary>
-		/// Configuration of this <see cref="TimePickerBase" /> instance.
+		///     Gets or sets the configuration of this <see cref="TimePickerBase" /> instance.
 		/// </summary>
 		protected AutomationDateTimeUpDownOptions DateTimeUpDownOptions
 		{
-			get
-			{
-				return dateTimeUpDownOptions;
-			}
+			get => dateTimeUpDownOptions;
 
 			set
 			{
-				if (value == null)
-				{
-					throw new ArgumentNullException(nameof(value));
-				}
-
-				dateTimeUpDownOptions = value;
+				dateTimeUpDownOptions = value ?? throw new ArgumentNullException(nameof(value));
 				BlockDefinition.ConfigOptions = value;
 			}
 		}

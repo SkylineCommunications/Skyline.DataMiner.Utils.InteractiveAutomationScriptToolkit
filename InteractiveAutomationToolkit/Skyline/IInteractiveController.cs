@@ -2,7 +2,7 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 {
 	using System;
 
-	using Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     Represents the event loop of the interactive Automation script.
@@ -31,7 +31,8 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 
 		/// <summary>
 		///     Switches the event loop to manual control.
-		///     This mode allows the dialog to be updated without user interaction using <see cref="InteractiveController.Update" />.
+		///     This mode allows the dialog to be updated without user interaction using
+		///     <see cref="InteractiveController.Update" />.
 		///     The passed action method will be called when all events have been processed.
 		///     The app returns to automatic user interaction mode when the method is exited.
 		/// </summary>
@@ -42,7 +43,8 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		///     Starts the application event loop.
 		///     Updates the displayed dialog after each user interaction.
 		///     Only user interaction on widgets with the WantsOnChange property set to true will cause updates.
-		///     Use <see cref="InteractiveController.RequestManualMode" /> if you want to manually control when the dialog is updated.
+		///     Use <see cref="InteractiveController.RequestManualMode" /> if you want to manually control when the dialog is
+		///     updated.
 		/// </summary>
 		/// <param name="startDialog">Dialog to be shown first.</param>
 		void Run(IDialog startDialog);
@@ -56,6 +58,12 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		void ShowDialog(IDialog dialog);
 
 		/// <summary>
+		///     Stops the event loop.
+		///     Code will continue from the <see cref="InteractiveController.Run" /> method after all event handlers have finished.
+		/// </summary>
+		void Stop();
+
+		/// <summary>
 		///     Manually updates the dialog.
 		///     Use this method when you want to update the dialog without user interaction.
 		///     Note that no events will be raised.
@@ -63,11 +71,5 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		/// <exception cref="InvalidOperationException">When not in manual mode.</exception>
 		/// <exception cref="InvalidOperationException">When no dialog has been set.</exception>
 		void Update();
-
-		/// <summary>
-		/// Stops the event loop.
-		/// Code will continue from the <see cref="InteractiveController.Run"/> method after all event handlers have finished.
-		/// </summary>
-		void Stop();
 	}
 }

@@ -2,12 +2,12 @@
 using Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit;
 
 /// <summary>
-/// DataMiner Script Class.
+///     DataMiner Script Class.
 /// </summary>
-class Script
+internal class Script
 {
 	/// <summary>
-	/// The Script entry point.
+	///     The Script entry point.
 	/// </summary>
 	/// <param name="engine">Link with SLScripting process.</param>
 	public void Run(Engine engine)
@@ -21,7 +21,8 @@ class Script
 
 public class HelloWorldDialog : Dialog
 {
-	public HelloWorldDialog(Engine engine) : base(engine)
+	public HelloWorldDialog(Engine engine)
+		: base(engine)
 	{
 		var label = new Label("Hello, World!") { Style = TextStyle.Title };
 		AddWidget(label, 0, 0);

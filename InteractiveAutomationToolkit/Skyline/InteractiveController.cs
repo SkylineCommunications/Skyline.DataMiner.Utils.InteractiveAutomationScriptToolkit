@@ -2,7 +2,7 @@
 {
 	using System;
 
-	using Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     Event loop of the interactive Automation script.
@@ -21,19 +21,14 @@
 		/// <exception cref="ArgumentNullException">When engine is null.</exception>
 		public InteractiveController(IEngine engine)
 		{
-			if (engine == null)
-			{
-				throw new ArgumentNullException(nameof(engine));
-			}
-
-			Engine = engine;
+			Engine = engine ?? throw new ArgumentNullException(nameof(engine));
 		}
 
 		/// <inheritdoc />
-		public IDialog CurrentDialog { get; private set; }
+		public IEngine Engine { get; }
 
 		/// <inheritdoc />
-		public IEngine Engine { get; private set; }
+		public IDialog CurrentDialog { get; private set; }
 
 		/// <inheritdoc />
 		public bool IsManualMode { get; private set; }
@@ -51,12 +46,7 @@
 		/// <inheritdoc />
 		public void Run(IDialog startDialog)
 		{
-			if (startDialog == null)
-			{
-				throw new ArgumentNullException(nameof(startDialog));
-			}
-
-			nextDialog = startDialog;
+			nextDialog = startDialog ?? throw new ArgumentNullException(nameof(startDialog));
 
 			if (IsRunning)
 			{
@@ -90,12 +80,13 @@
 		/// <inheritdoc />
 		public void ShowDialog(IDialog dialog)
 		{
-			if (dialog == null)
-			{
-				throw new ArgumentNullException(nameof(dialog));
-			}
+			nextDialog = dialog ?? throw new ArgumentNullException(nameof(dialog));
+		}
 
-			nextDialog = dialog;
+		/// <inheritdoc />
+		public void Stop()
+		{
+			IsRunning = false;
 		}
 
 		/// <inheritdoc />
@@ -113,12 +104,6 @@
 
 			CurrentDialog = nextDialog;
 			CurrentDialog.Show(false);
-		}
-
-		/// <inheritdoc />
-		public void Stop()
-		{
-			IsRunning = false;
 		}
 
 		private void RunManualAction()

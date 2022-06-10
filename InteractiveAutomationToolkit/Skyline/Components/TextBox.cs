@@ -3,7 +3,7 @@
 	using System;
 	using System.Linq;
 
-	using Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     Widget that is used to edit and display text.
@@ -29,7 +29,8 @@
 		/// <summary>
 		///     Initializes a new instance of the <see cref="TextBox" /> class.
 		/// </summary>
-		public TextBox() : this(String.Empty)
+		public TextBox()
+			: this(String.Empty)
 		{
 		}
 
@@ -57,38 +58,28 @@
 		/// <inheritdoc />
 		public bool IsMultiline
 		{
-			get
-			{
-				return BlockDefinition.IsMultiline;
-			}
+			get => BlockDefinition.IsMultiline;
+			set => BlockDefinition.IsMultiline = value;
+		}
 
-			set
-			{
-				BlockDefinition.IsMultiline = value;
-			}
+		/// <inheritdoc />
+		public string PlaceHolder
+		{
+			get => BlockDefinition.PlaceholderText;
+			set => BlockDefinition.PlaceholderText = value;
 		}
 
 		/// <inheritdoc />
 		public string Text
 		{
-			get
-			{
-				return BlockDefinition.InitialValue;
-			}
-
-			set
-			{
-				BlockDefinition.InitialValue = value;
-			}
+			get => BlockDefinition.InitialValue;
+			set => BlockDefinition.InitialValue = value;
 		}
 
 		/// <inheritdoc />
 		public string Tooltip
 		{
-			get
-			{
-				return BlockDefinition.TooltipText;
-			}
+			get => BlockDefinition.TooltipText;
 
 			set
 			{
@@ -102,51 +93,23 @@
 		}
 
 		/// <inheritdoc />
-		public string PlaceHolder
-		{
-			get
-			{
-				return BlockDefinition.PlaceholderText;
-			}
-
-			set
-			{
-				BlockDefinition.PlaceholderText = value;
-			}
-		}
-
-		/// <inheritdoc />
 		public UIValidationState ValidationState
 		{
-			get
-			{
-				return BlockDefinition.ValidationState;
-			}
-
-			set
-			{
-				BlockDefinition.ValidationState = value;
-			}
+			get => BlockDefinition.ValidationState;
+			set => BlockDefinition.ValidationState = value;
 		}
 
 		/// <inheritdoc />
 		public string ValidationText
 		{
-			get
-			{
-				return BlockDefinition.ValidationText;
-			}
-
-			set
-			{
-				BlockDefinition.ValidationText = value;
-			}
+			get => BlockDefinition.ValidationText;
+			set => BlockDefinition.ValidationText = value;
 		}
 
 		/// <inheritdoc />
-		protected internal override void LoadResult(UIResults uiResults)
+		protected internal override void LoadResult(UIResults results)
 		{
-			string value = uiResults.GetString(this);
+			string value = results.GetString(this);
 			if (WantsOnChange)
 			{
 				changed = value != Text;
@@ -173,7 +136,7 @@
 		public class ChangedEventArgs : EventArgs
 		{
 			/// <summary>
-			/// Initializes a new instance of the <see cref="ChangedEventArgs"/> class.
+			///     Initializes a new instance of the <see cref="ChangedEventArgs" /> class.
 			/// </summary>
 			/// <param name="value">The changed text.</param>
 			/// <param name="previous">The text before the change.</param>
@@ -186,12 +149,12 @@
 			/// <summary>
 			///     Gets the text before the change.
 			/// </summary>
-			public string Previous { get; private set; }
+			public string Previous { get; }
 
 			/// <summary>
 			///     Gets the changed text.
 			/// </summary>
-			public string Value { get; private set; }
+			public string Value { get; }
 		}
 	}
 }

@@ -2,13 +2,40 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 {
 	using System;
 
-	using Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     A dialog represents a single window that can be shown.
 	/// </summary>
 	public interface IDialog : ISection
 	{
+		/// <summary>
+		///     Triggered when the back button of the dialog is pressed.
+		/// </summary>
+		event EventHandler<EventArgs> Back;
+
+		/// <summary>
+		///     Triggered when the forward button of the dialog is pressed.
+		/// </summary>
+		event EventHandler<EventArgs> Forward;
+
+		/// <summary>
+		///     Triggered when there is any user interaction before any other widget event.
+		/// </summary>
+		event EventHandler<EventArgs> Interacted;
+
+		/// <summary>
+		///     Gets the link to the SLAutomation process.
+		/// </summary>
+		IEngine Engine { get; }
+
+		/// <summary>
+		///     Gets or sets a value indicating whether overlapping widgets are allowed or not.
+		///     Can be used in case you want to add multiple widgets to the same cell in the dialog.
+		///     You can use the Margin property on the widgets to place them apart.
+		/// </summary>
+		bool AllowOverlappingWidgets { get; set; }
+
 		/// <summary>
 		///     Gets or sets the fixed height (in pixels) of the dialog.
 		/// </summary>
@@ -51,6 +78,12 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		int MinWidth { get; set; }
 
 		/// <summary>
+		///     Gets or sets the title at the top of the window.
+		/// </summary>
+		/// <remarks>Available from DataMiner 9.6.6 onwards.</remarks>
+		string Title { get; set; }
+
+		/// <summary>
 		///     Gets or sets the fixed width (in pixels) of the dialog.
 		/// </summary>
 		/// <remarks>
@@ -60,39 +93,6 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		/// </remarks>
 		/// <exception cref="ArgumentOutOfRangeException">When the value is smaller than 1.</exception>
 		int Width { get; set; }
-
-		/// <summary>
-		///     Gets the link to the SLAutomation process.
-		/// </summary>
-		IEngine Engine { get; }
-
-		/// <summary>
-		///     Gets or sets the title at the top of the window.
-		/// </summary>
-		/// <remarks>Available from DataMiner 9.6.6 onwards.</remarks>
-		string Title { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether overlapping widgets are allowed or not.
-		/// Can be used in case you want to add multiple widgets to the same cell in the dialog.
-		/// You can use the Margin property on the widgets to place them apart.
-		/// </summary>
-		bool AllowOverlappingWidgets { get; set; }
-
-		/// <summary>
-		///     Triggered when the back button of the dialog is pressed.
-		/// </summary>
-		event EventHandler<EventArgs> Back;
-
-		/// <summary>
-		///     Triggered when the forward button of the dialog is pressed.
-		/// </summary>
-		event EventHandler<EventArgs> Forward;
-
-		/// <summary>
-		///     Triggered when there is any user interaction before any other widget event.
-		/// </summary>
-		event EventHandler<EventArgs> Interacted;
 
 		/// <summary>
 		///     Applies a fixed width (in pixels) to a column.

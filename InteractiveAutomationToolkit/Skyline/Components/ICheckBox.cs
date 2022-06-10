@@ -14,6 +14,18 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		event EventHandler<CheckBox.ChangedEventArgs> Changed;
 
 		/// <summary>
+		///     Triggered when the checkbox is selected.
+		///     WantsOnChange will be set to true when this event is subscribed to.
+		/// </summary>
+		event EventHandler<EventArgs> Checked;
+
+		/// <summary>
+		///     Triggered when the checkbox is cleared.
+		///     WantsOnChange will be set to true when this event is subscribed to.
+		/// </summary>
+		event EventHandler<EventArgs> UnChecked;
+
+		/// <summary>
 		///     Gets or sets a value indicating whether the checkbox is selected.
 		/// </summary>
 		bool IsChecked { get; set; }
@@ -28,17 +40,5 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		string Tooltip { get; set; }
-
-		/// <summary>
-		///     Triggered when the checkbox is selected.
-		///     WantsOnChange will be set to true when this event is subscribed to.
-		/// </summary>
-		event EventHandler<EventArgs> Checked;
-
-		/// <summary>
-		///     Triggered when the checkbox is cleared.
-		///     WantsOnChange will be set to true when this event is subscribed to.
-		/// </summary>
-		event EventHandler<EventArgs> UnChecked;
 	}
 }

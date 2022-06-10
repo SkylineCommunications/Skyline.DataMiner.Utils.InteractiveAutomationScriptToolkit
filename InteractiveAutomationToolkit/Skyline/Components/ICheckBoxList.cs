@@ -3,7 +3,7 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 	using System;
 	using System.Collections.Generic;
 
-	using Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     Represents a list of checkboxes.
@@ -22,6 +22,16 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		ICollection<string> Checked { get; }
 
 		/// <summary>
+		///     Gets all options.
+		/// </summary>
+		ICollection<string> Options { get; }
+
+		/// <summary>
+		///     Gets all options that are not selected.
+		/// </summary>
+		ICollection<string> Unchecked { get; }
+
+		/// <summary>
 		///     Gets or sets a value indicating whether the options are sorted naturally.
 		/// </summary>
 		/// <remarks>Available from DataMiner 9.5.6 onwards.</remarks>
@@ -34,26 +44,17 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		string Tooltip { get; set; }
 
 		/// <summary>
-		///     Gets all options.
-		/// </summary>
-		ICollection<string> Options { get; }
-
-		/// <summary>
-		///     Gets all options that are not selected.
-		/// </summary>
-		ICollection<string> Unchecked { get; }
-
-		/// <summary>
-		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by the client to add a visual marker on the input field.
+		///     Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
+		///     This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner 10.0.5 onwards.</remarks>
 		UIValidationState ValidationState { get; set; }
 
 		/// <summary>
-		///		Gets or sets the text that is shown if the validation state is invalid.
-		///		This should be used by the client to add a visual marker on the input field.
-		///		The validation text is not displayed for a checkbox list, but if this value is not explicitly set, the validation state will have no influence on the way the component is displayed.
+		///     Gets or sets the text that is shown if the validation state is invalid.
+		///     This should be used by the client to add a visual marker on the input field.
+		///     The validation text is not displayed for a checkbox list, but if this value is not explicitly set, the validation
+		///     state will have no influence on the way the component is displayed.
 		/// </summary>
 		/// <remarks>Available from DataMiner 10.0.5 onwards.</remarks>
 		string ValidationText { get; set; }
@@ -79,19 +80,19 @@ namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolk
 		void CheckAll();
 
 		/// <summary>
+		///     Removes an option from the checkbox list.
+		/// </summary>
+		/// <param name="option">Option to remove.</param>
+		/// <exception cref="NullReferenceException">When option is null.</exception>
+		void RemoveOption(string option);
+
+		/// <summary>
 		///     Sets the displayed options.
 		///     Replaces existing options.
 		/// </summary>
 		/// <param name="options">Options to set.</param>
 		/// <exception cref="ArgumentNullException">When options is null.</exception>
 		void SetOptions(IEnumerable<string> options);
-
-		/// <summary>
-		/// 	Removes an option from the checkbox list.
-		/// </summary>
-		/// <param name="option">Option to remove.</param>
-		/// <exception cref="NullReferenceException">When option is null.</exception>
-		void RemoveOption(string option);
 
 		/// <summary>
 		///     Clears an option.

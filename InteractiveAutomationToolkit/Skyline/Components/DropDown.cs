@@ -5,7 +5,7 @@
 	using System.Collections.Generic;
 	using System.Linq;
 
-	using Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     A drop-down list.
@@ -19,7 +19,8 @@
 		/// <summary>
 		///     Initializes a new instance of the <see cref="DropDown" /> class.
 		/// </summary>
-		public DropDown() : this(Enumerable.Empty<string>())
+		public DropDown()
+			: this(Enumerable.Empty<string>())
 		{
 		}
 
@@ -69,21 +70,26 @@
 		private event EventHandler<ChangedEventArgs> OnChanged;
 
 		/// <inheritdoc />
-		public ICollection<string> Options
+		public ICollection<string> Options => optionsCollection;
+
+		/// <inheritdoc />
+		public bool IsDisplayFilterShown
 		{
-			get
-			{
-				return optionsCollection;
-			}
+			get => BlockDefinition.DisplayFilter;
+			set => BlockDefinition.DisplayFilter = value;
+		}
+
+		/// <inheritdoc />
+		public bool IsSorted
+		{
+			get => BlockDefinition.IsSorted;
+			set => BlockDefinition.IsSorted = value;
 		}
 
 		/// <inheritdoc />
 		public string Selected
 		{
-			get
-			{
-				return BlockDefinition.InitialValue;
-			}
+			get => BlockDefinition.InitialValue;
 
 			set
 			{
@@ -98,10 +104,7 @@
 		/// <inheritdoc />
 		public string Tooltip
 		{
-			get
-			{
-				return BlockDefinition.TooltipText;
-			}
+			get => BlockDefinition.TooltipText;
 
 			set
 			{
@@ -117,57 +120,15 @@
 		/// <inheritdoc />
 		public UIValidationState ValidationState
 		{
-			get
-			{
-				return BlockDefinition.ValidationState;
-			}
-
-			set
-			{
-				BlockDefinition.ValidationState = value;
-			}
+			get => BlockDefinition.ValidationState;
+			set => BlockDefinition.ValidationState = value;
 		}
 
 		/// <inheritdoc />
 		public string ValidationText
 		{
-			get
-			{
-				return BlockDefinition.ValidationText;
-			}
-
-			set
-			{
-				BlockDefinition.ValidationText = value;
-			}
-		}
-
-		/// <inheritdoc />
-		public bool IsDisplayFilterShown
-		{
-			get
-			{
-				return BlockDefinition.DisplayFilter;
-			}
-
-			set
-			{
-				BlockDefinition.DisplayFilter = value;
-			}
-		}
-
-		/// <inheritdoc />
-		public bool IsSorted
-		{
-			get
-			{
-				return BlockDefinition.IsSorted;
-			}
-
-			set
-			{
-				BlockDefinition.IsSorted = value;
-			}
+			get => BlockDefinition.ValidationText;
+			set => BlockDefinition.ValidationText = value;
 		}
 
 		/// <inheritdoc />
@@ -179,6 +140,28 @@
 			}
 
 			Options.Add(option);
+		}
+
+		/// <inheritdoc />
+		public void ForceSelected(string selected)
+		{
+			if (selected == null)
+			{
+				throw new ArgumentNullException(nameof(selected));
+			}
+
+			BlockDefinition.InitialValue = selected;
+		}
+
+		/// <inheritdoc />
+		public void RemoveOption(string option)
+		{
+			if (option == null)
+			{
+				throw new ArgumentNullException(nameof(option));
+			}
+
+			Options.Remove(option);
 		}
 
 		/// <inheritdoc />
@@ -201,31 +184,9 @@
 		}
 
 		/// <inheritdoc />
-		public void RemoveOption(string option)
+		protected internal override void LoadResult(UIResults results)
 		{
-			if (option == null)
-			{
-				throw new ArgumentNullException(nameof(option));
-			}
-
-			Options.Remove(option);
-		}
-
-		/// <inheritdoc />
-		public void ForceSelected(string selected)
-		{
-			if (selected == null)
-			{
-				throw new ArgumentNullException(nameof(selected));
-			}
-
-			BlockDefinition.InitialValue = selected;
-		}
-
-		/// <inheritdoc />
-		protected internal override void LoadResult(UIResults uiResults)
-		{
-			string selectedValue = uiResults.GetString(this);
+			string selectedValue = results.GetString(this);
 			if (WantsOnChange)
 			{
 				changed = selectedValue != Selected;
@@ -254,7 +215,7 @@
 		public class ChangedEventArgs : EventArgs
 		{
 			/// <summary>
-			/// Initializes a new instance of the <see cref="ChangedEventArgs"/> class.
+			///     Initializes a new instance of the <see cref="ChangedEventArgs" /> class.
 			/// </summary>
 			/// <param name="selected">The option that has been selected.</param>
 			/// <param name="previous">The previously selected option.</param>
@@ -267,23 +228,23 @@
 			/// <summary>
 			///     Gets the previously selected option.
 			/// </summary>
-			public string Previous { get; private set; }
+			public string Previous { get; }
 
 			/// <summary>
 			///     Gets the option that has been selected.
 			/// </summary>
-			public string Selected { get; private set; }
+			public string Selected { get; }
 		}
 
 		private class OptionsCollection : ICollection<string>, IReadOnlyCollection<string>
 		{
-			private readonly DropDown owner;
 			private readonly ICollection<string> options;
 
 			// At time of writing, the options collection is implemented as List.
 			// Use a hashset to improve performance,
 			// although by the time performance matters, the list will be impractically large.
 			private readonly HashSet<string> optionsHashSet;
+			private readonly DropDown owner;
 
 			public OptionsCollection(DropDown owner)
 			{
@@ -292,15 +253,9 @@
 				optionsHashSet = new HashSet<string>(options);
 			}
 
-			public IEnumerator<string> GetEnumerator()
-			{
-				return options.GetEnumerator();
-			}
+			public int Count => options.Count;
 
-			IEnumerator IEnumerable.GetEnumerator()
-			{
-				return ((IEnumerable)options).GetEnumerator();
-			}
+			public bool IsReadOnly => options.IsReadOnly;
 
 			public void Add(string item)
 			{
@@ -342,6 +297,11 @@
 				options.CopyTo(array, arrayIndex);
 			}
 
+			public IEnumerator<string> GetEnumerator()
+			{
+				return options.GetEnumerator();
+			}
+
 			public bool Remove(string item)
 			{
 				if (!optionsHashSet.Remove(item))
@@ -358,20 +318,9 @@
 				return true;
 			}
 
-			public int Count
+			IEnumerator IEnumerable.GetEnumerator()
 			{
-				get
-				{
-					return options.Count;
-				}
-			}
-
-			public bool IsReadOnly
-			{
-				get
-				{
-					return options.IsReadOnly;
-				}
+				return ((IEnumerable)options).GetEnumerator();
 			}
 		}
 	}

@@ -103,7 +103,8 @@ internal class Script
 
 public class ProtocolDialog : Dialog
 {
-	public ProtocolDialog(Engine engine) : base(engine)
+	public ProtocolDialog(Engine engine)
+		: base(engine)
 	{
 		var label = new Label("Please enter a protocol");
 		AddWidget(label, 0, 0);
@@ -128,9 +129,10 @@ public class ProtocolDialog : Dialog
 public class ElementDialog : Dialog
 {
 	private readonly CheckBoxList checkBoxList;
-	private Element[] elements;
+	private Element[] elementOptions;
 
-	public ElementDialog(Engine engine) : base(engine)
+	public ElementDialog(Engine engine)
+		: base(engine)
 	{
 		var label = new Label("Please select the elements");
 		AddWidget(label, 0, 0);
@@ -152,12 +154,12 @@ public class ElementDialog : Dialog
 	public IEnumerable<Element> GetSelectedElements()
 	{
 		var selectedElements = new HashSet<string>(checkBoxList.Checked);
-		return elements.Where(element => selectedElements.Contains(element.ElementName));
+		return elementOptions.Where(element => selectedElements.Contains(element.ElementName));
 	}
 
 	public void SetElements(Element[] elements)
 	{
-		this.elements = elements;
+		elementOptions = elements;
 		checkBoxList.SetOptions(elements.Select(element => element.ElementName));
 	}
 }
@@ -166,9 +168,10 @@ public class SetParameterDialog : Dialog
 {
 	private readonly Numeric numeric;
 	private readonly TextBox textBox;
-	private IEnumerable<Element> elements;
+	private IEnumerable<Element> selectedElements;
 
-	public SetParameterDialog(Engine engine) : base(engine)
+	public SetParameterDialog(Engine engine)
+		: base(engine)
 	{
 		AddWidget(new Label("PID:"), 0, 0);
 
@@ -192,12 +195,12 @@ public class SetParameterDialog : Dialog
 
 	public void SetElements(IEnumerable<Element> elements)
 	{
-		this.elements = elements;
+		selectedElements = elements;
 	}
 
 	private void SetParameters(object sender, EventArgs e)
 	{
-		foreach (Element element in elements)
+		foreach (Element element in selectedElements)
 		{
 			element.SetParameter((int)numeric.Value, textBox.Text);
 		}

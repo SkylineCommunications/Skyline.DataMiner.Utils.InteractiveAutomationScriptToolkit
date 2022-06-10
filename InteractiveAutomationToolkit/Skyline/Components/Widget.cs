@@ -3,7 +3,7 @@
 	using System;
 	using System.ComponentModel;
 
-	using Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     Base class for widgets.
@@ -14,7 +14,7 @@
 		private VerticalAlignment verticalAlignment;
 
 		/// <summary>
-		/// Initializes a new instance of the Widget class.
+		///     Initializes a new instance of the <see cref="Widget" /> class.
 		/// </summary>
 		protected Widget()
 		{
@@ -28,12 +28,13 @@
 		}
 
 		/// <inheritdoc />
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public UIBlockDefinition BlockDefinition { get; } = new UIBlockDefinition();
+
+		/// <inheritdoc />
 		public int Height
 		{
-			get
-			{
-				return BlockDefinition.Height;
-			}
+			get => BlockDefinition.Height;
 
 			set
 			{
@@ -47,15 +48,31 @@
 		}
 
 		/// <inheritdoc />
+		public HorizontalAlignment HorizontalAlignment
+		{
+			get => horizontalAlignment;
+
+			set
+			{
+				horizontalAlignment = value;
+				BlockDefinition.HorizontalAlignment = AlignmentToUiString(value);
+			}
+		}
+
+		/// <inheritdoc />
 		public bool IsVisible { get; set; }
+
+		/// <inheritdoc />
+		public Margin Margin
+		{
+			get => new Margin(BlockDefinition.Margin);
+			set => BlockDefinition.Margin = value.ToString();
+		}
 
 		/// <inheritdoc />
 		public int MaxHeight
 		{
-			get
-			{
-				return BlockDefinition.MaxHeight;
-			}
+			get => BlockDefinition.MaxHeight;
 
 			set
 			{
@@ -71,10 +88,7 @@
 		/// <inheritdoc />
 		public int MaxWidth
 		{
-			get
-			{
-				return BlockDefinition.MaxWidth;
-			}
+			get => BlockDefinition.MaxWidth;
 
 			set
 			{
@@ -90,10 +104,7 @@
 		/// <inheritdoc />
 		public int MinHeight
 		{
-			get
-			{
-				return BlockDefinition.MinHeight;
-			}
+			get => BlockDefinition.MinHeight;
 
 			set
 			{
@@ -109,10 +120,7 @@
 		/// <inheritdoc />
 		public int MinWidth
 		{
-			get
-			{
-				return BlockDefinition.MinWidth;
-			}
+			get => BlockDefinition.MinWidth;
 
 			set
 			{
@@ -128,24 +136,26 @@
 		/// <inheritdoc />
 		public UIBlockType Type
 		{
-			get
-			{
-				return BlockDefinition.Type;
-			}
+			get => BlockDefinition.Type;
+			protected set => BlockDefinition.Type = value;
+		}
 
-			protected set
+		/// <inheritdoc />
+		public VerticalAlignment VerticalAlignment
+		{
+			get => verticalAlignment;
+
+			set
 			{
-				BlockDefinition.Type = value;
+				verticalAlignment = value;
+				BlockDefinition.VerticalAlignment = AlignmentToUiString(value);
 			}
 		}
 
 		/// <inheritdoc />
 		public int Width
 		{
-			get
-			{
-				return BlockDefinition.Width;
-			}
+			get => BlockDefinition.Width;
 
 			set
 			{
@@ -157,54 +167,6 @@
 				BlockDefinition.Width = value;
 			}
 		}
-
-		/// <inheritdoc />
-		public Margin Margin
-		{
-			get
-			{
-				return new Margin(BlockDefinition.Margin);
-			}
-
-			set
-			{
-				BlockDefinition.Margin = value.ToString();
-			}
-		}
-
-		/// <inheritdoc />
-		public HorizontalAlignment HorizontalAlignment
-		{
-			get
-			{
-				return horizontalAlignment;
-			}
-
-			set
-			{
-				horizontalAlignment = value;
-				BlockDefinition.HorizontalAlignment = AlignmentToUiString(value);
-			}
-		}
-
-		/// <inheritdoc />
-		public VerticalAlignment VerticalAlignment
-		{
-			get
-			{
-				return verticalAlignment;
-			}
-
-			set
-			{
-				verticalAlignment = value;
-				BlockDefinition.VerticalAlignment = AlignmentToUiString(value);
-			}
-		}
-
-		/// <inheritdoc />
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		public UIBlockDefinition BlockDefinition { get; } = new UIBlockDefinition();
 
 		/// <inheritdoc />
 		public void SetHeightAuto()

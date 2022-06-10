@@ -5,7 +5,7 @@
 	using System.Collections.Generic;
 	using System.Linq;
 
-	using Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     A group of radio buttons.
@@ -19,7 +19,8 @@
 		/// <summary>
 		///     Initializes a new instance of the <see cref="RadioButtonList" /> class.
 		/// </summary>
-		public RadioButtonList() : this(Enumerable.Empty<string>())
+		public RadioButtonList()
+			: this(Enumerable.Empty<string>())
 		{
 		}
 
@@ -65,54 +66,19 @@
 		private event EventHandler<ChangedEventArgs> OnChanged;
 
 		/// <inheritdoc />
+		public ICollection<string> Options => optionsCollection;
+
+		/// <inheritdoc />
 		public bool IsSorted
 		{
-			get
-			{
-				return BlockDefinition.IsSorted;
-			}
-
-			set
-			{
-				BlockDefinition.IsSorted = value;
-			}
-		}
-
-		/// <inheritdoc />
-		public ICollection<string> Options
-		{
-			get
-			{
-				return optionsCollection;
-			}
-		}
-
-		/// <inheritdoc />
-		public string Tooltip
-		{
-			get
-			{
-				return BlockDefinition.TooltipText;
-			}
-
-			set
-			{
-				if (value == null)
-				{
-					throw new ArgumentNullException(nameof(value));
-				}
-
-				BlockDefinition.TooltipText = value;
-			}
+			get => BlockDefinition.IsSorted;
+			set => BlockDefinition.IsSorted = value;
 		}
 
 		/// <inheritdoc />
 		public string Selected
 		{
-			get
-			{
-				return BlockDefinition.InitialValue;
-			}
+			get => BlockDefinition.InitialValue;
 
 			set
 			{
@@ -126,6 +92,22 @@
 				{
 					BlockDefinition.InitialValue = value;
 				}
+			}
+		}
+
+		/// <inheritdoc />
+		public string Tooltip
+		{
+			get => BlockDefinition.TooltipText;
+
+			set
+			{
+				if (value == null)
+				{
+					throw new ArgumentNullException(nameof(value));
+				}
+
+				BlockDefinition.TooltipText = value;
 			}
 		}
 
@@ -171,9 +153,9 @@
 		}
 
 		/// <inheritdoc />
-		protected internal override void LoadResult(UIResults uiResults)
+		protected internal override void LoadResult(UIResults results)
 		{
-			string result = uiResults.GetString(this);
+			string result = results.GetString(this);
 			if (String.IsNullOrWhiteSpace(result))
 			{
 				return;
@@ -209,7 +191,7 @@
 		public class ChangedEventArgs : EventArgs
 		{
 			/// <summary>
-			/// Initializes a new instance of the <see cref="ChangedEventArgs"/> class.
+			///     Initializes a new instance of the <see cref="ChangedEventArgs" /> class.
 			/// </summary>
 			/// <param name="selectedValue">The option that has been selected.</param>
 			/// <param name="previous">The previously selected option.</param>
@@ -222,23 +204,23 @@
 			/// <summary>
 			///     Gets the previously selected option.
 			/// </summary>
-			public string Previous { get; private set; }
+			public string Previous { get; }
 
 			/// <summary>
 			///     Gets the option that has been selected.
 			/// </summary>
-			public string SelectedValue { get; private set; }
+			public string SelectedValue { get; }
 		}
 
 		private class OptionsCollection : ICollection<string>, IReadOnlyCollection<string>
 		{
-			private readonly RadioButtonList owner;
 			private readonly ICollection<string> options;
 
 			// At time of writing, the options collection is implemented as List.
 			// Use a hashset to improve performance,
 			// although by the time performance matters, the list will be impractically large.
 			private readonly HashSet<string> optionsHashSet;
+			private readonly RadioButtonList owner;
 
 			public OptionsCollection(RadioButtonList owner)
 			{
@@ -247,15 +229,9 @@
 				optionsHashSet = new HashSet<string>(options);
 			}
 
-			public IEnumerator<string> GetEnumerator()
-			{
-				return options.GetEnumerator();
-			}
+			public int Count => options.Count;
 
-			IEnumerator IEnumerable.GetEnumerator()
-			{
-				return ((IEnumerable)options).GetEnumerator();
-			}
+			public bool IsReadOnly => options.IsReadOnly;
 
 			public void Add(string item)
 			{
@@ -289,6 +265,11 @@
 				options.CopyTo(array, arrayIndex);
 			}
 
+			public IEnumerator<string> GetEnumerator()
+			{
+				return options.GetEnumerator();
+			}
+
 			public bool Remove(string item)
 			{
 				if (!optionsHashSet.Remove(item))
@@ -305,20 +286,9 @@
 				return true;
 			}
 
-			public int Count
+			IEnumerator IEnumerable.GetEnumerator()
 			{
-				get
-				{
-					return options.Count;
-				}
-			}
-
-			public bool IsReadOnly
-			{
-				get
-				{
-					return options.IsReadOnly;
-				}
+				return ((IEnumerable)options).GetEnumerator();
 			}
 		}
 	}

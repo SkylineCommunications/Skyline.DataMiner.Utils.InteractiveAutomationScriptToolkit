@@ -106,7 +106,7 @@ This is an example application to showcase the widgets
 
 	private static void ShowExceptionDialog(Engine engine, Exception e)
 	{
-		ExceptionDialog exceptionDialog = new ExceptionDialog(engine, e);
+		var exceptionDialog = new ExceptionDialog(engine, e);
 		exceptionDialog.OkButton.Pressed += (sender, args) => engine.ExitFail(e.ToString());
 		exceptionDialog.Show();
 	}
@@ -120,7 +120,8 @@ public class WelcomeDialog : Dialog
 		HorizontalAlignment = HorizontalAlignment.Center
 	};
 
-	public WelcomeDialog(Engine engine) : base(engine)
+	public WelcomeDialog(Engine engine)
+		: base(engine)
 	{
 		Title = "Welcome";
 
@@ -132,15 +133,16 @@ public class WelcomeDialog : Dialog
 		AddWidget(ContinueButton, 2, 2);
 	}
 
-	public TextBox TextBox { get; private set; }
+	public Button ContinueButton { get; }
 
-	public Button ContinueButton { get; private set; }
+	public TextBox TextBox { get; }
 }
 
 public class DemoDialog : Dialog
 {
 	/// <inheritdoc />
-	public DemoDialog(Engine engine) : base(engine)
+	public DemoDialog(Engine engine)
+		: base(engine)
 	{
 		TitleLabel = new Label("Feature Demo")
 		{
@@ -201,29 +203,31 @@ public class DemoDialog : Dialog
 		AddWidget(ExitButton, 7, 1);
 	}
 
-	public CheckBox CheckBox { get; private set; }
+	public Calendar Calendar { get; }
 
-	public CheckBoxList CheckBoxList { get; private set; }
+	public CheckBox CheckBox { get; }
 
-	public Calendar Calendar { get; private set; }
+	public CheckBoxList CheckBoxList { get; }
 
-	public DateTimePicker DateTimePicker { get; private set; }
+	public DateTimePicker DateTimePicker { get; }
 
-	public DropDown DropDown { get; private set; }
+	public DropDown DropDown { get; }
 
-	public Button ExecuteButton { get; private set; }
+	public Button ExecuteButton { get; }
 
-	public Button ExitButton { get; private set; }
+	public Button ExitButton { get; }
 
-	public Numeric Numeric { get; private set; }
+	public Numeric Numeric { get; }
 
-	public Parameter Parameter { get; private set; }
+	public RadioButtonList RadioButtonList { get; }
 
-	public RadioButtonList RadioButtonList { get; private set; }
+	public Button ResetButton { get; }
 
-	public Button ResetButton { get; private set; }
+	public Time Time { get; }
 
-	public Label TitleLabel { get; private set; }
+	public TimePicker TimePicker { get; }
+
+	public Label TitleLabel { get; }
 
 	private void OnCheckBoxListOnChanged(object sender, CheckBoxList.ChangedEventArgs args)
 	{
@@ -290,10 +294,6 @@ public class DemoDialog : Dialog
 		SetRowHeightAuto(3);
 		Numeric.Value = 30;
 	}
-
-	public Time Time { get; private set; }
-
-	public TimePicker TimePicker { get; private set; }
 }
 
 public class ProgressDialog : Dialog
@@ -325,7 +325,8 @@ public class ProgressDialog : Dialog
 	private readonly Random random = new Random();
 
 	/// <inheritdoc />
-	public ProgressDialog(InteractiveController interactiveController) : base(interactiveController.Engine)
+	public ProgressDialog(InteractiveController interactiveController)
+		: base(interactiveController.Engine)
 	{
 		this.interactiveController = interactiveController;
 		progressLog = new TextBox { IsMultiline = true, Height = 400, Width = 500 };

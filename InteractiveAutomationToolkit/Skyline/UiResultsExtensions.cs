@@ -4,53 +4,50 @@
 	using System.Globalization;
 	using System.Linq;
 
-	using Automation;
+	using Skyline.DataMiner.Automation;
 
 	internal static class UiResultsExtensions
 	{
-		public static bool GetChecked(this UIResults uiResults, CheckBox checkBox)
+		public static bool GetChecked(this UIResults results, CheckBox checkBox)
 		{
-			return uiResults.GetChecked(checkBox.DestVar);
+			return results.GetChecked(checkBox.DestVar);
 		}
 
-		public static DateTime GetDateTime(this UIResults uiResults, DateTimePicker dateTimePicker)
+		public static string[] GetCheckedItemKeys(this UIResults results, TreeView treeView)
 		{
-			return uiResults.GetDateTime(dateTimePicker.DestVar);
+			string result = results.GetString(treeView.DestVar);
+			if (String.IsNullOrEmpty(result))
+			{
+				return Array.Empty<string>();
+			}
+
+			return result.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
 		}
 
-		public static string GetString(this UIResults uiResults, InteractiveWidget interactiveWidget)
+		public static DateTime GetDateTime(this UIResults results, DateTimePicker dateTimePicker)
 		{
-			return uiResults.GetString(interactiveWidget.DestVar);
+			return results.GetDateTime(dateTimePicker.DestVar);
 		}
 
-		public static string GetUploadedFilePath(this UIResults uiResults, FileSelector interactiveWidget)
+		public static string[] GetExpandedItemKeys(this UIResults results, TreeView treeView)
 		{
-			return uiResults.GetUploadedFilePath(interactiveWidget.DestVar);
+			string[] expandedItems = results.GetExpanded(treeView.DestVar);
+			if (expandedItems == null)
+			{
+				return Array.Empty<string>();
+			}
+
+			return expandedItems.Where(x => !String.IsNullOrWhiteSpace(x)).ToArray();
 		}
 
-		public static string[] GetUploadedFilePaths(this UIResults uiResults, FileSelector interactiveWidget)
+		public static string GetString(this UIResults results, InteractiveWidget interactiveWidget)
 		{
-			return uiResults.GetUploadedFilePaths(interactiveWidget.DestVar);
+			return results.GetString(interactiveWidget.DestVar);
 		}
 
-		public static bool WasButtonPressed(this UIResults uiResults, Button button)
+		public static TimeSpan GetTime(this UIResults results, Time time)
 		{
-			return uiResults.WasButtonPressed(button.DestVar);
-		}
-
-		public static bool WasCollapseButtonPressed(this UIResults uiResults, CollapseButton button)
-		{
-			return uiResults.WasButtonPressed(button.DestVar);
-		}
-
-		public static bool WasOnChange(this UIResults uiResults, InteractiveWidget interactiveWidget)
-		{
-			return uiResults.WasOnChange(interactiveWidget.DestVar);
-		}
-
-		public static TimeSpan GetTime(this UIResults uiResults, Time time)
-		{
-			string receivedTime = uiResults.GetString(time);
+			string receivedTime = results.GetString(time);
 
 			// This try catch is here because of a bug in Dashboards
 			// The string that is received from Dashboards is a DateTime (e.g. 2021-11-16T00:00:16.0000000Z), while the string from Cube is an actual TimeSpan (e.g. 1.06:00:03).
@@ -64,31 +61,34 @@
 			return DateTime.Parse(receivedTime, CultureInfo.InvariantCulture).TimeOfDay;
 		}
 
-		public static TimeSpan GetTime(this UIResults uiResults, TimePicker time)
+		public static TimeSpan GetTime(this UIResults results, TimePicker time)
 		{
-			return DateTime.Parse(uiResults.GetString(time), CultureInfo.InvariantCulture).TimeOfDay;
+			return DateTime.Parse(results.GetString(time), CultureInfo.InvariantCulture).TimeOfDay;
 		}
 
-		public static string[] GetExpandedItemKeys(this UIResults uiResults, TreeView treeView)
+		public static string GetUploadedFilePath(this UIResults results, FileSelector interactiveWidget)
 		{
-			string[] expandedItems = uiResults.GetExpanded(treeView.DestVar);
-			if (expandedItems == null)
-			{
-				return Array.Empty<string>();
-			}
-
-			return expandedItems.Where(x => !String.IsNullOrWhiteSpace(x)).ToArray();
+			return results.GetUploadedFilePath(interactiveWidget.DestVar);
 		}
 
-		public static string[] GetCheckedItemKeys(this UIResults uiResults, TreeView treeView)
+		public static string[] GetUploadedFilePaths(this UIResults results, FileSelector interactiveWidget)
 		{
-			string result = uiResults.GetString(treeView.DestVar);
-			if (String.IsNullOrEmpty(result))
-			{
-				return Array.Empty<string>();
-			}
+			return results.GetUploadedFilePaths(interactiveWidget.DestVar);
+		}
 
-			return result.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+		public static bool WasButtonPressed(this UIResults results, Button button)
+		{
+			return results.WasButtonPressed(button.DestVar);
+		}
+
+		public static bool WasCollapseButtonPressed(this UIResults results, CollapseButton button)
+		{
+			return results.WasButtonPressed(button.DestVar);
+		}
+
+		public static bool WasOnChange(this UIResults results, InteractiveWidget interactiveWidget)
+		{
+			return results.WasOnChange(interactiveWidget.DestVar);
 		}
 	}
 }

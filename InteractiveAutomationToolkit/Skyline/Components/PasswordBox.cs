@@ -2,7 +2,7 @@
 {
 	using System;
 
-	using Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     A text box for passwords.
@@ -29,7 +29,8 @@
 		/// <summary>
 		///     Initializes a new instance of the <see cref="PasswordBox" /> class.
 		/// </summary>
-		public PasswordBox() : this(false)
+		public PasswordBox()
+			: this(false)
 		{
 		}
 
@@ -39,38 +40,28 @@
 		/// <inheritdoc />
 		public bool HasPeekIcon
 		{
-			get
-			{
-				return BlockDefinition.HasPeekIcon;
-			}
-
-			set
-			{
-				BlockDefinition.HasPeekIcon = value;
-			}
+			get => BlockDefinition.HasPeekIcon;
+			set => BlockDefinition.HasPeekIcon = value;
 		}
 
 		/// <inheritdoc />
 		public string Password
 		{
-			get
-			{
-				return BlockDefinition.InitialValue;
-			}
+			get => BlockDefinition.InitialValue;
+			set => BlockDefinition.InitialValue = value;
+		}
 
-			set
-			{
-				BlockDefinition.InitialValue = value;
-			}
+		/// <inheritdoc />
+		public string PlaceHolder
+		{
+			get => BlockDefinition.PlaceholderText;
+			set => BlockDefinition.PlaceholderText = value;
 		}
 
 		/// <inheritdoc />
 		public string Tooltip
 		{
-			get
-			{
-				return BlockDefinition.TooltipText;
-			}
+			get => BlockDefinition.TooltipText;
 
 			set
 			{
@@ -84,51 +75,23 @@
 		}
 
 		/// <inheritdoc />
-		public string PlaceHolder
-		{
-			get
-			{
-				return BlockDefinition.PlaceholderText;
-			}
-
-			set
-			{
-				BlockDefinition.PlaceholderText = value;
-			}
-		}
-
-		/// <inheritdoc />
 		public UIValidationState ValidationState
 		{
-			get
-			{
-				return BlockDefinition.ValidationState;
-			}
-
-			set
-			{
-				BlockDefinition.ValidationState = value;
-			}
+			get => BlockDefinition.ValidationState;
+			set => BlockDefinition.ValidationState = value;
 		}
 
 		/// <inheritdoc />
 		public string ValidationText
 		{
-			get
-			{
-				return BlockDefinition.ValidationText;
-			}
-
-			set
-			{
-				BlockDefinition.ValidationText = value;
-			}
+			get => BlockDefinition.ValidationText;
+			set => BlockDefinition.ValidationText = value;
 		}
 
 		/// <inheritdoc />
-		protected internal override void LoadResult(UIResults uiResults)
+		protected internal override void LoadResult(UIResults results)
 		{
-			string result = uiResults.GetString(this);
+			string result = results.GetString(this);
 			if (WantsOnChange && result != Password)
 			{
 				changed = true;
@@ -155,7 +118,7 @@
 		public class ChangedEventArgs : EventArgs
 		{
 			/// <summary>
-			/// Initializes a new instance of the <see cref="ChangedEventArgs"/> class.
+			///     Initializes a new instance of the <see cref="ChangedEventArgs" /> class.
 			/// </summary>
 			/// <param name="password">The new password.</param>
 			/// <param name="previous">The previous password.</param>
@@ -168,12 +131,12 @@
 			/// <summary>
 			///     Gets the new password.
 			/// </summary>
-			public string Password { get; private set; }
+			public string Password { get; }
 
 			/// <summary>
 			///     Gets the previous password.
 			/// </summary>
-			public string Previous { get; private set; }
+			public string Previous { get; }
 		}
 	}
 }

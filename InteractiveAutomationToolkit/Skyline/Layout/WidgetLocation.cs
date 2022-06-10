@@ -3,21 +3,21 @@
 	using System;
 
 	/// <summary>
-	/// Used to define the location of a widget in a grid layout.
+	///     Used to define the location of a widget in a grid layout.
 	/// </summary>
 	public readonly struct WidgetLocation : IEquatable<WidgetLocation>
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="WidgetLocation"/> class.
+		///     Initializes a new instance of the <see cref="WidgetLocation" /> struct.
 		/// </summary>
 		/// <param name="fromRow">Row index of top-left cell.</param>
 		/// <param name="fromColumn">Column index of the top-left cell.</param>
 		/// <param name="rowSpan">Number of vertical cells the widget spans across.</param>
 		/// <param name="columnSpan">Number of horizontal cells the widget spans across.</param>
-		/// <exception cref="ArgumentOutOfRangeException"><paramref name="fromRow"/> is less than 0.</exception>
-		/// <exception cref="ArgumentOutOfRangeException"><paramref name="fromColumn"/> is less than 0.</exception>
-		/// <exception cref="ArgumentOutOfRangeException"><paramref name="rowSpan"/> is less than 1.</exception>
-		/// <exception cref="ArgumentOutOfRangeException"><paramref name="columnSpan"/> is less than 1.</exception>
+		/// <exception cref="ArgumentOutOfRangeException"><paramref name="fromRow" /> is less than 0.</exception>
+		/// <exception cref="ArgumentOutOfRangeException"><paramref name="fromColumn" /> is less than 0.</exception>
+		/// <exception cref="ArgumentOutOfRangeException"><paramref name="rowSpan" /> is less than 1.</exception>
+		/// <exception cref="ArgumentOutOfRangeException"><paramref name="columnSpan" /> is less than 1.</exception>
 		public WidgetLocation(int fromRow, int fromColumn, int rowSpan, int columnSpan)
 		{
 			if (fromRow < 0)
@@ -47,68 +47,70 @@
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="WidgetLocation"/> class.
+		///     Initializes a new instance of the <see cref="WidgetLocation" /> struct.
 		/// </summary>
 		/// <param name="row">Row index of the cell where the widget is placed.</param>
 		/// <param name="column">Column index of the cell where the widget is placed.</param>
-		/// <exception cref="ArgumentOutOfRangeException"><paramref name="row"/> is less than 0.</exception>
-		/// <exception cref="ArgumentOutOfRangeException"><paramref name="column"/> is less than 0.</exception>
-		public WidgetLocation(int row, int column) : this(row, column, 1, 1)
+		/// <exception cref="ArgumentOutOfRangeException"><paramref name="row" /> is less than 0.</exception>
+		/// <exception cref="ArgumentOutOfRangeException"><paramref name="column" /> is less than 0.</exception>
+		public WidgetLocation(int row, int column)
+			: this(row, column, 1, 1)
 		{
 		}
 
 		/// <summary>
-		///     Gets or sets the column location of the widget on the grid.
+		///     Gets the column location of the widget on the grid.
 		/// </summary>
 		public int Column { get; }
 
 		/// <summary>
-		///     Gets or sets how many columns the widget spans on the grid.
+		///     Gets how many columns the widget spans on the grid.
 		/// </summary>
 		public int ColumnSpan { get; }
 
 		/// <summary>
-		///     Gets or sets the row location of the widget on the grid.
+		///     Gets the row location of the widget on the grid.
 		/// </summary>
 		public int Row { get; }
 
 		/// <summary>
-		///     Gets or sets how many rows the widget spans on the grid.
+		///     Gets how many rows the widget spans on the grid.
 		/// </summary>
 		public int RowSpan { get; }
 
 		/// <summary>
-		/// Determines whether two specified instances of <see cref="WidgetLocation"/> are equal.
+		///     Determines whether two specified instances of <see cref="WidgetLocation" /> are equal.
 		/// </summary>
 		/// <param name="left">The first object to compare.</param>
 		/// <param name="right">The second object to compare.</param>
-		/// <returns><c>true</c> if <paramref name="left"/> and <paramref name="right"/> represent the same margin; otherwise, <c>false</c>.</returns>
+		/// <returns>
+		///     <c>true</c> if <paramref name="left" /> and <paramref name="right" /> represent the same margin; otherwise,
+		///     <c>false</c>.
+		/// </returns>
 		public static bool operator ==(WidgetLocation left, WidgetLocation right)
 		{
 			return left.Equals(right);
 		}
 
 		/// <summary>
-		/// Determines whether two specified instances of <see cref="WidgetLocation"/> are not equal.
+		///     Determines whether two specified instances of <see cref="WidgetLocation" /> are not equal.
 		/// </summary>
 		/// <param name="left">The first object to compare.</param>
 		/// <param name="right">The second object to compare.</param>
-		/// <returns><c>true</c> if <paramref name="left"/> and <paramref name="right"/> do not represent the same margin; otherwise, <c>false</c>.</returns>
+		/// <returns>
+		///     <c>true</c> if <paramref name="left" /> and <paramref name="right" /> do not represent the same margin;
+		///     otherwise, <c>false</c>.
+		/// </returns>
 		public static bool operator !=(WidgetLocation left, WidgetLocation right)
 		{
 			return !left.Equals(right);
 		}
 
-		internal WidgetLocation AddOffset(SectionLocation offset)
-		{
-			return new WidgetLocation(Row + offset.Row, Column + offset.Row, RowSpan, ColumnSpan);
-		}
-
 		/// <summary>
-		///		Determines if the current location overlaps with the specified other location.
+		///     Determines if the current location overlaps with the specified other location.
 		/// </summary>
 		/// <param name="other">The other location to compare the current location to.</param>
-		/// <returns>Whether the location overlaps with <paramref name="other"/>.</returns>
+		/// <returns>Whether the location overlaps with <paramref name="other" />.</returns>
 		public bool Overlaps(WidgetLocation other)
 		{
 			// https://stackoverflow.com/a/20925869
@@ -119,7 +121,8 @@
 		}
 
 		/// <summary>
-		/// Returns a value indicating whether the value of this instance is equal to the value of the specified <see cref="WidgetLocation"/> instance.
+		///     Returns a value indicating whether the value of this instance is equal to the value of the specified
+		///     <see cref="WidgetLocation" /> instance.
 		/// </summary>
 		/// <param name="other">The object to compare to this instance.</param>
 		/// <returns><c>true</c> if the value parameter equals the value of this instance; otherwise, <c>false</c>.</returns>
@@ -139,7 +142,7 @@
 				return false;
 			}
 
-			return obj is WidgetLocation && Equals((WidgetLocation)obj);
+			return obj is WidgetLocation location && Equals(location);
 		}
 
 		/// <inheritdoc />
@@ -148,11 +151,16 @@
 			unchecked
 			{
 				int hashCode = Column;
-				hashCode = (hashCode * 397) ^ ColumnSpan;
-				hashCode = (hashCode * 397) ^ Row;
-				hashCode = (hashCode * 397) ^ RowSpan;
+				hashCode = hashCode * 397 ^ ColumnSpan;
+				hashCode = hashCode * 397 ^ Row;
+				hashCode = hashCode * 397 ^ RowSpan;
 				return hashCode;
 			}
+		}
+
+		internal WidgetLocation AddOffset(SectionLocation offset)
+		{
+			return new WidgetLocation(Row + offset.Row, Column + offset.Row, RowSpan, ColumnSpan);
 		}
 	}
 }
