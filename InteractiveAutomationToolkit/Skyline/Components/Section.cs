@@ -148,7 +148,7 @@
 		/// <inheritdoc />
 		public void DisableWidgets(bool includeNested)
 		{
-			SetWidgetsEnabled(false, true);
+			SetWidgetsEnabled(false, includeNested);
 		}
 
 		/// <inheritdoc />
@@ -232,7 +232,7 @@
 		/// <inheritdoc />
 		public void HideWidgets(bool includeNested)
 		{
-			SetWidgetsVisible(false, true);
+			SetWidgetsVisible(false, includeNested);
 		}
 
 		/// <inheritdoc />
@@ -336,7 +336,7 @@
 		/// <inheritdoc />
 		public void ShowWidgets(bool includeNested)
 		{
-			SetWidgetsVisible(true, true);
+			SetWidgetsVisible(true, includeNested);
 		}
 	}
 }
