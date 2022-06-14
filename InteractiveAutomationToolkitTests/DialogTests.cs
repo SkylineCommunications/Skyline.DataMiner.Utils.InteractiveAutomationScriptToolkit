@@ -7,7 +7,7 @@ namespace InteractiveAutomationToolkitTests
 	using Moq;
 
 	using Skyline.DataMiner.Automation;
-	using Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit;
+	using Skyline.DataMiner.InteractiveAutomationToolkit;
 
 	[TestClass]
 	public class DialogTests

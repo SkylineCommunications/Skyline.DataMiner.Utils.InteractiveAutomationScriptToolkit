@@ -1,4 +1,4 @@
-﻿namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
+﻿namespace Skyline.DataMiner.InteractiveAutomationToolkit
 {
 	using System;
 	using System.ComponentModel;

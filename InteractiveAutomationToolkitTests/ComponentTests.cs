@@ -6,7 +6,7 @@
 
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-	using Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit;
+	using Skyline.DataMiner.InteractiveAutomationToolkit;
 	using Skyline.DataMiner.Net.AutomationUI.Objects;
 
 	[TestClass]

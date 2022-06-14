@@ -7,7 +7,7 @@
     <ProjectGuid>{9206F547-AF0E-44B0-9A78-3F64C7970A16}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit</RootNamespace>
+    <RootNamespace>Skyline.DataMiner.InteractiveAutomationToolkit</RootNamespace>
     <AssemblyName>SLC.CLib.IASToolkit</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

@@ -2,7 +2,7 @@ namespace InteractiveAutomationToolkitTests
 {
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-	using Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit;
+	using Skyline.DataMiner.InteractiveAutomationToolkit;
 
 	[TestClass]
 	public class WidgetLocationTests
