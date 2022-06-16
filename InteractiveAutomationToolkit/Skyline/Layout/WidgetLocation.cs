@@ -160,7 +160,7 @@
 
 		internal WidgetLocation AddOffset(SectionLocation offset)
 		{
-			return new WidgetLocation(Row + offset.Row, Column + offset.Row, RowSpan, ColumnSpan);
+			return new WidgetLocation(Row + offset.Row, Column + offset.Column, RowSpan, ColumnSpan);
 		}
 	}
 }
