@@ -9,7 +9,7 @@
 				<Enabled>false</Enabled>
 			</PackageSigning>
 			<PackagePublishing>
-				<Enabled>false</Enabled>
+				<Enabled>true</Enabled>
 				<Destinations>
 					<Destination>
 						<Server>privateSkylineNuGetStore</Server>
