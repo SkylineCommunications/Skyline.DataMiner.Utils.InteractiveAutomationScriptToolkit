@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
 	<metadata>
 		<id>$title$</id>
 		<version>$version$</version>
@@ -8,5 +8,9 @@
 		<license type="expression">MIT</license>
 		<licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
 		<copyright>$copyright$</copyright>
+		<readme>README.md</readme>
 	</metadata>
+	<files>
+		<file src="README.md" target="\"/>
+	</files>
 </package>
