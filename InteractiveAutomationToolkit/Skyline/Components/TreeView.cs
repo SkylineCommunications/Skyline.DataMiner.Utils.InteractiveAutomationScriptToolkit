@@ -226,7 +226,7 @@
 		}
 
 		/// <inheritdoc />
-		public void UpdateItemCache()
+		private void UpdateItemCache()
 		{
 			checkedItemCache = new Dictionary<string, bool>();
 			collapsedItemCache = new Dictionary<string, bool>();
@@ -410,7 +410,7 @@
 		/// <returns>All checked TreeViewItems in the TreeView.</returns>
 		private IEnumerable<TreeViewItem> GetCheckedItems()
 		{
-			return lookupTable.Values.Where(x => x.ItemType == TreeViewItem.TreeViewItemType.CheckBox && x.IsChecked);
+			return GetAllItems().Where(x => x.ItemType == TreeViewItem.TreeViewItemType.CheckBox && x.IsChecked);
 		}
 
 		/// <summary>

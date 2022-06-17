@@ -99,10 +99,5 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		/// <param name="item">Item in the tree that matches the provided key.</param>
 		/// <returns>True if the item was found, otherwise false.</returns>
 		bool TryFindTreeViewItem(string key, out TreeViewItem item);
-
-		/// <summary>
-		///     This method is used to update the cached TreeViewItems and lookup table.
-		/// </summary>
-		void UpdateItemCache();
 	}
 }
