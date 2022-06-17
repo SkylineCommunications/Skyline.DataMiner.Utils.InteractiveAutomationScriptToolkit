@@ -53,7 +53,9 @@
 			// The string that is received from Dashboards is a DateTime (e.g. 2021-11-16T00:00:16.0000000Z), while the string from Cube is an actual TimeSpan (e.g. 1.06:00:03).
 			// This means that when using the Time component from Dashboards, you are restricted to 24h and can only enter HH:mm times.
 			// See task: 171211
-			if (TimeSpan.TryParse(receivedTime, out TimeSpan result))
+			// ReSharper disable once RedundantNameQualifier
+			// DIS code generation fails to properly generate this code if TimeSpan type is not fully qualified
+			if (TimeSpan.TryParse(receivedTime, out System.TimeSpan result))
 			{
 				return result;
 			}

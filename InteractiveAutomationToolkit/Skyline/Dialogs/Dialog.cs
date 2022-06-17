@@ -351,7 +351,9 @@
 		{
 			return String.Join(";", GetDefinitionsEnumerator() ?? Array.Empty<string>());
 
-			IEnumerable<string> GetDefinitionsEnumerator()
+			// ReSharper disable once RedundantNameQualifier
+			// DIS code generation fails to generate this local function if the return type is not fully Qualified
+			System.Collections.Generic.IEnumerable<string> GetDefinitionsEnumerator()
 			{
 				for (var i = 0; i < RowCount; i++)
 				{
