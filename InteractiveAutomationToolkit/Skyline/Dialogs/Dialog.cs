@@ -361,7 +361,7 @@
 					}
 					else
 					{
-						yield return "a";
+						yield return Auto;
 					}
 				}
 			}
