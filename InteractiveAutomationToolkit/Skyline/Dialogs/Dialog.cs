@@ -203,7 +203,7 @@
 				throw new ArgumentOutOfRangeException(nameof(row));
 			}
 
-			if (rowHeight <= 0)
+			if (rowHeight < 0)
 			{
 				throw new ArgumentOutOfRangeException(nameof(rowHeight));
 			}
