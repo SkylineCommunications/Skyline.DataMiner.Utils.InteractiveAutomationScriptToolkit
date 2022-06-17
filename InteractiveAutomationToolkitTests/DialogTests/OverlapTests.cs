@@ -10,7 +10,7 @@ namespace InteractiveAutomationToolkitTests
 	using Skyline.DataMiner.InteractiveAutomationToolkit;
 
 	[TestClass]
-	public class DialogTests
+	public class OverlapTests
 	{
 		/// <summary>
 		///     This test will add two different overlapping labels (with column and row spanning) to the dialog and check if an
