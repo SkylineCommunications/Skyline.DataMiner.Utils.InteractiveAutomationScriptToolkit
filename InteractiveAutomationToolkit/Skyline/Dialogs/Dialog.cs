@@ -326,12 +326,6 @@
 					continue;
 				}
 
-				// Can be removed once we retrieve all collapsed states from the UI
-				if (widget is TreeView treeView)
-				{
-					treeView.UpdateItemCache();
-				}
-
 				UIBlockDefinition blockDefinition = widget.BlockDefinition;
 				blockDefinition.Row = location.Row;
 				blockDefinition.RowSpan = location.RowSpan;
