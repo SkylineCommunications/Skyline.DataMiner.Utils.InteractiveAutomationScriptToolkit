@@ -8,7 +8,7 @@ This package provides an API that more closely resembles other desktop graphical
 
 ## How do I get started?
 
-Create or import an existing DatMiner automation script in Visual Studio.
+Create or import an existing DataMiner automation script in Visual Studio.
 Then add the NuGet package to the project.
 You can now create your first interactive script using the toolkit:
 
