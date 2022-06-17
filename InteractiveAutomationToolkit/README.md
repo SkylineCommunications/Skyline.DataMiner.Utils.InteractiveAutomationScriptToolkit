@@ -1,9 +1,16 @@
 # Skyline.DataMiner.InteractiveAutomationToolkit
+
 This package is an extension to
 [Skyline.DataMiner.Automation](https://docs.dataminer.services/develop/api/types/Skyline.DataMiner.Automation.html).
 
 Quickly develop interactive automation scripts for DataMiner.
 This package provides an API that more closely resembles other desktop graphical user interface libraries.
+
+## How do I get started?
+
+Create or import an existing DatMiner automation script in Visual Studio.
+Then add the NuGet package to the project.
+You can now create your first interactive script using the toolkit:
 
 ```csharp
 using System;
@@ -79,8 +86,15 @@ public class HelloWorldDialog : Dialog
 	}
 }
 ```
-## Other resources
- - [Detailed getting started guide](https://community.dataminer.services/documentation/getting-started-with-the-ias-toolkit/)
- - [Video course covering the basics](https://community.dataminer.services/courses/dataminer-automation/lessons/interaction-automation-toolkit/).
-   (The first 2 minutes can be skipped as they cover how to acquire the toolkit without NuGet.)
- - [Create applications using Model View Presenter](https://community.dataminer.services/courses/dataminer-automation/lessons/model-view-presenter/)
+
+If you have questions, you can post them to
+our [DataMiner community platform](https://community.dataminer.services/questions/).
+Or have a look at the guides and video courses listed below.
+
+## Courses and guides
+
+- [All video courses related to DataMiner Automation](https://community.dataminer.services/courses/dataminer-automation/)
+- [Getting started with the toolkit](https://community.dataminer.services/documentation/getting-started-with-the-ias-toolkit/)
+- [Video course covering the toolkit basics](https://community.dataminer.services/courses/dataminer-automation/lessons/interaction-automation-toolkit/)
+  (The first 2 minutes can be skipped as they cover how to acquire the toolkit without NuGet)
+- [Create applications using Model View Presenter](https://community.dataminer.services/courses/dataminer-automation/lessons/model-view-presenter/)
