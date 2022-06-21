@@ -37,7 +37,10 @@ namespace InteractiveAutomationToolkitTests
 		{
 			// Arrange
 			var dialog = new Dialog(Mock.Of<IEngine>());
+			dialog.AddWidget(new Label(), 0, 0);
+			dialog.AddWidget(new Label(), 1, 0);
 			dialog.AddWidget(new Label(), 1, 1);
+			dialog.AddWidget(new Label(), 1, 2);
 			var privateObject = new PrivateObject(dialog);
 
 			// Act
@@ -46,7 +49,7 @@ namespace InteractiveAutomationToolkitTests
 
 			// Assert
 			rowDefinitions.Should().Be("auto;auto");
-			columnDefinitions.Should().Be("auto;auto");
+			columnDefinitions.Should().Be("auto;auto;auto");
 		}
 
 		[TestMethod]

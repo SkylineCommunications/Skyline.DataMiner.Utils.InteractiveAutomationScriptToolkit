@@ -108,6 +108,31 @@ namespace InteractiveAutomationToolkitTests
 		}
 
 		[TestMethod]
+		public void OnlySubsectionTest()
+		{
+			// Arrange
+			var section = new Section();
+
+			var subsection = new Section();
+			subsection.AddWidget(new Label(), 0, 0);
+			subsection.AddWidget(new Label(), 0, 1);
+			subsection.AddWidget(new Label(), 0, 2);
+
+			// Act
+			section.AddSection(subsection, 0, 0);
+
+			// Assert
+			section.GetSections().Should().HaveCount(1, "we added one subsection to the section.");
+			section.GetWidgets()
+				.Should()
+				.HaveCount(3, "the subsection has 3 widgets.");
+
+			section.GetWidgets(false).Should().HaveCount(0, "no widgets are a direct child of the section.");
+			section.RowCount.Should().Be(1, "because widgets in subsections count towards the row count.");
+			section.ColumnCount.Should().Be(3, "because widgets in subsections count towards the column count.");
+		}
+
+		[TestMethod]
 		public void AddSectionToItselfTest()
 		{
 			// Arrange

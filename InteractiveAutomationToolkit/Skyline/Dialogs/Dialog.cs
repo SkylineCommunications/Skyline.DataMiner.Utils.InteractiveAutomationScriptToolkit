@@ -344,10 +344,10 @@
 
 		private string GetColumnDefinitions()
 		{
-			return GetDefinitions(columnDefinitions);
+			return GetDefinitions(columnDefinitions, ColumnCount);
 		}
 
-		private string GetDefinitions(Dictionary<int, string> definitions)
+		private string GetDefinitions(Dictionary<int, string> definitions, int amount)
 		{
 			return String.Join(";", GetDefinitionsEnumerator() ?? Array.Empty<string>());
 
@@ -355,7 +355,7 @@
 			// DIS code generation fails to generate this local function if the return type is not fully Qualified
 			System.Collections.Generic.IEnumerable<string> GetDefinitionsEnumerator()
 			{
-				for (var i = 0; i < RowCount; i++)
+				for (var i = 0; i < amount; i++)
 				{
 					if (definitions.TryGetValue(i, out string s))
 					{
@@ -371,7 +371,7 @@
 
 		private string GetRowDefinitions()
 		{
-			return GetDefinitions(rowDefinitions);
+			return GetDefinitions(rowDefinitions, RowCount);
 		}
 
 		private void LoadChanges(UIResults uir)
