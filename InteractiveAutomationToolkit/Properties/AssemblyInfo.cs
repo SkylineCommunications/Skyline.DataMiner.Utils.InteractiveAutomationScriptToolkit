@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Skyline.Dataminer.InteractiveAutomationToolkit")]
+[assembly: AssemblyTitle("Skyline.DataMiner.InteractiveAutomationToolkit")]
 [assembly:
 	AssemblyDescription(
 		"Framework used to create Interactive Automation Scripts in DataMiner for DMA version larger than 10.1.8")]

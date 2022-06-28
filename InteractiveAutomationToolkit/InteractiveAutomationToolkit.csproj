@@ -8,7 +8,7 @@
 		<OutputType>Library</OutputType>
 		<AppDesignerFolder>Properties</AppDesignerFolder>
 		<RootNamespace>Skyline.DataMiner.InteractiveAutomationToolkit</RootNamespace>
-		<AssemblyName>Skyline.Dataminer.InteractiveAutomationToolkit</AssemblyName>
+		<AssemblyName>Skyline.DataMiner.InteractiveAutomationToolkit</AssemblyName>
 		<TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
 		<FileAlignment>512</FileAlignment>
 		<Deterministic>true</Deterministic>
@@ -24,7 +24,7 @@
 		<DefineConstants>DEBUG;TRACE</DefineConstants>
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>
-		<DocumentationFile>bin\Debug\Skyline.Dataminer.InteractiveAutomationToolkit.xml</DocumentationFile>
+		<DocumentationFile>bin\Debug\Skyline.DataMiner.InteractiveAutomationToolkit.xml</DocumentationFile>
 		<CodeAnalysisRuleSet>..\Internal\Code Analysis\qaction-debug.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -34,7 +34,7 @@
 		<DefineConstants>TRACE</DefineConstants>
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>
-		<DocumentationFile>bin\Release\Skyline.Dataminer.InteractiveAutomationToolkit.xml</DocumentationFile>
+		<DocumentationFile>bin\Release\Skyline.DataMiner.InteractiveAutomationToolkit.xml</DocumentationFile>
 		<CodeAnalysisRuleSet>..\Internal\Code Analysis\qaction-release.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
 	<ItemGroup>
