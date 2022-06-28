@@ -6,9 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Skyline.DataMiner.InteractiveAutomationToolkit")]
-[assembly:
-	AssemblyDescription(
-		"Framework used to create Interactive Automation Scripts in DataMiner for DMA version larger than 10.1.8")]
+
+// @formatter:off
+// AssemblyDescriptionAttribute needs to be defined on a single line or the nuspec replacement tokens for the description wont work.
+[assembly: AssemblyDescription("Framework used to create Interactive Automation Scripts in DataMiner for DMA version larger than 10.1.8")]
+// @formatter:on
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Skyline Communications")]
 [assembly: AssemblyProduct("InteractiveAutomationToolkit")]
