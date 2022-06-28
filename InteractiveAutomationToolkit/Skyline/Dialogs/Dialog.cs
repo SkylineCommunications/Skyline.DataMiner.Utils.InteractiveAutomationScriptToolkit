@@ -59,6 +59,9 @@
 		public bool AllowOverlappingWidgets { get; set; }
 
 		/// <inheritdoc />
+		public bool ActivityPreventsScriptTimeout { get; set; } = true;
+
+		/// <inheritdoc />
 		public int Height
 		{
 			get => height;
@@ -236,6 +239,7 @@
 		/// <inheritdoc />
 		public void Show(bool requireResponse = true)
 		{
+			DateTime startTime = DateTime.UtcNow;
 			UIBuilder uib = Build();
 			uib.RequireResponse = requireResponse;
 
@@ -245,6 +249,12 @@
 			{
 				LoadChanges(uir);
 				RaiseResultEvents(uir);
+			}
+
+			if (ActivityPreventsScriptTimeout)
+			{
+				TimeSpan elapsedTime = DateTime.UtcNow.Subtract(startTime).Duration();
+				Engine.Timeout += elapsedTime;
 			}
 		}
 
