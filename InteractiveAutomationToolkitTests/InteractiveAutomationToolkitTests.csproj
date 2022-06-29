@@ -89,6 +89,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SectionLocationTests.cs" />
     <Compile Include="SectionTests.cs" />
+    <Compile Include="TreeViewTests.cs" />
     <Compile Include="WidgetLocationTests.cs" />
   </ItemGroup>
   <ItemGroup>

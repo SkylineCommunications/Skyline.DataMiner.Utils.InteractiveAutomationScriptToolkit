@@ -99,6 +99,7 @@
 		<Compile Include="Skyline\Components\TimePicker.cs" />
 		<Compile Include="Skyline\Components\TimePickerBase.cs" />
 		<Compile Include="Skyline\Components\TreeView.cs" />
+		<Compile Include="Skyline\Components\TreeViewNode.cs" />
 		<Compile Include="Skyline\Components\WhiteSpace.cs" />
 		<Compile Include="Skyline\Components\Widget.cs" />
 		<Compile Include="Skyline\Dialogs\Dialog.cs" />
@@ -114,6 +115,7 @@
 		<Compile Include="Skyline\Layout\Margin.cs" />
 		<Compile Include="Skyline\Layout\SectionLocation.cs" />
 		<Compile Include="Skyline\Layout\TextStyle.cs" />
+		<Compile Include="Skyline\Layout\TreeViewNodeStyle.cs" />
 		<Compile Include="Skyline\Layout\VerticalAlignment.cs" />
 		<Compile Include="Skyline\Layout\WidgetLocation.cs" />
 		<Compile Include="Skyline\UIBlockDefinitionExtensions.cs" />

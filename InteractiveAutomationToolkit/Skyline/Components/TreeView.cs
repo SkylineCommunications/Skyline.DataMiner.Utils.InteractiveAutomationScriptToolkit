@@ -1,47 +1,55 @@
 ﻿namespace Skyline.DataMiner.InteractiveAutomationToolkit
 {
 	using System;
+	using System.Collections;
 	using System.Collections.Generic;
+	using System.Collections.Specialized;
 	using System.Linq;
 
 	using Skyline.DataMiner.Automation;
 	using Skyline.DataMiner.Net.AutomationUI.Objects;
 
 	/// <summary>
-	///     A tree view structure.
+	///     A tree structure with nodes that can be checked.
 	/// </summary>
+	/// <remarks>This component is only supported on scripts launched from a web UI (e.g. Dashboards).</remarks>
 	public class TreeView : InteractiveWidget, ITreeView
 	{
-		private List<TreeViewItem> changedItems = new List<TreeViewItem>();
-		private Dictionary<string, bool> checkedItemCache;
-		private List<TreeViewItem> checkedItems = new List<TreeViewItem>();
-
-		private Dictionary<string, bool>
-			collapsedItemCache; // TODO: should only contain Items with LazyLoading set to true
-
-		private List<TreeViewItem> collapsedItems = new List<TreeViewItem>();
-		private List<TreeViewItem> expandedItems = new List<TreeViewItem>();
-
-		private bool itemsChanged;
-
-		private bool itemsChecked;
-
-		private bool itemsCollapsed;
-
-		private bool itemsExpanded;
-
-		private bool itemsUnchecked;
-		private Dictionary<string, TreeViewItem> lookupTable;
-		private List<TreeViewItem> uncheckedItems = new List<TreeViewItem>();
+		private bool changed;
+		private TreeViewNode changedNode;
 
 		/// <summary>
-		///     Initializes a new instance of the <see cref="TreeView" /> class.
+		/// 	Initializes a new instance of the <see cref="TreeView" /> class.
 		/// </summary>
-		/// <param name="treeViewItems">Items to be shown in the tree.</param>
-		public TreeView(IEnumerable<TreeViewItem> treeViewItems)
+		/// <remarks>This component is only supported on scripts launched from a web UI (e.g. Dashboards).</remarks>
+		public TreeView() : this(Array.Empty<TreeViewNode>())
 		{
+		}
+
+		/// <summary>
+		/// 	Initializes a new instance of the <see cref="TreeView" /> class.
+		/// </summary>
+		/// <param name="rootNode">Root node of the tree view.</param>
+		/// <remarks>This component is only supported on scripts launched from a web UI (e.g. Dashboards).</remarks>
+		public TreeView(TreeViewNode rootNode) : this(new[] { rootNode })
+		{
+		}
+
+		/// <summary>
+		/// 	Initializes a new instance of the <see cref="TreeView" /> class.
+		/// </summary>
+		/// <param name="rootNodes">Root nodes of the tree view.</param>
+		/// <remarks>This component is only supported on scripts launched from a web UI (e.g. Dashboards).</remarks>
+		public TreeView(IEnumerable<TreeViewNode> rootNodes)
+		{
+			if (rootNodes == null)
+			{
+				throw new ArgumentNullException(nameof(rootNodes));
+			}
+
 			Type = UIBlockType.TreeView;
-			Items = treeViewItems;
+			RootNodes = new RootNodeCollection(BlockDefinition);
+			SetRootNodes(rootNodes);
 		}
 
 		/// <inheritdoc />
@@ -63,384 +71,187 @@
 			}
 		}
 
-		/// <inheritdoc />
-		public event EventHandler<CheckedEventArgs> Checked
-		{
-			add
-			{
-				OnChecked += value;
-				WantsOnChange = true;
-			}
-
-			remove
-			{
-				OnChecked -= value;
-				if (OnChecked == null || !OnChecked.GetInvocationList().Any())
-				{
-					WantsOnChange = false;
-				}
-			}
-		}
-
-		/// <inheritdoc />
-		public event EventHandler<CollapsedEventArgs> Collapsed
-		{
-			add => OnCollapsed += value;
-
-			remove => OnCollapsed -= value;
-		}
-
-		/// <inheritdoc />
-		public event EventHandler<ExpandedEventArgs> Expanded
-		{
-			add => OnExpanded += value;
-
-			remove => OnExpanded -= value;
-		}
-
-		/// <inheritdoc />
-		public event EventHandler<UncheckedEventArgs> Unchecked
-		{
-			add
-			{
-				OnUnchecked += value;
-				WantsOnChange = true;
-			}
-
-			remove
-			{
-				OnUnchecked -= value;
-				if (OnUnchecked == null || !OnUnchecked.GetInvocationList().Any())
-				{
-					WantsOnChange = false;
-				}
-			}
-		}
-
 		private event EventHandler<ChangedEventArgs> OnChanged;
 
-		private event EventHandler<CheckedEventArgs> OnChecked;
-
-		private event EventHandler<CollapsedEventArgs> OnCollapsed;
-
-		private event EventHandler<ExpandedEventArgs> OnExpanded;
-
-		private event EventHandler<UncheckedEventArgs> OnUnchecked;
+		/// <inheritdoc />
+		public ICollection<TreeViewNode> RootNodes { get; }
 
 		/// <inheritdoc />
-		public IEnumerable<TreeViewItem> CheckedItems => GetCheckedItems();
-
-		/// <inheritdoc />
-		public IEnumerable<TreeViewItem> CheckedLeaves
+		public IEnumerable<TreeViewNode> Nodes
 		{
 			get
 			{
-				return GetCheckedItems().Where(x => !x.ChildItems.Any());
-			}
-		}
-
-		/// <inheritdoc />
-		public IEnumerable<TreeViewItem> CheckedNodes
-		{
-			get
-			{
-				return GetCheckedItems().Where(x => x.ChildItems.Any());
-			}
-		}
-
-		/// <inheritdoc />
-		public IEnumerable<TreeViewItem> Items
-		{
-			get => BlockDefinition.TreeViewItems;
-
-			set
-			{
-				if (value == null)
+				foreach (TreeViewNode rootNode in RootNodes)
 				{
-					throw new ArgumentNullException(nameof(value));
-				}
+					yield return rootNode;
 
-				BlockDefinition.TreeViewItems = new List<TreeViewItem>(value);
-				UpdateItemCache();
-			}
-		}
-
-		/// <inheritdoc />
-		public string Tooltip
-		{
-			get => BlockDefinition.TooltipText;
-
-			set
-			{
-				if (value == null)
-				{
-					throw new ArgumentNullException(nameof(value));
-				}
-
-				BlockDefinition.TooltipText = value;
-			}
-		}
-
-		/// <inheritdoc />
-		public void Collapse()
-		{
-			foreach (TreeViewItem item in GetAllItems())
-			{
-				item.IsCollapsed = true;
-			}
-		}
-
-		/// <inheritdoc />
-		public void Expand()
-		{
-			foreach (TreeViewItem item in GetAllItems())
-			{
-				item.IsCollapsed = false;
-			}
-		}
-
-		/// <inheritdoc />
-		public IEnumerable<TreeViewItem> GetAllItems()
-		{
-			var allItems = new List<TreeViewItem>();
-			foreach (TreeViewItem item in Items)
-			{
-				allItems.Add(item);
-				allItems.AddRange(GetAllItems(item.ChildItems));
-			}
-
-			return allItems;
-		}
-
-		/// <inheritdoc />
-		public IEnumerable<TreeViewItem> GetItems(int depth)
-		{
-			return GetItems(Items, depth, 0);
-		}
-
-		/// <inheritdoc />
-		public bool TryFindTreeViewItem(string key, out TreeViewItem item)
-		{
-			item = GetAllItems().FirstOrDefault(x => x.KeyValue.Equals(key));
-			return item != null;
-		}
-
-		/// <inheritdoc />
-		private void UpdateItemCache()
-		{
-			checkedItemCache = new Dictionary<string, bool>();
-			collapsedItemCache = new Dictionary<string, bool>();
-			lookupTable = new Dictionary<string, TreeViewItem>();
-
-			foreach (TreeViewItem item in GetAllItems())
-			{
-				try
-				{
-					checkedItemCache.Add(item.KeyValue, item.IsChecked);
-					if (item.SupportsLazyLoading)
+					foreach (TreeViewNode node in rootNode.Descendants)
 					{
-						collapsedItemCache.Add(item.KeyValue, item.IsCollapsed);
+						yield return node;
 					}
+				}
+			}
+		}
 
-					lookupTable.Add(item.KeyValue, item);
-				}
-				catch (Exception e)
-				{
-					throw new TreeViewDuplicateItemsException(item.KeyValue, e);
-				}
+		/// <inheritdoc />
+		public IEnumerable<TreeViewNode> Leaves
+		{
+			get
+			{
+				return Nodes.Where(node => node.IsLeaf);
+			}
+		}
+
+		/// <inheritdoc />
+		public IEnumerable<TreeViewNode> InternalNodes
+		{
+			get
+			{
+				return Nodes.Where(node => node.IsInternalNode);
+			}
+		}
+
+		/// <inheritdoc />
+		public IEnumerable<TreeViewNode> CheckedNodes
+		{
+			get
+			{
+				return Nodes.Where(node => node.IsChecked);
+			}
+		}
+
+		/// <inheritdoc />
+		public IEnumerable<TreeViewNode> CheckedLeaves
+		{
+			get
+			{
+				return Nodes.Where(node => node.IsLeaf && node.IsChecked);
+			}
+		}
+
+		/// <inheritdoc />
+		public IEnumerable<TreeViewNode> CheckedInternalNodes
+		{
+			get
+			{
+				return Nodes.Where(node => node.IsInternalNode && node.IsChecked);
+			}
+		}
+
+		/// <inheritdoc />
+		public IEnumerable<TreeViewNode> UnCheckedNodes
+		{
+			get
+			{
+				return Nodes.Where(node => !node.IsChecked);
+			}
+		}
+
+		/// <inheritdoc />
+		public IEnumerable<TreeViewNode> UncheckedLeaves
+		{
+			get
+			{
+				return Nodes.Where(node => node.IsLeaf && !node.IsChecked);
+			}
+		}
+
+		/// <inheritdoc />
+		public IEnumerable<TreeViewNode> UnCheckedInternalNodes
+		{
+			get
+			{
+				return Nodes.Where(node => node.IsInternalNode && !node.IsChecked);
+			}
+		}
+
+		/// <inheritdoc />
+		public void SetRootNodes(IEnumerable<TreeViewNode> nodes)
+		{
+			RootNodes.Clear();
+			foreach (TreeViewNode node in nodes)
+			{
+				RootNodes.Add(node);
 			}
 		}
 
 		/// <inheritdoc />
 		protected internal override void LoadResult(UIResults results)
 		{
-			string[] checkedItemKeys = results.GetCheckedItemKeys(this); // this includes all checked items
-			string[] expandedItemKeys = results.GetExpandedItemKeys(this); // this includes all expanded items with LazyLoading set to true
+			string[] checkedNodes = results.GetCheckedItemKeys(this);
+			string[] expandedNodes = results.GetExpandedItemKeys(this);
 
-			// Check for changes
-			// Expanded Items
-			List<string> newlyExpandedItems = collapsedItemCache.Where(x => expandedItemKeys.Contains(x.Key) && x.Value)
-				.Select(x => x.Key)
-				.ToList();
-			if (newlyExpandedItems.Any() && OnExpanded != null)
+			var nodesWithChangedCheckState = new List<TreeViewNode>();
+			foreach (TreeViewNode node in Nodes)
 			{
-				itemsExpanded = true;
-				expandedItems = new List<TreeViewItem>();
-
-				foreach (string newlyExpandedItemKey in newlyExpandedItems)
+				bool isChecked = checkedNodes.Contains(node.Key);
+				if (node.IsChecked != isChecked)
 				{
-					expandedItems.Add(lookupTable[newlyExpandedItemKey]);
+					nodesWithChangedCheckState.Add(node);
+				}
+
+				bool isCollapsed = !expandedNodes.Contains(node.Key);
+				bool collapseChanged = node.IsCollapsed != isCollapsed;
+				node.IsCollapsed = isCollapsed;
+
+				if (WantsOnChange && collapseChanged)
+				{
+					changed = true;
+					changedNode = node;
+					break;
 				}
 			}
 
-			// Collapsed Items
-			List<string> newlyCollapsedItems = collapsedItemCache
-				.Where(x => !expandedItemKeys.Contains(x.Key) && !x.Value)
-				.Select(x => x.Key)
-				.ToList();
-			if (newlyCollapsedItems.Any() && OnCollapsed != null)
+			foreach (TreeViewNode node in Nodes)
 			{
-				itemsCollapsed = true;
-				collapsedItems = new List<TreeViewItem>();
-
-				foreach (string newyCollapsedItemKey in newlyCollapsedItems)
+				bool isChecked = checkedNodes.Contains(node.Key);
+				bool checkChanged = node.IsChecked != isChecked;
+				if (checkChanged)
 				{
-					collapsedItems.Add(lookupTable[newyCollapsedItemKey]);
+					// Optimization
+					// Only update when changed because the change could apply recursively
+					node.IsChecked = isChecked;
 				}
 			}
 
-			// Checked Items
-			List<string> newlyCheckedItemKeys = checkedItemCache.Where(x => checkedItemKeys.Contains(x.Key) && !x.Value)
-				.Select(x => x.Key)
-				.ToList();
-			if (newlyCheckedItemKeys.Any() && OnChecked != null)
+			if (WantsOnChange && nodesWithChangedCheckState.Count == 1)
 			{
-				itemsChecked = true;
-				checkedItems = new List<TreeViewItem>();
-
-				foreach (string newlyCheckedItemKey in newlyCheckedItemKeys)
-				{
-					checkedItems.Add(lookupTable[newlyCheckedItemKey]);
-				}
+				changed = true;
+				changedNode = nodesWithChangedCheckState.Single();
+				return;
 			}
 
-			// Unchecked Items
-			List<string> newlyUncheckedItemKeys = checkedItemCache
-				.Where(x => !checkedItemKeys.Contains(x.Key) && x.Value)
-				.Select(x => x.Key)
-				.ToList();
-			if (newlyUncheckedItemKeys.Any() && OnUnchecked != null)
+			if (WantsOnChange && nodesWithChangedCheckState.Any())
 			{
-				itemsUnchecked = true;
-				uncheckedItems = new List<TreeViewItem>();
-
-				foreach (string newlyUncheckedItemKey in newlyUncheckedItemKeys)
-				{
-					uncheckedItems.Add(lookupTable[newlyUncheckedItemKey]);
-				}
+				changed = true;
+				changedNode = FindNodeThatCausedChange(nodesWithChangedCheckState);
 			}
-
-			// Changed Items
-			var changedItemKeys = new List<string>();
-			changedItemKeys.AddRange(newlyCheckedItemKeys);
-			changedItemKeys.AddRange(newlyUncheckedItemKeys);
-			if (changedItemKeys.Any() && OnChanged != null)
-			{
-				itemsChanged = true;
-				changedItems = new List<TreeViewItem>();
-
-				foreach (string changedItemKey in changedItemKeys)
-				{
-					changedItems.Add(lookupTable[changedItemKey]);
-				}
-			}
-
-			// Persist states
-			foreach (TreeViewItem item in lookupTable.Values)
-			{
-				item.IsChecked = checkedItemKeys.Contains(item.KeyValue);
-				item.IsCollapsed = !expandedItemKeys.Contains(item.KeyValue);
-			}
-
-			UpdateItemCache();
 		}
 
 		/// <inheritdoc />
 		protected internal override void RaiseResultEvents()
 		{
-			// Expanded items
-			if (itemsExpanded && OnExpanded != null)
+			if (changed && OnChanged != null)
 			{
-				OnExpanded(this, new ExpandedEventArgs(expandedItems));
+				OnChanged(this, new ChangedEventArgs(changedNode));
 			}
 
-			// Collapsed items
-			if (itemsCollapsed && OnCollapsed != null)
-			{
-				OnCollapsed(this, new CollapsedEventArgs(collapsedItems));
-			}
-
-			// Checked items
-			if (itemsChecked && OnChecked != null)
-			{
-				OnChecked(this, new CheckedEventArgs(checkedItems));
-			}
-
-			// Unchecked items
-			if (itemsUnchecked && OnUnchecked != null)
-			{
-				OnUnchecked(this, new UncheckedEventArgs(uncheckedItems));
-			}
-
-			// Changed items
-			if (itemsChanged && OnChanged != null)
-			{
-				OnChanged(this, new ChangedEventArgs(changedItems));
-			}
-
-			itemsExpanded = false;
-			itemsCollapsed = false;
-			itemsChecked = false;
-			itemsUnchecked = false;
-			itemsChanged = false;
-
-			UpdateItemCache();
+			changed = false;
 		}
 
-		/// <summary>
-		///     This method is used to recursively go through all the items in the TreeView.
-		/// </summary>
-		/// <param name="children">List of TreeViewItems to be visited.</param>
-		/// <returns>Flat collection containing every item in the provided children collection and all underlying items.</returns>
-		private IEnumerable<TreeViewItem> GetAllItems(IEnumerable<TreeViewItem> children)
+		private static TreeViewNode FindNodeThatCausedChange(List<TreeViewNode> nodesWithChangedCheckState)
 		{
-			var allItems = new List<TreeViewItem>();
-			foreach (TreeViewItem item in children)
+			TreeViewNode lowestCommonAncestor = nodesWithChangedCheckState.OrderBy(node => node.Depth).First();
+			bool ancestorChanged = lowestCommonAncestor.Children
+				.All(node => node.IsChecked == lowestCommonAncestor.IsChecked);
+
+			if (ancestorChanged)
 			{
-				allItems.Add(item);
-				allItems.AddRange(GetAllItems(item.ChildItems));
+				return lowestCommonAncestor;
 			}
 
-			return allItems;
-		}
-
-		/// <summary>
-		///     Returns all items in the TreeView that are checked.
-		/// </summary>
-		/// <returns>All checked TreeViewItems in the TreeView.</returns>
-		private IEnumerable<TreeViewItem> GetCheckedItems()
-		{
-			return GetAllItems().Where(x => x.ItemType == TreeViewItem.TreeViewItemType.CheckBox && x.IsChecked);
-		}
-
-		/// <summary>
-		///     Returns all TreeViewItems in the TreeView that are located on the provided depth.
-		/// </summary>
-		/// <param name="children">Items to be checked.</param>
-		/// <param name="requestedDepth">Depth that was requested.</param>
-		/// <param name="currentDepth">Current depth in the tree.</param>
-		/// <returns>All TreeViewItems in the TreeView that are located on the provided depth.</returns>
-		private IEnumerable<TreeViewItem> GetItems(
-			IEnumerable<TreeViewItem> children,
-			int requestedDepth,
-			int currentDepth)
-		{
-			var requestedItems = new List<TreeViewItem>();
-			bool depthReached = requestedDepth == currentDepth;
-			foreach (TreeViewItem item in children)
-			{
-				if (depthReached)
-				{
-					requestedItems.Add(item);
-				}
-				else
-				{
-					int newDepth = currentDepth + 1;
-					requestedItems.AddRange(GetItems(item.ChildItems, requestedDepth, newDepth));
-				}
-			}
-
-			return requestedItems;
+			TreeViewNode lowestChangedNode = nodesWithChangedCheckState.OrderByDescending(node => node.Depth).First();
+			return lowestChangedNode;
 		}
 
 		/// <summary>
@@ -451,81 +262,108 @@
 			/// <summary>
 			///     Initializes a new instance of the <see cref="ChangedEventArgs" /> class.
 			/// </summary>
-			/// <param name="changed">The items that have been changed.</param>
-			public ChangedEventArgs(IReadOnlyCollection<TreeViewItem> changed) => Changed = changed;
+			/// <param name="node">The node that has been changed.</param>
+			public ChangedEventArgs(TreeViewNode node) => Node = node;
 
 			/// <summary>
-			///     Gets the items that have been changed.
+			///     Gets the node that has been changed.
 			/// </summary>
-			public IReadOnlyCollection<TreeViewItem> Changed { get; }
+			public TreeViewNode Node { get; }
 		}
 
-		/// <summary>
-		///     Provides data for the <see cref="Expanded" /> event.
-		/// </summary>
-		public class ExpandedEventArgs : EventArgs
+		private class RootNodeCollection : ICollection<TreeViewNode>
 		{
-			/// <summary>
-			///     Initializes a new instance of the <see cref="ExpandedEventArgs" /> class.
-			/// </summary>
-			/// <param name="expanded">The items that have been expanded.</param>
-			public ExpandedEventArgs(IReadOnlyCollection<TreeViewItem> expanded) => Expanded = expanded;
+			private readonly HybridDictionary nodes = new HybridDictionary();
+			private readonly UIBlockDefinition blockDefinition;
 
-			/// <summary>
-			///     Gets the items that have been expanded.
-			/// </summary>
-			public IReadOnlyCollection<TreeViewItem> Expanded { get; }
-		}
+			public RootNodeCollection(UIBlockDefinition blockDefinition)
+			{
+				this.blockDefinition = blockDefinition;
+				this.blockDefinition.TreeViewItems = new List<TreeViewItem>();
+			}
 
-		/// <summary>
-		///     Provides data for the <see cref="Collapsed" /> event.
-		/// </summary>
-		public class CollapsedEventArgs : EventArgs
-		{
-			/// <summary>
-			///     Initializes a new instance of the <see cref="CollapsedEventArgs" /> class.
-			/// </summary>
-			/// <param name="collapsed">The items that have been collapsed.</param>
-			public CollapsedEventArgs(IReadOnlyCollection<TreeViewItem> collapsed) => Collapsed = collapsed;
+			public int Count => nodes.Count;
 
-			/// <summary>
-			///     Gets the items that have been collapsed.
-			/// </summary>
-			public IReadOnlyCollection<TreeViewItem> Collapsed { get; }
-		}
+			public bool IsReadOnly => ((ICollection<TreeViewNode>)nodes.Values).IsReadOnly;
 
-		/// <summary>
-		///     Provides data for the <see cref="Checked" /> event.
-		/// </summary>
-		public class CheckedEventArgs : EventArgs
-		{
-			/// <summary>
-			///     Initializes a new instance of the <see cref="CheckedEventArgs" /> class.
-			/// </summary>
-			/// <param name="checked">The items that have been checked.</param>
-			public CheckedEventArgs(IReadOnlyCollection<TreeViewItem> @checked) => Checked = @checked;
+			public IEnumerator<TreeViewNode> GetEnumerator()
+			{
+				return nodes.Values.Cast<TreeViewNode>().GetEnumerator();
+			}
 
-			/// <summary>
-			///     Gets the items that have been checked.
-			/// </summary>
-			public IReadOnlyCollection<TreeViewItem> Checked { get; }
-		}
+			IEnumerator IEnumerable.GetEnumerator()
+			{
+				return ((IEnumerable)nodes).GetEnumerator();
+			}
 
-		/// <summary>
-		///     Provides data for the <see cref="Unchecked" /> event.
-		/// </summary>
-		public class UncheckedEventArgs : EventArgs
-		{
-			/// <summary>
-			///     Initializes a new instance of the <see cref="UncheckedEventArgs" /> class.
-			/// </summary>
-			/// <param name="unchecked">The items that have been unchecked.</param>
-			public UncheckedEventArgs(IReadOnlyCollection<TreeViewItem> @unchecked) => Unchecked = @unchecked;
+			public void Add(TreeViewNode item)
+			{
+				if (item == null)
+				{
+					throw new ArgumentNullException(nameof(item));
+				}
 
-			/// <summary>
-			///     Gets the items that have been unchecked.
-			/// </summary>
-			public IReadOnlyCollection<TreeViewItem> Unchecked { get; }
+				if (item.Parent != null)
+				{
+					throw new ArgumentException("Node already has a parent.", nameof(item));
+				}
+
+				if (nodes.Contains(item.Key))
+				{
+					throw new ArgumentException("Root node is already added.", nameof(item));
+				}
+
+				nodes.Add(item.Key, item);
+				blockDefinition.TreeViewItems.Add(item.TreeViewItem);
+			}
+
+			public void Clear()
+			{
+				nodes.Clear();
+				blockDefinition.TreeViewItems.Clear();
+			}
+
+			public bool Contains(TreeViewNode item)
+			{
+				if (item == null)
+				{
+					throw new ArgumentNullException(nameof(item));
+				}
+
+				return nodes.Contains(item.Key);
+			}
+
+			public void CopyTo(TreeViewNode[] array, int arrayIndex)
+			{
+				if (array == null)
+				{
+					throw new ArgumentNullException(nameof(array));
+				}
+
+				if (arrayIndex < 0)
+				{
+					throw new ArgumentOutOfRangeException(nameof(arrayIndex));
+				}
+
+				nodes.Values.CopyTo(array, arrayIndex);
+			}
+
+			public bool Remove(TreeViewNode item)
+			{
+				if (item == null)
+				{
+					return false;
+				}
+
+				if (!nodes.Contains(item.Key))
+				{
+					return false;
+				}
+
+				nodes.Remove(item.Key);
+				blockDefinition.TreeViewItems.Remove(item.TreeViewItem);
+				return true;
+			}
 		}
 	}
 }

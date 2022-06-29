@@ -3,101 +3,81 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 	using System;
 	using System.Collections.Generic;
 
-	using Skyline.DataMiner.Net.AutomationUI.Objects;
-
 	/// <summary>
-	///     Represents a tree view structure.
+	/// 	Represents a tree structure with nodes that can be checked.
 	/// </summary>
-	public interface ITreeView : IInteractiveWidget
+	/// <remarks>This component is only supported on script launched from a //////temporary  until it is fixedhas beenBELOW // / Engine.eShowUI(TtheTHENGcan no lognger be web UI (e.g. Dashboards).</remarks>
+	public interface ITreeView
 	{
 		/// <summary>
-		///     Triggered when a different item is selected or no longer selected.
-		///     WantsOnChange will be set to true when this event is subscribed to.
+		/// 	Triggered a node is collapsed or expanded or when the state of a checkbox changes.
 		/// </summary>
 		event EventHandler<TreeView.ChangedEventArgs> Changed;
 
 		/// <summary>
-		///     Triggered whenever an item is selected.
-		///     WantsOnChange will be set to true when this event is subscribed to.
+		/// 	Gets the root nodes of the <see cref="TreeView"/> widget.
 		/// </summary>
-		event EventHandler<TreeView.CheckedEventArgs> Checked;
+		ICollection<TreeViewNode> RootNodes { get; }
 
 		/// <summary>
-		///     Triggered whenever an item is collapsed.
-		///     Will be triggered whenever a node with SupportsLazyLoading set to true is collapsed.
+		/// 	Gets all nodes that are part of the tree.
 		/// </summary>
-		event EventHandler<TreeView.CollapsedEventArgs> Collapsed;
+		/// <remarks>Nodes are traversed depth first.</remarks>
+		IEnumerable<TreeViewNode> Nodes { get; }
 
 		/// <summary>
-		///     Triggered whenever an item is expanded.
-		///     Can be used for lazy loading.
-		///     Will be triggered whenever a node with SupportsLazyLoading set to true is expanded.
+		/// 	Gets all nodes that do not have any child nodes.
+		/// 	Internal nodes are excluded.
 		/// </summary>
-		event EventHandler<TreeView.ExpandedEventArgs> Expanded;
+		IEnumerable<TreeViewNode> Leaves { get; }
 
 		/// <summary>
-		///     Triggered whenever an item is no longer selected.
-		///     WantsOnChange will be set to true when this event is subscribed to.
+		/// 	Gets all nodes that have one or more child nodes.
+		/// 	Leaves are excluded.
 		/// </summary>
-		event EventHandler<TreeView.UncheckedEventArgs> Unchecked;
+		/// <remarks>Nodes are traversed depth first.</remarks>
+		IEnumerable<TreeViewNode> InternalNodes { get; }
 
 		/// <summary>
-		///     Gets all items in the tree view that are selected.
+		/// 	Gets all nodes that are checked.
 		/// </summary>
-		IEnumerable<TreeViewItem> CheckedItems { get; }
+		/// <remarks>Nodes are traversed depth first.</remarks>
+		IEnumerable<TreeViewNode> CheckedNodes { get; }
 
 		/// <summary>
-		///     Gets all leaves (= items without children) in the tree view that are selected.
+		/// 	Gets all leaves that are checked.
 		/// </summary>
-		IEnumerable<TreeViewItem> CheckedLeaves { get; }
+		IEnumerable<TreeViewNode> CheckedLeaves { get; }
 
 		/// <summary>
-		///     Gets all nodes (= items with children) in the tree view that are selected.
+		/// 	Gets all internal nodes that are checked.
 		/// </summary>
-		IEnumerable<TreeViewItem> CheckedNodes { get; }
+		/// <remarks>Nodes are traversed depth first.</remarks>
+		IEnumerable<TreeViewNode> CheckedInternalNodes { get; }
 
 		/// <summary>
-		///     Gets or sets the top-level items in the tree view.
-		///     The TreeViewItem.ChildItems property can be used to navigate further down the tree.
+		/// 	Gets all nodes that are not checked.
 		/// </summary>
-		IEnumerable<TreeViewItem> Items { get; set; }
+		/// <remarks>Nodes are traversed depth first.</remarks>
+		IEnumerable<TreeViewNode> UnCheckedNodes { get; }
 
 		/// <summary>
-		///     Gets or sets the tooltip.
+		/// 	Gets all leaves that are not checked.
 		/// </summary>
-		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
-		string Tooltip { get; set; }
+		IEnumerable<TreeViewNode> UncheckedLeaves { get; }
 
 		/// <summary>
-		///     Sets the IsCollapsed state for all items in the tree view to true, causing the entire tree view to be collapsed.
+		/// 	Gets all internal nodes that are not checked.
 		/// </summary>
-		void Collapse();
+		/// <remarks>Nodes are traversed depth first.</remarks>
+		IEnumerable<TreeViewNode> UnCheckedInternalNodes { get; }
 
 		/// <summary>
-		///     Sets the IsCollapsed state for all items in the tree view to false, causing the entire tree view to be expanded.
+		/// 	Sets the root nodes.
+		/// 	Replaces existing root nodes.
 		/// </summary>
-		void Expand();
-
-		/// <summary>
-		///     Iterates over all items in the tree and returns them in a flat collection.
-		/// </summary>
-		/// <returns>A flat collection containing all items in the tree view.</returns>
-		IEnumerable<TreeViewItem> GetAllItems();
-
-		/// <summary>
-		///     Returns all items in the tree view that are located at the provided depth.
-		///     Whenever the requested depth is greater than the longest branch in the tree, an empty collection will be returned.
-		/// </summary>
-		/// <param name="depth">Depth of the requested items.</param>
-		/// <returns>All items in the tree view that are located at the provided depth.</returns>
-		IEnumerable<TreeViewItem> GetItems(int depth);
-
-		/// <summary>
-		///     Can be used to retrieve an item from the tree view based on its key value.
-		/// </summary>
-		/// <param name="key">Key used to search for the item.</param>
-		/// <param name="item">Item in the tree that matches the provided key.</param>
-		/// <returns>True if the item was found, otherwise false.</returns>
-		bool TryFindTreeViewItem(string key, out TreeViewItem item);
+		/// <param name="nodes">Root nodes to add to the tree view.</param>
+		/// <exception cref="NullReferenceException">When <paramref name="nodes"/> is <c>null</c>.</exception>
+		void SetRootNodes(IEnumerable<TreeViewNode> nodes);
 	}
 }

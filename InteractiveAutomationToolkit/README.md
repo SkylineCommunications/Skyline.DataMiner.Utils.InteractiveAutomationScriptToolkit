@@ -29,6 +29,13 @@ internal class Script
 	/// <param name="engine">Link with SLScripting process.</param>
 	public void Run(Engine engine)
 	{
+		// DO NOT REMOVE THE COMMENTED OUT CODE BELOW OR THE SCRIPT WONT RUN!
+		// Interactive scripts need to be launched differently.
+		// This is determined by a simple string search looking for "engine.ShowUI" in the source code.
+		// However, due to the NuGet package, this string can no longer be detected.
+		// This comment is here as a temporary workaround until it has been fixed.
+		//// engine.ShowUI(
+
 		try
 		{
 			// Controls the event loop and switch between dialogs
@@ -98,3 +105,26 @@ Or have a look at the guides and video courses listed below.
 - [Video course covering the toolkit basics](https://community.dataminer.services/courses/dataminer-automation/lessons/interaction-automation-toolkit/)
   (The first 2 minutes can be skipped as they cover how to acquire the toolkit without NuGet)
 - [Create applications using Model View Presenter](https://community.dataminer.services/courses/dataminer-automation/lessons/model-view-presenter/)
+
+## Known Issue
+
+When you use this NuGet package, it is possible you get the following error when launching the script:
+`DataMinerException: Show UI Failed: 0x800402F5 (Interactive UI can only be used in interactive mode. )`
+This is due to a DataMiner software issue causing the script to be launched in the wrong mode.
+The DataMiner software perform a simple string search to detect if the script should be launched in interactive mode.
+It is looking for the following string "engine.ShowUI" which is normally always present in the source code of the
+script.
+This method call is now handled by the NuGet package, so the string can no longer be found in the script source code,
+causing the issue.
+We are currently working on a fix which will be available in one of our upcoming DataMiner releases.
+
+### Workaround
+
+Add the following comment to your script.
+
+```csharp
+// engine.ShowUI(
+```
+
+Location of the comment does not matter as long as it is visible in the C# code block view of the DataMiner Automation
+Script UI.
