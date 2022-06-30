@@ -23,6 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 ProjectSection(SolutionItems) = preProject
 	manifest.xml = manifest.xml
 	JenkinsNuGetConfiguration.xml = JenkinsNuGetConfiguration.xml
+	README.md = README.md
 EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Internal", "Internal", "{42720D7B-1144-4A58-ABBB-A95D90088C0C}"
