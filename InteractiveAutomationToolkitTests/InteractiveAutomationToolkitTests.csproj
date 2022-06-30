@@ -60,12 +60,20 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="mscorlib" />
-    <Reference Include="SLManagedAutomation">
-      <HintPath>..\JenkinsDependencies\SLManagedAutomation.dll</HintPath>
+    <Reference Include="Skyline.DataMiner.Storage.Types, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9789b1eac4cb1b12, processorArchitecture=MSIL">
+      <HintPath>..\packages\Skyline.DataMiner.Dev.Common.10.2.0.1\lib\net462\Skyline.DataMiner.Storage.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="SLAnalyticsTypes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9789b1eac4cb1b12, processorArchitecture=MSIL">
+      <HintPath>..\packages\Skyline.DataMiner.Dev.Automation.10.2.0.1\lib\net462\SLAnalyticsTypes.dll</HintPath>
+    </Reference>
+    <Reference Include="SLLoggerUtil, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9789b1eac4cb1b12, processorArchitecture=MSIL">
+      <HintPath>..\packages\Skyline.DataMiner.Dev.Common.10.2.0.1\lib\net462\SLLoggerUtil.dll</HintPath>
+    </Reference>
+    <Reference Include="SLManagedAutomation, Version=1.0.0.0, Culture=neutral, processorArchitecture=X86">
+      <HintPath>..\packages\Skyline.DataMiner.Dev.Automation.10.2.0.1\lib\net462\SLManagedAutomation.dll</HintPath>
     </Reference>
     <Reference Include="SLNetTypes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9789b1eac4cb1b12, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\JenkinsDependencies\SLNetTypes.dll</HintPath>
+      <HintPath>..\packages\Skyline.DataMiner.Dev.Common.10.2.0.1\lib\net462\SLNetTypes.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
