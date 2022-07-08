@@ -30,6 +30,16 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		bool IsRunning { get; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether script timeout should be prevented as long as there is
+		/// user-interaction going on. It works by counting the time spent between user-interaction events and adding it
+		/// to the <see cref="IEngine.Timeout"/> property of engine, effectively extending the time when the script
+		/// goes in timeout. If the time between user-interaction events is larger than the initially configured
+		/// timeout, the script will still timeout.
+		/// <remarks>Default:<c>true</c></remarks>
+		/// </summary>
+		bool InteractionPreventsScriptTimeout { get; set; }
+
+		/// <summary>
 		///     Switches the event loop to manual control.
 		///     This mode allows the dialog to be updated without user interaction using
 		///     <see cref="InteractiveController.Update" />.

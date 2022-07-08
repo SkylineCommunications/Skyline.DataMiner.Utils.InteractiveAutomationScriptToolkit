@@ -37,6 +37,9 @@
 		public bool IsRunning { get; private set; }
 
 		/// <inheritdoc />
+		public bool InteractionPreventsScriptTimeout { get; set; } = true;
+
+		/// <inheritdoc />
 		public void RequestManualMode(Action action)
 		{
 			isManualModeRequested = true;
@@ -56,6 +59,7 @@
 			IsRunning = true;
 			while (IsRunning)
 			{
+				DateTime start = DateTime.UtcNow;
 				try
 				{
 					if (isManualModeRequested)
@@ -73,6 +77,12 @@
 					IsRunning = false;
 					IsManualMode = false;
 					throw;
+				}
+
+				if (InteractionPreventsScriptTimeout)
+				{
+					TimeSpan elapsedTime = (DateTime.UtcNow - start).Duration();
+					Engine.Timeout += elapsedTime;
 				}
 			}
 		}

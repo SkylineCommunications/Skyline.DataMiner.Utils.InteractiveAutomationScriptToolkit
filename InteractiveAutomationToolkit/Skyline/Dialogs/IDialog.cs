@@ -37,16 +37,6 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		bool AllowOverlappingWidgets { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating whether the dialog should prevent script timeout as long as there is
-		/// activity. This can either be user interaction causing an update, or by calling the <see cref="Show"/> method
-		/// to show progress. It works by counting the time spent between activity and adding it to the
-		/// <see cref="IEngine.Timeout"/> property of engine, effectively extending the time when the script goes in
-		/// timeout.
-		/// <remarks>Default:<c>true</c></remarks>
-		/// </summary>
-		bool ActivityPreventsScriptTimeout { get; set; }
-
-		/// <summary>
 		///     Gets or sets the fixed height (in pixels) of the dialog.
 		/// </summary>
 		/// <remarks>
