@@ -73,8 +73,11 @@
 			// Arrange
 			var node = new TreeViewNode("foo");
 
-			// Act & Assert
-			Invoking(() => node.Text = null).Should().Throw<ArgumentNullException>();
+			// Act
+			node.Text = null;
+
+			// Assert
+			node.Text.Should().BeEmpty();
 		}
 
 		[TestMethod]

@@ -3,6 +3,7 @@
 	using System;
 	using System.Collections;
 	using System.Collections.Generic;
+	using System.ComponentModel;
 	using System.Diagnostics.CodeAnalysis;
 	using System.Linq;
 
@@ -98,51 +99,42 @@
 		{
 			get => BlockDefinition.TooltipText;
 
-			set
-			{
-				if (value == null)
-				{
-					throw new ArgumentNullException(nameof(value));
-				}
-
-				BlockDefinition.TooltipText = value;
-			}
+			set => BlockDefinition.TooltipText = value ?? String.Empty;
 		}
 
 		/// <inheritdoc />
 		public UIValidationState ValidationState
 		{
 			get => BlockDefinition.ValidationState;
-			set => BlockDefinition.ValidationState = value;
+
+			set
+			{
+				if (!Enum.IsDefined(typeof(UIValidationState), value))
+				{
+					throw new InvalidEnumArgumentException(nameof(value), (int)value, typeof(UIValidationState));
+				}
+
+				BlockDefinition.ValidationState = value;
+			}
 		}
 
 		/// <inheritdoc />
 		public string ValidationText
 		{
 			get => BlockDefinition.ValidationText;
-			set => BlockDefinition.ValidationText = value;
+			set => BlockDefinition.ValidationText = value ?? String.Empty;
 		}
 
 		/// <inheritdoc />
 		public void AddOption(string option)
 		{
-			if (option == null)
-			{
-				throw new ArgumentNullException(nameof(option));
-			}
-
-			Options.Add(option);
+			Options.Add(option ?? String.Empty);
 		}
 
 		/// <inheritdoc />
 		public void Check(string option)
 		{
-			if (option == null)
-			{
-				throw new ArgumentNullException(nameof(option));
-			}
-
-			Checked.Add(option);
+			Checked.Add(option ?? String.Empty);
 		}
 
 		/// <inheritdoc />
@@ -154,12 +146,7 @@
 		/// <inheritdoc />
 		public void RemoveOption(string option)
 		{
-			if (option == null)
-			{
-				throw new ArgumentNullException(nameof(option));
-			}
-
-			Options.Remove(option);
+			Options.Remove(option ?? String.Empty);
 		}
 
 		/// <inheritdoc />
@@ -173,19 +160,14 @@
 			Options.Clear();
 			foreach (string option in options)
 			{
-				Options.Add(option);
+				Options.Add(option ?? String.Empty);
 			}
 		}
 
 		/// <inheritdoc />
 		public void Uncheck(string option)
 		{
-			if (option == null)
-			{
-				throw new ArgumentNullException(nameof(option));
-			}
-
-			Unchecked.Add(option);
+			Unchecked.Add(option ?? String.Empty);
 		}
 
 		/// <inheritdoc />
@@ -293,11 +275,7 @@
 
 			public void Add(string item)
 			{
-				if (item == null)
-				{
-					throw new ArgumentNullException(nameof(item));
-				}
-
+				item = item ?? String.Empty;
 				if (!optionsHashSet.Add(item))
 				{
 					return;
@@ -317,7 +295,7 @@
 
 			public bool Contains(string item)
 			{
-				return optionsHashSet.Contains(item);
+				return optionsHashSet.Contains(item ?? String.Empty);
 			}
 
 			public void CopyTo(string[] array, int arrayIndex)
@@ -332,6 +310,7 @@
 
 			public bool Remove(string item)
 			{
+				item = item ?? String.Empty;
 				if (!optionsHashSet.Remove(item))
 				{
 					return false;
@@ -363,6 +342,7 @@
 
 			public void Add(string item)
 			{
+				item = item ?? String.Empty;
 				if (!owner.Options.Contains(item))
 				{
 					return;
@@ -390,7 +370,7 @@
 
 			public bool Contains(string item)
 			{
-				return @checked.Contains(item);
+				return @checked.Contains(item ?? String.Empty);
 			}
 
 			public void CopyTo(string[] array, int arrayIndex)
@@ -405,6 +385,7 @@
 
 			public bool Remove(string item)
 			{
+				item = item ?? String.Empty;
 				if (!@checked.Remove(item))
 				{
 					return false;
@@ -435,6 +416,7 @@
 
 			public void Add(string item)
 			{
+				item = item ?? String.Empty;
 				if (!owner.Options.Contains(item))
 				{
 					return;
@@ -459,7 +441,7 @@
 
 			public bool Contains(string item)
 			{
-				return @unchecked.Contains(item);
+				return @unchecked.Contains(item ?? String.Empty);
 			}
 
 			public void CopyTo(string[] array, int arrayIndex)
@@ -474,6 +456,7 @@
 
 			public bool Remove(string item)
 			{
+				item = item ?? String.Empty;
 				if (!@unchecked.Remove(item))
 				{
 					return false;

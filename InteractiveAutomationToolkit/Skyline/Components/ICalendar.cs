@@ -1,6 +1,7 @@
 namespace Skyline.DataMiner.InteractiveAutomationToolkit
 {
 	using System;
+	using System.ComponentModel;
 
 	using Skyline.DataMiner.Automation;
 
@@ -23,7 +24,6 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		/// <summary>
 		///     Gets or sets the tooltip.
 		/// </summary>
-		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		string Tooltip { get; set; }
 
 		/// <summary>
@@ -31,6 +31,7 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		///     This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner 10.0.5 onwards.</remarks>
+		/// <exception cref="InvalidEnumArgumentException">When <paramref name="value"/> does not specify a valid member of <see cref="UIValidationState"/>.</exception>
 		UIValidationState ValidationState { get; set; }
 
 		/// <summary>

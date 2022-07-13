@@ -1,6 +1,7 @@
 ﻿namespace Skyline.DataMiner.InteractiveAutomationToolkit
 {
 	using System;
+	using System.ComponentModel;
 
 	using Skyline.DataMiner.Automation;
 
@@ -48,44 +49,44 @@
 		public string Password
 		{
 			get => BlockDefinition.InitialValue;
-			set => BlockDefinition.InitialValue = value;
+			set => BlockDefinition.InitialValue = value ?? String.Empty;
 		}
 
 		/// <inheritdoc />
 		public string PlaceHolder
 		{
 			get => BlockDefinition.PlaceholderText;
-			set => BlockDefinition.PlaceholderText = value;
+			set => BlockDefinition.PlaceholderText = value ?? String.Empty;
 		}
 
 		/// <inheritdoc />
 		public string Tooltip
 		{
 			get => BlockDefinition.TooltipText;
-
-			set
-			{
-				if (value == null)
-				{
-					throw new ArgumentNullException(nameof(value));
-				}
-
-				BlockDefinition.TooltipText = value;
-			}
+			set => BlockDefinition.TooltipText = value ?? String.Empty;
 		}
 
 		/// <inheritdoc />
 		public UIValidationState ValidationState
 		{
 			get => BlockDefinition.ValidationState;
-			set => BlockDefinition.ValidationState = value;
+
+			set
+			{
+				if (!Enum.IsDefined(typeof(UIValidationState), value))
+				{
+					throw new InvalidEnumArgumentException(nameof(value), (int)value, typeof(UIValidationState));
+				}
+
+				BlockDefinition.ValidationState = value;
+			}
 		}
 
 		/// <inheritdoc />
 		public string ValidationText
 		{
 			get => BlockDefinition.ValidationText;
-			set => BlockDefinition.ValidationText = value;
+			set => BlockDefinition.ValidationText = value ?? String.Empty;
 		}
 
 		/// <inheritdoc />

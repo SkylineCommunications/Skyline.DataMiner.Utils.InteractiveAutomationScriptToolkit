@@ -40,7 +40,7 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		/// <param name="isChecked">Value indicating whether the node should be checked.</param>
 		public TreeViewNode(string text, bool isChecked)
 		{
-			TreeViewItem = new TreeViewItem(text, Guid.NewGuid().ToString(), new List<TreeViewItem>())
+			TreeViewItem = new TreeViewItem(text ?? String.Empty, Guid.NewGuid().ToString(), new List<TreeViewItem>())
 			{
 				SupportsLazyLoading = true
 			};
@@ -65,6 +65,7 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		/// <summary>
 		/// Gets or sets the style of the node.
 		/// </summary>
+		/// <exception cref="InvalidEnumArgumentException">When <paramref name="value"/> does not specify a valid member of <see cref="TreeViewNodeStyle"/>.</exception>
 		public TreeViewNodeStyle Style
 		{
 			get
@@ -152,20 +153,10 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		/// <summary>
 		/// 	Gets or sets the text displayed next to the node.
 		/// </summary>
-		/// <exception cref="ArgumentNullException">When <paramref name="value"/> is <c>null</c>.</exception>
 		public string Text
 		{
 			get => TreeViewItem.DisplayValue;
-
-			set
-			{
-				if (value == null)
-				{
-					throw new ArgumentNullException(nameof(value));
-				}
-
-				TreeViewItem.DisplayValue = value;
-			}
+			set => TreeViewItem.DisplayValue = value ?? String.Empty;
 		}
 
 		/// <summary>

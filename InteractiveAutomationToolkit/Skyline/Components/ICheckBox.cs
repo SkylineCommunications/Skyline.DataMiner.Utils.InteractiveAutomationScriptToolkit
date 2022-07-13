@@ -38,7 +38,6 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		/// <summary>
 		///     Gets or sets the tooltip.
 		/// </summary>
-		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		string Tooltip { get; set; }
 	}
 }

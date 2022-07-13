@@ -116,16 +116,7 @@
 		public string Tooltip
 		{
 			get => BlockDefinition.TooltipText;
-
-			set
-			{
-				if (value == null)
-				{
-					throw new ArgumentNullException(nameof(value));
-				}
-
-				BlockDefinition.TooltipText = value;
-			}
+			set => BlockDefinition.TooltipText = value ?? String.Empty;
 		}
 
 		/// <inheritdoc />

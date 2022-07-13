@@ -40,7 +40,6 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		/// <summary>
 		///     Gets or sets the tooltip.
 		/// </summary>
-		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		string Tooltip { get; set; }
 
 		/// <summary>
@@ -63,14 +62,12 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		///     Adds an option to the checkbox list.
 		/// </summary>
 		/// <param name="option">Option to add.</param>
-		/// <exception cref="ArgumentNullException">When options is null.</exception>
 		void AddOption(string option);
 
 		/// <summary>
 		///     Selects an option.
 		/// </summary>
 		/// <param name="option">Option to be selected.</param>
-		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		/// <exception cref="ArgumentException">When the option does not exist.</exception>
 		void Check(string option);
 
@@ -83,7 +80,6 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		///     Removes an option from the checkbox list.
 		/// </summary>
 		/// <param name="option">Option to remove.</param>
-		/// <exception cref="NullReferenceException">When option is null.</exception>
 		void RemoveOption(string option);
 
 		/// <summary>
@@ -98,7 +94,6 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		///     Clears an option.
 		/// </summary>
 		/// <param name="option">Option to be cleared.</param>
-		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		/// <exception cref="ArgumentException">When the option does not exist.</exception>
 		void Uncheck(string option);
 

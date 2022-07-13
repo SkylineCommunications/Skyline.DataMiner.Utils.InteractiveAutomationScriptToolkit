@@ -1,6 +1,7 @@
 ﻿namespace Skyline.DataMiner.InteractiveAutomationToolkit
 {
 	using System;
+	using System.ComponentModel;
 
 	using Skyline.DataMiner.Automation;
 
@@ -38,6 +39,11 @@
 
 			set
 			{
+				if (!Enum.IsDefined(typeof(TextStyle), value))
+				{
+					throw new InvalidEnumArgumentException(nameof(value), (int)value, typeof(TextStyle));
+				}
+
 				style = value;
 				BlockDefinition.Style = StyleToUiString(value);
 			}
@@ -47,23 +53,14 @@
 		public string Text
 		{
 			get => BlockDefinition.Text;
-			set => BlockDefinition.Text = value;
+			set => BlockDefinition.Text = value ?? String.Empty;
 		}
 
 		/// <inheritdoc />
 		public string Tooltip
 		{
 			get => BlockDefinition.TooltipText;
-
-			set
-			{
-				if (value == null)
-				{
-					throw new ArgumentNullException(nameof(value));
-				}
-
-				BlockDefinition.TooltipText = value;
-			}
+			set => BlockDefinition.TooltipText = value ?? String.Empty;
 		}
 
 		private static string StyleToUiString(TextStyle textStyle)

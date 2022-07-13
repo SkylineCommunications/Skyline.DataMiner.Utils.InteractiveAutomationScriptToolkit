@@ -2,6 +2,7 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 {
 	using System;
 	using System.Collections.Generic;
+	using System.ComponentModel;
 
 	using Skyline.DataMiner.Automation;
 
@@ -43,7 +44,6 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		/// <summary>
 		///     Gets or sets the tooltip.
 		/// </summary>
-		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		string Tooltip { get; set; }
 
 		/// <summary>
@@ -51,6 +51,7 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		///     This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner Feature Release 10.0.5 and 10.0.1.0 Main Release.</remarks>
+		/// <exception cref="InvalidEnumArgumentException">When <paramref name="value"/> does not specify a valid member of <see cref="UIValidationState"/>.</exception>
 		UIValidationState ValidationState { get; set; }
 
 		/// <summary>
@@ -64,7 +65,6 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		///     Adds an option to the drop-down list.
 		/// </summary>
 		/// <param name="option">Option to add.</param>
-		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		void AddOption(string option);
 
 		/// <summary>
@@ -73,7 +73,6 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		/// </summary>
 		/// <remarks>This only works in HTML5 (Dashboards, etc.).</remarks>
 		/// <param name="selected">String that will appear as selected value even if not available the in options list.</param>
-		/// <exception cref="ArgumentNullException">When selected is null.</exception>
 		void ForceSelected(string selected);
 
 		/// <summary>
@@ -85,7 +84,6 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		///     <see cref="DropDown.Selected" /> will be set to the first available option.
 		///     In case this was the last option, <see cref="DropDown.Selected" /> will be set to <c>null</c>.
 		/// </remarks>
-		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		void RemoveOption(string option);
 
 		/// <summary>
