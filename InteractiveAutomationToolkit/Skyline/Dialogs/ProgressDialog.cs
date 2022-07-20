@@ -9,7 +9,7 @@
 	///     When progress is displayed, this dialog has to be shown without requiring user interaction.
 	///     When you are done displaying progress, call the Finish method and show the dialog with user interaction required.
 	/// </summary>
-	public class ProgressDialog : Dialog
+	public class ProgressDialog : Dialog<GridPanel>
 	{
 		private readonly StringBuilder progress = new StringBuilder();
 		private readonly Label progressLabel = new Label();
@@ -64,14 +64,14 @@
 		{
 			progressLabel.Text = progress.ToString();
 
-			if (!GetWidgets().Contains(progressLabel))
+			if (!Panel.GetWidgets().Contains(progressLabel))
 			{
-				AddWidget(progressLabel, 0, 0);
+				Panel.Add(progressLabel, 0, 0);
 			}
 
-			if (!GetWidgets().Contains(OkButton))
+			if (!Panel.GetWidgets().Contains(OkButton))
 			{
-				AddWidget(OkButton, 1, 0);
+				Panel.Add(OkButton, 1, 0);
 			}
 		}
 

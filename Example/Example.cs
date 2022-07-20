@@ -112,7 +112,7 @@ This is an example application to showcase the widgets
 	}
 }
 
-public class WelcomeDialog : Dialog
+public class WelcomeDialog : Dialog<GridPanel>
 {
 	private readonly Label titleLabel = new Label("Welcome")
 	{
@@ -128,9 +128,9 @@ public class WelcomeDialog : Dialog
 		TextBox = new TextBox { IsMultiline = true };
 		ContinueButton = new Button("Continue") { HorizontalAlignment = HorizontalAlignment.Right };
 
-		AddWidget(titleLabel, 0, 0, 1, 3);
-		AddWidget(TextBox, 1, 0, 1, 3);
-		AddWidget(ContinueButton, 2, 2);
+		Panel.Add(titleLabel, 0, 0, 1, 3);
+		Panel.Add(TextBox, 1, 0, 1, 3);
+		Panel.Add(ContinueButton, 2, 2);
 	}
 
 	public Button ContinueButton { get; }
@@ -138,7 +138,7 @@ public class WelcomeDialog : Dialog
 	public TextBox TextBox { get; }
 }
 
-public class DemoDialog : Dialog
+public class DemoDialog : Dialog<GridPanel>
 {
 	/// <inheritdoc />
 	public DemoDialog(Engine engine)
@@ -149,24 +149,24 @@ public class DemoDialog : Dialog
 			Style = TextStyle.Title,
 			HorizontalAlignment = HorizontalAlignment.Center
 		};
-		AddWidget(TitleLabel, 0, 0, 1, 2);
+		Panel.Add(TitleLabel, 0, 0, 1, 2);
 		SetRowHeight(0, 50);
 
 		CheckBox = new CheckBox("checkbox");
-		AddWidget(CheckBox, 1, 0);
+		Panel.Add(CheckBox, 1, 0);
 		CheckBox.Changed += OnCheckBoxOnChanged;
 
 		DropDown = new DropDown(new[] { "Title", "Heading", "Bold", "None" });
-		AddWidget(DropDown, 1, 1);
+		Panel.Add(DropDown, 1, 1);
 		DropDown.Changed += OnDropDownOnChanged;
 
 		CheckBoxList = new CheckBoxList(new[] { "title", "checkbox", "dropdown" });
 		CheckBoxList.CheckAll();
-		AddWidget(CheckBoxList, 2, 0);
+		Panel.Add(CheckBoxList, 2, 0);
 		CheckBoxList.Changed += OnCheckBoxListOnChanged;
 
 		ExecuteButton = new Button("Execute");
-		AddWidget(ExecuteButton, 2, 1);
+		Panel.Add(ExecuteButton, 2, 1);
 
 		Numeric = new Numeric(30)
 		{
@@ -175,32 +175,32 @@ public class DemoDialog : Dialog
 			Maximum = 200,
 			StepSize = 0.5
 		};
-		AddWidget(Numeric, 3, 0);
+		Panel.Add(Numeric, 3, 0);
 		Numeric.Changed += OnNumericOnChanged;
 
-		AddWidget(new PasswordBox(true), 3, 1);
+		Panel.Add(new PasswordBox(true), 3, 1);
 
 		RadioButtonList = new RadioButtonList(new[] { "a", "b", "c" });
-		AddWidget(RadioButtonList, 4, 0);
+		Panel.Add(RadioButtonList, 4, 0);
 
 		DateTimePicker = new DateTimePicker();
-		AddWidget(DateTimePicker, 4, 1);
+		Panel.Add(DateTimePicker, 4, 1);
 
 		Time = new Time(new TimeSpan(16, 45, 30));
-		AddWidget(Time, 5, 0);
+		Panel.Add(Time, 5, 0);
 
 		TimePicker = new TimePicker();
-		AddWidget(TimePicker, 5, 1);
+		Panel.Add(TimePicker, 5, 1);
 
 		Calendar = new Calendar();
-		AddWidget(Calendar, 6, 1);
+		Panel.Add(Calendar, 6, 1);
 
 		ResetButton = new Button("Reset");
-		AddWidget(ResetButton, 7, 0);
+		Panel.Add(ResetButton, 7, 0);
 		ResetButton.Pressed += OnResetButtonOnPressed;
 
 		ExitButton = new Button("Exit");
-		AddWidget(ExitButton, 7, 1);
+		Panel.Add(ExitButton, 7, 1);
 	}
 
 	public Calendar Calendar { get; }
@@ -296,7 +296,7 @@ public class DemoDialog : Dialog
 	}
 }
 
-public class ProgressDialog : Dialog
+public class ProgressDialog : Dialog<GridPanel>
 {
 	private readonly InteractiveController interactiveController;
 
@@ -330,7 +330,7 @@ public class ProgressDialog : Dialog
 	{
 		this.interactiveController = interactiveController;
 		progressLog = new TextBox { IsMultiline = true, Height = 400, Width = 500 };
-		AddWidget(progressLog, 0, 0);
+		Panel.Add(progressLog, 0, 0);
 	}
 
 	public void Execute()

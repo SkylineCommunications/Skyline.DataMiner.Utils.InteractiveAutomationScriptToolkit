@@ -28,22 +28,22 @@ internal class Script
 	}
 }
 
-public class WelcomeDialog : Dialog
+public class WelcomeDialog : Dialog<GridPanel>
 {
 	public WelcomeDialog(Engine engine)
 		: base(engine)
 	{
 		var label = new Label("Click Next to Continue!");
-		AddWidget(label, 0, 0);
+		Panel.Add(label, 0, 0);
 
 		NextButton = new Button("Next");
-		AddWidget(NextButton, 1, 0);
+		Panel.Add(NextButton, 1, 0);
 	}
 
 	public Button NextButton { get; }
 }
 
-public class SelectionDialog : Dialog
+public class SelectionDialog : Dialog<GridPanel>
 {
 	private readonly DropDown dropDown;
 
@@ -51,13 +51,13 @@ public class SelectionDialog : Dialog
 		: base(engine)
 	{
 		var label = new Label("Please select an option.");
-		AddWidget(label, 0, 0);
+		Panel.Add(label, 0, 0);
 
 		dropDown = new DropDown(new[] { "Meat", "Fish" });
-		AddWidget(dropDown, 1, 0);
+		Panel.Add(dropDown, 1, 0);
 
 		NextButton = new Button("Next");
-		AddWidget(NextButton, 2, 0);
+		Panel.Add(NextButton, 2, 0);
 	}
 
 	public Button NextButton { get; }
@@ -65,7 +65,7 @@ public class SelectionDialog : Dialog
 	public string SelectedOption => dropDown.Selected;
 }
 
-public class ConfirmationDialog : Dialog
+public class ConfirmationDialog : Dialog<GridPanel>
 {
 	private readonly Label label;
 	private string option;
@@ -74,10 +74,10 @@ public class ConfirmationDialog : Dialog
 		: base(engine)
 	{
 		label = new Label { Style = TextStyle.Bold };
-		AddWidget(label, 0, 0);
+		Panel.Add(label, 0, 0);
 
 		var button = new Button("Finish");
-		AddWidget(button, 1, 0);
+		Panel.Add(button, 1, 0);
 
 		button.Pressed += (sender, args) => engine.ExitSuccess("Done");
 	}

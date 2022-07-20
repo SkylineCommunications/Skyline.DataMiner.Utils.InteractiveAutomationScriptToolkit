@@ -158,7 +158,7 @@
 			}
 		}
 
-		internal WidgetLocation AddOffset(SectionLocation offset)
+		internal WidgetLocation AddOffset(PanelLocation offset)
 		{
 			return new WidgetLocation(Row + offset.Row, Column + offset.Column, RowSpan, ColumnSpan);
 		}

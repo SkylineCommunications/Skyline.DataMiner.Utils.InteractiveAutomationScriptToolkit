@@ -76,7 +76,6 @@
 		<Compile Include="Skyline\Components\DateTimePicker.cs" />
 		<Compile Include="Skyline\Components\DropDown.cs" />
 		<Compile Include="Skyline\Components\FileSelector.cs" />
-		<Compile Include="Skyline\Components\ISection.cs" />
 		<Compile Include="Skyline\Components\IButton.cs" />
 		<Compile Include="Skyline\Components\ICalendar.cs" />
 		<Compile Include="Skyline\Components\ICheckBox.cs" />
@@ -103,7 +102,6 @@
 		<Compile Include="Skyline\Components\Parameter.cs" />
 		<Compile Include="Skyline\Components\PasswordBox.cs" />
 		<Compile Include="Skyline\Components\RadioButtonList.cs" />
-		<Compile Include="Skyline\Components\Section.cs" />
 		<Compile Include="Skyline\Components\TextBox.cs" />
 		<Compile Include="Skyline\Components\Time.cs" />
 		<Compile Include="Skyline\Components\TimePicker.cs" />
@@ -123,11 +121,16 @@
 		<Compile Include="Skyline\InteractiveController.cs" />
 		<Compile Include="Skyline\Layout\HorizontalAlignment.cs" />
 		<Compile Include="Skyline\Layout\Margin.cs" />
-		<Compile Include="Skyline\Layout\SectionLocation.cs" />
+		<Compile Include="Skyline\Layout\PanelLocation.cs" />
 		<Compile Include="Skyline\Layout\TextStyle.cs" />
 		<Compile Include="Skyline\Layout\TreeViewNodeStyle.cs" />
 		<Compile Include="Skyline\Layout\VerticalAlignment.cs" />
 		<Compile Include="Skyline\Layout\WidgetLocation.cs" />
+		<Compile Include="Skyline\Layout\WidgetLocationPair.cs" />
+		<Compile Include="Skyline\Panels\GridPanel.cs" />
+		<Compile Include="Skyline\Panels\IGridPanel.cs" />
+		<Compile Include="Skyline\Panels\IPanel.cs" />
+		<Compile Include="Skyline\Panels\Panel.cs" />
 		<Compile Include="Skyline\UIBlockDefinitionExtensions.cs" />
 		<Compile Include="Skyline\UiResultsExtensions.cs" />
 	</ItemGroup>

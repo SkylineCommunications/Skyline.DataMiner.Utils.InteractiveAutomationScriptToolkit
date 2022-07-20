@@ -7,7 +7,7 @@
 	/// <summary>
 	///     Dialog used to display an exception.
 	/// </summary>
-	public class ExceptionDialog : Dialog
+	public class ExceptionDialog : Dialog<GridPanel>
 	{
 		private readonly Label exceptionLabel = new Label();
 		private Exception exception;
@@ -22,8 +22,8 @@
 			Title = "Exception Occurred";
 			OkButton = new Button("OK");
 
-			AddWidget(exceptionLabel, 0, 0);
-			AddWidget(OkButton, 1, 0);
+			Panel.Add(exceptionLabel, 0, 0);
+			Panel.Add(OkButton, 1, 0);
 		}
 
 		/// <summary>

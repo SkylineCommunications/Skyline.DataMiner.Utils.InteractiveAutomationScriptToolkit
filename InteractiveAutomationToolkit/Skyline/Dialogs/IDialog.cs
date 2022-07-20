@@ -7,7 +7,7 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 	/// <summary>
 	///     A dialog represents a single window that can be shown.
 	/// </summary>
-	public interface IDialog : ISection
+	public interface IDialog
 	{
 		/// <summary>
 		///     Triggered when the back button of the dialog is pressed.
@@ -23,6 +23,8 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		///     Triggered when there is any user interaction before any other widget event.
 		/// </summary>
 		event EventHandler<EventArgs> Interacted;
+
+		IPanel Panel { get; }
 
 		/// <summary>
 		///     Gets the link to the SLAutomation process.
@@ -147,5 +149,13 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		/// <param name="requireResponse">If the dialog expects user interaction.</param>
 		/// <remarks>Should only be used when you create your own event loop.</remarks>
 		void Show(bool requireResponse = true);
+	}
+
+	/// <summary>
+	///     A dialog represents a single window that can be shown.
+	/// </summary>
+	public interface IDialog<TPanel> : IDialog where TPanel : IPanel, new()
+	{
+		new TPanel Panel { get; }
 	}
 }

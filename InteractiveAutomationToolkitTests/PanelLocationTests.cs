@@ -12,21 +12,21 @@ namespace InteractiveAutomationToolkitTests
 	using static FluentAssertions.FluentActions;
 
 	[TestClass]
-	public class SectionLocationTests
+	public class PanelLocationTests
 	{
 		[DataTestMethod]
 		[DataRow(-1, 0)]
 		[DataRow(0, -1)]
 		public void InvalidConstructorArgumentsTest(int fromRow, int fromColumn)
 		{
-			Invoking(() => new SectionLocation(fromRow, fromColumn))
+			Invoking(() => new PanelLocation(fromRow, fromColumn))
 				.Should()
 				.Throw<ArgumentOutOfRangeException>();
 		}
 
 		[DataTestMethod]
 		[DynamicData(nameof(EqualTestData), DynamicDataSourceType.Method)]
-		public void EqualTest(SectionLocation location, SectionLocation otherLocation)
+		public void EqualTest(PanelLocation location, PanelLocation otherLocation)
 		{
 			location.Equals(otherLocation)
 				.Should()
@@ -43,7 +43,7 @@ namespace InteractiveAutomationToolkitTests
 
 		[DataTestMethod]
 		[DynamicData(nameof(NotEqualTestData), DynamicDataSourceType.Method)]
-		public void NotEqualTest(SectionLocation location, SectionLocation otherLocation)
+		public void NotEqualTest(PanelLocation location, PanelLocation otherLocation)
 		{
 			location.Equals(otherLocation)
 				.Should()
@@ -62,12 +62,12 @@ namespace InteractiveAutomationToolkitTests
 		public void AddOffsetTest()
 		{
 			// Arrange
-			var location = new SectionLocation(2, 1);
-			var offset = new SectionLocation(3, 1);
-			var expected = new SectionLocation(5, 2);
+			var location = new PanelLocation(2, 1);
+			var offset = new PanelLocation(3, 1);
+			var expected = new PanelLocation(5, 2);
 
 			// Act
-			SectionLocation actual = location.AddOffset(offset);
+			PanelLocation actual = location.AddOffset(offset);
 
 			// Assert
 			actual.Should().Be(expected);
@@ -75,15 +75,15 @@ namespace InteractiveAutomationToolkitTests
 
 		private static IEnumerable<object[]> EqualTestData()
 		{
-			yield return new object[] { new SectionLocation(0, 0), new SectionLocation(0, 0) };
-			yield return new object[] { new SectionLocation(7, 0), new SectionLocation(7, 0) };
-			yield return new object[] { new SectionLocation(0, 9), new SectionLocation(0, 9) };
+			yield return new object[] { new PanelLocation(0, 0), new PanelLocation(0, 0) };
+			yield return new object[] { new PanelLocation(7, 0), new PanelLocation(7, 0) };
+			yield return new object[] { new PanelLocation(0, 9), new PanelLocation(0, 9) };
 		}
 
 		private static IEnumerable<object[]> NotEqualTestData()
 		{
-			yield return new object[] { new SectionLocation(0, 0), new SectionLocation(7, 0) };
-			yield return new object[] { new SectionLocation(0, 0), new SectionLocation(0, 9) };
+			yield return new object[] { new PanelLocation(0, 0), new PanelLocation(7, 0) };
+			yield return new object[] { new PanelLocation(0, 0), new PanelLocation(0, 9) };
 		}
 	}
 }

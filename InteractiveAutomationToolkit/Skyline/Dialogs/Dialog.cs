@@ -11,7 +11,7 @@
 	///     You can show widgets in the window by adding them to the dialog.
 	///     The dialog uses a grid layout.
 	/// </summary>
-	public class Dialog : Section, IDialog
+	public class Dialog<TPanel> : IDialog<TPanel> where TPanel : IPanel, new()
 	{
 		private const string Auto = "auto";
 		private const string Stretch = "*";
@@ -27,7 +27,7 @@
 		private int width;
 
 		/// <summary>
-		///     Initializes a new instance of the <see cref="Dialog" /> class.
+		///     Initializes a new instance of the <see cref="Dialog{TPanel}" /> class.
 		/// </summary>
 		/// <param name="engine">Allows interaction with the DataMiner System.</param>
 		public Dialog(IEngine engine)
@@ -51,6 +51,10 @@
 
 		/// <inheritdoc />
 		public event EventHandler<EventArgs> Interacted;
+
+		IPanel IDialog.Panel => Panel;
+
+		public TPanel Panel { get; } = new TPanel();
 
 		/// <inheritdoc />
 		public IEngine Engine { get; }
@@ -273,29 +277,9 @@
 			}
 		}
 
-		private static IEnumerable<WidgetLocationPair> GetAbsoluteWidgetLocations(
-			ISection section,
-			SectionLocation location)
-		{
-			foreach (IWidget widget in section.GetWidgets(false))
-			{
-				WidgetLocation widgetLocation = section.GetWidgetLocation(widget);
-				yield return new WidgetLocationPair(widget, widgetLocation.AddOffset(location));
-			}
-
-			foreach (ISection subsection in section.GetSections(false))
-			{
-				SectionLocation subsectionLocation = section.GetSectionLocation(subsection).AddOffset(location);
-				foreach (WidgetLocationPair pair in GetAbsoluteWidgetLocations(subsection, subsectionLocation))
-				{
-					yield return pair;
-				}
-			}
-		}
-
 		private UIBuilder Build()
 		{
-			WidgetLocationPair[] visibleWidgetLocationPairs = GetAbsoluteWidgetLocations()
+			WidgetLocationPair[] visibleWidgetLocationPairs = Panel.GetWidgetLocationPairs()
 				.Where(pair => pair.Widget.IsVisible)
 				.ToArray();
 
@@ -337,14 +321,9 @@
 			return builder;
 		}
 
-		private IEnumerable<WidgetLocationPair> GetAbsoluteWidgetLocations()
-		{
-			return GetAbsoluteWidgetLocations(this, new SectionLocation(0, 0));
-		}
-
 		private string GetColumnDefinitions()
 		{
-			return GetDefinitions(columnDefinitions, ColumnCount);
+			return GetDefinitions(columnDefinitions, Panel.EvaluateColumnCount());
 		}
 
 		private string GetDefinitions(Dictionary<int, string> definitions, int amount)
@@ -371,12 +350,12 @@
 
 		private string GetRowDefinitions()
 		{
-			return GetDefinitions(rowDefinitions, RowCount);
+			return GetDefinitions(rowDefinitions, Panel.EvaluateRowCount());
 		}
 
 		private void LoadChanges(UIResults uir)
 		{
-			foreach (InteractiveWidget interactiveWidget in GetWidgets().OfType<InteractiveWidget>())
+			foreach (InteractiveWidget interactiveWidget in Panel.GetWidgets().OfType<InteractiveWidget>())
 			{
 				if (interactiveWidget.IsVisible)
 				{
@@ -402,7 +381,7 @@
 			}
 
 			// ToList is necessary to prevent InvalidOperationException when adding or removing widgets from a event handler.
-			List<InteractiveWidget> intractableWidgets = GetWidgets()
+			List<InteractiveWidget> intractableWidgets = Panel.GetWidgets()
 				.OfType<InteractiveWidget>()
 				.Where(widget => widget.WantsOnChange)
 				.ToList();
@@ -410,47 +389,6 @@
 			foreach (InteractiveWidget intractable in intractableWidgets)
 			{
 				intractable.RaiseResultEvents();
-			}
-		}
-
-		private readonly struct WidgetLocationPair : IEquatable<WidgetLocationPair>
-		{
-			public WidgetLocationPair(IWidget widget, WidgetLocation location)
-			{
-				Widget = widget;
-				Location = location;
-			}
-
-			public IWidget Widget { get; }
-
-			public WidgetLocation Location { get; }
-
-			public static bool operator ==(WidgetLocationPair left, WidgetLocationPair right)
-			{
-				return left.Equals(right);
-			}
-
-			public static bool operator !=(WidgetLocationPair left, WidgetLocationPair right)
-			{
-				return !left.Equals(right);
-			}
-
-			public bool Equals(WidgetLocationPair other)
-			{
-				return Equals(Widget, other.Widget) && Location.Equals(other.Location);
-			}
-
-			public override bool Equals(object obj)
-			{
-				return obj is WidgetLocationPair other && Equals(other);
-			}
-
-			public override int GetHashCode()
-			{
-				unchecked
-				{
-					return (Widget != null ? Widget.GetHashCode() : 0) * 397 ^ Location.GetHashCode();
-				}
 			}
 		}
 	}

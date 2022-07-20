@@ -3,16 +3,16 @@
 	using System;
 
 	/// <summary>
-	///     Used to define the location of a section in another section or dialog.
+	///     Used to define the location of a panel in another panel or dialog.
 	/// </summary>
-	public readonly struct SectionLocation : IEquatable<SectionLocation>
+	public readonly struct PanelLocation : IEquatable<PanelLocation>
 	{
 		/// <summary>
-		///     Initializes a new instance of the <see cref="SectionLocation" /> struct.
+		///     Initializes a new instance of the <see cref="PanelLocation" /> struct.
 		/// </summary>
-		/// <param name="row">Row index of the cell that the top-left cell of the section will be mapped to.</param>
-		/// <param name="column">Column index of the cell that the top-left cell of the section will be mapped to.</param>
-		public SectionLocation(int row, int column)
+		/// <param name="row">Row index of the cell that the top-left cell of the panel will be mapped to.</param>
+		/// <param name="column">Column index of the cell that the top-left cell of the panel will be mapped to.</param>
+		public PanelLocation(int row, int column)
 		{
 			if (row < 0)
 			{
@@ -29,19 +29,19 @@
 		}
 
 		/// <summary>
-		///     Gets the column location of the section on the dialog grid.
+		///     Gets the column location of the panel on the dialog grid.
 		/// </summary>
 		/// <remarks>The top-left location is (0, 0) by default.</remarks>
 		public int Column { get; }
 
 		/// <summary>
-		///     Gets the row location of the section on the dialog grid.
+		///     Gets the row location of the panel on the dialog grid.
 		/// </summary>
 		/// <remarks>The top-left location is (0, 0) by default.</remarks>
 		public int Row { get; }
 
 		/// <summary>
-		///     Determines whether two specified instances of <see cref="SectionLocation" /> are equal.
+		///     Determines whether two specified instances of <see cref="PanelLocation" /> are equal.
 		/// </summary>
 		/// <param name="left">The first object to compare.</param>
 		/// <param name="right">The second object to compare.</param>
@@ -49,13 +49,13 @@
 		///     <c>true</c> if <paramref name="left" /> and <paramref name="right" /> represent the same margin; otherwise,
 		///     <c>false</c>.
 		/// </returns>
-		public static bool operator ==(SectionLocation left, SectionLocation right)
+		public static bool operator ==(PanelLocation left, PanelLocation right)
 		{
 			return left.Equals(right);
 		}
 
 		/// <summary>
-		///     Determines whether two specified instances of <see cref="SectionLocation" /> are not equal.
+		///     Determines whether two specified instances of <see cref="PanelLocation" /> are not equal.
 		/// </summary>
 		/// <param name="left">The first object to compare.</param>
 		/// <param name="right">The second object to compare.</param>
@@ -63,18 +63,18 @@
 		///     <c>true</c> if <paramref name="left" /> and <paramref name="right" /> do not represent the same margin;
 		///     otherwise, <c>false</c>.
 		/// </returns>
-		public static bool operator !=(SectionLocation left, SectionLocation right)
+		public static bool operator !=(PanelLocation left, PanelLocation right)
 		{
 			return !left.Equals(right);
 		}
 
 		/// <summary>
 		///     Returns a value indicating whether the value of this instance is equal to the value of the specified
-		///     <see cref="SectionLocation" /> instance.
+		///     <see cref="PanelLocation" /> instance.
 		/// </summary>
 		/// <param name="other">The object to compare to this instance.</param>
 		/// <returns><c>true</c> if the value parameter equals the value of this instance; otherwise, <c>false</c>.</returns>
-		public bool Equals(SectionLocation other)
+		public bool Equals(PanelLocation other)
 		{
 			return Column == other.Column && Row == other.Row;
 		}
@@ -87,7 +87,7 @@
 				return false;
 			}
 
-			return obj is SectionLocation location && Equals(location);
+			return obj is PanelLocation location && Equals(location);
 		}
 
 		/// <inheritdoc />
@@ -99,9 +99,9 @@
 			}
 		}
 
-		internal SectionLocation AddOffset(SectionLocation offset)
+		internal PanelLocation AddOffset(PanelLocation offset)
 		{
-			return new SectionLocation(Row + offset.Row, Column + offset.Column);
+			return new PanelLocation(Row + offset.Row, Column + offset.Column);
 		}
 	}
 }

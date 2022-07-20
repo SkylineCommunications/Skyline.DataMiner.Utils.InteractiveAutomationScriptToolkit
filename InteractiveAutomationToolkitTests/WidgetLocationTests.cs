@@ -179,7 +179,7 @@ namespace InteractiveAutomationToolkitTests
 		{
 			// Arrange
 			var location = new WidgetLocation(2, 1);
-			var offset = new SectionLocation(3, 1);
+			var offset = new PanelLocation(3, 1);
 			var expected = new WidgetLocation(5, 2);
 
 			// Act

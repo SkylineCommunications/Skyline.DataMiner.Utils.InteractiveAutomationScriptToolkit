@@ -101,22 +101,22 @@ internal class Script
 	}
 }
 
-public class ProtocolDialog : Dialog
+public class ProtocolDialog : Dialog<GridPanel>
 {
 	public ProtocolDialog(Engine engine)
 		: base(engine)
 	{
 		var label = new Label("Please enter a protocol");
-		AddWidget(label, 0, 0);
+		Panel.Add(label, 0, 0);
 
 		TextBox = new TextBox();
-		AddWidget(TextBox, 1, 0, 1, 2);
+		Panel.Add(TextBox, 1, 0, 1, 2);
 
 		ErrorLabel = new Label("Could not find protocol") { IsVisible = false };
-		AddWidget(ErrorLabel, 2, 0);
+		Panel.Add(ErrorLabel, 2, 0);
 
 		NextButton = new Button("Next");
-		AddWidget(NextButton, 3, 1);
+		Panel.Add(NextButton, 3, 1);
 	}
 
 	public Label ErrorLabel { get; private set; }
@@ -126,7 +126,7 @@ public class ProtocolDialog : Dialog
 	public TextBox TextBox { get; private set; }
 }
 
-public class ElementDialog : Dialog
+public class ElementDialog : Dialog<GridPanel>
 {
 	private readonly CheckBoxList checkBoxList;
 	private Element[] elementOptions;
@@ -135,16 +135,16 @@ public class ElementDialog : Dialog
 		: base(engine)
 	{
 		var label = new Label("Please select the elements");
-		AddWidget(label, 0, 0);
+		Panel.Add(label, 0, 0);
 
 		checkBoxList = new CheckBoxList();
-		AddWidget(checkBoxList, 1, 0);
+		Panel.Add(checkBoxList, 1, 0);
 
 		BackButton = new Button("Back");
-		AddWidget(BackButton, 2, 0);
+		Panel.Add(BackButton, 2, 0);
 
 		NextButton = new Button("Next");
-		AddWidget(NextButton, 2, 1);
+		Panel.Add(NextButton, 2, 1);
 	}
 
 	public Button BackButton { get; private set; }
@@ -164,7 +164,7 @@ public class ElementDialog : Dialog
 	}
 }
 
-public class SetParameterDialog : Dialog
+public class SetParameterDialog : Dialog<GridPanel>
 {
 	private readonly Numeric numeric;
 	private readonly TextBox textBox;
@@ -173,22 +173,22 @@ public class SetParameterDialog : Dialog
 	public SetParameterDialog(Engine engine)
 		: base(engine)
 	{
-		AddWidget(new Label("PID:"), 0, 0);
+		Panel.Add(new Label("PID:"), 0, 0);
 
 		numeric = new Numeric(1) { Minimum = 0 };
-		AddWidget(numeric, 0, 1);
+		Panel.Add(numeric, 0, 1);
 
-		AddWidget(new Label("Value:"), 1, 0);
+		Panel.Add(new Label("Value:"), 1, 0);
 
 		textBox = new TextBox();
-		AddWidget(textBox, 1, 1);
+		Panel.Add(textBox, 1, 1);
 
 		var setButton = new Button("Set");
-		AddWidget(setButton, 2, 1);
+		Panel.Add(setButton, 2, 1);
 		setButton.Pressed += SetParameters;
 
 		BackButton = new Button("Back");
-		AddWidget(BackButton, 3, 0);
+		Panel.Add(BackButton, 3, 0);
 	}
 
 	public Button BackButton { get; private set; }

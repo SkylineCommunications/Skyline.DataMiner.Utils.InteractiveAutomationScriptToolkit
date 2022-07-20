@@ -20,7 +20,7 @@ namespace InteractiveAutomationToolkitTests
 		public void EmptyDefinitionsTest()
 		{
 			// Arrange
-			var dialog = new Dialog(Mock.Of<IEngine>());
+			var dialog = new Dialog<GridPanel>(Mock.Of<IEngine>());
 			var privateObject = new PrivateObject(dialog);
 
 			// Act
@@ -36,11 +36,11 @@ namespace InteractiveAutomationToolkitTests
 		public void DefaultDefinitionsTest()
 		{
 			// Arrange
-			var dialog = new Dialog(Mock.Of<IEngine>());
-			dialog.AddWidget(new Label(), 0, 0);
-			dialog.AddWidget(new Label(), 1, 0);
-			dialog.AddWidget(new Label(), 1, 1);
-			dialog.AddWidget(new Label(), 1, 2);
+			var dialog = new Dialog<GridPanel>(Mock.Of<IEngine>());
+			dialog.Panel.Add(new Label(), 0, 0);
+			dialog.Panel.Add(new Label(), 1, 0);
+			dialog.Panel.Add(new Label(), 1, 1);
+			dialog.Panel.Add(new Label(), 1, 2);
 			var privateObject = new PrivateObject(dialog);
 
 			// Act
@@ -56,8 +56,8 @@ namespace InteractiveAutomationToolkitTests
 		public void SetRowHeightTest()
 		{
 			// Arrange
-			var dialog = new Dialog(Mock.Of<IEngine>());
-			dialog.AddWidget(new Label(), 1, 1);
+			var dialog = new Dialog<GridPanel>(Mock.Of<IEngine>());
+			dialog.Panel.Add(new Label(), 1, 1);
 
 			// Act
 			dialog.SetRowHeight(1, 150);
@@ -70,8 +70,8 @@ namespace InteractiveAutomationToolkitTests
 		public void SetInvalidRowHeightHeightTest()
 		{
 			// Arrange
-			var dialog = new Dialog(Mock.Of<IEngine>());
-			dialog.AddWidget(new Label(), 1, 1);
+			var dialog = new Dialog<GridPanel>(Mock.Of<IEngine>());
+			dialog.Panel.Add(new Label(), 1, 1);
 
 			// Act & Assert
 			Invoking(() => dialog.SetRowHeight(1, -1))
@@ -83,8 +83,8 @@ namespace InteractiveAutomationToolkitTests
 		public void SetInvalidRowHeightRowTest()
 		{
 			// Arrange
-			var dialog = new Dialog(Mock.Of<IEngine>());
-			dialog.AddWidget(new Label(), 1, 1);
+			var dialog = new Dialog<GridPanel>(Mock.Of<IEngine>());
+			dialog.Panel.Add(new Label(), 1, 1);
 
 			// Act & Assert
 			Invoking(() => dialog.SetRowHeight(-1, 150))
@@ -96,8 +96,8 @@ namespace InteractiveAutomationToolkitTests
 		public void SetRowHeightStretchTest()
 		{
 			// Arrange
-			var dialog = new Dialog(Mock.Of<IEngine>());
-			dialog.AddWidget(new Label(), 1, 1);
+			var dialog = new Dialog<GridPanel>(Mock.Of<IEngine>());
+			dialog.Panel.Add(new Label(), 1, 1);
 
 			// Act
 			dialog.SetRowHeightStretch(1);
@@ -110,8 +110,8 @@ namespace InteractiveAutomationToolkitTests
 		public void SetInvalidRowStretchTest()
 		{
 			// Arrange
-			var dialog = new Dialog(Mock.Of<IEngine>());
-			dialog.AddWidget(new Label(), 1, 1);
+			var dialog = new Dialog<GridPanel>(Mock.Of<IEngine>());
+			dialog.Panel.Add(new Label(), 1, 1);
 
 			// Act & Assert
 			Invoking(() => dialog.SetRowHeightStretch(-1))
@@ -123,8 +123,8 @@ namespace InteractiveAutomationToolkitTests
 		public void SetRowHeightAutoTest()
 		{
 			// Arrange
-			var dialog = new Dialog(Mock.Of<IEngine>());
-			dialog.AddWidget(new Label(), 1, 1);
+			var dialog = new Dialog<GridPanel>(Mock.Of<IEngine>());
+			dialog.Panel.Add(new Label(), 1, 1);
 			dialog.SetRowHeight(0, 100);
 			dialog.SetRowHeight(1, 200);
 
@@ -139,8 +139,8 @@ namespace InteractiveAutomationToolkitTests
 		public void SetInvalidRowAutoTest()
 		{
 			// Arrange
-			var dialog = new Dialog(Mock.Of<IEngine>());
-			dialog.AddWidget(new Label(), 1, 1);
+			var dialog = new Dialog<GridPanel>(Mock.Of<IEngine>());
+			dialog.Panel.Add(new Label(), 1, 1);
 
 			// Act & Assert
 			Invoking(() => dialog.SetRowHeightAuto(-1))
@@ -152,8 +152,8 @@ namespace InteractiveAutomationToolkitTests
 		public void SetColumnWidthTest()
 		{
 			// Arrange
-			var dialog = new Dialog(Mock.Of<IEngine>());
-			dialog.AddWidget(new Label(), 1, 1);
+			var dialog = new Dialog<GridPanel>(Mock.Of<IEngine>());
+			dialog.Panel.Add(new Label(), 1, 1);
 
 			// Act
 			dialog.SetColumnWidth(1, 150);
@@ -166,8 +166,8 @@ namespace InteractiveAutomationToolkitTests
 		public void SetInvalidColumnWidthHeightTest()
 		{
 			// Arrange
-			var dialog = new Dialog(Mock.Of<IEngine>());
-			dialog.AddWidget(new Label(), 1, 1);
+			var dialog = new Dialog<GridPanel>(Mock.Of<IEngine>());
+			dialog.Panel.Add(new Label(), 1, 1);
 
 			// Act & Assert
 			Invoking(() => dialog.SetColumnWidth(1, -1))
@@ -179,8 +179,8 @@ namespace InteractiveAutomationToolkitTests
 		public void SetInvalidColumnWidthRowTest()
 		{
 			// Arrange
-			var dialog = new Dialog(Mock.Of<IEngine>());
-			dialog.AddWidget(new Label(), 1, 1);
+			var dialog = new Dialog<GridPanel>(Mock.Of<IEngine>());
+			dialog.Panel.Add(new Label(), 1, 1);
 
 			// Act & Assert
 			Invoking(() => dialog.SetColumnWidth(-1, 150))
@@ -192,8 +192,8 @@ namespace InteractiveAutomationToolkitTests
 		public void SetColumnWidthStretchTest()
 		{
 			// Arrange
-			var dialog = new Dialog(Mock.Of<IEngine>());
-			dialog.AddWidget(new Label(), 1, 1);
+			var dialog = new Dialog<GridPanel>(Mock.Of<IEngine>());
+			dialog.Panel.Add(new Label(), 1, 1);
 
 			// Act
 			dialog.SetColumnWidthStretch(1);
@@ -206,8 +206,8 @@ namespace InteractiveAutomationToolkitTests
 		public void SetInvalidColumnStretchTest()
 		{
 			// Arrange
-			var dialog = new Dialog(Mock.Of<IEngine>());
-			dialog.AddWidget(new Label(), 1, 1);
+			var dialog = new Dialog<GridPanel>(Mock.Of<IEngine>());
+			dialog.Panel.Add(new Label(), 1, 1);
 
 			// Act & Assert
 			Invoking(() => dialog.SetColumnWidthStretch(-1))
@@ -219,8 +219,8 @@ namespace InteractiveAutomationToolkitTests
 		public void SetColumnWidthAutoTest()
 		{
 			// Arrange
-			var dialog = new Dialog(Mock.Of<IEngine>());
-			dialog.AddWidget(new Label(), 1, 1);
+			var dialog = new Dialog<GridPanel>(Mock.Of<IEngine>());
+			dialog.Panel.Add(new Label(), 1, 1);
 			dialog.SetColumnWidth(0, 100);
 			dialog.SetColumnWidth(1, 200);
 
@@ -235,8 +235,8 @@ namespace InteractiveAutomationToolkitTests
 		public void SetInvalidColumnAutoTest()
 		{
 			// Arrange
-			var dialog = new Dialog(Mock.Of<IEngine>());
-			dialog.AddWidget(new Label(), 1, 1);
+			var dialog = new Dialog<GridPanel>(Mock.Of<IEngine>());
+			dialog.Panel.Add(new Label(), 1, 1);
 
 			// Act & Assert
 			Invoking(() => dialog.SetColumnWidthAuto(-1))

@@ -20,7 +20,7 @@ internal class Script
 	}
 }
 
-public class MyEventDialog : Dialog
+public class MyEventDialog : Dialog<GridPanel>
 {
 	private readonly TextBox textBox;
 
@@ -28,13 +28,13 @@ public class MyEventDialog : Dialog
 		: base(engine)
 	{
 		textBox = new TextBox("Foo");
-		AddWidget(textBox, 0, 0, 1, 2);
+		Panel.Add(textBox, 0, 0, 1, 2);
 
 		var appendButton = new Button("Append");
-		AddWidget(appendButton, 1, 0);
+		Panel.Add(appendButton, 1, 0);
 
 		var exitButton = new Button("Exit");
-		AddWidget(exitButton, 1, 1);
+		Panel.Add(exitButton, 1, 1);
 
 		textBox.Changed += OnTextBoxChanged;
 		appendButton.Pressed += OnAppendButtonPressed;

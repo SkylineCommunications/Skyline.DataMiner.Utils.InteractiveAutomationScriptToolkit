@@ -19,16 +19,16 @@ internal class Script
 	}
 }
 
-public class HelloWorldDialog : Dialog
+public class HelloWorldDialog : Dialog<GridPanel>
 {
 	public HelloWorldDialog(Engine engine)
 		: base(engine)
 	{
 		var label = new Label("Hello, World!") { Style = TextStyle.Title };
-		AddWidget(label, 0, 0);
+		Panel.Add(label, 0, 0);
 
 		var button = new Button("OK");
-		AddWidget(button, 1, 0);
+		Panel.Add(button, 1, 0);
 		button.Pressed += (sender, args) => engine.ExitSuccess("Done");
 	}
 }

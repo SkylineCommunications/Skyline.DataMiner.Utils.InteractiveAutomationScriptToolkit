@@ -21,9 +21,9 @@ namespace InteractiveAutomationToolkitTests
 		{
 			var label1 = new Label("Label 1");
 			var label2 = new Label("Label 2");
-			var dialog = new Dialog(Mock.Of<IEngine>());
-			dialog.AddWidget(label1, 0, 0, 2, 2);
-			dialog.AddWidget(label2, 1, 1, 2, 3);
+			var dialog = new Dialog<GridPanel>(Mock.Of<IEngine>());
+			dialog.Panel.Add(label1, 0, 0, 2, 2);
+			dialog.Panel.Add(label2, 1, 1, 2, 3);
 
 			Assert.ThrowsException<OverlappingWidgetsException>(() => dialog.Show(false));
 		}
@@ -37,9 +37,9 @@ namespace InteractiveAutomationToolkitTests
 		{
 			var label1 = new Label("Label 1");
 			var label2 = new Label("Label 2");
-			var dialog = new Dialog(Mock.Of<IEngine>());
-			dialog.AddWidget(label1, 0, 0, 1, 3);
-			dialog.AddWidget(label2, 0, 2, 1, 2);
+			var dialog = new Dialog<GridPanel>(Mock.Of<IEngine>());
+			dialog.Panel.Add(label1, 0, 0, 1, 3);
+			dialog.Panel.Add(label2, 0, 2, 1, 2);
 
 			Assert.ThrowsException<OverlappingWidgetsException>(() => dialog.Show(false));
 		}
@@ -53,9 +53,9 @@ namespace InteractiveAutomationToolkitTests
 		{
 			var label1 = new Label("Label 1");
 			var label2 = new Label("Label 2") { IsVisible = false };
-			var dialog = new Dialog(Mock.Of<IEngine>());
-			dialog.AddWidget(label1, 0, 0, 2, 2);
-			dialog.AddWidget(label2, 1, 1, 2, 3);
+			var dialog = new Dialog<GridPanel>(Mock.Of<IEngine>());
+			dialog.Panel.Add(label1, 0, 0, 2, 2);
+			dialog.Panel.Add(label2, 1, 1, 2, 3);
 
 			try
 			{
@@ -76,9 +76,9 @@ namespace InteractiveAutomationToolkitTests
 		{
 			var label1 = new Label("Label 1");
 			var label2 = new Label("Label 2");
-			var dialog = new Dialog(Mock.Of<IEngine>());
-			dialog.AddWidget(label1, 0, 0, 3, 1);
-			dialog.AddWidget(label2, 2, 0, 2, 1);
+			var dialog = new Dialog<GridPanel>(Mock.Of<IEngine>());
+			dialog.Panel.Add(label1, 0, 0, 3, 1);
+			dialog.Panel.Add(label2, 2, 0, 2, 1);
 
 			Assert.ThrowsException<OverlappingWidgetsException>(() => dialog.Show(false));
 		}
@@ -92,9 +92,9 @@ namespace InteractiveAutomationToolkitTests
 		{
 			var label1 = new Label("Label 1");
 			var label2 = new Label("Label 2");
-			var dialog = new Dialog(Mock.Of<IEngine>());
-			dialog.AddWidget(label1, 0, 0);
-			dialog.AddWidget(label2, 0, 0);
+			var dialog = new Dialog<GridPanel>(Mock.Of<IEngine>());
+			dialog.Panel.Add(label1, 0, 0);
+			dialog.Panel.Add(label2, 0, 0);
 
 			Assert.ThrowsException<OverlappingWidgetsException>(() => dialog.Show(false));
 		}
