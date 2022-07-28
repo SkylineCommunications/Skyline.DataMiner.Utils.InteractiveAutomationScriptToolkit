@@ -121,6 +121,7 @@
 		<Compile Include="Skyline\InteractiveController.cs" />
 		<Compile Include="Skyline\Layout\HorizontalAlignment.cs" />
 		<Compile Include="Skyline\Layout\Margin.cs" />
+		<Compile Include="Skyline\Layout\Direction.cs" />
 		<Compile Include="Skyline\Layout\PanelLocation.cs" />
 		<Compile Include="Skyline\Layout\TextStyle.cs" />
 		<Compile Include="Skyline\Layout\TreeViewNodeStyle.cs" />
@@ -128,8 +129,10 @@
 		<Compile Include="Skyline\Layout\WidgetLocation.cs" />
 		<Compile Include="Skyline\Layout\WidgetLocationPair.cs" />
 		<Compile Include="Skyline\Panels\GridPanel.cs" />
+		<Compile Include="Skyline\Panels\StackPanel.cs" />
 		<Compile Include="Skyline\Panels\IGridPanel.cs" />
 		<Compile Include="Skyline\Panels\IPanel.cs" />
+		<Compile Include="Skyline\Panels\IStackPanel.cs" />
 		<Compile Include="Skyline\Panels\Panel.cs" />
 		<Compile Include="Skyline\UIBlockDefinitionExtensions.cs" />
 		<Compile Include="Skyline\UiResultsExtensions.cs" />
