@@ -10,7 +10,7 @@
 	public abstract class Panel : IPanel
 	{
 		/// <inheritdoc />
-		public virtual int EvaluateColumnCount()
+		public virtual int GetColumnCount()
 		{
 			try
 			{
@@ -24,7 +24,7 @@
 		}
 
 		/// <inheritdoc />
-		public virtual int EvaluateRowCount()
+		public virtual int GetRowCount()
 		{
 			try
 			{

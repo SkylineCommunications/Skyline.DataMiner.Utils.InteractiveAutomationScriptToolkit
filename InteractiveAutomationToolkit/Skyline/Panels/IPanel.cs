@@ -13,13 +13,13 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		///     Gets the current number of columns allocated in the grid.
 		/// </summary>
 		/// <returns>The current number of columns allocated in the grid.</returns>
-		int EvaluateColumnCount();
+		int GetColumnCount();
 
 		/// <summary>
 		///     Gets the current number of rows allocated in the grid.
 		/// </summary>
 		/// <returns>The current number of rows allocated in the grid.</returns>
-		int EvaluateRowCount();
+		int GetRowCount();
 
 		/// <summary>
 		/// 	Gets all widgets and their locations as if they are part of one big grid.

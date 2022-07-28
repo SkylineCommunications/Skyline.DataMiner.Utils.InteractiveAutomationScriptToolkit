@@ -40,8 +40,8 @@ namespace InteractiveAutomationToolkitTests
 			panel.Add(new Label(), 2, 1);
 
 			// Assert
-			panel.EvaluateRowCount().Should().Be(3);
-			panel.EvaluateColumnCount().Should().Be(2);
+			panel.GetRowCount().Should().Be(3);
+			panel.GetColumnCount().Should().Be(2);
 		}
 
 		[TestMethod]
@@ -57,8 +57,8 @@ namespace InteractiveAutomationToolkitTests
 			panel.Add(new Label(), 2, 0);
 
 			// Assert
-			panel.EvaluateRowCount().Should().Be(3);
-			panel.EvaluateColumnCount().Should().Be(2);
+			panel.GetRowCount().Should().Be(3);
+			panel.GetColumnCount().Should().Be(2);
 			panel.GetWidgets().Should().HaveCount(4);
 		}
 
@@ -103,8 +103,8 @@ namespace InteractiveAutomationToolkitTests
 				.HaveCount(2, "the panel has one direct child widget and one from the subPanel.");
 
 			panel.GetWidgets(false).Should().HaveCount(1, "only one widget is a direct child of the panel.");
-			panel.EvaluateRowCount().Should().Be(2, "because widgets in sub-panels count towards the row count.");
-			panel.EvaluateColumnCount().Should().Be(2, "because widgets in sub-panels count towards the column count.");
+			panel.GetRowCount().Should().Be(2, "because widgets in sub-panels count towards the row count.");
+			panel.GetColumnCount().Should().Be(2, "because widgets in sub-panels count towards the column count.");
 		}
 
 		[TestMethod]
@@ -128,8 +128,8 @@ namespace InteractiveAutomationToolkitTests
 				.HaveCount(3, "the subPanel has 3 widgets.");
 
 			panel.GetWidgets(false).Should().HaveCount(0, "no widgets are a direct child of the panel.");
-			panel.EvaluateRowCount().Should().Be(1, "because widgets in sub-panels count towards the row count.");
-			panel.EvaluateColumnCount().Should().Be(3, "because widgets in sub-panels count towards the column count.");
+			panel.GetRowCount().Should().Be(1, "because widgets in sub-panels count towards the row count.");
+			panel.GetColumnCount().Should().Be(3, "because widgets in sub-panels count towards the column count.");
 		}
 
 		[TestMethod]
@@ -168,8 +168,8 @@ namespace InteractiveAutomationToolkitTests
 			panel.Add(new Label(), 0, 0);
 
 			// Assert
-			panel.EvaluateRowCount().Should().Be(1, "a single widget was added to row index 0.");
-			panel.EvaluateColumnCount().Should().Be(1, "a single widget was added to column index 0.");
+			panel.GetRowCount().Should().Be(1, "a single widget was added to row index 0.");
+			panel.GetColumnCount().Should().Be(1, "a single widget was added to column index 0.");
 			panel.GetWidgets().Should().HaveCount(1, "a single widget was added.");
 		}
 
@@ -197,8 +197,8 @@ namespace InteractiveAutomationToolkitTests
 			panel.Clear();
 
 			// Assert
-			panel.EvaluateRowCount().Should().Be(0, "it should no longer have any widget at any row.");
-			panel.EvaluateColumnCount().Should().Be(0, "it should no longer have any widget at any column.");
+			panel.GetRowCount().Should().Be(0, "it should no longer have any widget at any row.");
+			panel.GetColumnCount().Should().Be(0, "it should no longer have any widget at any column.");
 			panel.GetWidgets().Should().BeEmpty("it should not longer have any widget.");
 		}
 
@@ -246,8 +246,8 @@ namespace InteractiveAutomationToolkitTests
 			panel.Add(new Label(), 2, 3);
 
 			// Assert
-			panel.EvaluateRowCount().Should().Be(3);
-			panel.EvaluateColumnCount().Should().Be(4);
+			panel.GetRowCount().Should().Be(3);
+			panel.GetColumnCount().Should().Be(4);
 		}
 
 		[TestMethod]
@@ -326,8 +326,8 @@ namespace InteractiveAutomationToolkitTests
 
 			panel.GetWidgets().Should().AllSatisfy(widget => widget.IsVisible.Should().BeFalse());
 
-			panel.EvaluateRowCount().Should().Be(0, "a hidden widget does not take row space on the grid.");
-			panel.EvaluateColumnCount().Should().Be(0, "a hidden widget does not take column space on the grid.");
+			panel.GetRowCount().Should().Be(0, "a hidden widget does not take row space on the grid.");
+			panel.GetColumnCount().Should().Be(0, "a hidden widget does not take column space on the grid.");
 		}
 
 		[TestMethod]
@@ -423,8 +423,8 @@ namespace InteractiveAutomationToolkitTests
 			// Assert
 			panel.GetLocation(widget).Should().Be(expectedLocation);
 			panel.GetWidgets().Should().HaveCount(1, "the widget should not disappear.");
-			panel.EvaluateRowCount().Should().Be(2, "the widget moved one row down.");
-			panel.EvaluateColumnCount().Should().Be(2, "the widget moved one column to the right.");
+			panel.GetRowCount().Should().Be(2, "the widget moved one row down.");
+			panel.GetColumnCount().Should().Be(2, "the widget moved one column to the right.");
 		}
 
 		[TestMethod]
@@ -434,8 +434,8 @@ namespace InteractiveAutomationToolkitTests
 			var panel = new GridPanel();
 
 			// Assert
-			panel.EvaluateRowCount().Should().Be(0, "it cannot have rows if there are no widgets.");
-			panel.EvaluateColumnCount().Should().Be(0, "it cannot have columns if there are no widgets");
+			panel.GetRowCount().Should().Be(0, "it cannot have rows if there are no widgets.");
+			panel.GetColumnCount().Should().Be(0, "it cannot have columns if there are no widgets");
 			panel.GetWidgets().Should().BeEmpty("widgets need to be added first.");
 			panel.GetPanels().Should().BeEmpty("sub-panels need to be added first.");
 		}
@@ -535,8 +535,8 @@ namespace InteractiveAutomationToolkitTests
 			panel.Remove(label);
 
 			// Assert
-			panel.EvaluateRowCount().Should().Be(0, "it should no longer have any widget at any row.");
-			panel.EvaluateColumnCount().Should().Be(0, "it should no longer have any widget at any column.");
+			panel.GetRowCount().Should().Be(0, "it should no longer have any widget at any row.");
+			panel.GetColumnCount().Should().Be(0, "it should no longer have any widget at any column.");
 			panel.GetWidgets().Should().BeEmpty("it should not longer have any widget.");
 		}
 

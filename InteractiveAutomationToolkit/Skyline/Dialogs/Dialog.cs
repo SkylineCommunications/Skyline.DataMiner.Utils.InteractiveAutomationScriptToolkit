@@ -323,7 +323,7 @@
 
 		private string GetColumnDefinitions()
 		{
-			return GetDefinitions(columnDefinitions, Panel.EvaluateColumnCount());
+			return GetDefinitions(columnDefinitions, Panel.GetColumnCount());
 		}
 
 		private string GetDefinitions(Dictionary<int, string> definitions, int amount)
@@ -350,7 +350,7 @@
 
 		private string GetRowDefinitions()
 		{
-			return GetDefinitions(rowDefinitions, Panel.EvaluateRowCount());
+			return GetDefinitions(rowDefinitions, Panel.GetRowCount());
 		}
 
 		private void LoadChanges(UIResults uir)
