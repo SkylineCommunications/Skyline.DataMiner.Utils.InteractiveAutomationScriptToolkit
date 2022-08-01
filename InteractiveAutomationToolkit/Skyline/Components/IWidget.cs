@@ -8,7 +8,7 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 	/// <summary>
 	///     Represents a widget.
 	/// </summary>
-	public interface IWidget
+	public interface IWidget : IComponent
 	{
 		/// <summary>
 		///     Gets the internal DataMiner representation of the widget.

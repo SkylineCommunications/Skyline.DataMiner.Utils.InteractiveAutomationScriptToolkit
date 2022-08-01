@@ -8,7 +8,7 @@
 	/// <summary>
 	///     Base class for widgets.
 	/// </summary>
-	public class Widget : IWidget
+	public class Widget : Component, IWidget
 	{
 		private HorizontalAlignment horizontalAlignment;
 		private VerticalAlignment verticalAlignment;

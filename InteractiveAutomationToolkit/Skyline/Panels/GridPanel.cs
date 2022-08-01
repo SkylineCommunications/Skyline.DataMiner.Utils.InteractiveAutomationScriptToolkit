@@ -16,6 +16,7 @@
 		private readonly Dictionary<IWidget, WidgetLocation>
 			widgetLocations = new Dictionary<IWidget, WidgetLocation>();
 
+		/// <inheritdoc/>
 		public override IEnumerable<WidgetLocationPair> GetWidgetLocationPairs()
 		{
 			foreach (KeyValuePair<IWidget, WidgetLocation> pair in widgetLocations.Where(pair => pair.Key.IsVisible))
@@ -40,8 +41,19 @@
 		public override void Clear()
 		{
 			widgetLocations.Clear();
+			foreach (IWidget widget in widgets)
+			{
+				RemoveParentFrom(widget);
+			}
+
 			widgets.Clear();
 			panelLocations.Clear();
+
+			foreach (IPanel panel in panels)
+			{
+				RemoveParentFrom(panel);
+			}
+
 			panels.Clear();
 		}
 
@@ -53,8 +65,7 @@
 				throw new ArgumentNullException(nameof(panel));
 			}
 
-			ValidatePanel(panel);
-
+			AddParentTo(panel);
 			panels.Add(panel);
 			panelLocations.Add(panel, location);
 		}
@@ -73,8 +84,7 @@
 				throw new ArgumentNullException(nameof(widget));
 			}
 
-			ValidateWidget(widget);
-
+			AddParentTo(widget);
 			widgets.Add(widget);
 			widgetLocations.Add(widget, location);
 		}
@@ -165,6 +175,7 @@
 				throw new ArgumentNullException(nameof(panel));
 			}
 
+			RemoveParentFrom(panel);
 			panels.Remove(panel);
 			panelLocations.Remove(panel);
 		}
@@ -177,6 +188,7 @@
 				throw new ArgumentNullException(nameof(widget));
 			}
 
+			RemoveParentFrom(widget);
 			widgets.Remove(widget);
 			widgetLocations.Remove(widget);
 		}

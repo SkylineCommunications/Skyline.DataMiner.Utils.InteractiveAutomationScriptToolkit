@@ -7,7 +7,7 @@
 	/// <summary>
 	///     A panel is a special component that can be used to group widgets together.
 	/// </summary>
-	public abstract class Panel : IPanel
+	public abstract class Panel : Component, IPanel
 	{
 		/// <inheritdoc />
 		public virtual int GetColumnCount()
@@ -37,6 +37,7 @@
 			}
 		}
 
+		/// <inheritdoc/>
 		public abstract IEnumerable<WidgetLocationPair> GetWidgetLocationPairs();
 
 		/// <inheritdoc />
@@ -99,7 +100,7 @@
 		/// <inheritdoc />
 		public void SetWidgetsEnabled(bool enabled, bool includeNested)
 		{
-			foreach (IInteractiveWidget widget in GetWidgets(includeNested).OfType<IInteractiveWidget>())
+			foreach (InteractiveWidget widget in GetWidgets(includeNested).OfType<InteractiveWidget>())
 			{
 				widget.IsEnabled = enabled;
 			}
@@ -126,30 +127,43 @@
 			SetWidgetsVisible(true, includeNested);
 		}
 
-		protected void ValidatePanel(IPanel panel)
+		protected void AddParentTo(IComponent component)
 		{
-			if (panel == this)
+			if (component.Parent != null)
 			{
-				throw new ArgumentException("Cannot add a panel to itself.");
+				throw new InvalidOperationException("Component cannot be added to more than once.");
 			}
 
-			if (GetPanels().Contains(panel) || panel.GetPanels().Contains(this))
+			if (component == this)
 			{
-				throw new ArgumentException("Panel is already added to the component or nested components.");
+				throw new InvalidOperationException("Panel cannot be added to itself.");
 			}
 
-			if (GetWidgets().Intersect(panel.GetWidgets()).Any())
+			if (WalkParents(this).Any(c => c == component))
 			{
-				throw new ArgumentException(
-					"Panel contains widgets that are already part of this component or nested components.");
+				throw new InvalidOperationException("Panel cannot recurse.");
 			}
+
+			component.Parent = this;
 		}
 
-		protected void ValidateWidget(IWidget widget)
+		protected void RemoveParentFrom(IComponent component)
 		{
-			if (GetWidgets().Contains(widget))
+			component.Parent = null;
+		}
+
+		private static IEnumerable<IComponent> WalkParents(IComponent component)
+		{
+			if (component.Parent == null)
 			{
-				throw new ArgumentException("Widget is already added.");
+				yield break;
+			}
+
+			yield return component.Parent;
+
+			foreach (IComponent parent in WalkParents(component.Parent))
+			{
+				yield return parent;
 			}
 		}
 	}

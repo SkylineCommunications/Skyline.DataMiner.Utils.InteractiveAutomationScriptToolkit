@@ -1,13 +1,12 @@
 namespace Skyline.DataMiner.InteractiveAutomationToolkit
 {
-	using System;
 	using System.Collections.Generic;
 	using System.ComponentModel;
 
 	/// <summary>
 	///     Represents a special component that can group widgets together.
 	/// </summary>
-	public interface IPanel
+	public interface IPanel : IComponent
 	{
 		/// <summary>
 		///     Gets the current number of columns allocated in the grid.

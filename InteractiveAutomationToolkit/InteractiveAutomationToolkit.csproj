@@ -76,11 +76,13 @@
 		<Compile Include="Skyline\Components\DateTimePicker.cs" />
 		<Compile Include="Skyline\Components\DropDown.cs" />
 		<Compile Include="Skyline\Components\FileSelector.cs" />
+		<Compile Include="Skyline\Components\Component.cs" />
 		<Compile Include="Skyline\Components\IButton.cs" />
 		<Compile Include="Skyline\Components\ICalendar.cs" />
 		<Compile Include="Skyline\Components\ICheckBox.cs" />
 		<Compile Include="Skyline\Components\ICheckBoxList.cs" />
 		<Compile Include="Skyline\Components\ICollapseButton.cs" />
+		<Compile Include="Skyline\Components\IComponent.cs" />
 		<Compile Include="Skyline\Components\IDateTimePicker.cs" />
 		<Compile Include="Skyline\Components\IDropDown.cs" />
 		<Compile Include="Skyline\Components\IFileSelector.cs" />

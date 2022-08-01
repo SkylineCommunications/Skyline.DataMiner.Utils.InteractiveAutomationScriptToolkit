@@ -24,7 +24,7 @@ namespace InteractiveAutomationToolkitTests
 			// Act & Assert
 			panelA.Add(panelB, 0, 0);
 			panelB.Add(panelC, 0, 0);
-			Invoking(() => panelC.Add(panelA, 0, 0)).Should().Throw<ArgumentException>();
+			Invoking(() => panelC.Add(panelA, 0, 0)).Should().Throw<InvalidOperationException>();
 		}
 
 		[TestMethod]
@@ -140,22 +140,21 @@ namespace InteractiveAutomationToolkitTests
 			panel.Add(new Label(), 0, 0);
 
 			// Act & Assert
-			Invoking(() => panel.Add(panel, 1, 0)).Should().Throw<ArgumentException>();
+			Invoking(() => panel.Add(panel, 1, 0)).Should().Throw<InvalidOperationException>();
 		}
 
 		[TestMethod]
-		public void AddPanelWithSameWidgetsTest()
+		public void AddWidgetToMultiplePanelsTest()
 		{
 			// Arrange
-			var panel = new GridPanel();
+			var panelA = new GridPanel();
 			var label = new Label();
-			panel.Add(label, 0, 0);
+			panelA.Add(label, 0, 0);
 
-			var subPanel = new GridPanel();
-			subPanel.Add(label, 0, 0);
+			var panelB = new GridPanel();
 
 			// Act & Assert
-			Invoking(() => panel.Add(subPanel, 1, 0)).Should().Throw<ArgumentException>();
+			Invoking(() => panelB.Add(label, 0, 0)).Should().Throw<InvalidOperationException>();
 		}
 
 		[TestMethod]
@@ -182,7 +181,7 @@ namespace InteractiveAutomationToolkitTests
 			panel.Add(widget, 0, 0);
 
 			// Act & Assert
-			Invoking(() => panel.Add(widget, 1, 0)).Should().Throw<ArgumentException>();
+			Invoking(() => panel.Add(widget, 1, 0)).Should().Throw<InvalidOperationException>();
 		}
 
 		[TestMethod]

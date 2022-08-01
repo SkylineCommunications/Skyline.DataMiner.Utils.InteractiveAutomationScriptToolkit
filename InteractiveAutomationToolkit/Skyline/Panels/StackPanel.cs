@@ -1,6 +1,7 @@
 ﻿namespace Skyline.DataMiner.InteractiveAutomationToolkit
 {
 	using System;
+	using System.Collections;
 	using System.Collections.Generic;
 	using System.ComponentModel;
 	using System.Diagnostics;
@@ -8,9 +9,9 @@
 
 	public class StackPanel : Panel, IStackPanel
 	{
-		private readonly List<object> components = new List<object>();
-		private readonly List<int> spans = new List<int>();
+		private readonly List<IComponent> components = new List<IComponent>();
 		private readonly Dictionary<IPanel, PanelLocation> panelLocations = new Dictionary<IPanel, PanelLocation>();
+		private readonly List<int> spans = new List<int>();
 
 		private readonly Dictionary<IWidget, WidgetLocation>
 			widgetLocations = new Dictionary<IWidget, WidgetLocation>();
@@ -38,6 +39,70 @@
 			}
 		}
 
+		public void Add(IComponent component)
+		{
+			if (component == null)
+			{
+				throw new ArgumentNullException(nameof(component));
+			}
+
+			AddParentTo(component);
+			components.Add(component);
+			spans.Add(1);
+		}
+
+		public void Add(IWidget widget, int span)
+		{
+			if (widget == null)
+			{
+				throw new ArgumentNullException(nameof(widget));
+			}
+
+			if (span <= 0)
+			{
+				throw new ArgumentOutOfRangeException(nameof(span));
+			}
+
+			AddParentTo(widget);
+			components.Add(widget);
+			spans.Add(span);
+		}
+
+		public override void Clear()
+		{
+			foreach (IComponent component in components)
+			{
+				RemoveParentFrom(component);
+			}
+
+			components.Clear();
+			spans.Clear();
+		}
+
+		public IComponent ComponentAt(int index)
+		{
+			return components[index];
+		}
+
+		/// <inheritdoc />
+		public IEnumerator<IComponent> GetEnumerator()
+		{
+			return components.GetEnumerator();
+		}
+
+		/// <inheritdoc />
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
+		}
+
+		public override IEnumerable<IPanel> GetPanels(bool includeNested)
+		{
+			return includeNested
+				? components.OfType<IPanel>().Concat(components.OfType<IPanel>().SelectMany(panel => panel.GetPanels()))
+				: components.OfType<IPanel>();
+		}
+
 		public override IEnumerable<WidgetLocationPair> GetWidgetLocationPairs()
 		{
 			AssignLocations();
@@ -59,19 +124,6 @@
 			}
 		}
 
-		public override void Clear()
-		{
-			components.Clear();
-			spans.Clear();
-		}
-
-		public override IEnumerable<IPanel> GetPanels(bool includeNested)
-		{
-			return includeNested
-				? components.OfType<IPanel>().Concat(components.OfType<IPanel>().SelectMany(panel => panel.GetPanels()))
-				: components.OfType<IPanel>();
-		}
-
 		public override IEnumerable<IWidget> GetWidgets(bool includeNested)
 		{
 			return includeNested
@@ -79,79 +131,21 @@
 				: components.OfType<IWidget>();
 		}
 
-		public void Remove(IPanel panel)
+		public int IndexOf(IComponent component)
 		{
-			int i = components.IndexOf(panel);
-			if (i == -1)
-			{
-				return;
-			}
-
-			components.RemoveAt(i);
-			spans.RemoveAt(i);
+			return components.IndexOf(component);
 		}
 
-		public void Remove(IWidget widget)
+		public void Insert(int index, IComponent component)
 		{
-			int i = components.IndexOf(widget);
-			if (i == -1)
+			if (component == null)
 			{
-				return;
+				throw new ArgumentNullException(nameof(component));
 			}
 
-			components.RemoveAt(i);
-			spans.RemoveAt(i);
-		}
-
-		public void Add(IPanel panel)
-		{
-			if (panel == null)
-			{
-				throw new ArgumentNullException(nameof(panel));
-			}
-
-			ValidatePanel(panel);
-			components.Add(panel);
-			spans.Add(-1); // panels cannot span
-		}
-
-		public void Add(IWidget widget)
-		{
-			Add(widget, 1);
-		}
-
-		public void Add(IWidget widget, int span)
-		{
-			if (widget == null)
-			{
-				throw new ArgumentNullException(nameof(widget));
-			}
-
-			if (span <= 0)
-			{
-				throw new ArgumentOutOfRangeException(nameof(span));
-			}
-
-			ValidateWidget(widget);
-			components.Add(widget);
-			spans.Add(span);
-		}
-
-		public void Insert(int index, IPanel panel)
-		{
-			if (panel == null)
-			{
-				throw new ArgumentNullException(nameof(panel));
-			}
-
-			ValidatePanel(panel);
-			components.Insert(index, panel);
-			spans.Insert(index, -1); // panels cannot span
-		}
-
-		public void Insert(int index, IWidget widget)
-		{
-			Insert(index, widget, 1);
+			AddParentTo(component);
+			components.Insert(index, component);
+			spans.Insert(index, 1);
 		}
 
 		public void Insert(int index, IWidget widget, int span)
@@ -166,54 +160,29 @@
 				throw new ArgumentOutOfRangeException(nameof(span));
 			}
 
-			ValidateWidget(widget);
+			AddParentTo(widget);
 			components.Insert(index, widget);
 			spans.Insert(index, span);
 		}
 
+		public void Remove(IComponent component)
+		{
+			int i = components.IndexOf(component);
+			if (i == -1)
+			{
+				return;
+			}
+
+			RemoveParentFrom(component);
+			components.RemoveAt(i);
+			spans.RemoveAt(i);
+		}
+
 		public void RemoveAt(int index)
 		{
+			RemoveParentFrom(components[index]);
 			components.RemoveAt(index);
 			spans.RemoveAt(index);
-		}
-
-		public IPanel PanelAt(int index)
-		{
-			object component = components[index];
-			if (component is IPanel panel)
-			{
-				return panel;
-			}
-
-			throw new ComponentNotFoundException(
-				FormattableString.Invariant($"No panel could be found at index {index}."));
-		}
-
-		public IWidget WidgetAt(int index)
-		{
-			object component = components[index];
-			if (component is IWidget widget)
-			{
-				return widget;
-			}
-
-			throw new ComponentNotFoundException(
-				FormattableString.Invariant($"No widget could be found at index {index}."));
-		}
-
-		public object ComponentAt(int index)
-		{
-			return components[index];
-		}
-
-		public int IndexOf(IPanel panel)
-		{
-			return components.IndexOf(panel);
-		}
-
-		public int IndexOf(IWidget widget)
-		{
-			return components.IndexOf(widget);
 		}
 
 		private void AssignLocations()
