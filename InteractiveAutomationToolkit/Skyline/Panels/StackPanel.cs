@@ -16,7 +16,7 @@
 		private readonly Dictionary<IWidget, WidgetLocation>
 			widgetLocations = new Dictionary<IWidget, WidgetLocation>();
 
-		private Direction direction = Direction.Horizontal;
+		private Direction direction = Direction.Vertical;
 
 		public StackPanel()
 		{
