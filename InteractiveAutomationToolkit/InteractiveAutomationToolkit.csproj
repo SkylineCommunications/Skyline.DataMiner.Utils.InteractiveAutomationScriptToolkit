@@ -130,7 +130,9 @@
 		<Compile Include="Skyline\Layout\VerticalAlignment.cs" />
 		<Compile Include="Skyline\Layout\WidgetLocation.cs" />
 		<Compile Include="Skyline\Layout\WidgetLocationPair.cs" />
+		<Compile Include="Skyline\Panels\FormPanel.cs" />
 		<Compile Include="Skyline\Panels\GridPanel.cs" />
+		<Compile Include="Skyline\Panels\IFormPanel.cs" />
 		<Compile Include="Skyline\Panels\StackPanel.cs" />
 		<Compile Include="Skyline\Panels\IGridPanel.cs" />
 		<Compile Include="Skyline\Panels\IPanel.cs" />
