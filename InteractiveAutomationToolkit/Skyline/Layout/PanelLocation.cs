@@ -99,6 +99,11 @@
 			}
 		}
 
+		/// <summary>
+		/// Combines both locations.
+		/// </summary>
+		/// <param name="offset">Location that is used as offset.</param>
+		/// <returns>A new location that is the combination of both locations.</returns>
 		internal PanelLocation AddOffset(PanelLocation offset)
 		{
 			return new PanelLocation(Row + offset.Row, Column + offset.Column);

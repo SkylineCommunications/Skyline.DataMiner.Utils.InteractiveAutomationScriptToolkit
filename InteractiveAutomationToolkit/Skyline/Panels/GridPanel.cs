@@ -4,6 +4,7 @@
 	using System.Collections.Generic;
 	using System.Linq;
 
+	/// <inheritdoc cref="Skyline.DataMiner.InteractiveAutomationToolkit.IGridPanel" />
 	public class GridPanel : Panel, IGridPanel
 	{
 		private readonly HashSet<IPanel> panels = new HashSet<IPanel>();
@@ -194,7 +195,7 @@
 		}
 
 		/// <inheritdoc />
-		public virtual PanelLocation GetLocation(IPanel panel)
+		public PanelLocation GetLocation(IPanel panel)
 		{
 			if (panel == null)
 			{
@@ -210,7 +211,7 @@
 		}
 
 		/// <inheritdoc />
-		public virtual WidgetLocation GetLocation(IWidget widget)
+		public WidgetLocation GetLocation(IWidget widget)
 		{
 			if (widget == null)
 			{

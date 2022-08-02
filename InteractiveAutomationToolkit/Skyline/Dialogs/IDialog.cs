@@ -6,6 +6,7 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 
 	/// <summary>
 	///     A dialog represents a single window that can be shown.
+	///     You can add widgets to the dialog by adding them to the <see cref="Panel" /> of the dialog.
 	/// </summary>
 	public interface IDialog
 	{
@@ -24,6 +25,9 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		/// </summary>
 		event EventHandler<EventArgs> Interacted;
 
+		/// <summary>
+		/// Gets the root panel of the dialog. Widgets and other panels can be added to build a UI.
+		/// </summary>
 		IPanel Panel { get; }
 
 		/// <summary>
@@ -151,11 +155,13 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		void Show(bool requireResponse = true);
 	}
 
-	/// <summary>
-	///     A dialog represents a single window that can be shown.
-	/// </summary>
+	/// <inheritdoc />
+	/// <typeparam name="TPanel">The type of the root panel used by the dialog.</typeparam>
 	public interface IDialog<TPanel> : IDialog where TPanel : IPanel, new()
 	{
+		/// <summary>
+		/// Gets the root panel of the dialog. Widgets and other panels can be added to build a UI.
+		/// </summary>
 		new TPanel Panel { get; }
 	}
 }

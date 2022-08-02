@@ -6,11 +6,7 @@
 
 	using Skyline.DataMiner.Automation;
 
-	/// <summary>
-	///     A dialog represents a single window that can be shown.
-	///     You can show widgets in the window by adding them to the dialog.
-	///     The dialog uses a grid layout.
-	/// </summary>
+	/// <inheritdoc />
 	public class Dialog<TPanel> : IDialog<TPanel> where TPanel : IPanel, new()
 	{
 		private const string Auto = "auto";
@@ -52,8 +48,10 @@
 		/// <inheritdoc />
 		public event EventHandler<EventArgs> Interacted;
 
+		/// <inheritdoc/>
 		IPanel IDialog.Panel => Panel;
 
+		/// <inheritdoc/>
 		public TPanel Panel { get; } = new TPanel();
 
 		/// <inheritdoc />

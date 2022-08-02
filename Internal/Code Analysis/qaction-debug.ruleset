@@ -309,7 +309,7 @@
     <Rule Id="S927" Action="Warning" />
   </Rules>
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
-    <Rule Id="SA1600" Action="None" />
+<!--    <Rule Id="SA1600" Action="None" />-->
     <Rule Id="SA1601" Action="None" />
     <Rule Id="SA1602" Action="None" />
     <Rule Id="SA1609" Action="None" />

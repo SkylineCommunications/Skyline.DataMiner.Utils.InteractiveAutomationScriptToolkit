@@ -158,6 +158,11 @@
 			}
 		}
 
+		/// <summary>
+		/// Combines both locations.
+		/// </summary>
+		/// <param name="offset">Location that is used as offset.</param>
+		/// <returns>A new location that is the combination of both locations.</returns>
 		internal WidgetLocation AddOffset(PanelLocation offset)
 		{
 			return new WidgetLocation(Row + offset.Row, Column + offset.Column, RowSpan, ColumnSpan);

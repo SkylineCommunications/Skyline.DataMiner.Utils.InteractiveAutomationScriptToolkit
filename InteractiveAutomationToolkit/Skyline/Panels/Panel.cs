@@ -4,9 +4,7 @@
 	using System.Collections.Generic;
 	using System.Linq;
 
-	/// <summary>
-	///     A panel is a special component that can be used to group widgets together.
-	/// </summary>
+	/// <inheritdoc cref="Skyline.DataMiner.InteractiveAutomationToolkit.IPanel" />
 	public abstract class Panel : Component, IPanel
 	{
 		/// <inheritdoc />
@@ -127,6 +125,12 @@
 			SetWidgetsVisible(true, includeNested);
 		}
 
+		/// <summary>
+		/// Sets the <see cref="IComponent.Parent"/> property of <paramref name="component"/> to <c>this</c>.
+		/// </summary>
+		/// <param name="component">A component that is going to be added to this panel.</param>
+		/// <exception cref="InvalidOperationException">When trying to add a component more than once.</exception>
+		/// <exception cref="InvalidOperationException">When trying to add a component recursively.</exception>
 		protected void AddParentTo(IComponent component)
 		{
 			if (component.Parent != null)
@@ -147,6 +151,10 @@
 			component.Parent = this;
 		}
 
+		/// <summary>
+		/// Sets the <see cref="IComponent.Parent"/> property of <paramref name="component"/> to <c>null</c>.
+		/// </summary>
+		/// <param name="component">A component that is going to be removed from this panel.</param>
 		protected void RemoveParentFrom(IComponent component)
 		{
 			component.Parent = null;

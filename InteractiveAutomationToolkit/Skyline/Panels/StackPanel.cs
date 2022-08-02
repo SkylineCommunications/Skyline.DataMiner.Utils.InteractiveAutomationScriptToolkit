@@ -7,6 +7,7 @@
 	using System.Diagnostics;
 	using System.Linq;
 
+	/// <inheritdoc cref="Skyline.DataMiner.InteractiveAutomationToolkit.IStackPanel" />
 	public class StackPanel : Panel, IStackPanel
 	{
 		private readonly List<IComponent> components = new List<IComponent>();
@@ -18,12 +19,20 @@
 
 		private Direction direction = Direction.Vertical;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="StackPanel"/> class.
+		/// </summary>
 		public StackPanel()
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="StackPanel"/> class with the specified direction.
+		/// </summary>
+		/// <param name="direction">The orientation by which the child components are stacked.</param>
 		public StackPanel(Direction direction) => Direction = direction;
 
+		/// <inheritdoc/>
 		public Direction Direction
 		{
 			get => direction;
@@ -39,6 +48,34 @@
 			}
 		}
 
+		/// <summary>
+		/// Gets the number of components in the panel.
+		/// </summary>
+		public int Count => components.Count;
+
+		/// <inheritdoc/>
+		bool ICollection<IComponent>.IsReadOnly => true;
+
+		/// <summary>
+		/// Gets or sets the component at the specified index.
+		/// </summary>
+		/// <param name="index">The zero-based index of the component to get or set.</param>
+		/// <returns>The component at the specified index.</returns>
+		/// <exception cref="ArgumentOutOfRangeException"><paramref name="index" /> is not a valid index in the stack.</exception>
+		public IComponent this[int index]
+		{
+			get => ComponentAt(index);
+
+			set => Insert(index, value);
+		}
+
+		/// <summary>
+		/// Adds a component to the stack.
+		/// </summary>
+		/// <param name="component">Component to be added to the stack.</param>
+		/// <exception cref="ArgumentNullException">When <paramref name="component" /> is <c>null</c>.</exception>
+		/// <exception cref="InvalidOperationException">When trying to add a panel to itself.</exception>
+		/// <exception cref="InvalidOperationException">When the component is already added.</exception>
 		public void Add(IComponent component)
 		{
 			if (component == null)
@@ -51,6 +88,7 @@
 			spans.Add(1);
 		}
 
+		/// <inheritdoc/>
 		public void Add(IWidget widget, int span)
 		{
 			if (widget == null)
@@ -68,6 +106,7 @@
 			spans.Add(span);
 		}
 
+		/// <inheritdoc cref="IPanel.Clear"/>/>
 		public override void Clear()
 		{
 			foreach (IComponent component in components)
@@ -79,6 +118,23 @@
 			spans.Clear();
 		}
 
+		/// <summary>
+		/// 	Determines whether the stack has the specified component.
+		/// </summary>
+		/// <param name="item">Component to locate in the stack.</param>
+		/// <returns><c>true</c> if the component is found, <c>false</c> otherwise.</returns>
+		public bool Contains(IComponent item)
+		{
+			return components.Contains(item);
+		}
+
+		/// <inheritdoc/>
+		void ICollection<IComponent>.CopyTo(IComponent[] array, int arrayIndex)
+		{
+			components.CopyTo(array, arrayIndex);
+		}
+
+		/// <inheritdoc/>
 		public IComponent ComponentAt(int index)
 		{
 			return components[index];
@@ -96,6 +152,7 @@
 			return GetEnumerator();
 		}
 
+		/// <inheritdoc/>
 		public override IEnumerable<IPanel> GetPanels(bool includeNested)
 		{
 			return includeNested
@@ -103,6 +160,7 @@
 				: components.OfType<IPanel>();
 		}
 
+		/// <inheritdoc/>
 		public override IEnumerable<WidgetLocationPair> GetWidgetLocationPairs()
 		{
 			AssignLocations();
@@ -124,6 +182,7 @@
 			}
 		}
 
+		/// <inheritdoc/>
 		public override IEnumerable<IWidget> GetWidgets(bool includeNested)
 		{
 			return includeNested
@@ -131,11 +190,23 @@
 				: components.OfType<IWidget>();
 		}
 
+		/// <summary>
+		/// Returns the zero-based index of component in the stack.
+		/// </summary>
+		/// <param name="component">The component to locate in the stack.</param>
+		/// <returns>The zero-based index of the component in the stack, if found; otherwise, -1.</returns>
 		public int IndexOf(IComponent component)
 		{
 			return components.IndexOf(component);
 		}
 
+		/// <summary>
+		/// Inserts a component into the stack at the specified index.
+		/// </summary>
+		/// <param name="index">The zero-based index at which the component needs to be inserted.</param>
+		/// <param name="component">The component to insert.</param>
+		/// <exception cref="IndexOutOfRangeException">When <paramref name="index"/> is less than 0.</exception>
+		/// <exception cref="IndexOutOfRangeException">When <paramref name="index"/> is is greater than <see cref="StackPanel.Count"/>.</exception>
 		public void Insert(int index, IComponent component)
 		{
 			if (component == null)
@@ -148,6 +219,7 @@
 			spans.Insert(index, 1);
 		}
 
+		/// <inheritdoc/>
 		public void Insert(int index, IWidget widget, int span)
 		{
 			if (widget == null)
@@ -165,19 +237,31 @@
 			spans.Insert(index, span);
 		}
 
-		public void Remove(IComponent component)
+		/// <summary>
+		///     Removes a component from the panel.
+		/// </summary>
+		/// <param name="component">Component to remove.</param>
+		/// <returns><c>true</c> if the component was removed, <c>false</c> otherwise.</returns>
+		public bool Remove(IComponent component)
 		{
 			int i = components.IndexOf(component);
 			if (i == -1)
 			{
-				return;
+				return false;
 			}
 
 			RemoveParentFrom(component);
 			components.RemoveAt(i);
 			spans.RemoveAt(i);
+			return true;
 		}
 
+		/// <summary>
+		/// Removes the component at the specified index.
+		/// </summary>
+		/// <param name="index">The zero-based index of the component to remove.</param>
+		/// <exception cref="IndexOutOfRangeException">When <paramref name="index"/> is less than 0.</exception>
+		/// <exception cref="IndexOutOfRangeException">When <paramref name="index"/> is is greater than <see cref="StackPanel.Count"/>.</exception>
 		public void RemoveAt(int index)
 		{
 			RemoveParentFrom(components[index]);

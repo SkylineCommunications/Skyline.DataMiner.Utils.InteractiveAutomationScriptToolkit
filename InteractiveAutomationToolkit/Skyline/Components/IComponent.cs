@@ -1,5 +1,8 @@
 ﻿namespace Skyline.DataMiner.InteractiveAutomationToolkit
 {
+	/// <summary>
+	/// Represents a UI component that can be added to panels.
+	/// </summary>
 	public interface IComponent
 	{
 		/// <summary>

@@ -5,6 +5,7 @@
 	using System.Diagnostics;
 	using System.Linq;
 
+	/// <inheritdoc cref="Skyline.DataMiner.InteractiveAutomationToolkit.IFormPanel" />
 	public class FormPanel : Panel, IFormPanel
 	{
 		private readonly List<IComponent> components = new List<IComponent>();
@@ -15,11 +16,13 @@
 		private readonly Dictionary<IWidget, WidgetLocation>
 			widgetLocations = new Dictionary<IWidget, WidgetLocation>();
 
+		/// <inheritdoc/>
 		public void Add(string label, IComponent component)
 		{
 			Add(new Label(label), component);
 		}
 
+		/// <inheritdoc/>
 		public void Add(ILabel label, IComponent component)
 		{
 			if (label == null)
@@ -39,11 +42,13 @@
 			spans.Add(1);
 		}
 
+		/// <inheritdoc/>
 		public void Add(string label, IWidget widget, int span)
 		{
 			Add(new Label(label), widget, span);
 		}
 
+		/// <inheritdoc/>
 		public void Add(ILabel label, IWidget widget, int span)
 		{
 			if (label == null)
@@ -68,9 +73,7 @@
 			spans.Add(span);
 		}
 
-		/// <summary>
-		///     Removes all widgets and panels from the component.
-		/// </summary>
+		/// <inheritdoc />
 		public override void Clear()
 		{
 			foreach (IComponent component in components)
@@ -89,11 +92,7 @@
 			spans.Clear();
 		}
 
-		/// <summary>
-		///     Gets panels added to this component.
-		/// </summary>
-		/// <param name="includeNested">Include nested panels.</param>
-		/// <returns>Panels added to this component.</returns>
+		/// <inheritdoc />
 		public override IEnumerable<IPanel> GetPanels(bool includeNested)
 		{
 			return includeNested
@@ -101,11 +100,7 @@
 				: components.OfType<IPanel>();
 		}
 
-		/// <summary>
-		///     Gets all widgets and their locations as if they are part of one big grid.
-		///     This is used by the toolkit to build the UI.
-		/// </summary>
-		/// <returns>All widgets and their locations as if they are part of one big grid.</returns>
+		/// <inheritdoc />
 		public override IEnumerable<WidgetLocationPair> GetWidgetLocationPairs()
 		{
 			AssignLocations();
@@ -127,11 +122,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets the widgets added to this component.
-		/// </summary>
-		/// <param name="includeNested">Include widgets from nested panels.</param>
-		/// <returns>Widgets added to this component.</returns>
+		/// <inheritdoc/>
 		public override IEnumerable<IWidget> GetWidgets(bool includeNested)
 		{
 			return includeNested
@@ -139,6 +130,7 @@
 				: components.OfType<IWidget>().Concat(labels);
 		}
 
+		/// <inheritdoc/>
 		public void Remove(IComponent component)
 		{
 			int i = components.IndexOf(component);

@@ -1,5 +1,6 @@
 ﻿namespace Skyline.DataMiner.InteractiveAutomationToolkit
 {
+	/// <inheritdoc />
 	public class Component : IComponent
 	{
 		/// <inheritdoc/>
