@@ -106,6 +106,31 @@ Or have a look at the guides and video courses listed below.
   (The first 2 minutes can be skipped as they cover how to acquire the toolkit without NuGet)
 - [Create applications using Model View Presenter](https://community.dataminer.services/courses/dataminer-automation/lessons/model-view-presenter/)
 
+## What version do I pick?
+
+This package uses the following versioning format: A.B.C
+
+A) **Major version:** increments when there are breaking API changes or features compatible with multiple DataMiner
+versions get added.
+
+B) **DataMiner version:** increments when features get added that are only compatible with a specific minimum DataMiner
+version.
+
+C) **Minor version:** increments when there are non-breaking fixes.
+
+### DataMiner compatibility
+
+| NuGet Version | Minimum DataMiner Version    |
+|---------------|------------------------------|
+| 2.0.x         | 9.6.13 (NuGet not supported) |
+| 2.1.x         | 10.0.5 (NuGet not supported) |
+| 2.2.x         | 10.1.5                       |
+| 2.3.x         | 10.1.8                       |
+
+**Note:** DataMiner only supports NuGet packages from version 10.0.10 onwards.
+[DIS Community packages](https://community.dataminer.services/documentation/interactive-automation-script-toolkit/)
+can be used on older versions.
+
 ## Known Issue
 
 When you use this NuGet package, it is possible you get the following error when launching the script:
@@ -128,3 +153,31 @@ Add the following comment to your script.
 
 Location of the comment does not matter as long as it is visible in the C# code block view of the DataMiner Automation
 Script UI.
+
+## Major Version Release Notes
+
+### 2.x.x
+
+* More layout options with panels: GridPanel, StackPanel, FormPanel
+* Reworked API of some widgets: CheckBoxList, RadioButtonList, DropdownList, TreeView
+* Add interfaces to most classes to facilitate unit testing
+
+## DataMiner Version Release Notes
+
+### x.3.x (10.1.8)
+
+* New widget: FileSelector
+
+### x.2.x (10.1.5)
+
+* New widget: TreeView [&ast;](#notes)
+* Tooltip property for most widgets [&ast;](#notes)
+
+### x.1.x (10.0.5)
+
+* ValidationText and ValidationState property to highlight invalid user input [&ast;](#notes)
+* PlaceHolder property for TextBox and PasswordBox widgets to allow placeholder text [&ast;](#notes)
+
+### Notes
+
+&ast; Only visible if the script is run within one of the DataMiner web apps, for example the Jobs app.
