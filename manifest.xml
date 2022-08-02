@@ -4,5 +4,5 @@
 		<Name>InteractiveAutomationToolkit</Name>
 		<Version>2.3.0</Version>
 	</Identity>
-	<MinimumRequiredVersion>2.3.0</MinimumRequiredVersion>
+	<MinimumRequiredVersion>10.1.8</MinimumRequiredVersion>
 </CodePackage>
