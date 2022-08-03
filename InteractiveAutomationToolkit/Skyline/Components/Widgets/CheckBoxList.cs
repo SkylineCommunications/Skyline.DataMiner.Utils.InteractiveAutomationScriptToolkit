@@ -82,7 +82,7 @@
 		public ICollection<string> Checked => checkedCollection;
 
 		/// <inheritdoc />
-		public ICollection<string> Options => optionsCollection;
+		public IList<string> Options => optionsCollection;
 
 		/// <inheritdoc />
 		public ICollection<string> Unchecked => unCheckedCollection;
@@ -252,33 +252,47 @@
 			public string Option { get; }
 		}
 
-		private class OptionsCollection : ICollection<string>, IReadOnlyCollection<string>
+		private class OptionsCollection : IList<string>, IReadOnlyList<string>
 		{
-			private readonly ICollection<string> options;
-
-			// At time of writing, the options collection is implemented as List.
-			// Use a hashset to improve performance,
-			// although by the time performance matters, the list will be impractically large.
-			private readonly HashSet<string> optionsHashSet;
+			private readonly IList<string> options;
 			private readonly CheckBoxList owner;
 
 			public OptionsCollection(CheckBoxList owner)
 			{
 				this.owner = owner;
 				options = owner.BlockDefinition.GetOptionsCollection();
-				optionsHashSet = new HashSet<string>(options);
 			}
 
 			public int Count => options.Count;
 
 			public bool IsReadOnly => options.IsReadOnly;
 
+			public string this[int index]
+			{
+				get => options[index];
+
+				set
+				{
+					value = value ?? String.Empty;
+					if (options.Contains(value))
+					{
+						throw new InvalidOperationException($"{nameof(CheckBoxList)} already contains option: {value}");
+					}
+
+					string option = options[index];
+					options[index] = value;
+
+					owner.Checked.Remove(option);
+					owner.Unchecked.Remove(option);
+				}
+			}
+
 			public void Add(string item)
 			{
 				item = item ?? String.Empty;
-				if (!optionsHashSet.Add(item))
+				if (Contains(item))
 				{
-					return;
+					throw new InvalidOperationException($"{nameof(CheckBoxList)} already contains option: {item}");
 				}
 
 				options.Add(item);
@@ -288,14 +302,13 @@
 			public void Clear()
 			{
 				options.Clear();
-				optionsHashSet.Clear();
 				owner.Checked.Clear();
 				owner.Unchecked.Clear();
 			}
 
 			public bool Contains(string item)
 			{
-				return optionsHashSet.Contains(item ?? String.Empty);
+				return options.Contains(item ?? String.Empty);
 			}
 
 			public void CopyTo(string[] array, int arrayIndex)
@@ -311,12 +324,11 @@
 			public bool Remove(string item)
 			{
 				item = item ?? String.Empty;
-				if (!optionsHashSet.Remove(item))
+				if (!options.Remove(item))
 				{
 					return false;
 				}
 
-				options.Remove(item);
 				owner.Checked.Remove(item);
 				owner.Unchecked.Remove(item);
 
@@ -326,6 +338,32 @@
 			IEnumerator IEnumerable.GetEnumerator()
 			{
 				return ((IEnumerable)options).GetEnumerator();
+			}
+
+			public int IndexOf(string item)
+			{
+				return options.IndexOf(item ?? String.Empty);
+			}
+
+			public void Insert(int index, string item)
+			{
+				item = item ?? String.Empty;
+
+				if (!options.Contains(item))
+				{
+					throw new InvalidOperationException($"{nameof(CheckBoxList)} already contains option: {item}");
+				}
+
+				options.Insert(index, item);
+				owner.Unchecked.Add(item);
+			}
+
+			public void RemoveAt(int index)
+			{
+				string option = options[index];
+				options.RemoveAt(index);
+				owner.Checked.Remove(option);
+				owner.Unchecked.Remove(option);
 			}
 		}
 
@@ -391,8 +429,7 @@
 					return false;
 				}
 
-				owner.Unchecked.Add(item);
-				owner.BlockDefinition.InitialValue = String.Join(";", item);
+				owner.BlockDefinition.InitialValue = String.Join(";", @checked);
 
 				return true;
 			}

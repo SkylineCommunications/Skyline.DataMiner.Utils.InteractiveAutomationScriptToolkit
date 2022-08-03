@@ -20,7 +20,7 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		/// <summary>
 		///     Gets  the possible options.
 		/// </summary>
-		ICollection<string> Options { get; }
+		IList<string> Options { get; }
 
 		/// <summary>
 		///     Gets or sets a value indicating whether a filter box is available for the drop-down list.

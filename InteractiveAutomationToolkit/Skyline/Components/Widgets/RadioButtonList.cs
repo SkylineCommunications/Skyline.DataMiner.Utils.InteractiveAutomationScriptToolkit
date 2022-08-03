@@ -66,7 +66,7 @@
 		private event EventHandler<ChangedEventArgs> OnChanged;
 
 		/// <inheritdoc />
-		public ICollection<string> Options => optionsCollection;
+		public IList<string> Options => optionsCollection;
 
 		/// <inheritdoc />
 		public bool IsSorted
@@ -203,26 +203,47 @@
 			public string SelectedValue { get; }
 		}
 
-		private class OptionsCollection : ICollection<string>, IReadOnlyCollection<string>
+		private class OptionsCollection : IList<string>, IReadOnlyList<string>
 		{
-			private readonly ICollection<string> options;
-
-			// At time of writing, the options collection is implemented as List.
-			// Use a hashset to improve performance,
-			// although by the time performance matters, the list will be impractically large.
-			private readonly HashSet<string> optionsHashSet;
+			private readonly IList<string> options;
 			private readonly RadioButtonList owner;
 
 			public OptionsCollection(RadioButtonList owner)
 			{
 				this.owner = owner;
 				options = owner.BlockDefinition.GetOptionsCollection();
-				optionsHashSet = new HashSet<string>(options);
 			}
 
 			public int Count => options.Count;
 
 			public bool IsReadOnly => options.IsReadOnly;
+
+			public string this[int index]
+			{
+				get => options[index];
+
+				set
+				{
+					if (options.Contains(value))
+					{
+						throw new InvalidOperationException(
+							$"{nameof(RadioButtonList)} already contains option: {value}");
+					}
+
+					string option = options[index];
+					options[index] = value;
+
+					if (owner.Selected == option)
+					{
+						owner.Selected = this.FirstOrDefault();
+					}
+
+					if (owner.Selected == null)
+					{
+						owner.Selected = value;
+					}
+				}
+			}
 
 			public void Add(string item)
 			{
@@ -231,9 +252,9 @@
 					throw new ArgumentNullException(nameof(item));
 				}
 
-				if (!optionsHashSet.Add(item))
+				if (options.Contains(item))
 				{
-					return;
+					throw new InvalidOperationException($"{nameof(DropDown)} already contains option: {item}");
 				}
 
 				options.Add(item);
@@ -241,14 +262,13 @@
 
 			public void Clear()
 			{
-				optionsHashSet.Clear();
 				options.Clear();
 				owner.Selected = null;
 			}
 
 			public bool Contains(string item)
 			{
-				return optionsHashSet.Contains(item);
+				return options.Contains(item);
 			}
 
 			public void CopyTo(string[] array, int arrayIndex)
@@ -263,12 +283,11 @@
 
 			public bool Remove(string item)
 			{
-				if (!optionsHashSet.Remove(item))
+				if (!options.Remove(item))
 				{
 					return false;
 				}
 
-				options.Remove(item);
 				if (owner.Selected == item)
 				{
 					owner.Selected = null;
@@ -280,6 +299,41 @@
 			IEnumerator IEnumerable.GetEnumerator()
 			{
 				return ((IEnumerable)options).GetEnumerator();
+			}
+
+			public int IndexOf(string item)
+			{
+				return options.IndexOf(item);
+			}
+
+			public void Insert(int index, string item)
+			{
+				if (item == null)
+				{
+					throw new ArgumentNullException(nameof(item));
+				}
+
+				if (options.Contains(item))
+				{
+					throw new InvalidOperationException($"{nameof(RadioButtonList)} already contains option: {item}");
+				}
+
+				options.Insert(index, item);
+
+				if (owner.Selected == null)
+				{
+					owner.Selected = item;
+				}
+			}
+
+			public void RemoveAt(int index)
+			{
+				string option = options[index];
+				options.RemoveAt(index);
+				if (owner.Selected == option)
+				{
+					owner.Selected = this.FirstOrDefault();
+				}
 			}
 		}
 	}

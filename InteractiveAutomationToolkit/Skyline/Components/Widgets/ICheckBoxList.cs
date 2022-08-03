@@ -24,7 +24,7 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		/// <summary>
 		///     Gets all options.
 		/// </summary>
-		ICollection<string> Options { get; }
+		IList<string> Options { get; }
 
 		/// <summary>
 		///     Gets all options that are not selected.

@@ -17,7 +17,7 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		/// <summary>
 		///     Gets all options.
 		/// </summary>
-		ICollection<string> Options { get; }
+		IList<string> Options { get; }
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the options are sorted naturally.

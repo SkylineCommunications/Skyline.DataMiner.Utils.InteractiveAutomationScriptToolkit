@@ -24,9 +24,9 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		/// </summary>
 		/// <param name="definition">A <see cref="UIBlockDefinition" /> to get the options list from.</param>
 		/// <returns>An <see cref="ICollection{T}" /> containing all options.</returns>
-		public static ICollection<string> GetOptionsCollection(this UIBlockDefinition definition)
+		public static IList<string> GetOptionsCollection(this UIBlockDefinition definition)
 		{
-			var options = (ICollection<string>)DropdownOptionsField.GetValue(definition);
+			var options = (IList<string>)DropdownOptionsField.GetValue(definition);
 			if (options != null)
 			{
 				return options;
@@ -36,7 +36,7 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 			// So we need to take care of it ourselves.
 			// Use reflection to construct, so we don't make any assumptions about the actual type.
 			// This is just in case they decide to change the type to something other than List.
-			options = (ICollection<string>)DropdownOptionsFieldDefaultConstructor.Invoke(Array.Empty<object>());
+			options = (IList<string>)DropdownOptionsFieldDefaultConstructor.Invoke(Array.Empty<object>());
 			DropdownOptionsField.SetValue(definition, options);
 
 			return options;
