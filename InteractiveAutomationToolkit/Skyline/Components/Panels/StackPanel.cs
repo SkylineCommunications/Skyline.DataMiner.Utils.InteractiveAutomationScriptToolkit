@@ -54,7 +54,7 @@
 		public int Count => components.Count;
 
 		/// <inheritdoc/>
-		bool ICollection<IComponent>.IsReadOnly => true;
+		public bool IsReadOnly => false;
 
 		/// <summary>
 		/// Gets or sets the component at the specified index.
@@ -64,9 +64,16 @@
 		/// <exception cref="ArgumentOutOfRangeException"><paramref name="index" /> is not a valid index in the stack.</exception>
 		public IComponent this[int index]
 		{
-			get => ComponentAt(index);
+			get => components[index];
 
-			set => Insert(index, value);
+			set
+			{
+				IComponent component = components[index];
+				RemoveParentFrom(component);
+				AddParentTo(value);
+				components[index] = value;
+				spans[index] = 1;
+			}
 		}
 
 		/// <summary>
@@ -129,7 +136,7 @@
 		}
 
 		/// <inheritdoc/>
-		void ICollection<IComponent>.CopyTo(IComponent[] array, int arrayIndex)
+		public void CopyTo(IComponent[] array, int arrayIndex)
 		{
 			components.CopyTo(array, arrayIndex);
 		}

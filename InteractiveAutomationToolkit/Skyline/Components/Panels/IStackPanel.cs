@@ -11,7 +11,7 @@
 		"ReSharper",
 		"PossibleInterfaceMemberAmbiguity",
 		Justification = "There is no ambiguity for Clear")]
-	public interface IStackPanel : IPanel, IList<IComponent>
+	public interface IStackPanel : IPanel, IList<IComponent>, IReadOnlyList<IComponent>
 	{
 		/// <summary>
 		/// Gets or sets a value indication the orientation by which the child components are stacked.
