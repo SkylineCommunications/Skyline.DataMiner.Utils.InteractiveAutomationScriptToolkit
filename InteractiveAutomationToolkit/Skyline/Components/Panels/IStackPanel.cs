@@ -2,21 +2,22 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using System.Diagnostics.CodeAnalysis;
 
 	/// <summary>
 	/// Arranges child components into a single line that can be oriented horizontally or vertically.
 	/// </summary>
-	[SuppressMessage(
-		"ReSharper",
-		"PossibleInterfaceMemberAmbiguity",
-		Justification = "There is no ambiguity for Clear")]
 	public interface IStackPanel : IPanel, IList<IComponent>, IReadOnlyList<IComponent>
 	{
 		/// <summary>
 		/// Gets or sets a value indication the orientation by which the child components are stacked.
 		/// </summary>
 		Direction Direction { get; set; }
+
+		/// <inheritdoc cref="ICollection{T}.Count"/>
+		new int Count { get; }
+
+		/// <inheritdoc cref="IList{T}.this"/>
+		new IComponent this[int index] { get; }
 
 		/// <summary>
 		/// Adds a widget to the stack and specified how many rows or columns the widget must span.
@@ -47,5 +48,8 @@
 		/// <exception cref="IndexOutOfRangeException">When <paramref name="index"/> is is greater than <see cref="IList{T}.Count"/>.</exception>
 		/// <exception cref="ArgumentOutOfRangeException">When <paramref name="span"/> is smaller than 1.</exception>
 		void Insert(int index, IWidget widget, int span);
+
+		/// <inheritdoc cref="IPanel.Clear"/>
+		new void Clear();
 	}
 }
