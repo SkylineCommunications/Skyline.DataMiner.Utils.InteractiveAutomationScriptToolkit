@@ -49,6 +49,9 @@
     <Reference Include="FluentAssertions, Version=6.7.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentAssertions.6.7.0\lib\netstandard2.0\FluentAssertions.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\MSTest.TestFramework.1.3.2\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
     </Reference>
@@ -60,20 +63,29 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="mscorlib" />
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="protobuf-net, Version=2.0.0.668, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+      <HintPath>..\packages\Skyline.DataMiner.Files.protobufnet.10.1.8\lib\net462\protobuf-net.dll</HintPath>
+    </Reference>
     <Reference Include="Skyline.DataMiner.Storage.Types, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9789b1eac4cb1b12, processorArchitecture=MSIL">
-      <HintPath>..\packages\Skyline.DataMiner.Dev.Common.10.2.0.1\lib\net462\Skyline.DataMiner.Storage.Types.dll</HintPath>
+      <HintPath>..\packages\Skyline.DataMiner.Files.Skyline.DataMiner.Storage.Types.10.1.8\lib\net462\Skyline.DataMiner.Storage.Types.dll</HintPath>
     </Reference>
     <Reference Include="SLAnalyticsTypes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9789b1eac4cb1b12, processorArchitecture=MSIL">
-      <HintPath>..\packages\Skyline.DataMiner.Dev.Automation.10.2.0.1\lib\net462\SLAnalyticsTypes.dll</HintPath>
+      <HintPath>..\packages\Skyline.DataMiner.Files.SLAnalyticsTypes.10.1.8\lib\net462\SLAnalyticsTypes.dll</HintPath>
     </Reference>
     <Reference Include="SLLoggerUtil, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9789b1eac4cb1b12, processorArchitecture=MSIL">
-      <HintPath>..\packages\Skyline.DataMiner.Dev.Common.10.2.0.1\lib\net462\SLLoggerUtil.dll</HintPath>
+      <HintPath>..\packages\Skyline.DataMiner.Files.SLLoggerUtil.10.1.8\lib\net462\SLLoggerUtil.dll</HintPath>
     </Reference>
     <Reference Include="SLManagedAutomation, Version=1.0.0.0, Culture=neutral, processorArchitecture=X86">
-      <HintPath>..\packages\Skyline.DataMiner.Dev.Automation.10.2.0.1\lib\net462\SLManagedAutomation.dll</HintPath>
+      <HintPath>..\packages\Skyline.DataMiner.Files.SLManagedAutomation.10.1.8\lib\net462\SLManagedAutomation.dll</HintPath>
     </Reference>
     <Reference Include="SLNetTypes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9789b1eac4cb1b12, processorArchitecture=MSIL">
-      <HintPath>..\packages\Skyline.DataMiner.Dev.Common.10.2.0.1\lib\net462\SLNetTypes.dll</HintPath>
+      <HintPath>..\packages\Skyline.DataMiner.Files.SLNetTypes.10.1.8\lib\net462\SLNetTypes.dll</HintPath>
+    </Reference>
+    <Reference Include="SLProtoBufLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9789b1eac4cb1b12, processorArchitecture=MSIL">
+      <HintPath>..\packages\Skyline.DataMiner.Files.SLProtoBufLibrary.10.1.8\lib\net462\SLProtoBufLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
