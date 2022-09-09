@@ -105,6 +105,7 @@
   <ItemGroup>
     <Compile Include="ComponentTests\ComponentTests.cs" />
     <Compile Include="ComponentTests\PanelTests\GridPanelTests.cs" />
+    <Compile Include="ComponentTests\WidgetTests\Generic\DropDownTests.cs" />
     <Compile Include="ComponentTests\WidgetTests\CommonTests\ValidationTests.cs" />
     <Compile Include="ComponentTests\WidgetTests\TreeViewNodeTests.cs" />
     <Compile Include="ComponentTests\WidgetTests\TreeViewTests.cs" />
