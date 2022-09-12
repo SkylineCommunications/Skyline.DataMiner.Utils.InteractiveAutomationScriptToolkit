@@ -43,22 +43,6 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		string Tooltip { get; set; }
 
 		/// <summary>
-		///     Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///     This should be used by the client to add a visual marker on the input field.
-		/// </summary>
-		/// <remarks>Available from DataMiner 10.0.5 onwards.</remarks>
-		UIValidationState ValidationState { get; set; }
-
-		/// <summary>
-		///     Gets or sets the text that is shown if the validation state is invalid.
-		///     This should be used by the client to add a visual marker on the input field.
-		///     The validation text is not displayed for a checkbox list, but if this value is not explicitly set, the validation
-		///     state will have no influence on the way the component is displayed.
-		/// </summary>
-		/// <remarks>Available from DataMiner 10.0.5 onwards.</remarks>
-		string ValidationText { get; set; }
-
-		/// <summary>
 		///     Adds an option to the checkbox list.
 		/// </summary>
 		/// <param name="option">Option to add.</param>

@@ -53,8 +53,6 @@
 			unCheckedCollection = new UnCheckedCollection(this);
 
 			SetOptions(options);
-			ValidationText = "Invalid Input";
-			ValidationState = UIValidationState.NotValidated;
 		}
 
 		/// <inheritdoc />
@@ -100,29 +98,6 @@
 			get => BlockDefinition.TooltipText;
 
 			set => BlockDefinition.TooltipText = value ?? String.Empty;
-		}
-
-		/// <inheritdoc />
-		public UIValidationState ValidationState
-		{
-			get => BlockDefinition.ValidationState;
-
-			set
-			{
-				if (!Enum.IsDefined(typeof(UIValidationState), value))
-				{
-					throw new InvalidEnumArgumentException(nameof(value), (int)value, typeof(UIValidationState));
-				}
-
-				BlockDefinition.ValidationState = value;
-			}
-		}
-
-		/// <inheritdoc />
-		public string ValidationText
-		{
-			get => BlockDefinition.ValidationText;
-			set => BlockDefinition.ValidationText = value ?? String.Empty;
 		}
 
 		/// <inheritdoc />
