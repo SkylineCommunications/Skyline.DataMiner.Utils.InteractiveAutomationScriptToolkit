@@ -18,6 +18,7 @@
 		private DateTime dateTime;
 		private bool displayServerTime;
 		private DateTime previous;
+		private readonly Validation validation;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="DateTimePicker" /> class.
@@ -27,10 +28,9 @@
 			: base(new AutomationDateTimePickerOptions())
 		{
 			Type = UIBlockType.Time;
+			validation = new Validation(this);
 			DateTime = dateTime;
 			dateTimePickerOptions = (AutomationDateTimePickerOptions)DateTimeUpDownOptions;
-			ValidationText = "Invalid Input";
-			ValidationState = UIValidationState.NotValidated;
 		}
 
 		/// <summary>
@@ -180,24 +180,15 @@
 		/// <inheritdoc />
 		public UIValidationState ValidationState
 		{
-			get => BlockDefinition.ValidationState;
-
-			set
-			{
-				if (!Enum.IsDefined(typeof(UIValidationState), value))
-				{
-					throw new InvalidEnumArgumentException(nameof(value), (int)value, typeof(UIValidationState));
-				}
-
-				BlockDefinition.ValidationState = value;
-			}
+			get => validation.ValidationState;
+			set => validation.ValidationState = value;
 		}
 
 		/// <inheritdoc />
 		public string ValidationText
 		{
-			get => BlockDefinition.ValidationText;
-			set => BlockDefinition.ValidationText = value ?? String.Empty;
+			get => validation.ValidationText;
+			set => validation.ValidationText = value;
 		}
 
 		/// <inheritdoc />

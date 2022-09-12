@@ -96,6 +96,8 @@
 		<Compile Include="Skyline\Components\Widgets\CheckBox.cs" />
 		<Compile Include="Skyline\Components\Widgets\CheckBoxList.cs" />
 		<Compile Include="Skyline\Components\Widgets\CollapseButton.cs" />
+		<Compile Include="Skyline\Components\Widgets\Common\IValidate.cs" />
+		<Compile Include="Skyline\Components\Widgets\Common\Validation.cs" />
 		<Compile Include="Skyline\Components\Widgets\DateTimePicker.cs" />
 		<Compile Include="Skyline\Components\Widgets\DropDown.cs" />
 		<Compile Include="Skyline\Components\Widgets\FileSelector.cs" />

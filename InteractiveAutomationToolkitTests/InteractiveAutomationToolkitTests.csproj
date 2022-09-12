@@ -103,14 +103,15 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ComponentTests.cs" />
+    <Compile Include="ComponentTests\ComponentTests.cs" />
+    <Compile Include="ComponentTests\PanelTests\GridPanelTests.cs" />
+    <Compile Include="ComponentTests\WidgetTests\CommonTests\ValidationTests.cs" />
+    <Compile Include="ComponentTests\WidgetTests\TreeViewNodeTests.cs" />
+    <Compile Include="ComponentTests\WidgetTests\TreeViewTests.cs" />
     <Compile Include="DialogTests\DefinitionTests.cs" />
     <Compile Include="DialogTests\OverlapTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PanelLocationTests.cs" />
-    <Compile Include="GridPanelTests.cs" />
-    <Compile Include="TreeViewNodeTests.cs" />
-    <Compile Include="TreeViewTests.cs" />
     <Compile Include="WidgetLocationTests.cs" />
   </ItemGroup>
   <ItemGroup>

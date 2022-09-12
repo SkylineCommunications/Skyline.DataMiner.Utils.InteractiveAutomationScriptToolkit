@@ -16,6 +16,7 @@
 		private TimeSpan previous;
 		private TimeSpan timeSpan;
 		private AutomationTimeUpDownOptions timeUpDownOptions;
+		private readonly Validation validation;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Time" /> class.
@@ -24,10 +25,9 @@
 		public Time(TimeSpan timeSpan)
 		{
 			Type = UIBlockType.Time;
+			validation = new Validation(this);
 			TimeUpDownOptions = new AutomationTimeUpDownOptions { UpdateValueOnEnterKey = false };
 			TimeSpan = timeSpan;
-			ValidationText = "Invalid Input";
-			ValidationState = UIValidationState.NotValidated;
 		}
 
 		/// <summary>
@@ -166,24 +166,15 @@
 		/// <inheritdoc />
 		public UIValidationState ValidationState
 		{
-			get => BlockDefinition.ValidationState;
-
-			set
-			{
-				if (!Enum.IsDefined(typeof(UIValidationState), value))
-				{
-					throw new InvalidEnumArgumentException(nameof(value), (int)value, typeof(UIValidationState));
-				}
-
-				BlockDefinition.ValidationState = value;
-			}
+			get => validation.ValidationState;
+			set => validation.ValidationState = value;
 		}
 
 		/// <inheritdoc />
 		public string ValidationText
 		{
-			get => BlockDefinition.ValidationText;
-			set => BlockDefinition.ValidationText = value ?? String.Empty;
+			get => validation.ValidationText;
+			set => validation.ValidationText = value;
 		}
 
 		private AutomationTimeUpDownOptions TimeUpDownOptions

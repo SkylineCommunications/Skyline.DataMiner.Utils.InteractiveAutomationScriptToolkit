@@ -15,6 +15,7 @@
 		private bool changed;
 		private DateTime dateTime;
 		private DateTime previous;
+		private readonly Validation validation;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Calendar" /> class.
@@ -23,9 +24,8 @@
 		public Calendar(DateTime dateTime)
 		{
 			Type = UIBlockType.Calendar;
+			validation = new Validation(this);
 			DateTime = dateTime;
-			ValidationText = "Invalid Input";
-			ValidationState = UIValidationState.NotValidated;
 		}
 
 		/// <summary>
@@ -82,24 +82,15 @@
 		/// <inheritdoc />
 		public UIValidationState ValidationState
 		{
-			get => BlockDefinition.ValidationState;
-
-			set
-			{
-				if (!Enum.IsDefined(typeof(UIValidationState), value))
-				{
-					throw new InvalidEnumArgumentException(nameof(value), (int)value, typeof(UIValidationState));
-				}
-
-				BlockDefinition.ValidationState = value;
-			}
+			get => validation.ValidationState;
+			set => validation.ValidationState = value;
 		}
 
 		/// <inheritdoc />
 		public string ValidationText
 		{
-			get => BlockDefinition.ValidationText;
-			set => BlockDefinition.ValidationText = value ?? String.Empty;
+			get => validation.ValidationText;
+			set => validation.ValidationText = value;
 		}
 
 		/// <inheritdoc />

@@ -13,6 +13,7 @@
 	{
 		private bool changed;
 		private string previous;
+		private readonly Validation validation;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="PasswordBox" /> class.
@@ -21,10 +22,9 @@
 		public PasswordBox(bool hasPeekIcon)
 		{
 			Type = UIBlockType.PasswordBox;
+			validation = new Validation(this);
 			HasPeekIcon = hasPeekIcon;
 			PlaceHolder = String.Empty;
-			ValidationText = "Invalid Input";
-			ValidationState = UIValidationState.NotValidated;
 		}
 
 		/// <summary>
@@ -69,24 +69,15 @@
 		/// <inheritdoc />
 		public UIValidationState ValidationState
 		{
-			get => BlockDefinition.ValidationState;
-
-			set
-			{
-				if (!Enum.IsDefined(typeof(UIValidationState), value))
-				{
-					throw new InvalidEnumArgumentException(nameof(value), (int)value, typeof(UIValidationState));
-				}
-
-				BlockDefinition.ValidationState = value;
-			}
+			get => validation.ValidationState;
+			set => validation.ValidationState = value;
 		}
 
 		/// <inheritdoc />
 		public string ValidationText
 		{
-			get => BlockDefinition.ValidationText;
-			set => BlockDefinition.ValidationText = value ?? String.Empty;
+			get => validation.ValidationText;
+			set => validation.ValidationText = value;
 		}
 
 		/// <inheritdoc />

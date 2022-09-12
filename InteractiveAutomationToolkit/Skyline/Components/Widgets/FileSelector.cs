@@ -11,12 +11,15 @@
 	/// </summary>
 	public class FileSelector : InteractiveWidget, IFileSelector
 	{
+		private readonly Validation validation;
+
 		/// <summary>
 		///     Initializes a new instance of the <see cref="FileSelector" /> class.
 		/// </summary>
 		public FileSelector()
 		{
 			Type = UIBlockType.FileSelector;
+			validation = new Validation(this);
 			BlockDefinition.InitialValue = String.Empty;
 		}
 
@@ -47,24 +50,15 @@
 		/// <inheritdoc />
 		public UIValidationState ValidationState
 		{
-			get => BlockDefinition.ValidationState;
-
-			set
-			{
-				if (!Enum.IsDefined(typeof(UIValidationState), value))
-				{
-					throw new InvalidEnumArgumentException(nameof(value), (int)value, typeof(UIValidationState));
-				}
-
-				BlockDefinition.ValidationState = value;
-			}
+			get => validation.ValidationState;
+			set => validation.ValidationState = value;
 		}
 
 		/// <inheritdoc />
 		public string ValidationText
 		{
-			get => BlockDefinition.ValidationText;
-			set => BlockDefinition.ValidationText = value ?? String.Empty;
+			get => validation.ValidationText;
+			set => validation.ValidationText = value;
 		}
 
 		/// <inheritdoc />

@@ -13,6 +13,7 @@
 	/// </summary>
 	public class DropDown : InteractiveWidget, IDropDown
 	{
+		private readonly Validation validation;
 		private readonly OptionsCollection optionsCollection;
 		private bool changed;
 		private string previous;
@@ -39,14 +40,12 @@
 			}
 
 			Type = UIBlockType.DropDown;
+			validation = new Validation(this);
 			optionsCollection = new OptionsCollection(this);
 
 			SetOptions(options);
 
 			Selected = selected;
-
-			ValidationText = "Invalid Input";
-			ValidationState = UIValidationState.NotValidated;
 		}
 
 		/// <inheritdoc />
@@ -112,24 +111,15 @@
 		/// <inheritdoc />
 		public UIValidationState ValidationState
 		{
-			get => BlockDefinition.ValidationState;
-
-			set
-			{
-				if (!Enum.IsDefined(typeof(UIValidationState), value))
-				{
-					throw new InvalidEnumArgumentException(nameof(value), (int)value, typeof(UIValidationState));
-				}
-
-				BlockDefinition.ValidationState = value;
-			}
+			get => validation.ValidationState;
+			set => validation.ValidationState = value;
 		}
 
 		/// <inheritdoc />
 		public string ValidationText
 		{
-			get => BlockDefinition.ValidationText;
-			set => BlockDefinition.ValidationText = value ?? String.Empty;
+			get => validation.ValidationText;
+			set => validation.ValidationText = value;
 		}
 
 		/// <inheritdoc />

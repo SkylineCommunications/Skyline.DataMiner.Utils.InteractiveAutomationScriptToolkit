@@ -9,7 +9,7 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 	///     Represents a spinner or numeric up-down control.
 	///     Has a slider when the range is limited.
 	/// </summary>
-	public interface INumeric : IInteractiveWidget
+	public interface INumeric : IInteractiveWidget, IValidate
 	{
 		/// <summary>
 		///     Triggered when the value of the numeric changes.
@@ -47,21 +47,6 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		///     Gets or sets the tooltip.
 		/// </summary>
 		string Tooltip { get; set; }
-
-		/// <summary>
-		///     Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///     This should be used by the client to add a visual marker on the input field.
-		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
-		/// <exception cref="InvalidEnumArgumentException">When <paramref name="value"/> does not specify a valid member of <see cref="UIValidationState"/>.</exception>
-		UIValidationState ValidationState { get; set; }
-
-		/// <summary>
-		///     Gets or sets the text that is shown if the validation state is invalid.
-		///     This should be used by the client to add a visual marker on the input field.
-		/// </summary>
-		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
-		string ValidationText { get; set; }
 
 		/// <summary>
 		///     Gets or sets the value of the numeric.

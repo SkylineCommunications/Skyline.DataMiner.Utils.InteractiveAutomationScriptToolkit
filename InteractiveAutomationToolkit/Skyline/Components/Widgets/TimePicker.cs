@@ -19,6 +19,7 @@
 		private TimeSpan previous;
 		private TimeSpan time;
 		private AutomationTimePickerOptions timePickerOptions;
+		private readonly Validation validation;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="TimePicker" /> class.
@@ -28,10 +29,9 @@
 			: base(new AutomationTimePickerOptions())
 		{
 			Type = UIBlockType.Time;
+			validation = new Validation(this);
 			Time = time;
 			TimePickerOptions = (AutomationTimePickerOptions)DateTimeUpDownOptions;
-			ValidationText = "Invalid Input";
-			ValidationState = UIValidationState.NotValidated;
 		}
 
 		/// <summary>
@@ -169,24 +169,15 @@
 		/// <inheritdoc />
 		public UIValidationState ValidationState
 		{
-			get => BlockDefinition.ValidationState;
-
-			set
-			{
-				if (!Enum.IsDefined(typeof(UIValidationState), value))
-				{
-					throw new InvalidEnumArgumentException(nameof(value), (int)value, typeof(UIValidationState));
-				}
-
-				BlockDefinition.ValidationState = value;
-			}
+			get => validation.ValidationState;
+			set => validation.ValidationState = value;
 		}
 
 		/// <inheritdoc />
 		public string ValidationText
 		{
-			get => BlockDefinition.ValidationText;
-			set => BlockDefinition.ValidationText = value ?? String.Empty;
+			get => validation.ValidationText;
+			set => validation.ValidationText = value;
 		}
 
 		private AutomationTimePickerOptions TimePickerOptions
