@@ -12,6 +12,7 @@
 	{
 		private readonly HashSet<string> options = new HashSet<string>();
 		private bool changed;
+		private bool focusLost;
 		private string previous;
 
 		/// <summary>
@@ -59,6 +60,30 @@
 		}
 
 		private event EventHandler<DropDownChangedEventArgs> OnChanged;
+
+		/// <summary>
+		///     Triggered when the user loses focus of the DropDown.
+		///     WantsOnFocusLost will be set to true when this event is subscribed to.
+		/// </summary>
+		public event EventHandler FocusLost
+		{
+			add
+			{
+				OnFocusLost += value;
+				WantsOnFocusLost = true;
+			}
+
+			remove
+			{
+				OnFocusLost -= value;
+				if (OnFocusLost == null || !OnFocusLost.GetInvocationList().Any())
+				{
+					WantsOnFocusLost = false;
+				}
+			}
+		}
+
+		private event EventHandler OnFocusLost;
 
 		/// <summary>
 		///     Gets or sets the possible options.
@@ -259,10 +284,10 @@
 		internal override void LoadResult(UIResults uiResults)
 		{
 			string selectedValue = uiResults.GetString(this);
-			if (WantsOnChange)
-			{
-				changed = selectedValue != Selected;
-			}
+			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);
+
+			if (WantsOnChange) changed = selectedValue != Selected;
+			if (WantsOnFocusLost) focusLost = wasOnFocusLost;
 
 			previous = Selected;
 			Selected = selectedValue;
@@ -271,12 +296,11 @@
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			if (changed && (OnChanged != null))
-			{
-				OnChanged(this, new DropDownChangedEventArgs(Selected, previous));
-			}
+			if (changed) OnChanged?.Invoke(this, new DropDownChangedEventArgs(Selected, previous));
+			if (focusLost) OnFocusLost?.Invoke(this, EventArgs.Empty);
 
 			changed = false;
+			focusLost = false;
 		}
 
 		private void ClearOptions()

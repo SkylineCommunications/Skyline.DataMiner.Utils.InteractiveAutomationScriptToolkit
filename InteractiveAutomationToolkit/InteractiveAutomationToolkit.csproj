@@ -36,12 +36,6 @@
     <LangVersion>6</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SLManagedAutomation">
-      <HintPath>..\JenkinsDependencies\SLManagedAutomation.dll</HintPath>
-    </Reference>
-    <Reference Include="SLNetTypes">
-      <HintPath>..\JenkinsDependencies\SLNetTypes.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -96,6 +90,11 @@
     <Compile Include="Skyline\Layout\WidgetLayout.cs" />
     <Compile Include="Skyline\Sections\DatePicker.cs" />
     <Compile Include="Skyline\UiResultsExtensions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Skyline.DataMiner.Dev.Automation">
+      <Version>10.1.10</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -10,6 +10,7 @@
 	public class CheckBox : InteractiveWidget
 	{
 		private bool changed;
+		private bool focusLost;
 		private bool isChecked;
 
 		/// <summary>
@@ -115,6 +116,30 @@
 		private event EventHandler<EventArgs> OnUnChecked;
 
 		/// <summary>
+		///     Triggered when the user loses focus of the CheckBox.
+		///     WantsOnFocusLost will be set to true when this event is subscribed to.
+		/// </summary>
+		public event EventHandler FocusLost
+		{
+			add
+			{
+				OnFocusLost += value;
+				WantsOnFocusLost = true;
+			}
+
+			remove
+			{
+				OnFocusLost -= value;
+				if (OnFocusLost == null || !OnFocusLost.GetInvocationList().Any())
+				{
+					WantsOnFocusLost = false;
+				}
+			}
+		}
+
+		private event EventHandler OnFocusLost;
+
+		/// <summary>
 		///     Gets or sets a value indicating whether the checkbox is selected.
 		/// </summary>
 		public bool IsChecked
@@ -184,27 +209,13 @@
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			if (!changed)
-			{
-				return;
-			}
-
-			if (OnChanged != null)
-			{
-				OnChanged(this, new CheckBoxChangedEventArgs(IsChecked));
-			}
-
-			if ((OnChecked != null) && IsChecked)
-			{
-				OnChecked(this, EventArgs.Empty);
-			}
-
-			if ((OnUnChecked != null) && !IsChecked)
-			{
-				OnUnChecked(this, EventArgs.Empty);
-			}
+			if (changed) OnChanged?.Invoke(this, new CheckBoxChangedEventArgs(IsChecked));
+			if (changed && IsChecked) OnChecked?.Invoke(this, EventArgs.Empty);
+			if (changed && !IsChecked) OnUnChecked?.Invoke(this, EventArgs.Empty);
+			if (focusLost) OnFocusLost?.Invoke(this, EventArgs.Empty);
 
 			changed = false;
+			focusLost = false;
 		}
 
 		/// <summary>

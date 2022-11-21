@@ -49,6 +49,11 @@
 			return uiResults.WasOnChange(interactiveWidget.DestVar);
 		}
 
+		public static bool WasOnFocusLost(this UIResults uiResults, InteractiveWidget interactiveWidget)
+		{
+			return uiResults.WasOnFocusLost(interactiveWidget.DestVar);
+		}
+
 		public static TimeSpan GetTime(this UIResults uiResults, Time time)
 		{
 			string receivedTime = uiResults.GetString(time);

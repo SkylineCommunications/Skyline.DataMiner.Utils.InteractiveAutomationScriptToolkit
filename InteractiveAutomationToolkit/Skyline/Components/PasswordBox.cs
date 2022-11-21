@@ -1,6 +1,7 @@
 ﻿namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
 	using System;
+	using System.Linq;
 	using Skyline.DataMiner.Automation;
 
 	/// <summary>
@@ -10,6 +11,7 @@
 	public class PasswordBox : InteractiveWidget
 	{
 		private bool changed;
+		private bool focusLost;
 		private string previous;
 
 		/// <summary>
@@ -36,6 +38,30 @@
 		///     Triggered when the password changes.
 		/// </summary>
 		public event EventHandler<PasswordBoxChangedEventArgs> Changed;
+
+		/// <summary>
+		///     Triggered when the user loses focus of the PasswordBox.
+		///     WantsOnFocusLost will be set to true when this event is subscribed to.
+		/// </summary>
+		public event EventHandler FocusLost
+		{
+			add
+			{
+				OnFocusLost += value;
+				WantsOnFocusLost = true;
+			}
+
+			remove
+			{
+				OnFocusLost -= value;
+				if (OnFocusLost == null || !OnFocusLost.GetInvocationList().Any())
+				{
+					WantsOnFocusLost = false;
+				}
+			}
+		}
+
+		private event EventHandler OnFocusLost;
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the peek icon to reveal the password is shown.
@@ -149,11 +175,15 @@
 		internal override void LoadResult(UIResults uiResults)
 		{
 			string result = uiResults.GetString(this);
+			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);
+
 			if (WantsOnChange && (result != Password))
 			{
 				changed = true;
 				previous = Password;
 			}
+
+			if (WantsOnFocusLost) focusLost = wasOnFocusLost;
 
 			Password = result;
 		}
@@ -161,12 +191,11 @@
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			if (changed && (Changed != null))
-			{
-				Changed(this, new PasswordBoxChangedEventArgs(Password, previous));
-			}
+			if (changed) Changed?.Invoke(this, new PasswordBoxChangedEventArgs(Password, previous));
+			if (focusLost) OnFocusLost?.Invoke(this, EventArgs.Empty);
 
 			changed = false;
+			focusLost = false;
 		}
 
 		/// <summary>

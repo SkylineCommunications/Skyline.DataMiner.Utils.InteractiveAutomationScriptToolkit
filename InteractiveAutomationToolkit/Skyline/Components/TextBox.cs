@@ -10,6 +10,7 @@
 	public class TextBox : InteractiveWidget
 	{
 		private bool changed;
+		private bool focusLost;
 		private string previous;
 
 		/// <summary>
@@ -55,6 +56,30 @@
 		}
 
 		private event EventHandler<TextBoxChangedEventArgs> OnChanged;
+
+		/// <summary>
+		///     Triggered when the user loses focus of the TextBox.
+		///     WantsOnFocusLost will be set to true when this event is subscribed to.
+		/// </summary>
+		public event EventHandler FocusLost
+		{
+			add
+			{
+				OnFocusLost += value;
+				WantsOnFocusLost = true;
+			}
+
+			remove
+			{
+				OnFocusLost -= value;
+				if (OnFocusLost == null || !OnFocusLost.GetInvocationList().Any())
+				{
+					WantsOnFocusLost = false;
+				}
+			}
+		}
+
+		private event EventHandler OnFocusLost;
 
 		/// <summary>
 		///     Gets or sets a value indicating whether users are able to enter multiple lines of text.
@@ -166,11 +191,15 @@
 		internal override void LoadResult(UIResults uiResults)
 		{
 			string value = uiResults.GetString(this);
+			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);
+
 			if (WantsOnChange)
 			{
 				changed = value != Text;
 				previous = Text;
 			}
+
+			if (WantsOnFocusLost) focusLost = wasOnFocusLost;
 
 			Text = value;
 		}
@@ -178,12 +207,11 @@
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			if (changed && OnChanged != null)
-			{
-				OnChanged(this, new TextBoxChangedEventArgs(Text, previous));
-			}
+			if (changed) OnChanged?.Invoke(this, new TextBoxChangedEventArgs(Text, previous));
+			if (focusLost) OnFocusLost?.Invoke(this, EventArgs.Empty);
 
 			changed = false;
+			focusLost = false;
 		}
 
 		/// <summary>

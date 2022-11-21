@@ -33,12 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SLManagedAutomation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\JenkinsDependencies\SLManagedAutomation.dll</HintPath>
-    </Reference>
-    <Reference Include="SLNetTypes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9789b1eac4cb1b12">
-      <HintPath>..\JenkinsDependencies\SLNetTypes.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -53,6 +47,11 @@
       <Project>{9206f547-af0e-44b0-9a78-3f64c7970a16}</Project>
       <Name>InteractiveAutomationToolkit</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Skyline.DataMiner.Dev.Automation">
+      <Version>10.1.10</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -13,6 +13,8 @@
 		private readonly AutomationDateTimePickerOptions dateTimePickerOptions;
 
 		private bool changed;
+		private bool focusLost;
+
 		private DateTime dateTime;
 		private DateTime previous;
 		private bool displayServerTime = false;
@@ -60,6 +62,30 @@
 		}
 
 		private event EventHandler<DateTimePickerChangedEventArgs> OnChanged;
+
+		/// <summary>
+		///     Triggered when the user loses focus of the DateTimePicker.
+		///     WantsOnFocusLost will be set to true when this event is subscribed to.
+		/// </summary>
+		public event EventHandler FocusLost
+		{
+			add
+			{
+				OnFocusLost += value;
+				WantsOnFocusLost = true;
+			}
+
+			remove
+			{
+				OnFocusLost -= value;
+				if (OnFocusLost == null || !OnFocusLost.GetInvocationList().Any())
+				{
+					WantsOnFocusLost = false;
+				}
+			}
+		}
+
+		private event EventHandler OnFocusLost;
 
 		/// <summary>
 		///		Gets or sets whether the displayed time is the server time or local time.
@@ -333,6 +359,8 @@
 		internal override void LoadResult(UIResults uiResults)
 		{
 			string isoString = uiResults.GetString(DestVar);
+			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);
+
 			DateTime result = DateTime.Parse(isoString);
 
 			if (WantsOnChange && (result != DateTime))
@@ -341,18 +369,19 @@
 				previous = DateTime;
 			}
 
+			if (WantsOnFocusLost) focusLost = wasOnFocusLost;
+
 			DateTime = result;
 		}
 
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			if (changed && OnChanged != null)
-			{
-				OnChanged(this, new DateTimePickerChangedEventArgs(DateTime, previous));
-			}
+			if (changed) OnChanged?.Invoke(this, new DateTimePickerChangedEventArgs(DateTime, previous));
+			if (focusLost) OnFocusLost?.Invoke(this, EventArgs.Empty);
 
 			changed = false;
+			focusLost = false;
 		}
 
 		/// <summary>

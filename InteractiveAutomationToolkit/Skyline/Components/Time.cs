@@ -11,6 +11,8 @@
 	public class Time : InteractiveWidget
 	{
 		private bool changed;
+		private bool focusLost;
+
 		private TimeSpan previous;
 		private TimeSpan timeSpan;
 		private AutomationTimeUpDownOptions timeUpDownOptions;
@@ -56,6 +58,30 @@
 		}
 
 		private event EventHandler<TimeChangedEventArgs> OnChanged;
+
+		/// <summary>
+		///     Triggered when the user loses focus of the Time.
+		///     WantsOnFocusLost will be set to true when this event is subscribed to.
+		/// </summary>
+		public event EventHandler FocusLost
+		{
+			add
+			{
+				OnFocusLost += value;
+				WantsOnFocusLost = true;
+			}
+
+			remove
+			{
+				OnFocusLost -= value;
+				if (OnFocusLost == null || !OnFocusLost.GetInvocationList().Any())
+				{
+					WantsOnFocusLost = false;
+				}
+			}
+		}
+
+		private event EventHandler OnFocusLost;
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the value is clipped to the range.
@@ -310,11 +336,15 @@
 		internal override void LoadResult(UIResults uiResults)
 		{
 			TimeSpan result = uiResults.GetTime(this);
+			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);
+
 			if ((result != TimeSpan) && WantsOnChange)
 			{
 				changed = true;
 				previous = TimeSpan;
 			}
+
+			if (WantsOnFocusLost) focusLost = wasOnFocusLost;
 
 			TimeSpan = result;
 		}
@@ -322,12 +352,11 @@
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			if (changed && (OnChanged != null))
-			{
-				OnChanged(this, new TimeChangedEventArgs(TimeSpan, previous));
-			}
+			if (changed) OnChanged?.Invoke(this, new TimeChangedEventArgs(TimeSpan, previous));
+			if (focusLost) OnFocusLost?.Invoke(this, EventArgs.Empty);
 
 			changed = false;
+			focusLost = false;
 		}
 
 		/// <summary>

@@ -12,6 +12,8 @@
 	public class Numeric : InteractiveWidget
 	{
 		private bool changed;
+		private bool focusLost;
+
 		private double previous;
 		private double value;
 
@@ -61,6 +63,30 @@
 		}
 
 		private event EventHandler<NumericChangedEventArgs> OnChanged;
+
+		/// <summary>
+		///     Triggered when the user loses focus of the Numeric.
+		///     WantsOnFocusLost will be set to true when this event is subscribed to.
+		/// </summary>
+		public event EventHandler FocusLost
+		{
+			add
+			{
+				OnFocusLost += value;
+				WantsOnFocusLost = true;
+			}
+
+			remove
+			{
+				OnFocusLost -= value;
+				if (OnFocusLost == null || !OnFocusLost.GetInvocationList().Any())
+				{
+					WantsOnFocusLost = false;
+				}
+			}
+		}
+
+		private event EventHandler OnFocusLost;
 
 		/// <summary>
 		///     Gets or sets the number of decimals to show.
@@ -234,6 +260,9 @@
 		/// <inheritdoc />
 		internal override void LoadResult(UIResults uiResults)
 		{
+			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);
+			if (WantsOnFocusLost) focusLost = wasOnFocusLost;
+
 			double result;
 			if (!Double.TryParse(
 				uiResults.GetString(this),
@@ -244,6 +273,7 @@
 				return;
 			}
 
+			// TODO: clip the value when the focus is lost
 			result = ClipToRange(result);
 			bool isNotEqual = !IsEqualWithinDecimalMargin(result, value);
 			if (isNotEqual && WantsOnChange)
@@ -258,12 +288,11 @@
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			if (changed && (OnChanged != null))
-			{
-				OnChanged(this, new NumericChangedEventArgs(Value, previous));
-			}
+			if (changed) OnChanged?.Invoke(this, new NumericChangedEventArgs(Value, previous));
+			if (focusLost) OnFocusLost?.Invoke(this, EventArgs.Empty);
 
 			changed = false;
+			focusLost = false;
 		}
 
 		// ReSharper disable once ParameterOnlyUsedForPreconditionCheck.Local

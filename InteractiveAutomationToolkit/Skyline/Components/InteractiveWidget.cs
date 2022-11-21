@@ -65,6 +65,19 @@
 			}
 		}
 
+		public bool WantsOnFocusLost
+		{
+			get
+			{
+				return BlockDefinition.WantsOnFocusLost;
+			}
+
+			set
+			{
+				BlockDefinition.WantsOnFocusLost = value;
+			}
+		}
+
 		internal abstract void LoadResult(UIResults uiResults);
 
 		internal abstract void RaiseResultEvents();

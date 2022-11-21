@@ -11,6 +11,7 @@
 	public class TimePicker : TimePickerBase
 	{
 		private bool changed;
+		private bool focusLost;
 		private int maxDropDownHeight;
 		private TimeSpan maximum;
 		private TimeSpan minimum;
@@ -61,6 +62,30 @@
 		}
 
 		private event EventHandler<TimePickerChangedEventArgs> OnChanged;
+
+		/// <summary>
+		///     Triggered when the user loses focus of the TimePicker.
+		///     WantsOnFocusLost will be set to true when this event is subscribed to.
+		/// </summary>
+		public event EventHandler FocusLost
+		{
+			add
+			{
+				OnFocusLost += value;
+				WantsOnFocusLost = true;
+			}
+
+			remove
+			{
+				OnFocusLost -= value;
+				if (OnFocusLost == null || !OnFocusLost.GetInvocationList().Any())
+				{
+					WantsOnFocusLost = false;
+				}
+			}
+		}
+
+		private event EventHandler OnFocusLost;
 
 		/// <summary>
 		///     Gets or sets the last time listed in the time picker control.
@@ -288,11 +313,15 @@
 		internal override void LoadResult(UIResults uiResults)
 		{
 			TimeSpan result = uiResults.GetTime(this);
+			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);
+
 			if ((result != Time) && WantsOnChange)
 			{
 				changed = true;
 				previous = Time;
 			}
+
+			if (WantsOnFocusLost) focusLost = wasOnFocusLost;
 
 			Time = result;
 		}
@@ -300,12 +329,11 @@
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			if (changed && (OnChanged != null))
-			{
-				OnChanged(this, new TimePickerChangedEventArgs(Time, previous));
-			}
+			if (changed) OnChanged?.Invoke(this, new TimePickerChangedEventArgs(Time, previous));
+			if (focusLost) OnFocusLost?.Invoke(this, EventArgs.Empty);
 
 			changed = false;
+			focusLost = false;
 		}
 
 		private static void CheckTimeOfDay(TimeSpan value)

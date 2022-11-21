@@ -11,6 +11,8 @@
 	public class Calendar : InteractiveWidget
 	{
 		private bool changed;
+		private bool focusLost;
+
 		private DateTime dateTime;
 		private DateTime previous;
 
@@ -56,6 +58,30 @@
 		}
 
 		private event EventHandler<CalendarChangedEventArgs> OnChanged;
+
+		/// <summary>
+		///     Triggered when the user loses focus of the Calender.
+		///     WantsOnFocusLost will be set to true when this event is subscribed to.
+		/// </summary>
+		public event EventHandler FocusLost
+		{
+			add
+			{
+				OnFocusLost += value;
+				WantsOnFocusLost = true;
+			}
+
+			remove
+			{
+				OnFocusLost -= value;
+				if (OnFocusLost == null || !OnFocusLost.GetInvocationList().Any())
+				{
+					WantsOnFocusLost = false;
+				}
+			}
+		}
+
+		private event EventHandler OnFocusLost;
 
 		/// <summary>
 		///     Gets or sets the datetime displayed on the calendar.
@@ -136,6 +162,7 @@
 		internal override void LoadResult(UIResults uiResults)
 		{
 			DateTime result = uiResults.GetDateTime(DestVar);
+			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);
 
 			if (WantsOnChange && (result != DateTime))
 			{
@@ -143,18 +170,19 @@
 				previous = DateTime;
 			}
 
+			if (WantsOnFocusLost) focusLost = wasOnFocusLost;
+
 			DateTime = result;
 		}
 
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			if (changed && OnChanged != null)
-			{
-				OnChanged(this, new CalendarChangedEventArgs(DateTime, previous));
-			}
+			if (changed && OnChanged != null) OnChanged?.Invoke(this, new CalendarChangedEventArgs(DateTime, previous));
+			if (focusLost) OnFocusLost?.Invoke(this, EventArgs.Empty);
 
 			changed = false;
+			focusLost = false;
 		}
 
 		/// <summary>
