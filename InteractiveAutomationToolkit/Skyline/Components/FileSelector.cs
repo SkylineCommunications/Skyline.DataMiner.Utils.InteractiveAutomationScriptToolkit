@@ -15,6 +15,7 @@
 		public FileSelector()
 		{
 			Type = UIBlockType.FileSelector;
+			IsRequired = false;
 			BlockDefinition.InitialValue = String.Empty;
 		}
 
@@ -33,7 +34,25 @@
 			{
 				BlockDefinition.AllowMultipleFiles = value;
 			}
-		} 
+		}
+
+		/// <summary>
+		/// Indicates if the script is allowed to continue without having a file uploaded.
+		/// Default value: false
+		/// </summary>
+		/// <remarks>Available from DataMiner Feature Release 10.1.10 and Main Release 10.2.0 onwards.</remarks>
+		public bool IsRequired
+		{
+			get
+			{
+				return BlockDefinition.IsRequired;
+			}
+
+			set
+			{
+				BlockDefinition.IsRequired = value;
+			}
+		}
 
 		/// <summary>
 		/// Contains the paths to the uploaded files if any have been uploaded.
