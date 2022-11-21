@@ -65,6 +65,11 @@
 			}
 		}
 
+		/// <summary>
+		///     Gets or sets a value indicating whether an update of the current value of the dialog box item will trigger a
+		///     FocusLost event.
+		/// </summary>
+		/// <remarks>Is <c>false</c> by default.</remarks>
 		public bool WantsOnFocusLost
 		{
 			get

@@ -232,6 +232,10 @@ public class DemoDialog : Dialog
 			case "dropdown":
 				DropDown.IsVisible = args.IsChecked;
 				break;
+
+			default:
+				// Nothing to do
+				break;
 		}
 	}
 
@@ -255,6 +259,9 @@ public class DemoDialog : Dialog
 				break;
 			case "None":
 				TitleLabel.Style = TextStyle.None;
+				break;
+			default:
+				// Nothing to do
 				break;
 		}
 	}

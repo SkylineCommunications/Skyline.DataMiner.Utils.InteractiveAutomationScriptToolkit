@@ -208,6 +208,10 @@
 					// Expanding top collapse button
 					affectedWidgets.AddRange(GetAffectedWidgets(nestedCollapseButton, collapse));
 				}
+				else
+				{
+					// Nothing to do
+				}
 			}
 
 			return affectedWidgets;
