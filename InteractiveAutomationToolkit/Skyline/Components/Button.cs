@@ -3,6 +3,7 @@
 	using System;
 	using System.Linq;
 	using Skyline.DataMiner.Automation;
+	using Skyline.Layout;
 
 	/// <summary>
 	///     A button that can be pressed.
@@ -10,6 +11,7 @@
 	public class Button : InteractiveWidget
 	{
 		private bool pressed;
+		private ButtonStyle style;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Button" /> class.
@@ -26,6 +28,23 @@
 		/// </summary>
 		public Button() : this(String.Empty)
 		{
+		}
+
+		/// <summary>
+		///     Gets or sets the text style of the label.
+		/// </summary>
+		public ButtonStyle Style
+		{
+			get
+			{
+				return style;
+			}
+
+			set
+			{
+				style = value;
+				BlockDefinition.Style = StyleToUiString(value);
+			}
 		}
 
 		/// <summary>
@@ -104,6 +123,19 @@
 			}
 
 			pressed = false;
+		}
+
+		private static string StyleToUiString(ButtonStyle buttonStyle)
+		{
+			switch (buttonStyle)
+			{
+				case ButtonStyle.None:
+					return null;
+				case ButtonStyle.CallToAction:
+					return "CallToAction";
+				default:
+					throw new ArgumentOutOfRangeException("buttonStyle", buttonStyle, null);
+			}
 		}
 	}
 }

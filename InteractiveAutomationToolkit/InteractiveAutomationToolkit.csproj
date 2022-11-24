@@ -80,6 +80,7 @@
     <Compile Include="Skyline\Exceptions\OverlappingWidgetsException.cs" />
     <Compile Include="Skyline\Exceptions\TreeViewDuplicateItemsException.cs" />
     <Compile Include="Skyline\InteractiveController.cs" />
+    <Compile Include="Skyline\Layout\ButtonStyle.cs" />
     <Compile Include="Skyline\Layout\HorizontalAlignment.cs" />
     <Compile Include="Skyline\Layout\ILayout.cs" />
     <Compile Include="Skyline\Layout\IWidgetLayout.cs" />
