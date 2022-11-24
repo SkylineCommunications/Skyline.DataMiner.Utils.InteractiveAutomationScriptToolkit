@@ -198,10 +198,10 @@
 		internal override void LoadResult(UIResults uiResults)
 		{
 			bool result = uiResults.GetChecked(this);
-			if (WantsOnChange)
-			{
-				changed = result != IsChecked;
-			}
+			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);
+
+			if (WantsOnChange) changed = result != IsChecked;
+			if (WantsOnFocusLost) focusLost = wasOnFocusLost;
 
 			IsChecked = result;
 		}
