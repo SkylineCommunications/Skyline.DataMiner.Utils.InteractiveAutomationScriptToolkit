@@ -19,7 +19,7 @@
 		/// <param name="engine">Link with DataMiner.</param>
 		public ProgressDialog(IEngine engine) : base(engine)
 		{
-			OkButton = new Button("OK") { IsEnabled = true, Width = 150 };
+			OkButton = new Button("OK") { IsEnabled = true, Width = 150, Style = ButtonStyle.CallToAction };
 		}
 
 		/// <summary>

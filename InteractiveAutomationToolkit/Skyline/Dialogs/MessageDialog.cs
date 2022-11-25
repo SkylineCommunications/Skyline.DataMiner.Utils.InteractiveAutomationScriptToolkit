@@ -20,7 +20,7 @@
 		/// <param name="engine">Link with DataMiner.</param>
 		public MessageDialog(IEngine engine) : base(engine)
 		{
-			OkButton = new Button("OK") { Width = 150 };
+			OkButton = new Button("OK") { Width = 150, Style = ButtonStyle.CallToAction };
 
 			AddWidget(messageLabel, 0, 0);
 			AddWidget(OkButton, 1, 0);

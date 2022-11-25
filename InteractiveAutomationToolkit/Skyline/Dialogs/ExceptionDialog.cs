@@ -18,7 +18,7 @@
 		public ExceptionDialog(IEngine engine) : base(engine)
 		{
 			Title = "Exception Occurred";
-			OkButton = new Button("OK");
+			OkButton = new Button("OK") { Style = ButtonStyle.CallToAction };
 
 			AddWidget(exceptionLabel, 0, 0);
 			AddWidget(OkButton, 1, 0);
