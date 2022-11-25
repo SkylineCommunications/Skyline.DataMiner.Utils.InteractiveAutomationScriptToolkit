@@ -2,7 +2,7 @@
 {
 	using System;
 	using System.Linq;
-	using global::Skyline.DataMiner.Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     A text box for passwords.

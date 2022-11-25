@@ -2,7 +2,7 @@
 {
 	using System;
 	using System.IO;
-	using global::Skyline.DataMiner.Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	/// Widget that can be used to upload files to the DMA.

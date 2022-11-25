@@ -2,8 +2,7 @@
 {
 	using System;
 	using System.Linq;
-	using global::Skyline.DataMiner.Automation;
-	using Skyline.Layout;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     A button that can be pressed.

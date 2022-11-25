@@ -3,7 +3,7 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
-	using global::Skyline.DataMiner.Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     A list of checkboxes.

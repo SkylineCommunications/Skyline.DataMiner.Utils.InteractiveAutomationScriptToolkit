@@ -1,7 +1,7 @@
 ﻿namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
 	using System;
-	using global::Skyline.DataMiner.Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	/// Base class for time-based widgets that rely on the <see cref="AutomationDateTimeUpDownOptions" />.

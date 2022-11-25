@@ -2,7 +2,7 @@
 {
 	using System;
 	using System.Linq;
-	using global::Skyline.DataMiner.Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     Widget that is used to edit and display text.

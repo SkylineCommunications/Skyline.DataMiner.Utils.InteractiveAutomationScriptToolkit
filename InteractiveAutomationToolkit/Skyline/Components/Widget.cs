@@ -2,7 +2,7 @@
 {
 	using System;
 	using System.Reflection;
-	using global::Skyline.DataMiner.Automation;
+	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     Base class for widgets.

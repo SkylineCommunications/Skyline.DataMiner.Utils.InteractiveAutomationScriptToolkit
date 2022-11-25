@@ -1,4 +1,4 @@
-﻿namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit.Skyline.Layout
+﻿namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
 	public enum ButtonStyle
 	{
