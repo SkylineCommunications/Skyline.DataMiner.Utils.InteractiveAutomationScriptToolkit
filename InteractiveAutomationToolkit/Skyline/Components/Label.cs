@@ -90,13 +90,13 @@
 			switch (textStyle)
 			{
 				case TextStyle.None:
-					return null;
+					return Automation.Style.Text.None;
 				case TextStyle.Title:
-					return "Title1";
+					return Automation.Style.Text.Title1;
 				case TextStyle.Bold:
-					return "Title2";
+					return Automation.Style.Text.Title2;
 				case TextStyle.Heading:
-					return "Title3";
+					return Automation.Style.Text.Title3;
 				default:
 					throw new ArgumentOutOfRangeException("textStyle", textStyle, null);
 			}

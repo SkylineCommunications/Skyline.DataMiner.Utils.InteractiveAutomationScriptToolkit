@@ -129,9 +129,9 @@
 			switch (buttonStyle)
 			{
 				case ButtonStyle.None:
-					return null;
+					return Automation.Style.Button.None;
 				case ButtonStyle.CallToAction:
-					return "CallToAction";
+					return Automation.Style.Button.CallToAction;
 				default:
 					throw new ArgumentOutOfRangeException("buttonStyle", buttonStyle, null);
 			}
