@@ -87,6 +87,7 @@ public class ConfirmationDialog : Dialog
 
 	public string Option
 	{
+		get => option;
 		set
 		{
 			option = value;
