@@ -140,7 +140,6 @@
 				CheckDouble(value);
 
 				BlockDefinition.RangeHigh = value;
-				Value = ClipToRange(Value);
 			}
 		}
 
@@ -166,7 +165,6 @@
 				CheckDouble(value);
 
 				BlockDefinition.RangeLow = value;
-				Value = ClipToRange(Value);
 			}
 		}
 
@@ -223,7 +221,6 @@
 
 			set
 			{
-				value = ClipToRange(value);
 				this.value = value;
 				BlockDefinition.InitialValue = value.ToString(CultureInfo.InvariantCulture);
 			}
@@ -281,8 +278,6 @@
 				return;
 			}
 
-			// TODO: clip the value when the focus is lost
-			result = ClipToRange(result);
 			bool isNotEqual = !IsEqualWithinDecimalMargin(result, value);
 			if (isNotEqual && WantsOnChange)
 			{
@@ -315,13 +310,6 @@
 			{
 				throw new ArgumentException("Infinity is not allowed", "value");
 			}
-		}
-
-		private double ClipToRange(double number)
-		{
-			number = Math.Min(Maximum, number);
-			number = Math.Max(Minimum, number);
-			return number;
 		}
 
 		private bool IsEqualWithinDecimalMargin(double a, double b)
