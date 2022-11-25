@@ -616,16 +616,21 @@
 			{
 				for (int row = widgetLayout.Row; row < widgetLayout.Row + widgetLayout.RowSpan; row++)
 				{
-					foreach (Widget otherWidget in widgetLayouts.Keys)
-					{
-						if (!otherWidget.IsVisible || widget.Equals(otherWidget)) continue;
+					CheckIfOtherWidgetsAreVisibleOnPosition(widget, widgetLayout, row, column);
+				}
+			}
+		}
 
-						IWidgetLayout otherWidgetLayout = widgetLayouts[otherWidget];
-						if (column >= otherWidgetLayout.Column && column < otherWidgetLayout.Column + otherWidgetLayout.ColumnSpan && row >= otherWidgetLayout.Row && row < otherWidgetLayout.Row + otherWidgetLayout.RowSpan)
-						{
-							throw new OverlappingWidgetsException(String.Format("The widget overlaps with another widget in the Dialog on Row {0}, Column {1}, RowSpan {2}, ColumnSpan {3}", widgetLayout.Row, widgetLayout.Column, widgetLayout.RowSpan, widgetLayout.ColumnSpan));
-						}
-					}
+		private void CheckIfOtherWidgetsAreVisibleOnPosition(Widget widget, IWidgetLayout layout, int row, int column)
+		{
+			foreach (Widget otherWidget in widgetLayouts.Keys)
+			{
+				if (!otherWidget.IsVisible || widget.Equals(otherWidget)) continue;
+
+				IWidgetLayout otherWidgetLayout = widgetLayouts[otherWidget];
+				if (column >= otherWidgetLayout.Column && column < otherWidgetLayout.Column + otherWidgetLayout.ColumnSpan && row >= otherWidgetLayout.Row && row < otherWidgetLayout.Row + otherWidgetLayout.RowSpan)
+				{
+					throw new OverlappingWidgetsException(String.Format("The widget overlaps with another widget in the Dialog on Row {0}, Column {1}, RowSpan {2}, ColumnSpan {3}", layout.Row, layout.Column, layout.RowSpan, layout.ColumnSpan));
 				}
 			}
 		}
