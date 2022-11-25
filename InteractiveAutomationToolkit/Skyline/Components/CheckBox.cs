@@ -49,8 +49,9 @@
 				bool noOnChangedEvents = OnChanged == null || !OnChanged.GetInvocationList().Any();
 				bool noOnCheckedEvents = OnChecked == null || !OnChecked.GetInvocationList().Any();
 				bool noOnUnCheckedEvents = OnUnChecked == null || !OnUnChecked.GetInvocationList().Any();
+				bool noOnFocusEvents = OnFocusLost == null || !OnFocusLost.GetInvocationList().Any();
 
-				if (noOnChangedEvents && noOnCheckedEvents && noOnUnCheckedEvents)
+				if (noOnChangedEvents && noOnCheckedEvents && noOnUnCheckedEvents && noOnFocusEvents)
 				{
 					WantsOnChange = false;
 				}
@@ -75,8 +76,9 @@
 				bool noOnChangedEvents = OnChanged == null || !OnChanged.GetInvocationList().Any();
 				bool noOnCheckedEvents = OnChecked == null || !OnChecked.GetInvocationList().Any();
 				bool noOnUnCheckedEvents = OnUnChecked == null || !OnUnChecked.GetInvocationList().Any();
+				bool noOnFocusEvents = OnFocusLost == null || !OnFocusLost.GetInvocationList().Any();
 
-				if (noOnChangedEvents && noOnCheckedEvents && noOnUnCheckedEvents)
+				if (noOnChangedEvents && noOnCheckedEvents && noOnUnCheckedEvents && noOnFocusEvents)
 				{
 					WantsOnChange = false;
 				}
@@ -101,8 +103,9 @@
 				bool noOnChangedEvents = OnChanged == null || !OnChanged.GetInvocationList().Any();
 				bool noOnCheckedEvents = OnChecked == null || !OnChecked.GetInvocationList().Any();
 				bool noOnUnCheckedEvents = OnUnChecked == null || !OnUnChecked.GetInvocationList().Any();
+				bool noOnFocusEvents = OnFocusLost == null || !OnFocusLost.GetInvocationList().Any();
 
-				if (noOnChangedEvents && noOnCheckedEvents && noOnUnCheckedEvents)
+				if (noOnChangedEvents && noOnCheckedEvents && noOnUnCheckedEvents && noOnFocusEvents)
 				{
 					WantsOnChange = false;
 				}
@@ -125,6 +128,7 @@
 			{
 				OnFocusLost += value;
 				WantsOnFocusLost = true;
+				WantsOnChange = true;
 			}
 
 			remove
@@ -133,6 +137,10 @@
 				if (OnFocusLost == null || !OnFocusLost.GetInvocationList().Any())
 				{
 					WantsOnFocusLost = false;
+					if (OnChanged == null || !OnChanged.GetInvocationList().Any())
+					{
+						WantsOnChange = false;
+					}
 				}
 			}
 		}

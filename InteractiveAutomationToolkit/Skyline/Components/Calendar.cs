@@ -50,7 +50,10 @@
 			remove
 			{
 				OnChanged -= value;
-				if (OnChanged == null || !OnChanged.GetInvocationList().Any())
+
+				bool noOnChangedEvents = OnChanged == null || !OnChanged.GetInvocationList().Any();
+				bool noOnFocusEvents = OnFocusLost == null || !OnFocusLost.GetInvocationList().Any();
+				if (noOnChangedEvents && noOnFocusEvents)
 				{
 					WantsOnChange = false;
 				}
@@ -69,6 +72,7 @@
 			{
 				OnFocusLost += value;
 				WantsOnFocusLost = true;
+				WantsOnChange = true;
 			}
 
 			remove
@@ -77,6 +81,11 @@
 				if (OnFocusLost == null || !OnFocusLost.GetInvocationList().Any())
 				{
 					WantsOnFocusLost = false;
+
+					if (OnChanged == null ||!OnChanged.GetInvocationList().Any())
+					{
+						WantsOnChange = false;
+					}
 				}
 			}
 		}
