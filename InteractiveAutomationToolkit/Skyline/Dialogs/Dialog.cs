@@ -602,24 +602,28 @@
 		{
 			if (AllowOverlappingWidgets) return;
 
-			foreach(Widget widget in widgetLayouts.Keys)
+			foreach (Widget widget in widgetLayouts.Keys)
 			{
 				if (!widget.IsVisible) continue;
+				CheckIfVisibleWidgetOverlaps(widget);
+			}
+		}
 
-				IWidgetLayout widgetLayout = widgetLayouts[widget];
-				for (int column = widgetLayout.Column; column < widgetLayout.Column + widgetLayout.ColumnSpan; column++)
+		private void CheckIfVisibleWidgetOverlaps(Widget widget)
+		{
+			IWidgetLayout widgetLayout = widgetLayouts[widget];
+			for (int column = widgetLayout.Column; column < widgetLayout.Column + widgetLayout.ColumnSpan; column++)
+			{
+				for (int row = widgetLayout.Row; row < widgetLayout.Row + widgetLayout.RowSpan; row++)
 				{
-					for (int row = widgetLayout.Row; row < widgetLayout.Row + widgetLayout.RowSpan; row++)
+					foreach (Widget otherWidget in widgetLayouts.Keys)
 					{
-						foreach(Widget otherWidget in widgetLayouts.Keys)
-						{
-							if (!otherWidget.IsVisible || widget.Equals(otherWidget)) continue;
+						if (!otherWidget.IsVisible || widget.Equals(otherWidget)) continue;
 
-							IWidgetLayout otherWidgetLayout = widgetLayouts[otherWidget];
-							if (column >= otherWidgetLayout.Column && column < otherWidgetLayout.Column + otherWidgetLayout.ColumnSpan && row >= otherWidgetLayout.Row && row < otherWidgetLayout.Row + otherWidgetLayout.RowSpan)
-							{
-								throw new OverlappingWidgetsException(String.Format("The widget overlaps with another widget in the Dialog on Row {0}, Column {1}, RowSpan {2}, ColumnSpan {3}", widgetLayout.Row, widgetLayout.Column, widgetLayout.RowSpan, widgetLayout.ColumnSpan));
-							}
+						IWidgetLayout otherWidgetLayout = widgetLayouts[otherWidget];
+						if (column >= otherWidgetLayout.Column && column < otherWidgetLayout.Column + otherWidgetLayout.ColumnSpan && row >= otherWidgetLayout.Row && row < otherWidgetLayout.Row + otherWidgetLayout.RowSpan)
+						{
+							throw new OverlappingWidgetsException(String.Format("The widget overlaps with another widget in the Dialog on Row {0}, Column {1}, RowSpan {2}, ColumnSpan {3}", widgetLayout.Row, widgetLayout.Column, widgetLayout.RowSpan, widgetLayout.ColumnSpan));
 						}
 					}
 				}
@@ -787,18 +791,15 @@
 
 		private void RaiseResultEvents(UIResults uir)
 		{
-			if (Interacted != null)
-			{
-				Interacted(this, EventArgs.Empty);
-			}
+			Interacted?.Invoke(this, EventArgs.Empty);
 
-			if (uir.WasBack() && (Back != null))
+			if (uir.WasBack() && Back != null)
 			{
 				Back(this, EventArgs.Empty);
 				return;
 			}
 
-			if (uir.WasForward() && (Forward != null))
+			if (uir.WasForward() && Forward != null)
 			{
 				Forward(this, EventArgs.Empty);
 				return;
