@@ -177,7 +177,7 @@
 			if (pressed)
 			{
 				IsCollapsed = !IsCollapsed;
-				if (OnPressed != null) OnPressed(this, EventArgs.Empty);
+				OnPressed?.Invoke(this, EventArgs.Empty);
 			}
 
 			pressed = false;

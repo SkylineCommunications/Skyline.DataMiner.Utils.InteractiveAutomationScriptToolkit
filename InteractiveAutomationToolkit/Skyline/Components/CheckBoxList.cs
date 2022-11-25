@@ -12,7 +12,6 @@
 	{
 		private readonly IDictionary<string, bool> options = new Dictionary<string, bool>();
 		private bool changed;
-		private bool focusLost;
 		private string changedOption;
 		private bool changedValue;
 
@@ -59,30 +58,6 @@
 		}
 
 		private event EventHandler<CheckBoxListChangedEventArgs> OnChanged;
-
-		/// <summary>
-		///     Triggered when the user loses focus of the CheckBoxList.
-		///     WantsOnFocusLost will be set to true when this event is subscribed to.
-		/// </summary>
-		public event EventHandler FocusLost
-		{
-			add
-			{
-				OnFocusLost += value;
-				WantsOnFocusLost = true;
-			}
-
-			remove
-			{
-				OnFocusLost -= value;
-				if (OnFocusLost == null || !OnFocusLost.GetInvocationList().Any())
-				{
-					WantsOnFocusLost = false;
-				}
-			}
-		}
-
-		private event EventHandler OnFocusLost;
 
 		/// <summary>
 		///     Gets all selected options.
@@ -330,9 +305,6 @@
 		internal override void LoadResult(UIResults uiResults)
 		{
 			string results = uiResults.GetString(this);
-			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);
-
-			if (WantsOnFocusLost) focusLost = wasOnFocusLost;
 
 			if (results == null)
 			{
@@ -367,10 +339,7 @@
 		internal override void RaiseResultEvents()
 		{
 			if (changed) OnChanged?.Invoke(this, new CheckBoxListChangedEventArgs(changedOption, changedValue));
-			if (focusLost) OnFocusLost?.Invoke(this, EventArgs.Empty);
-
 			changed = false;
-			focusLost = false;
 		}
 
 		private void ClearOptions()

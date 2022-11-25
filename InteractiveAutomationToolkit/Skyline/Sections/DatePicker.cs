@@ -208,10 +208,7 @@
 		{
 			if (Date == previous) return;
 
-			if (OnChanged != null)
-			{
-				OnChanged(this, new DatePickerChangedEventArgs(Date, previous));
-			}
+			OnChanged?.Invoke(this, new DatePickerChangedEventArgs(Date, previous));
 
 			previous = Date;
 		}

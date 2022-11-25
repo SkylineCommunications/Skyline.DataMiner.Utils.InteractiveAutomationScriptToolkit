@@ -12,7 +12,6 @@
 	{
 		private readonly HashSet<string> options = new HashSet<string>();
 		private bool changed;
-		private bool focusLost;
 		private string previous;
 
 		/// <summary>
@@ -57,30 +56,6 @@
 		}
 
 		private event EventHandler<RadioButtonChangedEventArgs> OnChanged;
-
-		/// <summary>
-		///     Triggered when the user loses focus of the RadioButtonList.
-		///     WantsOnFocusLost will be set to true when this event is subscribed to.
-		/// </summary>
-		public event EventHandler FocusLost
-		{
-			add
-			{
-				OnFocusLost += value;
-				WantsOnFocusLost = true;
-			}
-
-			remove
-			{
-				OnFocusLost -= value;
-				if (OnFocusLost == null || !OnFocusLost.GetInvocationList().Any())
-				{
-					WantsOnFocusLost = false;
-				}
-			}
-		}
-
-		private event EventHandler OnFocusLost;
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the options are sorted naturally.
@@ -227,9 +202,7 @@
 		internal override void LoadResult(UIResults uiResults)
 		{
 			string result = uiResults.GetString(this);
-			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);
 
-			if (WantsOnFocusLost) focusLost = wasOnFocusLost;
 			if (String.IsNullOrWhiteSpace(result)) return;
 
 			string[] checkedOptions = result.Split(';');
@@ -249,10 +222,7 @@
 		internal override void RaiseResultEvents()
 		{
 			if (changed) OnChanged?.Invoke(this, new RadioButtonChangedEventArgs(Selected, previous));
-			if (focusLost) OnFocusLost?.Invoke(this, EventArgs.Empty);
-
 			changed = false;
-			focusLost = false;
 		}
 
 		private void ClearOptions()

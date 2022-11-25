@@ -256,7 +256,7 @@
 					if (item.SupportsLazyLoading) collapsedItemCache.Add(item.KeyValue, item.IsCollapsed);
 					lookupTable.Add(item.KeyValue, item);
 				}
-				catch(Exception e)
+				catch (Exception e)
 				{
 					throw new TreeViewDuplicateItemsException(item.KeyValue, e);
 				}
@@ -372,56 +372,16 @@
 
 			// Check for changes
 			// Expanded Items
-			List<string> newlyExpandedItems = collapsedItemCache.Where(x => expandedItemKeys.Contains(x.Key) && x.Value).Select(x => x.Key).ToList();
-			if (newlyExpandedItems.Any() && OnExpanded != null)
-			{
-				itemsExpanded = true;
-				expandedItems = new List<TreeViewItem>();
-
-				foreach (string newlyExpandedItemKey in newlyExpandedItems)
-				{
-					expandedItems.Add(lookupTable[newlyExpandedItemKey]);
-				}
-			}
+			RegisterExpandedItems(expandedItemKeys);
 
 			// Collapsed Items
-			List<string> newlyCollapsedItems = collapsedItemCache.Where(x => !expandedItemKeys.Contains(x.Key) && !x.Value).Select(x => x.Key).ToList();
-			if (newlyCollapsedItems.Any() && OnCollapsed != null)
-			{
-				itemsCollapsed = true;
-				collapsedItems = new List<TreeViewItem>();
-
-				foreach (string newyCollapsedItemKey in newlyCollapsedItems)
-				{
-					collapsedItems.Add(lookupTable[newyCollapsedItemKey]);
-				}
-			}
+			RegisterCollapsedItems(expandedItemKeys);
 
 			// Checked Items
-			List<string> newlyCheckedItemKeys = checkedItemCache.Where(x => checkedItemKeys.Contains(x.Key) && !x.Value).Select(x => x.Key).ToList();
-			if (newlyCheckedItemKeys.Any() && OnChecked != null)
-			{
-				itemsChecked = true;
-				checkedItems = new List<TreeViewItem>();
+			List<string> newlyCheckedItemKeys = RegisterCheckedItems(checkedItemKeys);
 
-				foreach (string newlyCheckedItemKey in newlyCheckedItemKeys)
-				{
-					checkedItems.Add(lookupTable[newlyCheckedItemKey]);
-				}
-			}
-			
 			// Unchecked Items
-			List<string> newlyUncheckedItemKeys = checkedItemCache.Where(x => !checkedItemKeys.Contains(x.Key) && x.Value).Select(x => x.Key).ToList();
-			if (newlyUncheckedItemKeys.Any() && OnUnchecked != null)
-			{
-				itemsUnchecked = true;
-				uncheckedItems = new List<TreeViewItem>();
-
-				foreach (string newlyUncheckedItemKey in newlyUncheckedItemKeys)
-				{
-					uncheckedItems.Add(lookupTable[newlyUncheckedItemKey]);
-				}
-			}
+			List<string> newlyUncheckedItemKeys = RegisterUncheckedItems(checkedItemKeys);
 
 			// Changed Items
 			List<string> changedItemKeys = new List<string>();
@@ -446,6 +406,70 @@
 			}
 
 			UpdateItemCache();
+		}
+
+		private void RegisterExpandedItems(IEnumerable<string> expandedItemKeys)
+		{
+			List<string> newlyExpandedItems = collapsedItemCache.Where(x => expandedItemKeys.Contains(x.Key) && x.Value).Select(x => x.Key).ToList();
+			if (newlyExpandedItems.Any() && OnExpanded != null)
+			{
+				itemsExpanded = true;
+				expandedItems = new List<TreeViewItem>();
+
+				foreach (string newlyExpandedItemKey in newlyExpandedItems)
+				{
+					expandedItems.Add(lookupTable[newlyExpandedItemKey]);
+				}
+			}
+		}
+
+		private void RegisterCollapsedItems(IEnumerable<string> expandedItemKeys)
+		{
+			List<string> newlyCollapsedItems = collapsedItemCache.Where(x => !expandedItemKeys.Contains(x.Key) && !x.Value).Select(x => x.Key).ToList();
+			if (newlyCollapsedItems.Any() && OnCollapsed != null)
+			{
+				itemsCollapsed = true;
+				collapsedItems = new List<TreeViewItem>();
+
+				foreach (string newyCollapsedItemKey in newlyCollapsedItems)
+				{
+					collapsedItems.Add(lookupTable[newyCollapsedItemKey]);
+				}
+			}
+		}
+
+		private List<string> RegisterCheckedItems(IEnumerable<string> checkedItemKeys)
+		{
+			List<string> newlyCheckedItemKeys = checkedItemCache.Where(x => checkedItemKeys.Contains(x.Key) && !x.Value).Select(x => x.Key).ToList();
+			if (newlyCheckedItemKeys.Any() && OnChecked != null)
+			{
+				itemsChecked = true;
+				checkedItems = new List<TreeViewItem>();
+
+				foreach (string newlyCheckedItemKey in newlyCheckedItemKeys)
+				{
+					checkedItems.Add(lookupTable[newlyCheckedItemKey]);
+				}
+			}
+
+			return newlyCheckedItemKeys;
+		}
+
+		private List<string> RegisterUncheckedItems(IEnumerable<string> checkedItemKeys)
+		{
+			List<string> newlyUncheckedItemKeys = checkedItemCache.Where(x => !checkedItemKeys.Contains(x.Key) && x.Value).Select(x => x.Key).ToList();
+			if (newlyUncheckedItemKeys.Any() && OnUnchecked != null)
+			{
+				itemsUnchecked = true;
+				uncheckedItems = new List<TreeViewItem>();
+
+				foreach (string newlyUncheckedItemKey in newlyUncheckedItemKeys)
+				{
+					uncheckedItems.Add(lookupTable[newlyUncheckedItemKey]);
+				}
+			}
+
+			return newlyUncheckedItemKeys;
 		}
 
 		/// <inheritdoc />

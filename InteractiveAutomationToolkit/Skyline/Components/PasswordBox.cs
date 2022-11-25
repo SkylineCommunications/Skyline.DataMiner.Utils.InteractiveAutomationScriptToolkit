@@ -10,10 +10,6 @@
 	/// <remarks>Available from DataMiner 9.6.6 onwards.</remarks>
 	public class PasswordBox : InteractiveWidget
 	{
-		private bool changed;
-		private bool focusLost;
-		private string previous;
-
 		/// <summary>
 		///     Initializes a new instance of the <see cref="PasswordBox" /> class.
 		/// </summary>
@@ -33,35 +29,6 @@
 		public PasswordBox() : this(false)
 		{
 		}
-
-		/// <summary>
-		///     Triggered when the password changes.
-		/// </summary>
-		public event EventHandler<PasswordBoxChangedEventArgs> Changed;
-
-		/// <summary>
-		///     Triggered when the user loses focus of the PasswordBox.
-		///     WantsOnFocusLost will be set to true when this event is subscribed to.
-		/// </summary>
-		public event EventHandler FocusLost
-		{
-			add
-			{
-				OnFocusLost += value;
-				WantsOnFocusLost = true;
-			}
-
-			remove
-			{
-				OnFocusLost -= value;
-				if (OnFocusLost == null || !OnFocusLost.GetInvocationList().Any())
-				{
-					WantsOnFocusLost = false;
-				}
-			}
-		}
-
-		private event EventHandler OnFocusLost;
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the peek icon to reveal the password is shown.
@@ -175,49 +142,13 @@
 		internal override void LoadResult(UIResults uiResults)
 		{
 			string result = uiResults.GetString(this);
-			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);
-
-			if (WantsOnChange && (result != Password))
-			{
-				changed = true;
-				previous = Password;
-			}
-
-			if (WantsOnFocusLost) focusLost = wasOnFocusLost;
-
 			Password = result;
 		}
 
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			if (changed) Changed?.Invoke(this, new PasswordBoxChangedEventArgs(Password, previous));
-			if (focusLost) OnFocusLost?.Invoke(this, EventArgs.Empty);
-
-			changed = false;
-			focusLost = false;
-		}
-
-		/// <summary>
-		///     Provides data for the <see cref="Changed" /> event.
-		/// </summary>
-		public class PasswordBoxChangedEventArgs : EventArgs
-		{
-			internal PasswordBoxChangedEventArgs(string password, string previous)
-			{
-				Password = password;
-				Previous = previous;
-			}
-
-			/// <summary>
-			///     Gets the password.
-			/// </summary>
-			public string Password { get; private set; }
-
-			/// <summary>
-			///     Gets the previous password.
-			/// </summary>
-			public string Previous { get; private set; }
+			// Nothing to trigger
 		}
 	}
 }
