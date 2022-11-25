@@ -3,8 +3,8 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
-	using Skyline.DataMiner.Automation;
-	using Skyline.DataMiner.Net.AutomationUI.Objects;
+	using global::Skyline.DataMiner.Automation;
+	using global::Skyline.DataMiner.Net.AutomationUI.Objects;
 
 	/// <summary>
 	///  A tree view structure.

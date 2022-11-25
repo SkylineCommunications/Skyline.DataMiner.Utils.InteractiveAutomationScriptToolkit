@@ -1,7 +1,7 @@
 ﻿namespace Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit
 {
 	using System;
-	using Skyline.DataMiner.Automation;
+	using global::Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     Displays the value of a protocol parameter.

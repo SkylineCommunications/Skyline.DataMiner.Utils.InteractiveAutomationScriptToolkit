@@ -2,7 +2,7 @@
 {
 	using System.Linq;
 	using System.Text;
-	using Skyline.DataMiner.Automation;
+	using global::Skyline.DataMiner.Automation;
 
 	/// <summary>
 	/// When progress is displayed, this dialog has to be shown without requiring user interaction.

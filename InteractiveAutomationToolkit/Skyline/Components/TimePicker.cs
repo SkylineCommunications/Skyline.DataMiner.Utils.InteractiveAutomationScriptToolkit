@@ -3,7 +3,7 @@
 	using System;
 	using System.Globalization;
 	using System.Linq;
-	using Skyline.DataMiner.Automation;
+	using global::Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     Widget to show/edit a time of day.

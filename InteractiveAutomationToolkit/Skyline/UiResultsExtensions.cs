@@ -4,8 +4,8 @@
 	using System.Collections.Generic;
 	using System.Globalization;
 	using System.Linq;
-	using Skyline.DataMiner.Automation;
-	using Skyline.DataMiner.Net.AutomationUI.Objects;
+	using global::Skyline.DataMiner.Automation;
+	using global::Skyline.DataMiner.Net.AutomationUI.Objects;
 
 	internal static class UiResultsExtensions
 	{

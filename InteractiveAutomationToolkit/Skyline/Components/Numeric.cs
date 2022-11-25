@@ -3,7 +3,7 @@
 	using System;
 	using System.Globalization;
 	using System.Linq;
-	using Skyline.DataMiner.Automation;
+	using global::Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     A spinner or numeric up-down control.

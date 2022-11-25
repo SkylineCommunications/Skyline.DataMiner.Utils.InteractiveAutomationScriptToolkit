@@ -2,7 +2,7 @@
 {
 	using System;
 	using System.Linq;
-	using Skyline.DataMiner.Automation;
+	using global::Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     A checkbox that can be selected or cleared.

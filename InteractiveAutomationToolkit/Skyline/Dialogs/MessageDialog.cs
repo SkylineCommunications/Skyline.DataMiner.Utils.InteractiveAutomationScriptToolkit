@@ -5,7 +5,7 @@
 	using System.Linq;
 	using System.Text;
 	using System.Threading.Tasks;
-	using Skyline.DataMiner.Automation;
+	using global::Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///		Dialog used to display a message.

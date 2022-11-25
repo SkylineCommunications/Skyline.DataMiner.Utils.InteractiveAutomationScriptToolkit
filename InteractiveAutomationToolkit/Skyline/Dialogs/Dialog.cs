@@ -4,7 +4,7 @@
 	using System.Collections.Generic;
 	using System.ComponentModel;
 	using System.Linq;
-	using Skyline.DataMiner.Automation;
+	using global::Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     A dialog represents a single window that can be shown.
