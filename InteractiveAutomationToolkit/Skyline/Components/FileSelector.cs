@@ -36,26 +36,26 @@
 			}
 		}
 
-		/// <summary>
-		/// Indicates if the script is allowed to continue without having a file uploaded.
-		/// Default value: false
-		/// </summary>
-		/// <remarks>
-		/// Available from DataMiner Feature Release 10.1.10 and Main Release 10.2.0 onwards.
-		/// This value has no effect in Cube. A file upload is always required.
-		/// </remarks>
-		public bool IsRequired
-		{
-			get
-			{
-				return BlockDefinition.IsRequired;
-			}
+		///// <summary>
+		///// Indicates if the script is allowed to continue without having a file uploaded.
+		///// Default value: false
+		///// </summary>
+		///// <remarks>
+		///// Available from DataMiner Feature Release 10.1.10 and Main Release 10.2.0 onwards.
+		///// This value has no effect in Cube. A file upload is always required.
+		///// </remarks>
+		//public bool IsRequired
+		//{
+		//	get
+		//	{
+		//		return BlockDefinition.IsRequired;
+		//	}
 
-			set
-			{
-				BlockDefinition.IsRequired = value;
-			}
-		}
+		//	set
+		//	{
+		//		BlockDefinition.IsRequired = value;
+		//	}
+		//}
 
 		/// <summary>
 		/// Contains the paths to the uploaded files if any have been uploaded.

@@ -41,6 +41,24 @@
 		}
 
 		/// <summary>
+		///     Gets or sets a value indicating whether an update of the current value of the dialog box item will trigger a
+		///     FocusLost event.
+		/// </summary>
+		/// <remarks>Is <c>false</c> by default.</remarks>
+		public bool WantsOnFocusLost
+		{
+			get
+			{
+				return BlockDefinition.WantsOnFocusLost;
+			}
+
+			set
+			{
+				BlockDefinition.WantsOnFocusLost = value;
+			}
+		}
+
+		/// <summary>
 		///     Triggered when the value of the numeric changes.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
