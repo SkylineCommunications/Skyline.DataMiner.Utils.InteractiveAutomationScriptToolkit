@@ -65,19 +65,6 @@
 			}
 		}
 
-		public bool IsRequired
-		{
-			get
-			{
-				return BlockDefinition.IsRequired;
-			}
-
-			set
-			{
-				BlockDefinition.IsRequired = value;
-			}
-		}
-
 		internal abstract void LoadResult(UIResults uiResults);
 
 		internal abstract void RaiseResultEvents();
