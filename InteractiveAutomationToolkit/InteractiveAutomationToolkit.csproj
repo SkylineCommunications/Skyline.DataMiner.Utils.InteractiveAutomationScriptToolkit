@@ -105,7 +105,10 @@
 		<Compile Include="Skyline\Components\Widgets\DateTimePicker.cs" />
 		<Compile Include="Skyline\Components\Widgets\DropDown.cs" />
 		<Compile Include="Skyline\Components\Widgets\FileSelector.cs" />
+		<Compile Include="Skyline\Components\Widgets\Generic\CheckBoxList.cs" />
 		<Compile Include="Skyline\Components\Widgets\Generic\DropDown.cs" />
+		<Compile Include="Skyline\Components\Widgets\Generic\ICheckBoxList.cs" />
+		<Compile Include="Skyline\Components\Widgets\Generic\ICheckedOptionCollection.cs" />
 		<Compile Include="Skyline\Components\Widgets\Generic\IDropDown.cs" />
 		<Compile Include="Skyline\Components\Widgets\IButton.cs" />
 		<Compile Include="Skyline\Components\Widgets\ICalendar.cs" />
