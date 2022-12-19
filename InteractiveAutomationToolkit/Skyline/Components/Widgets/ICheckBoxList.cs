@@ -3,8 +3,6 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 	using System;
 	using System.Collections.Generic;
 
-	using Skyline.DataMiner.Automation;
-
 	/// <summary>
 	///     Represents a list of checkboxes.
 	/// </summary>

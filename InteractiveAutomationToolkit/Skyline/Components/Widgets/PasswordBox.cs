@@ -1,7 +1,6 @@
 ﻿namespace Skyline.DataMiner.InteractiveAutomationToolkit
 {
 	using System;
-	using System.ComponentModel;
 
 	using Skyline.DataMiner.Automation;
 

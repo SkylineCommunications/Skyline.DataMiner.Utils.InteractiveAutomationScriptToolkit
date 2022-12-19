@@ -2,9 +2,6 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 {
 	using System;
 	using System.Collections.Generic;
-	using System.ComponentModel;
-
-	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     Represents a drop-down list.

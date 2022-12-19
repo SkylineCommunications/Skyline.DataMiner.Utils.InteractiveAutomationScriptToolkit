@@ -1,9 +1,6 @@
 namespace Skyline.DataMiner.InteractiveAutomationToolkit
 {
 	using System;
-	using System.ComponentModel;
-
-	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     Represents a widget that is used to edit and display text.

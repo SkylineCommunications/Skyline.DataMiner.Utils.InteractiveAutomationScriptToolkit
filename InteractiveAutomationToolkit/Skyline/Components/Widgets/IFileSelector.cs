@@ -1,9 +1,5 @@
 namespace Skyline.DataMiner.InteractiveAutomationToolkit
 {
-	using System.ComponentModel;
-
-	using Skyline.DataMiner.Automation;
-
 	/// <summary>
 	///     Represents a widget that can be used to upload files.
 	/// </summary>
