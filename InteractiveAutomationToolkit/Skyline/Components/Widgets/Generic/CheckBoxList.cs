@@ -379,7 +379,7 @@
 				return;
 			}
 
-			Add(optionsList[index]);
+			Remove(optionsList[index]);
 		}
 
 		/// <inheritdoc/>
@@ -391,7 +391,7 @@
 				return;
 			}
 
-			Add(optionsList[index]);
+			Remove(optionsList[index]);
 		}
 	}
 }
