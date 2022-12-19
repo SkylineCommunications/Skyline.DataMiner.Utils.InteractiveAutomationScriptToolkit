@@ -11,11 +11,11 @@
 	/// </summary>
 	public class Time : InteractiveWidget, ITime
 	{
+		private readonly Validation validation;
 		private bool changed;
 		private TimeSpan previous;
 		private TimeSpan timeSpan;
 		private AutomationTimeUpDownOptions timeUpDownOptions;
-		private readonly Validation validation;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Time" /> class.

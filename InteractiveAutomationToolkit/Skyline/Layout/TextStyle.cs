@@ -23,6 +23,6 @@
 		/// <summary>
 		///     Text should be styled as a heading.
 		/// </summary>
-		Heading = 3
+		Heading = 3,
 	}
 }

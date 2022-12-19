@@ -13,6 +13,6 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		/// <summary>
 		/// A checkbox is displayed next to the name.
 		/// </summary>
-		Checkbox
+		Checkbox,
 	}
 }

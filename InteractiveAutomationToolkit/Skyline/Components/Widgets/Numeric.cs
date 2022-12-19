@@ -12,10 +12,10 @@
 	/// </summary>
 	public class Numeric : InteractiveWidget, INumeric
 	{
+		private readonly Validation validation;
 		private bool changed;
 		private double previous;
 		private double value;
-		private readonly Validation validation;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Numeric" /> class.

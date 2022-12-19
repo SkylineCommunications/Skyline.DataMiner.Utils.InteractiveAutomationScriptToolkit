@@ -295,7 +295,7 @@
 				MinWidth = MinWidth,
 				RowDefs = GetRowDefinitions(),
 				ColumnDefs = GetColumnDefinitions(),
-				Title = Title
+				Title = Title,
 			};
 
 			foreach (WidgetLocationPair widgetLocationPair in visibleWidgetLocationPairs)

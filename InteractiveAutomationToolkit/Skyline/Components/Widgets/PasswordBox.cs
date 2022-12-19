@@ -10,9 +10,9 @@
 	/// <remarks>Available from DataMiner 9.6.6 onwards.</remarks>
 	public class PasswordBox : InteractiveWidget, IPasswordBox
 	{
+		private readonly Validation validation;
 		private bool changed;
 		private string previous;
-		private readonly Validation validation;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="PasswordBox" /> class.

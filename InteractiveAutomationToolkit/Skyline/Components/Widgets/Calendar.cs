@@ -11,10 +11,10 @@
 	/// </summary>
 	public class Calendar : InteractiveWidget, ICalendar
 	{
+		private readonly Validation validation;
 		private bool changed;
 		private DateTime dateTime;
 		private DateTime previous;
-		private readonly Validation validation;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Calendar" /> class.

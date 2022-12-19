@@ -89,10 +89,10 @@ namespace InteractiveAutomationToolkitTests
 							Children =
 							{
 								new TreeViewNode { IsChecked = true },
-								new TreeViewNode()
-							}
+								new TreeViewNode(),
+							},
 						},
-					}
+					},
 				});
 
 			// Assert
@@ -324,15 +324,15 @@ namespace InteractiveAutomationToolkitTests
 				Children =
 				{
 					nodeA1,
-					nodeA2
-				}
+					nodeA2,
+				},
 			};
 			var treeView = new TreeView
 			{
 				RootNodes =
 				{
 					nodeA,
-				}
+				},
 			};
 
 			treeView.Changed += AssertChangedEvent;
@@ -375,15 +375,15 @@ namespace InteractiveAutomationToolkitTests
 				Children =
 				{
 					nodeA1,
-					nodeA2
-				}
+					nodeA2,
+				},
 			};
 			var treeView = new TreeView
 			{
 				RootNodes =
 				{
-					nodeA
-				}
+					nodeA,
+				},
 			};
 
 			treeView.Changed += AssertChangedEvent;
@@ -426,15 +426,15 @@ namespace InteractiveAutomationToolkitTests
 				Children =
 				{
 					nodeA1,
-					nodeA2
-				}
+					nodeA2,
+				},
 			};
 			var treeView = new TreeView
 			{
 				RootNodes =
 				{
-					nodeA
-				}
+					nodeA,
+				},
 			};
 
 			treeView.Changed += AssertChangedEvent;
@@ -478,15 +478,15 @@ namespace InteractiveAutomationToolkitTests
 				Children =
 				{
 					nodeA1,
-					nodeA2
-				}
+					nodeA2,
+				},
 			};
 			var treeView = new TreeView
 			{
 				RootNodes =
 				{
-					nodeA
-				}
+					nodeA,
+				},
 			};
 
 			treeView.Changed += AssertChangedEvent;

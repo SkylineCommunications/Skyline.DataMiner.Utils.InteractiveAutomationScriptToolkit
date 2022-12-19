@@ -6,6 +6,6 @@
 	public enum Direction
 	{
 		Horizontal,
-		Vertical
+		Vertical,
 	}
 }

@@ -12,12 +12,12 @@
 	public class DateTimePicker : TimePickerBase, IDateTimePicker
 	{
 		private readonly AutomationDateTimePickerOptions dateTimePickerOptions;
+		private readonly Validation validation;
 
 		private bool changed;
 		private DateTime dateTime;
 		private bool displayServerTime;
 		private DateTime previous;
-		private readonly Validation validation;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="DateTimePicker" /> class.

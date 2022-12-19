@@ -11,6 +11,7 @@
 	/// </summary>
 	public class TimePicker : TimePickerBase, ITimePicker
 	{
+		private readonly Validation validation;
 		private bool changed;
 		private int maxDropDownHeight;
 		private TimeSpan maximum;
@@ -18,7 +19,6 @@
 		private TimeSpan previous;
 		private TimeSpan time;
 		private AutomationTimePickerOptions timePickerOptions;
-		private readonly Validation validation;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="TimePicker" /> class.

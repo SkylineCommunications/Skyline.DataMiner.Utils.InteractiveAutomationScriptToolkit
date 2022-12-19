@@ -117,7 +117,7 @@ public class WelcomeDialog : Dialog<GridPanel>
 	private readonly Label titleLabel = new Label("Welcome")
 	{
 		Style = TextStyle.Title,
-		HorizontalAlignment = HorizontalAlignment.Center
+		HorizontalAlignment = HorizontalAlignment.Center,
 	};
 
 	public WelcomeDialog(Engine engine)
@@ -147,7 +147,7 @@ public class DemoDialog : Dialog<GridPanel>
 		TitleLabel = new Label("Feature Demo")
 		{
 			Style = TextStyle.Title,
-			HorizontalAlignment = HorizontalAlignment.Center
+			HorizontalAlignment = HorizontalAlignment.Center,
 		};
 		Panel.Add(TitleLabel, 0, 0, 1, 2);
 		SetRowHeight(0, 50);
@@ -173,7 +173,7 @@ public class DemoDialog : Dialog<GridPanel>
 			Decimals = 1,
 			Minimum = 30,
 			Maximum = 200,
-			StepSize = 0.5
+			StepSize = 0.5,
 		};
 		Panel.Add(Numeric, 3, 0);
 		Numeric.Changed += OnNumericOnChanged;
@@ -318,7 +318,7 @@ public class ProgressDialog : Dialog<GridPanel>
 		"Looking For Graphics",
 		"Oiling Clockworks",
 		"Preparing to Spin You Around Rapidly",
-		"Told You It Wasn't Made of Cheese"
+		"Told You It Wasn't Made of Cheese",
 	};
 
 	private readonly TextBox progressLog;

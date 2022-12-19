@@ -42,7 +42,7 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		{
 			TreeViewItem = new TreeViewItem(text ?? String.Empty, Guid.NewGuid().ToString(), new List<TreeViewItem>())
 			{
-				SupportsLazyLoading = true
+				SupportsLazyLoading = true,
 			};
 
 			Children = new NodeCollection(this);

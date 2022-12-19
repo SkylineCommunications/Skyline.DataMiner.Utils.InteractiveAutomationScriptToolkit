@@ -23,6 +23,6 @@
 		/// <summary>
 		///     Specifies that the widget will be stretched horizontally across its assigned cell(s).
 		/// </summary>
-		Stretch
+		Stretch,
 	}
 }

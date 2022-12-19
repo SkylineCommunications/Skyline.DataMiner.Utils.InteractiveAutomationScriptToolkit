@@ -10,9 +10,9 @@
 	/// </summary>
 	public class TextBox : InteractiveWidget, ITextBox
 	{
+		private readonly Validation validation;
 		private bool changed;
 		private string previous;
-		private readonly Validation validation;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="TextBox" /> class.
