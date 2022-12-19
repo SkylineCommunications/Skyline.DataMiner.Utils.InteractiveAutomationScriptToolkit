@@ -110,6 +110,8 @@
 		<Compile Include="Skyline\Components\Widgets\Generic\ICheckBoxList.cs" />
 		<Compile Include="Skyline\Components\Widgets\Generic\ICheckedOptionCollection.cs" />
 		<Compile Include="Skyline\Components\Widgets\Generic\IDropDown.cs" />
+		<Compile Include="Skyline\Components\Widgets\Generic\IRadioButtonList.cs" />
+		<Compile Include="Skyline\Components\Widgets\Generic\RadioButtonList.cs" />
 		<Compile Include="Skyline\Components\Widgets\IButton.cs" />
 		<Compile Include="Skyline\Components\Widgets\ICalendar.cs" />
 		<Compile Include="Skyline\Components\Widgets\ICheckBox.cs" />
