@@ -12,7 +12,7 @@
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Option{TValue}"/> struct with the specified text and value.
 		/// </summary>
-		/// <param name="text">The text associated with <paramref name="value"/>.</param>
+		/// <param name="text">The text associated with <paramref name="value"/>. A <c>null</c> value will be converted to <see cref="string.Empty"/>.</param>
 		/// <param name="value">The definition associated with <paramref name="text"/>.</param>
 		/// <remarks><see cref="Option.Create{TValue}"/> can also be used to create new instances but with the advantage that the generic type can be inferred.</remarks>
 		public Option(string text, TValue value)
@@ -33,7 +33,7 @@
 
 		public static implicit operator Option<TValue>(KeyValuePair<string, TValue> pair)
 		{
-			return new Option<TValue>(pair.Key, pair.Value);
+			return new Option<TValue>(pair.Key ?? String.Empty, pair.Value);
 		}
 
 		public static implicit operator KeyValuePair<string, TValue>(Option<TValue> option)
