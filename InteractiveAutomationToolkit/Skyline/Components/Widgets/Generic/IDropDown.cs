@@ -39,11 +39,11 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		Option<T> Selected { get; set; }
 
 		/// <summary>
-		///     Gets or sets the selected option via the text.
+		///     Gets or sets the selected option via name.
 		///     Will do nothing if the option does not exist.
 		/// </summary>
 		/// <remarks>Can return <c>null</c>, but only when <see cref="Options" /> is empty.</remarks>
-		string SelectedText { get; set; }
+		string SelectedName { get; set; }
 
 		/// <summary>
 		///     Gets or sets the selected option via the value.

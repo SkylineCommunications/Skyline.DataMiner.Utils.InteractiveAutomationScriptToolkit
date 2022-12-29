@@ -11,7 +11,6 @@
 	public class CheckBoxList<T> : InteractiveWidget, ICheckBoxList<T>
 	{
 		private readonly Validation validation;
-		private readonly CheckedOptionCollection<T> checkedCollection;
 		private readonly CheckBoxListCollection<T> optionsCollection;
 
 		private bool changed;
@@ -43,7 +42,7 @@
 			optionsCollection = new CheckBoxListCollection<T>(this);
 			optionsCollection.AddRange(options);
 
-			checkedCollection = new CheckedOptionCollection<T>(optionsCollection);
+			CheckedOptions = new CheckedOptionCollection<T>(optionsCollection);
 		}
 
 		/// <inheritdoc />
@@ -68,7 +67,7 @@
 		private event EventHandler<ChangedEventArgs> OnChanged;
 
 		/// <inheritdoc />
-		public ICheckedOptionCollection<T> Checked => checkedCollection;
+		public CheckedOptionCollection<T> CheckedOptions { get; }
 
 		/// <inheritdoc />
 		public IOptionsList<T> Options => optionsCollection;
@@ -85,7 +84,7 @@
 		{
 			get => BlockDefinition.TooltipText;
 
-			set => BlockDefinition.TooltipText = value ?? String.Empty;
+			set => BlockDefinition.TooltipText = value;
 		}
 
 		/// <inheritdoc/>
@@ -105,18 +104,6 @@
 		}
 
 		/// <inheritdoc />
-		public void CheckAll()
-		{
-			Checked.AddRange(Options);
-		}
-
-		/// <inheritdoc />
-		public void UncheckAll()
-		{
-			Checked.Clear();
-		}
-
-		/// <inheritdoc />
 		protected internal override void LoadResult(UIResults results)
 		{
 			string result = results.GetString(this);
@@ -130,16 +117,16 @@
 			var checkedOptions = new HashSet<string>(result.Split(';'));
 			foreach (Option<T> option in Options)
 			{
-				bool isChecked = checkedOptions.Contains(option.Text);
-				bool hasChanged = Checked.Contains(option) != isChecked;
+				bool isChecked = checkedOptions.Contains(option.Name);
+				bool hasChanged = CheckedOptions.Contains(option) != isChecked;
 
 				if (isChecked)
 				{
-					Checked.Add(option);
+					CheckedOptions.Check(option);
 				}
 				else
 				{
-					Checked.Remove(option);
+					CheckedOptions.Uncheck(option);
 				}
 
 				if (hasChanged && WantsOnChange)
@@ -212,28 +199,29 @@
 
 			set
 			{
-				checkBoxList.Checked.Remove(base[index]);
+				Option<T> replaced = base[index];
 				base[index] = value;
+				checkBoxList.CheckedOptions.Uncheck(replaced);
 			}
 		}
 
 		/// <inheritdoc/>
 		public override void Clear()
 		{
-			checkBoxList.Checked.Clear();
+			checkBoxList.CheckedOptions.UncheckAll();
 			base.Clear();
 		}
 
 		/// <inheritdoc/>
 		public override void RemoveAt(int index)
 		{
-			checkBoxList.Checked.Remove(this[index]);
+			checkBoxList.CheckedOptions.Uncheck(this[index]);
 			base.RemoveAt(index);
 		}
 	}
 
 	/// <inheritdoc />
-	internal class CheckedOptionCollection<T> : ICheckedOptionCollection<T>
+	public class CheckedOptionCollection<T> : ICollection<Option<T>>, IReadOnlyCollection<Option<T>>
 	{
 		private readonly HashSet<Option<T>> checkedOptions = new HashSet<Option<T>>();
 		private readonly IOptionsList<T> optionsList;
@@ -245,13 +233,13 @@
 		public CheckedOptionCollection(IOptionsList<T> optionsList) => this.optionsList = optionsList;
 
 		/// <inheritdoc/>
-		public int Count => checkedOptions.Count;
+		public virtual int Count => checkedOptions.Count;
 
 		/// <inheritdoc/>
-		public bool IsReadOnly => false;
+		public virtual bool IsReadOnly => false;
 
 		/// <inheritdoc/>
-		public IEnumerator<Option<T>> GetEnumerator()
+		public virtual IEnumerator<Option<T>> GetEnumerator()
 		{
 			return checkedOptions.GetEnumerator();
 		}
@@ -263,25 +251,34 @@
 		}
 
 		/// <inheritdoc/>
-		public void Add(Option<T> item)
+		void ICollection<Option<T>>.Add(Option<T> item)
 		{
-			checkedOptions.Add(item);
+			Check(item);
 		}
 
 		/// <inheritdoc/>
-		public void AddText(string text)
+		public virtual void Check(Option<T> item)
 		{
-			int index = optionsList.IndexOfText(text);
+			if (optionsList.Contains(item))
+			{
+				checkedOptions.Add(item);
+			}
+		}
+
+		/// <inheritdoc/>
+		public virtual void CheckName(string text)
+		{
+			int index = optionsList.IndexOfName(text);
 			if (index == -1)
 			{
 				return;
 			}
 
-			Add(optionsList[index]);
+			checkedOptions.Add(optionsList[index]);
 		}
 
 		/// <inheritdoc/>
-		public void AddValue(T value)
+		public virtual void CheckValue(T value)
 		{
 			int index = optionsList.IndexOfValue(value);
 			if (index == -1)
@@ -289,11 +286,11 @@
 				return;
 			}
 
-			Add(optionsList[index]);
+			checkedOptions.Add(optionsList[index]);
 		}
 
 		/// <inheritdoc/>
-		public void AddRange(IEnumerable<Option<T>> options)
+		public virtual void CheckRange(IEnumerable<Option<T>> options)
 		{
 			if (options == null)
 			{
@@ -302,12 +299,12 @@
 
 			foreach (Option<T> option in options)
 			{
-				Add(option);
+				Check(option);
 			}
 		}
 
 		/// <inheritdoc/>
-		public void AddTextRange(IEnumerable<string> texts)
+		public virtual void CheckNameRange(IEnumerable<string> texts)
 		{
 			if (texts == null)
 			{
@@ -316,12 +313,12 @@
 
 			foreach (string text in texts)
 			{
-				AddText(text);
+				CheckName(text);
 			}
 		}
 
 		/// <inheritdoc/>
-		public void AddValueRange(IEnumerable<T> values)
+		public virtual void CheckValueRange(IEnumerable<T> values)
 		{
 			if (values == null)
 			{
@@ -330,60 +327,84 @@
 
 			foreach (T value in values)
 			{
-				AddValue(value);
+				CheckValue(value);
 			}
 		}
 
+		/// <inheritdoc />
+		public virtual void CheckAll()
+		{
+			CheckRange(optionsList);
+		}
+
 		/// <inheritdoc/>
-		public void Clear()
+		void ICollection<Option<T>>.Clear()
 		{
 			checkedOptions.Clear();
 		}
 
 		/// <inheritdoc/>
-		public bool Contains(Option<T> item)
+		public virtual void UncheckAll()
+		{
+			checkedOptions.Clear();
+		}
+
+		/// <inheritdoc/>
+		bool ICollection<Option<T>>.Contains(Option<T> item)
 		{
 			return checkedOptions.Contains(item);
 		}
 
 		/// <inheritdoc/>
-		public bool ContainsText(string text)
+		public virtual bool IsChecked(Option<T> item)
 		{
-			return optionsList.Any(option => option.Text == text);
+			return checkedOptions.Contains(item);
 		}
 
 		/// <inheritdoc/>
-		public bool ContainsValue(T value)
+		public virtual bool IsNameChecked(string text)
+		{
+			return optionsList.Any(option => option.Name == text);
+		}
+
+		/// <inheritdoc/>
+		public virtual bool IsValueChecked(T value)
 		{
 			return optionsList.Any(option => Equals(option.Value, value));
 		}
 
 		/// <inheritdoc/>
-		public void CopyTo(Option<T>[] array, int arrayIndex)
+		void ICollection<Option<T>>.CopyTo(Option<T>[] array, int arrayIndex)
 		{
 			checkedOptions.CopyTo(array, arrayIndex);
 		}
 
 		/// <inheritdoc/>
-		public bool Remove(Option<T> item)
+		public virtual bool Uncheck(Option<T> item)
 		{
 			return checkedOptions.Remove(item);
 		}
 
 		/// <inheritdoc/>
-		public void RemoveText(string text)
+		bool ICollection<Option<T>>.Remove(Option<T> item)
 		{
-			int index = optionsList.IndexOfText(text);
+			return checkedOptions.Remove(item);
+		}
+
+		/// <inheritdoc/>
+		public void UncheckName(string text)
+		{
+			int index = optionsList.IndexOfName(text);
 			if (index == -1)
 			{
 				return;
 			}
 
-			Remove(optionsList[index]);
+			Uncheck(optionsList[index]);
 		}
 
 		/// <inheritdoc/>
-		public void RemoveValue(T value)
+		public void UncheckValue(T value)
 		{
 			int index = optionsList.IndexOfValue(value);
 			if (index == -1)
@@ -391,7 +412,7 @@
 				return;
 			}
 
-			Remove(optionsList[index]);
+			Uncheck(optionsList[index]);
 		}
 	}
 }

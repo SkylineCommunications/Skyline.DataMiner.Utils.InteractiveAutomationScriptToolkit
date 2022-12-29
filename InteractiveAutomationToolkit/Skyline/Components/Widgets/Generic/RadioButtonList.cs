@@ -25,7 +25,7 @@
 		/// <summary>
 		///     Initializes a new instance of the <see cref="RadioButtonList{T}"/> class.
 		/// </summary>
-		/// <param name="options">Name of options that can be selected.</param>
+		/// <param name="options">Options to be displayed in the list.</param>
 		public RadioButtonList(IEnumerable<Option<T>> options)
 		{
 			if (options == null)
@@ -74,27 +74,25 @@
 		/// <inheritdoc/>
 		public Option<T> Selected
 		{
-			get => SelectedText == null ? default : optionsCollection[optionsCollection.IndexOfText(SelectedText)];
+			get => SelectedName == null ? default : optionsCollection[optionsCollection.IndexOfName(SelectedName)];
 
 			set
 			{
 				if (value == default)
 				{
-					SelectedText = null;
+					SelectedName = null;
 					return;
 				}
 
-				if (!optionsCollection.Contains(value))
+				if (optionsCollection.Contains(value))
 				{
-					return;
+					SelectedName = value.Name;
 				}
-
-				SelectedText = value.Text;
 			}
 		}
 
 		/// <inheritdoc />
-		public string SelectedText
+		public string SelectedName
 		{
 			get => BlockDefinition.InitialValue;
 
@@ -106,7 +104,7 @@
 					return;
 				}
 
-				if (Options.ContainsText(value))
+				if (Options.ContainsName(value))
 				{
 					BlockDefinition.InitialValue = value;
 				}
@@ -118,25 +116,23 @@
 		{
 			get
 			{
-				int index = optionsCollection.IndexOfText(SelectedText);
+				int index = optionsCollection.IndexOfName(SelectedName);
 				return index == -1 ? default : optionsCollection[index].Value;
 			}
 
 			set
 			{
+				int index = optionsCollection.IndexOfValue(value);
+				if (index != -1)
+				{
+					SelectedName = optionsCollection[index].Name;
+					return;
+				}
+
 				if (EqualityComparer<T>.Default.Equals(value, default))
 				{
-					SelectedText = null;
-					return;
+					SelectedName = null;
 				}
-
-				int index = optionsCollection.IndexOfValue(value);
-				if (index == -1)
-				{
-					return;
-				}
-
-				SelectedText = optionsCollection[index].Text;
 			}
 		}
 
@@ -144,7 +140,7 @@
 		public string Tooltip
 		{
 			get => BlockDefinition.TooltipText;
-			set => BlockDefinition.TooltipText = value ?? String.Empty;
+			set => BlockDefinition.TooltipText = value;
 		}
 
 		/// <inheritdoc/>
@@ -175,10 +171,10 @@
 			string[] checkedOptions = result.Split(';');
 			foreach (string checkedOption in checkedOptions)
 			{
-				if (!String.IsNullOrEmpty(checkedOption) && checkedOption != SelectedText)
+				if (!String.IsNullOrEmpty(checkedOption) && checkedOption != SelectedName)
 				{
-					previous = SelectedText;
-					SelectedText = checkedOption;
+					previous = SelectedName;
+					SelectedName = checkedOption;
 					changed = true;
 					break;
 				}
@@ -190,7 +186,7 @@
 		{
 			if (changed && OnChanged != null)
 			{
-				int index = optionsCollection.IndexOfText(previous);
+				int index = optionsCollection.IndexOfName(previous);
 				Option<T> previousOption = default;
 				if (index != -1)
 				{
@@ -253,9 +249,9 @@
 				Option<T> replacedOption = base[index];
 				base[index] = value;
 
-				if (radioButtonList.SelectedText == replacedOption.Text)
+				if (radioButtonList.SelectedName == replacedOption.Name)
 				{
-					radioButtonList.SelectedText = null;
+					radioButtonList.SelectedName = value.Name;
 				}
 			}
 		}
@@ -264,7 +260,7 @@
 		public override void Clear()
 		{
 			base.Clear();
-			radioButtonList.SelectedText = null;
+			radioButtonList.SelectedName = null;
 		}
 
 		/// <inheritdoc/>
@@ -272,9 +268,9 @@
 		{
 			Option<T> removedOption = this[index];
 			base.RemoveAt(index);
-			if (radioButtonList.SelectedText == removedOption.Text)
+			if (radioButtonList.SelectedName == removedOption.Name)
 			{
-				radioButtonList.SelectedText = null;
+				radioButtonList.SelectedName = null;
 			}
 		}
 	}

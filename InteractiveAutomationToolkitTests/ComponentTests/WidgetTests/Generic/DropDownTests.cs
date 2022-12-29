@@ -22,7 +22,7 @@
 			// Assert
 			dropDown.Options.Should().BeEmpty();
 			dropDown.Selected.Should().Be(default(Option<int>), "an empty dropdown should not have a selected option.");
-			dropDown.SelectedText.Should().BeNull("an empty dropdown should not have a selected text.");
+			dropDown.SelectedName.Should().BeNull("an empty dropdown should not have a selected text.");
 			dropDown.SelectedValue.Should().Be(default, "an empty dropdown should not have a selected value");
 		}
 
@@ -34,7 +34,7 @@
 
 			// Assert
 			dropDown.Options.Should().HaveCount(2);
-			dropDown.SelectedText.Should().Be("1");
+			dropDown.SelectedName.Should().Be("1");
 			dropDown.SelectedValue.Should().Be(1);
 		}
 
@@ -55,7 +55,7 @@
 			dropDown.Selected = Option.Create("2", 2);
 
 			// Assert
-			dropDown.SelectedText.Should().Be("2");
+			dropDown.SelectedName.Should().Be("2");
 			dropDown.SelectedValue.Should().Be(2);
 		}
 
@@ -69,7 +69,7 @@
 			dropDown.Selected = Option.Create("2", 1);
 
 			// Assert
-			dropDown.SelectedText.Should().Be("1");
+			dropDown.SelectedName.Should().Be("1");
 			dropDown.SelectedValue.Should().Be(1);
 		}
 
@@ -83,7 +83,7 @@
 			dropDown.SelectedValue = 2;
 
 			// Assert
-			dropDown.SelectedText.Should().Be("2");
+			dropDown.SelectedName.Should().Be("2");
 			dropDown.SelectedValue.Should().Be(2);
 		}
 
@@ -97,7 +97,7 @@
 			dropDown.SelectedValue = 0;
 
 			// Assert
-			dropDown.SelectedText.Should().Be("1");
+			dropDown.SelectedName.Should().Be("1");
 			dropDown.SelectedValue.Should().Be(1);
 		}
 

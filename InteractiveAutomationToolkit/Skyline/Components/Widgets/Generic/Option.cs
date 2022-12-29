@@ -4,63 +4,106 @@
 	using System.Collections.Generic;
 
 	/// <summary>
-	/// Defines a text/value pair that can be used to easily link displayed text in a widget with the associated value.
+	/// Creates instances of the <see cref="Option{TValue}"/> struct.
 	/// </summary>
-	/// <typeparam name="TValue">The type of the value.</typeparam>
-	public readonly struct Option<TValue> : IEquatable<Option<TValue>>
+	public static class Option
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Option{TValue}"/> struct with the specified text and value.
+		/// Creates a new name/value pair instance using the provided parameters.
 		/// </summary>
-		/// <param name="text">The text associated with <paramref name="value"/>. A <c>null</c> value will be converted to <see cref="string.Empty"/>.</param>
-		/// <param name="value">The definition associated with <paramref name="text"/>.</param>
-		/// <remarks><see cref="Option.Create{TValue}"/> can also be used to create new instances but with the advantage that the generic type can be inferred.</remarks>
-		public Option(string text, TValue value)
+		/// <param name="name">The name of the new <see cref="Option{TValue}"/> to be created.</param>
+		/// <param name="value">the value of the new <see cref="Option{TValue}"/> to be created.</param>
+		/// <typeparam name="TValue">The type of the value.</typeparam>
+		/// <returns>A name/value pair containing the provided arguments as values.</returns>
+		public static Option<TValue> Create<TValue>(string name, TValue value)
 		{
-			Text = text ?? String.Empty;
+			return new Option<TValue>(name, value);
+		}
+	}
+
+	/// <summary>
+	/// Defines a name/value pair that can be used to easily link displayed name in a widget with the associated value.
+	/// </summary>
+	/// <typeparam name="TValue">The type of the value.</typeparam>
+	public class Option<TValue> : IEquatable<Option<TValue>>
+	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Option{TValue}"/> class.
+		/// </summary>
+		/// <param name="name">The name associated with <paramref name="value"/>.</param>
+		/// <param name="value">The definition associated with <paramref name="name"/>.</param>
+		/// <remarks><see cref="Option.Create{TValue}"/> can also be used to create new instances but with the advantage that the generic type can be inferred.</remarks>
+		public Option(string name, TValue value)
+		{
+			Name = name;
 			Value = value;
 		}
 
 		/// <summary>
-		/// Gets the text in the text/value pair.
+		/// Gets the name in the name/value pair.
 		/// </summary>
-		public string Text { get; }
+		public string Name { get; }
 
 		/// <summary>
-		/// Gets the value in the text/value pair.
+		/// Gets the value in the name/value pair.
 		/// </summary>
 		public TValue Value { get; }
 
 		public static implicit operator Option<TValue>(KeyValuePair<string, TValue> pair)
 		{
-			return new Option<TValue>(pair.Key ?? String.Empty, pair.Value);
+			return new Option<TValue>(pair.Key, pair.Value);
 		}
 
 		public static implicit operator KeyValuePair<string, TValue>(Option<TValue> option)
 		{
-			return new KeyValuePair<string, TValue>(option.Text, option.Value);
+			return new KeyValuePair<string, TValue>(option.Name, option.Value);
 		}
 
 		public static bool operator ==(Option<TValue> left, Option<TValue> right)
 		{
-			return left.Equals(right);
+			return Equals(left, right);
 		}
 
 		public static bool operator !=(Option<TValue> left, Option<TValue> right)
 		{
-			return !left.Equals(right);
+			return !Equals(left, right);
 		}
 
 		/// <inheritdoc/>
 		public bool Equals(Option<TValue> other)
 		{
-			return Text == other.Text && EqualityComparer<TValue>.Default.Equals(Value, other.Value);
+			if (ReferenceEquals(null, other))
+			{
+				return false;
+			}
+
+			if (ReferenceEquals(this, other))
+			{
+				return true;
+			}
+
+			return Name == other.Name && EqualityComparer<TValue>.Default.Equals(Value, other.Value);
 		}
 
 		/// <inheritdoc/>
 		public override bool Equals(object obj)
 		{
-			return obj is Option<TValue> other && Equals(other);
+			if (ReferenceEquals(null, obj))
+			{
+				return false;
+			}
+
+			if (ReferenceEquals(this, obj))
+			{
+				return true;
+			}
+
+			if (obj.GetType() != GetType())
+			{
+				return false;
+			}
+
+			return Equals((Option<TValue>)obj);
 		}
 
 		/// <inheritdoc/>
@@ -68,7 +111,7 @@
 		{
 			unchecked
 			{
-				return (Text != null ? Text.GetHashCode() : 0) * 397 ^
+				return (Name != null ? Name.GetHashCode() : 0) * 397 ^
 					EqualityComparer<TValue>.Default.GetHashCode(Value);
 			}
 		}
@@ -76,25 +119,7 @@
 		/// <inheritdoc/>
 		public override string ToString()
 		{
-			return $"[{Text},{Value}]";
-		}
-	}
-
-	/// <summary>
-	/// Creates instances of the <see cref="Option{TValue}"/> struct.
-	/// </summary>
-	public static class Option
-	{
-		/// <summary>
-		/// Creates a new text/value pair instance using the provided values.
-		/// </summary>
-		/// <param name="text">The text of the new <see cref="Option{TValue}"/> to be created.</param>
-		/// <param name="value">the value of the new <see cref="Option{TValue}"/> to be created.</param>
-		/// <typeparam name="TValue">The type of the value.</typeparam>
-		/// <returns>A text/value pair containing the provided arguments as values.</returns>
-		public static Option<TValue> Create<TValue>(string text, TValue value)
-		{
-			return new Option<TValue>(text, value);
+			return $"[{Name},{Value}]";
 		}
 	}
 }

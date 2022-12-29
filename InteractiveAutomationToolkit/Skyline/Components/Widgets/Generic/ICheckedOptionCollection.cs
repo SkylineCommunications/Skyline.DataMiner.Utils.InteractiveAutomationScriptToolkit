@@ -2,6 +2,7 @@
 {
 	using System.Collections.Generic;
 
+	// todo remove after copying over the xml doc to CheckedOptionCollection
 	/// <summary>
 	/// Collection of checked options in this <see cref="ICheckBoxList{T}"/>.
 	/// </summary>

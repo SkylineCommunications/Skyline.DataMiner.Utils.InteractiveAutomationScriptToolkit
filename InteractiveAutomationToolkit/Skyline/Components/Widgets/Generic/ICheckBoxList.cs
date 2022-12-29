@@ -17,7 +17,7 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		/// <summary>
 		///     Gets all selected options.
 		/// </summary>
-		ICheckedOptionCollection<T> Checked { get; }
+		CheckedOptionCollection<T> CheckedOptions { get; }
 
 		/// <summary>
 		///     Gets all options.
@@ -34,15 +34,5 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		///     Gets or sets the tooltip.
 		/// </summary>
 		string Tooltip { get; set; }
-
-		/// <summary>
-		///     Selects all options.
-		/// </summary>
-		void CheckAll();
-
-		/// <summary>
-		///     Clears all options.
-		/// </summary>
-		void UncheckAll();
 	}
 }

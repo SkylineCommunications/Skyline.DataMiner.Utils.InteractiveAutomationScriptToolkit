@@ -2,7 +2,6 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using System.ComponentModel;
 	using System.Linq;
 
 	using Skyline.DataMiner.Automation;
@@ -10,6 +9,7 @@
 	/// <inheritdoc cref="Skyline.DataMiner.InteractiveAutomationToolkit.IDropDown{T}" />
 	public class DropDown<T> : InteractiveWidget, IDropDown<T>
 	{
+		private readonly Validation validation;
 		private readonly DropdownOptionsList<T> dropdownOptionsList;
 		private bool changed;
 		private string previous;
@@ -35,12 +35,10 @@
 			}
 
 			Type = UIBlockType.DropDown;
+			validation = new Validation(this);
 			dropdownOptionsList = new DropdownOptionsList<T>(this);
 
 			Options.AddRange(options);
-
-			ValidationText = "Invalid Input";
-			ValidationState = UIValidationState.NotValidated;
 		}
 
 		/// <inheritdoc />
@@ -84,7 +82,7 @@
 		/// <inheritdoc/>
 		public Option<T> Selected
 		{
-			get => SelectedText == null ? default : new Option<T>(SelectedText, SelectedValue);
+			get => SelectedName == null ? default : new Option<T>(SelectedName, SelectedValue);
 
 			set
 			{
@@ -93,21 +91,34 @@
 					return;
 				}
 
-				SelectedText = value.Text;
+				SelectedName = value.Name;
 			}
 		}
 
 		/// <inheritdoc />
-		public string SelectedText
+		public string SelectedName
 		{
 			get => BlockDefinition.InitialValue;
 
 			set
 			{
-				// Prevent setting a value that is not part of the options
-				if (Options.ContainsText(value ?? String.Empty))
+				if (value == null)
 				{
-					BlockDefinition.InitialValue = value ?? String.Empty;
+					if (Options.Any())
+					{
+						// Unlike RadioButtonList, setting null as initial value will cause cube to display the first option
+						// however, the UIResult will report null instead of the first option.
+						// This feels weird, so we have decided to not allow null for simplicity.
+						throw new ArgumentNullException(nameof(value));
+					}
+
+					BlockDefinition.InitialValue = null;
+				}
+
+				// Prevent setting a value that is not part of the options
+				if (Options.ContainsName(value))
+				{
+					BlockDefinition.InitialValue = value;
 				}
 			}
 		}
@@ -117,7 +128,7 @@
 		{
 			get
 			{
-				int index = dropdownOptionsList.IndexOfText(SelectedText);
+				int index = dropdownOptionsList.IndexOfName(SelectedName);
 				return index == -1 ? default : dropdownOptionsList[index].Value;
 			}
 
@@ -129,7 +140,7 @@
 					return;
 				}
 
-				SelectedText = dropdownOptionsList[index].Text;
+				SelectedName = dropdownOptionsList[index].Name;
 			}
 		}
 
@@ -137,36 +148,29 @@
 		public string Tooltip
 		{
 			get => BlockDefinition.TooltipText;
-			set => BlockDefinition.TooltipText = value ?? String.Empty;
+			set => BlockDefinition.TooltipText = value;
 		}
 
-		/// <inheritdoc />
+		/// <inheritdoc/>
 		public UIValidationState ValidationState
 		{
-			get => BlockDefinition.ValidationState;
+			get => validation.ValidationState;
 
-			set
-			{
-				if (!Enum.IsDefined(typeof(UIValidationState), value))
-				{
-					throw new InvalidEnumArgumentException(nameof(value), (int)value, typeof(UIValidationState));
-				}
-
-				BlockDefinition.ValidationState = value;
-			}
+			set => validation.ValidationState = value;
 		}
 
-		/// <inheritdoc />
+		/// <inheritdoc/>
 		public string ValidationText
 		{
-			get => BlockDefinition.ValidationText;
-			set => BlockDefinition.ValidationText = value ?? String.Empty;
+			get => validation.ValidationText;
+
+			set => validation.ValidationText = value;
 		}
 
 		/// <inheritdoc />
 		public void ForceSelected(string selected)
 		{
-			BlockDefinition.InitialValue = selected ?? String.Empty;
+			BlockDefinition.InitialValue = selected;
 		}
 
 		/// <inheritdoc />
@@ -175,10 +179,10 @@
 			string selectedValue = results.GetString(this);
 			if (WantsOnChange)
 			{
-				changed = selectedValue != SelectedText;
+				changed = selectedValue != SelectedName;
 			}
 
-			previous = SelectedText;
+			previous = SelectedName;
 
 			// Write to BlockDefinition instead of Selected property so a force selected option does not reset after every interaction
 			BlockDefinition.InitialValue = selectedValue;
@@ -189,7 +193,7 @@
 		{
 			if (changed && OnChanged != null)
 			{
-				int index = dropdownOptionsList.IndexOfText(previous);
+				int index = dropdownOptionsList.IndexOfName(previous);
 				Option<T> previousOption = default;
 				if (index != -1)
 				{
@@ -249,34 +253,36 @@
 
 			set
 			{
+				Option<T> replacedOption = base[index];
+
 				base[index] = value;
 
-				if (dropDown.SelectedText == (value.Text ?? String.Empty))
+				if (dropDown.SelectedName == replacedOption.Name)
 				{
-					dropDown.SelectedText = this.FirstOrDefault().Text;
+					dropDown.BlockDefinition.InitialValue = value.Name;
 				}
 
 				// Cube will select the first option even if UIBlockDefinition.InitialValue is null.
 				// But I believe this behavior should be reflected by the Selected property.
 				// Selected should never be null if options is not empty.
-				if (dropDown.SelectedText == null)
+				if (dropDown.SelectedName == null)
 				{
-					dropDown.SelectedText = value.Text ?? String.Empty;
+					dropDown.SelectedName = value.Name;
 				}
 			}
 		}
 
 		/// <inheritdoc/>
-		public override void Add(string text, T value)
+		public override void Add(string name, T value)
 		{
-			base.Add(text, value);
+			base.Add(name, value);
 
 			// Cube will select the first option even if UIBlockDefinition.InitialValue is null.
 			// But I believe this behavior should be reflected by the Selected property.
 			// Selected should never be null if options is not empty.
-			if (dropDown.SelectedText == null)
+			if (dropDown.SelectedName == null)
 			{
-				dropDown.SelectedText = text ?? String.Empty;
+				dropDown.BlockDefinition.InitialValue = name;
 			}
 		}
 
@@ -288,27 +294,27 @@
 		}
 
 		/// <inheritdoc/>
-		public override void Insert(int index, string text, T value)
+		public override void Insert(int index, string name, T value)
 		{
-			base.Insert(index, text, value);
+			base.Insert(index, name, value);
 
 			// Cube will select the first option even if UIBlockDefinition.InitialValue is null.
 			// But I believe this behavior should be reflected by the Selected property.
 			// Selected should never be null if options is not empty.
-			if (dropDown.SelectedText == null)
+			if (dropDown.SelectedName == null)
 			{
-				dropDown.SelectedText = text;
+				dropDown.BlockDefinition.InitialValue = name;
 			}
 		}
 
 		/// <inheritdoc/>
 		public override void RemoveAt(int index)
 		{
-			string option = this[index].Text;
+			string option = this[index].Name;
 			base.RemoveAt(index);
-			if (dropDown.SelectedText == option)
+			if (dropDown.SelectedName == option)
 			{
-				dropDown.BlockDefinition.InitialValue = this.FirstOrDefault().Text;
+				dropDown.BlockDefinition.InitialValue = this.FirstOrDefault()?.Name;
 			}
 		}
 	}

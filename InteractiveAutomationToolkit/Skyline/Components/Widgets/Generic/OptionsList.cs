@@ -10,56 +10,62 @@
 	/// <inheritdoc cref="Skyline.DataMiner.InteractiveAutomationToolkit.IOptionsList{T}" />
 	internal class OptionsList<T> : IOptionsList<T>, IReadonlyOptionsList<T>
 	{
-		private readonly IList<string> texts;
+		private readonly IList<string> names;
 		private readonly IList<T> values = new List<T>();
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OptionsList{T}"/> class.
 		/// </summary>
 		/// <param name="widgetOptionsCollection">The options list from the widget's <see cref="UIBlockDefinition"/>.</param>
-		public OptionsList(IList<string> widgetOptionsCollection) => texts = widgetOptionsCollection;
+		public OptionsList(IList<string> widgetOptionsCollection) => names = widgetOptionsCollection;
 
 		/// <inheritdoc cref="ICollection{T}.Count" />
-		public int Count => texts.Count;
+		public int Count => names.Count;
 
 		/// <inheritdoc/>
-		public bool IsReadOnly => texts.IsReadOnly;
+		public bool IsReadOnly => names.IsReadOnly;
 
 		/// <inheritdoc cref="IList{T}.this" />
 		public virtual Option<T> this[int index]
 		{
-			get => new Option<T>(texts[index], values[index]);
+			get => new Option<T>(names[index], values[index]);
 
 			set
 			{
-				value = new Option<T>(value.Text ?? String.Empty, value.Value);
-				ThrowIfDuplicate(value.Text, value.Value);
+				ThrowIfNameNull(value);
+				ThrowIfDuplicate(value.Name, value.Value, this[index]);
 
-				texts[index] = value.Text;
+				names[index] = value.Name;
 				values[index] = value.Value;
 			}
 		}
 
 		/// <inheritdoc/>
 		/// <exception cref="InvalidOperationException">
-		/// if <paramref name="text"/> or <paramref name="value"/> is not unique.
+		/// if <paramref name="name"/> or <paramref name="value"/> is not unique.
 		/// </exception>
-		public virtual void Add(string text, T value)
+		public virtual void Add(string name, T value)
 		{
-			text = text ?? String.Empty;
-			ThrowIfDuplicate(text, value);
+			if (name == null)
+			{
+				throw new ArgumentNullException(nameof(name));
+			}
 
-			texts.Add(text);
+			ThrowIfDuplicate(name, value);
+
+			names.Add(name);
 			values.Add(value);
 		}
 
 		/// <inheritdoc/>
 		/// <exception cref="InvalidOperationException">
-		/// if <see cref="Option{TValue}.Text"/> or <see cref="Option{TValue}.Value"/> of <paramref name="item"/> is not unique.
+		/// if <see cref="Option{TValue}.Name"/> or <see cref="Option{TValue}.Value"/> of <paramref name="item"/> is not unique.
 		/// </exception>
 		public void Add(Option<T> item)
 		{
-			Add(item.Text, item.Value);
+			ThrowIfNameNull(item);
+
+			Add(item.Name, item.Value);
 		}
 
 		/// <inheritdoc/>
@@ -79,14 +85,14 @@
 		/// <inheritdoc/>
 		public virtual void Clear()
 		{
-			texts.Clear();
+			names.Clear();
 			values.Clear();
 		}
 
-		/// <inheritdoc cref="IOptionsList{T}.ContainsText" />
-		public bool ContainsText(string text)
+		/// <inheritdoc cref="IOptionsList{T}.ContainsName" />
+		public bool ContainsName(string name)
 		{
-			return texts.Contains(text ?? String.Empty);
+			return names.Contains(name);
 		}
 
 		/// <inheritdoc cref="IOptionsList{T}.ContainsValue" />
@@ -98,25 +104,30 @@
 		/// <inheritdoc/>
 		public bool Contains(Option<T> item)
 		{
-			int indexOfText = texts.IndexOf(item.Text ?? String.Empty);
+			if (item == null)
+			{
+				return false;
+			}
+
+			int indexOfName = names.IndexOf(item.Name);
 			int indexOfValue = values.IndexOf(item.Value);
 
-			return indexOfText == indexOfValue && indexOfText != -1;
+			return indexOfName == indexOfValue && indexOfName != -1;
 		}
 
 		/// <inheritdoc/>
 		public void CopyTo(Option<T>[] array, int arrayIndex)
 		{
-			for (var i = 0; i < texts.Count; i++)
+			for (var i = 0; i < names.Count; i++)
 			{
-				array[i + arrayIndex] = new Option<T>(texts[i], values[i]);
+				array[i + arrayIndex] = new Option<T>(names[i], values[i]);
 			}
 		}
 
 		/// <inheritdoc/>
 		public IEnumerator<Option<T>> GetEnumerator()
 		{
-			return texts.Zip(values, (text, value) => new Option<T>(text, value)).GetEnumerator();
+			return names.Zip(values, (name, value) => new Option<T>(name, value)).GetEnumerator();
 		}
 
 		/// <inheritdoc/>
@@ -125,10 +136,10 @@
 			return GetEnumerator();
 		}
 
-		/// <inheritdoc cref="IOptionsList{T}.IndexOfText" />
-		public int IndexOfText(string text)
+		/// <inheritdoc cref="IOptionsList{T}.IndexOfName" />
+		public int IndexOfName(string name)
 		{
-			return texts.IndexOf(text ?? String.Empty);
+			return names.IndexOf(name);
 		}
 
 		/// <inheritdoc cref="IOptionsList{T}.IndexOfValue" />
@@ -140,40 +151,53 @@
 		/// <inheritdoc/>
 		public int IndexOf(Option<T> item)
 		{
-			int indexOfText = texts.IndexOf(item.Text ?? String.Empty);
+			if (item == null)
+			{
+				return -1;
+			}
+
+			int indexOfName = names.IndexOf(item.Name);
 			int indexOfValue = values.IndexOf(item.Value);
 
-			return indexOfText == indexOfValue ? indexOfText : -1;
+			return indexOfName == indexOfValue ? indexOfName : -1;
 		}
 
 		/// <inheritdoc/>
-		public virtual void Insert(int index, string text, T value)
+		public virtual void Insert(int index, string name, T value)
 		{
-			text = text ?? String.Empty;
+			if (name == null)
+			{
+				throw new ArgumentNullException(nameof(name));
+			}
 
-			ThrowIfDuplicate(text, value);
+			ThrowIfDuplicate(name, value);
 
-			texts.Insert(index, text);
+			names.Insert(index, name);
 			values.Insert(index, value);
 		}
 
 		/// <inheritdoc/>
 		public void Insert(int index, Option<T> item)
 		{
-			Insert(index, item.Text, item.Value);
+			if (item == null)
+			{
+				throw new ArgumentNullException(nameof(item));
+			}
+
+			Insert(index, item.Name, item.Value);
 		}
 
 		/// <inheritdoc/>
 		public virtual void RemoveAt(int index)
 		{
-			texts.RemoveAt(index);
+			names.RemoveAt(index);
 			values.RemoveAt(index);
 		}
 
 		/// <inheritdoc/>
-		public bool RemoveText(string text)
+		public bool RemoveName(string name)
 		{
-			int index = texts.IndexOf(text ?? String.Empty);
+			int index = names.IndexOf(name);
 
 			if (index == -1)
 			{
@@ -200,23 +224,54 @@
 		/// <inheritdoc/>
 		public bool Remove(Option<T> item)
 		{
-			int indexOfText = texts.IndexOf(item.Text ?? String.Empty);
-			int indexOfValue = values.IndexOf(item.Value);
-
-			if (indexOfText != indexOfValue || indexOfText == -1)
+			if (item == null)
 			{
 				return false;
 			}
 
-			RemoveAt(indexOfText);
+			int indexOfName = names.IndexOf(item.Name);
+			int indexOfValue = values.IndexOf(item.Value);
+
+			if (indexOfName != indexOfValue || indexOfName == -1)
+			{
+				return false;
+			}
+
+			RemoveAt(indexOfName);
 			return true;
 		}
 
-		private void ThrowIfDuplicate(string text, T value)
+		private static void ThrowIfNameNull(Option<T> item)
 		{
-			if (texts.Contains(text))
+			if (item == null)
 			{
-				throw new InvalidOperationException($"Collection already contains text: {text}");
+				throw new ArgumentNullException(nameof(item));
+			}
+
+			if (item.Name == null)
+			{
+				throw new ArgumentException("Name cannot be null.");
+			}
+		}
+
+		private void ThrowIfDuplicate(string name, T value, Option<T> replaced)
+		{
+			if (name != replaced.Name && names.Contains(name))
+			{
+				throw new InvalidOperationException($"Collection already contains name: {name}");
+			}
+
+			if (!EqualityComparer<T>.Default.Equals(value, replaced.Value) && values.Contains(value))
+			{
+				throw new InvalidOperationException($"Collection already contains value: {value}");
+			}
+		}
+
+		private void ThrowIfDuplicate(string name, T value)
+		{
+			if (names.Contains(name))
+			{
+				throw new InvalidOperationException($"Collection already contains name: {name}");
 			}
 
 			if (values.Contains(value))
