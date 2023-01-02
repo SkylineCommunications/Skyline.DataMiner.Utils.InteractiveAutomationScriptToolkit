@@ -15,9 +15,9 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		event EventHandler<CheckBoxList<T>.ChangedEventArgs> Changed;
 
 		/// <summary>
-		///     Gets all selected options.
+		///     Gets all checked options.
 		/// </summary>
-		CheckedOptionCollection<T> CheckedOptions { get; }
+		CheckBoxList<T>.CheckedOptionCollection<T> CheckedOptions { get; }
 
 		/// <summary>
 		///     Gets all options.

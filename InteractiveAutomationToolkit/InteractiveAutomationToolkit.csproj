@@ -77,7 +77,6 @@
 		<Compile Include="Skyline\Components\Widgets\Generic\CheckBoxList.cs" />
 		<Compile Include="Skyline\Components\Widgets\Generic\DropDown.cs" />
 		<Compile Include="Skyline\Components\Widgets\Generic\ICheckBoxList.cs" />
-		<Compile Include="Skyline\Components\Widgets\Generic\ICheckedOptionCollection.cs" />
 		<Compile Include="Skyline\Components\Widgets\Generic\IDropDown.cs" />
 		<Compile Include="Skyline\Components\Widgets\Generic\IOptionsList.cs" />
 		<Compile Include="Skyline\Components\Widgets\Generic\IRadioButtonList.cs" />
