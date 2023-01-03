@@ -359,8 +359,8 @@ namespace InteractiveAutomationToolkitTests
 			void AssertChangedEvent(object sender, TreeView.ChangedEventArgs args)
 			{
 				changed = true;
-				args.Node.Should().Be(nodeA);
-				args.Node.IsCollapsed.Should().BeFalse();
+				args.InteractedNode.Should().Be(nodeA);
+				args.InteractedNode.IsCollapsed.Should().BeFalse();
 			}
 		}
 
@@ -410,8 +410,8 @@ namespace InteractiveAutomationToolkitTests
 			void AssertChangedEvent(object sender, TreeView.ChangedEventArgs args)
 			{
 				changed = true;
-				args.Node.Should().Be(nodeA1);
-				args.Node.IsChecked.Should().BeTrue();
+				args.InteractedNode.Should().Be(nodeA1);
+				args.InteractedNode.IsChecked.Should().BeTrue();
 			}
 		}
 
@@ -461,8 +461,8 @@ namespace InteractiveAutomationToolkitTests
 			void AssertChangedEvent(object sender, TreeView.ChangedEventArgs args)
 			{
 				changed = true;
-				args.Node.Should().Be(nodeA);
-				args.Node.IsChecked.Should().BeTrue();
+				args.InteractedNode.Should().Be(nodeA);
+				args.InteractedNode.IsChecked.Should().BeTrue();
 			}
 		}
 
@@ -515,8 +515,8 @@ namespace InteractiveAutomationToolkitTests
 			void AssertChangedEvent(object sender, TreeView.ChangedEventArgs args)
 			{
 				changed = true;
-				args.Node.Should().Be(nodeA1);
-				args.Node.IsChecked.Should().BeFalse();
+				args.InteractedNode.Should().Be(nodeA1);
+				args.InteractedNode.IsChecked.Should().BeFalse();
 			}
 		}
 	}

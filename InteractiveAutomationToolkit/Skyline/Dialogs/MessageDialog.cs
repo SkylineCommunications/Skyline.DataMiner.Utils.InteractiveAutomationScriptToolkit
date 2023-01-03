@@ -5,7 +5,7 @@
 	/// <summary>
 	///     Dialog used to display a message.
 	/// </summary>
-	public class MessageDialog : Dialog<GridPanel>
+	public class MessageDialog : Dialog
 	{
 		private readonly Label messageLabel = new Label();
 

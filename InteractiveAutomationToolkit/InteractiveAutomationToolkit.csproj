@@ -136,6 +136,12 @@
 		<Compile Include="Skyline\Layout\VerticalAlignment.cs" />
 		<Compile Include="Skyline\Layout\WidgetLocation.cs" />
 		<Compile Include="Skyline\Layout\WidgetLocationPair.cs" />
+		<Compile Include="Skyline\Obsolete\Dialog.cs" />
+		<Compile Include="Skyline\Obsolete\ILayout.cs" />
+		<Compile Include="Skyline\Obsolete\IWidgetLayout.cs" />
+		<Compile Include="Skyline\Obsolete\Section.cs" />
+		<Compile Include="Skyline\Obsolete\SectionLayout.cs" />
+		<Compile Include="Skyline\Obsolete\WidgetLayout.cs" />
 		<Compile Include="Skyline\UIBlockDefinitionExtensions.cs" />
 		<Compile Include="Skyline\UiResultsExtensions.cs" />
 	</ItemGroup>

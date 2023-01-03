@@ -7,7 +7,7 @@
 	/// <summary>
 	///     Dialog used to display an exception.
 	/// </summary>
-	public class ExceptionDialog : Dialog<GridPanel>
+	public class ExceptionDialog : Dialog
 	{
 		private readonly Label exceptionLabel = new Label();
 		private Exception exception;

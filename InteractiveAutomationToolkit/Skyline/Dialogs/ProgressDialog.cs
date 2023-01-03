@@ -9,7 +9,7 @@
 	///     When progress is displayed, this dialog has to be shown without requiring user interaction.
 	///     When you are done displaying progress, call the Finish method and show the dialog with user interaction required.
 	/// </summary>
-	public class ProgressDialog : Dialog<GridPanel>
+	public class ProgressDialog : Dialog
 	{
 		private readonly StringBuilder progress = new StringBuilder();
 		private readonly Label progressLabel = new Label();

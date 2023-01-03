@@ -53,6 +53,17 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		}
 
 		/// <summary>
+		/// 	Indicates that type of change that occured to a <see cref="TreeViewNode"/>.
+		/// </summary>
+		public enum Change
+		{
+			Checked,
+			Unchecked,
+			Expanded,
+			Collapsed,
+		}
+
+		/// <summary>
 		/// 	Gets the parent node.
 		/// </summary>
 		public TreeViewNode Parent { get; private set; }

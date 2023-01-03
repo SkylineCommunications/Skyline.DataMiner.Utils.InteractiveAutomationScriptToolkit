@@ -10,9 +10,29 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 	public interface ITreeView
 	{
 		/// <summary>
-		/// 	Triggered a node is collapsed or expanded or when the state of a checkbox changes.
+		/// 	Triggered when a node is collapsed or expanded or when the state of a checkbox changes.
 		/// </summary>
 		event EventHandler<TreeView.ChangedEventArgs> Changed;
+
+		/// <summary>
+		/// 	Triggered when a node gets checked.
+		/// </summary>
+		event EventHandler<TreeView.CheckedEventArgs> Checked;
+
+		/// <summary>
+		/// 	Triggered when a node gets unchecked.
+		/// </summary>
+		event EventHandler<TreeView.UncheckedEventArgs> Unchecked;
+
+		/// <summary>
+		/// 	Triggered when a node is expanded.
+		/// </summary>
+		event EventHandler<TreeView.ExpandedEventArgs> Expanded;
+
+		/// <summary>
+		/// 	Triggered when a node is collapsed.
+		/// </summary>
+		event EventHandler<TreeView.CollapsedEventArgs> Collapsed;
 
 		/// <summary>
 		/// 	Gets the root nodes of the <see cref="TreeView"/> widget.
