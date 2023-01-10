@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<CodePackage xmlns="http://www.skyline.be/ClassLibrary">
-	<Identity>
-		<Name>InteractiveAutomationToolkit</Name>
-		<Version>2.3.0</Version>
-	</Identity>
-	<MinimumRequiredVersion>10.1.8</MinimumRequiredVersion>
-</CodePackage>

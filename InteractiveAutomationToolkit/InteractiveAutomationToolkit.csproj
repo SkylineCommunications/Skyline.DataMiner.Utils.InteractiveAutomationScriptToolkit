@@ -1,158 +1,46 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-	<Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-		<ProjectGuid>{9206F547-AF0E-44B0-9A78-3F64C7970A16}</ProjectGuid>
-		<OutputType>Library</OutputType>
-		<AppDesignerFolder>Properties</AppDesignerFolder>
-		<RootNamespace>Skyline.DataMiner.InteractiveAutomationToolkit</RootNamespace>
-		<AssemblyName>Skyline.DataMiner.InteractiveAutomationToolkit</AssemblyName>
-		<TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-		<FileAlignment>512</FileAlignment>
-		<Deterministic>true</Deterministic>
-		<TargetFrameworkProfile />
-		<LangVersion>7.3</LangVersion>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<TargetFramework>net462</TargetFramework>
+		<CodeAnalysisRuleSet>InteractiveAutomationToolkit.ruleset</CodeAnalysisRuleSet>
+		<AssemblyName>Skyline.DataMiner.Utils.InteractiveAutomationToolkit</AssemblyName>
+		<RootNamespace>Skyline.DataMiner.Utils.InteractiveAutomationToolkit</RootNamespace>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Authors>SkylineCommunications</Authors>
+		<Company>Skyline Communications</Company>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<PackageTags>Skyline;DataMiner;Toolkit</PackageTags>
+		<PackageProjectUrl>https://skyline.be/</PackageProjectUrl>
+		<Description>Framework used to create Interactive Automation Scripts in DataMiner for DMA version larger than 10.1.8</Description>
+		<PackageIconUrl>Icon.png</PackageIconUrl>
+		<Version>2.3.0</Version>
 	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-		<DebugSymbols>true</DebugSymbols>
-		<DebugType>full</DebugType>
-		<Optimize>false</Optimize>
-		<OutputPath>bin\Debug\</OutputPath>
-		<DefineConstants>DEBUG;TRACE</DefineConstants>
-		<ErrorReport>prompt</ErrorReport>
-		<WarningLevel>4</WarningLevel>
-		<DocumentationFile>bin\Debug\Skyline.DataMiner.InteractiveAutomationToolkit.xml</DocumentationFile>
-		<CodeAnalysisRuleSet>..\Internal\Code Analysis\qaction-debug.ruleset</CodeAnalysisRuleSet>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-		<DebugType>pdbonly</DebugType>
-		<Optimize>true</Optimize>
-		<OutputPath>bin\Release\</OutputPath>
-		<DefineConstants>TRACE</DefineConstants>
-		<ErrorReport>prompt</ErrorReport>
-		<WarningLevel>4</WarningLevel>
-		<DocumentationFile>bin\Release\Skyline.DataMiner.InteractiveAutomationToolkit.xml</DocumentationFile>
-		<CodeAnalysisRuleSet>..\Internal\Code Analysis\qaction-release.ruleset</CodeAnalysisRuleSet>
-	</PropertyGroup>
-	<ItemGroup>
-		<Reference Include="System" />
-		<Reference Include="System.Core" />
-		<Reference Include="System.Runtime.Serialization" />
-		<Reference Include="System.Xml.Linq" />
-		<Reference Include="System.Data.DataSetExtensions" />
-		<Reference Include="Microsoft.CSharp" />
-		<Reference Include="System.Data" />
-		<Reference Include="System.Net.Http" />
-		<Reference Include="System.Xml" />
-		<None Include="App.config" />
-		<None Include="InteractiveAutomationToolkit.nuspec" />
-		<None Include=".editorconfig" />
-	</ItemGroup>
-	<ItemGroup>
-		<Compile Include="NamespaceDoc.cs" />
-		<Compile Include="Properties\AssemblyInfo.cs" />
-		<Compile Include="Skyline\Components\Component.cs" />
-		<Compile Include="Skyline\Components\IComponent.cs" />
-		<Compile Include="Skyline\Components\Panels\FormPanel.cs" />
-		<Compile Include="Skyline\Components\Panels\GridPanel.cs" />
-		<Compile Include="Skyline\Components\Panels\IFormPanel.cs" />
-		<Compile Include="Skyline\Components\Panels\IGridPanel.cs" />
-		<Compile Include="Skyline\Components\Panels\IPanel.cs" />
-		<Compile Include="Skyline\Components\Panels\IStackPanel.cs" />
-		<Compile Include="Skyline\Components\Panels\Panel.cs" />
-		<Compile Include="Skyline\Components\Panels\StackPanel.cs" />
-		<Compile Include="Skyline\Components\Widgets\Button.cs" />
-		<Compile Include="Skyline\Components\Widgets\Calendar.cs" />
-		<Compile Include="Skyline\Components\Widgets\CheckBox.cs" />
-		<Compile Include="Skyline\Components\Widgets\CheckBoxList.cs" />
-		<Compile Include="Skyline\Components\Widgets\CollapseButton.cs" />
-		<Compile Include="Skyline\Components\Widgets\Common\IValidate.cs" />
-		<Compile Include="Skyline\Components\Widgets\Common\Validation.cs" />
-		<Compile Include="Skyline\Components\Widgets\DateTimePicker.cs" />
-		<Compile Include="Skyline\Components\Widgets\DropDown.cs" />
-		<Compile Include="Skyline\Components\Widgets\FileSelector.cs" />
-		<Compile Include="Skyline\Components\Widgets\Generic\CheckBoxList.cs" />
-		<Compile Include="Skyline\Components\Widgets\Generic\DropDown.cs" />
-		<Compile Include="Skyline\Components\Widgets\Generic\ICheckBoxList.cs" />
-		<Compile Include="Skyline\Components\Widgets\Generic\IDropDown.cs" />
-		<Compile Include="Skyline\Components\Widgets\Generic\IOptionsList.cs" />
-		<Compile Include="Skyline\Components\Widgets\Generic\IRadioButtonList.cs" />
-		<Compile Include="Skyline\Components\Widgets\Generic\IReadonlyOptionsList.cs" />
-		<Compile Include="Skyline\Components\Widgets\Generic\Option.cs" />
-		<Compile Include="Skyline\Components\Widgets\Generic\OptionsList.cs" />
-		<Compile Include="Skyline\Components\Widgets\Generic\RadioButtonList.cs" />
-		<Compile Include="Skyline\Components\Widgets\IButton.cs" />
-		<Compile Include="Skyline\Components\Widgets\ICalendar.cs" />
-		<Compile Include="Skyline\Components\Widgets\ICheckBox.cs" />
-		<Compile Include="Skyline\Components\Widgets\ICheckBoxList.cs" />
-		<Compile Include="Skyline\Components\Widgets\ICollapseButton.cs" />
-		<Compile Include="Skyline\Components\Widgets\IDateTimePicker.cs" />
-		<Compile Include="Skyline\Components\Widgets\IDropDown.cs" />
-		<Compile Include="Skyline\Components\Widgets\IFileSelector.cs" />
-		<Compile Include="Skyline\Components\Widgets\IInteractiveWidget.cs" />
-		<Compile Include="Skyline\Components\Widgets\ILabel.cs" />
-		<Compile Include="Skyline\Components\Widgets\InteractiveWidget.cs" />
-		<Compile Include="Skyline\Components\Widgets\INumeric.cs" />
-		<Compile Include="Skyline\Components\Widgets\IParameter.cs" />
-		<Compile Include="Skyline\Components\Widgets\IPasswordBox.cs" />
-		<Compile Include="Skyline\Components\Widgets\IRadioButtonList.cs" />
-		<Compile Include="Skyline\Components\Widgets\ITextBox.cs" />
-		<Compile Include="Skyline\Components\Widgets\ITime.cs" />
-		<Compile Include="Skyline\Components\Widgets\ITimePicker.cs" />
-		<Compile Include="Skyline\Components\Widgets\ITimePickerBase.cs" />
-		<Compile Include="Skyline\Components\Widgets\ITreeView.cs" />
-		<Compile Include="Skyline\Components\Widgets\IWidget.cs" />
-		<Compile Include="Skyline\Components\Widgets\Label.cs" />
-		<Compile Include="Skyline\Components\Widgets\Numeric.cs" />
-		<Compile Include="Skyline\Components\Widgets\Parameter.cs" />
-		<Compile Include="Skyline\Components\Widgets\PasswordBox.cs" />
-		<Compile Include="Skyline\Components\Widgets\RadioButtonList.cs" />
-		<Compile Include="Skyline\Components\Widgets\TextBox.cs" />
-		<Compile Include="Skyline\Components\Widgets\Time.cs" />
-		<Compile Include="Skyline\Components\Widgets\TimePicker.cs" />
-		<Compile Include="Skyline\Components\Widgets\TimePickerBase.cs" />
-		<Compile Include="Skyline\Components\Widgets\TreeView.cs" />
-		<Compile Include="Skyline\Components\Widgets\TreeViewNode.cs" />
-		<Compile Include="Skyline\Components\Widgets\WhiteSpace.cs" />
-		<Compile Include="Skyline\Components\Widgets\Widget.cs" />
-		<Compile Include="Skyline\Dialogs\Dialog.cs" />
-		<Compile Include="Skyline\Dialogs\ExceptionDialog.cs" />
-		<Compile Include="Skyline\Dialogs\IDialog.cs" />
-		<Compile Include="Skyline\Dialogs\MessageDialog.cs" />
-		<Compile Include="Skyline\Dialogs\ProgressDialog.cs" />
-		<Compile Include="Skyline\Exceptions\OverlappingWidgetsException.cs" />
-		<Compile Include="Skyline\Exceptions\TreeViewDuplicateItemsException.cs" />
-		<Compile Include="Skyline\IInteractiveController.cs" />
-		<Compile Include="Skyline\InteractiveController.cs" />
-		<Compile Include="Skyline\Layout\HorizontalAlignment.cs" />
-		<Compile Include="Skyline\Layout\Margin.cs" />
-		<Compile Include="Skyline\Layout\Direction.cs" />
-		<Compile Include="Skyline\Layout\PanelLocation.cs" />
-		<Compile Include="Skyline\Layout\TextStyle.cs" />
-		<Compile Include="Skyline\Layout\TreeViewNodeStyle.cs" />
-		<Compile Include="Skyline\Layout\VerticalAlignment.cs" />
-		<Compile Include="Skyline\Layout\WidgetLocation.cs" />
-		<Compile Include="Skyline\Layout\WidgetLocationPair.cs" />
-		<Compile Include="Skyline\Obsolete\Dialog.cs" />
-		<Compile Include="Skyline\Obsolete\ILayout.cs" />
-		<Compile Include="Skyline\Obsolete\IWidgetLayout.cs" />
-		<Compile Include="Skyline\Obsolete\Section.cs" />
-		<Compile Include="Skyline\Obsolete\SectionLayout.cs" />
-		<Compile Include="Skyline\Obsolete\WidgetLayout.cs" />
-		<Compile Include="Skyline\UIBlockDefinitionExtensions.cs" />
-		<Compile Include="Skyline\UiResultsExtensions.cs" />
-	</ItemGroup>
+	
 	<ItemGroup>
 		<None Include="stylecop.json" />
 	</ItemGroup>
+	
 	<ItemGroup>
 	  <None Include="..\README.md">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
 	  </None>
 	</ItemGroup>
+	
+	<ItemGroup>
+		<None Include="..\Icon.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\LICENSE.txt">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+	
 	<ItemGroup>
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
 	  <PackageReference Include="Skyline.DataMiner.Dev.Automation" Version="10.1.8" />
@@ -161,5 +49,8 @@
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
 	</ItemGroup>
-	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+	
+	<ItemGroup>
+		<InternalsVisibleTo Include="$(MSBuildProjectName)Tests" />
+	</ItemGroup>
 </Project>
