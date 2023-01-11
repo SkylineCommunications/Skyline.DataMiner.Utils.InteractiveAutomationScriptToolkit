@@ -2,7 +2,8 @@
 {
 	using System;
 
-	[Obsolete]
+	/// <inheritdoc />
+	[Obsolete("Replaced by WidgetLocation.", false)]
 	public class WidgetLayout : IWidgetLayout
 	{
 		private int column;

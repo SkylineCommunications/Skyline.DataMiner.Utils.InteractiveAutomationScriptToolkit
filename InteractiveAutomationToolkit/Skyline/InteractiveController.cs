@@ -31,6 +31,7 @@
 		public IDialog CurrentDialog { get; private set; }
 
 		/// <inheritdoc />
+		[Obsolete("Deprecated along with RequestManualMode.", false)]
 		public bool IsManualMode { get; private set; }
 
 		/// <inheritdoc />
@@ -40,6 +41,7 @@
 		public bool InteractionPreventsScriptTimeout { get; set; } = true;
 
 		/// <inheritdoc />
+		[Obsolete("Call Dialog.ShowStatic instead.", false)]
 		public void RequestManualMode(Action action)
 		{
 			isManualModeRequested = true;
@@ -100,6 +102,7 @@
 		}
 
 		/// <inheritdoc />
+		[Obsolete("Call Dialog.ShowStatic instead.", false)]
 		public void Update()
 		{
 			if (!IsManualMode)

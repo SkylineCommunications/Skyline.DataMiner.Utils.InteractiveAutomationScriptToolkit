@@ -5,7 +5,7 @@
 	/// <summary>
 	/// Used to define the position of an item in a grid layout.
 	/// </summary>
-	[Obsolete]
+	[Obsolete("Replaced by WidgetLocation and PanelLocation.", false)]
 	public interface ILayout
 	{
 		/// <summary>

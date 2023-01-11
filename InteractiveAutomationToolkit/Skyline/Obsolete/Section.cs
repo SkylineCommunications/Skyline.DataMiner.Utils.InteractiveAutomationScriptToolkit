@@ -7,7 +7,7 @@
 	/// <summary>
 	/// A section is a special component that can be used to group widgets together.
 	/// </summary>
-	[Obsolete]
+	[Obsolete("Use GridPanel, StackPanel or FormPanel instead.", false)]
 	public class Section
 	{
 		private readonly Dictionary<Widget, IWidgetLayout> widgetLayouts = new Dictionary<Widget, IWidgetLayout>();

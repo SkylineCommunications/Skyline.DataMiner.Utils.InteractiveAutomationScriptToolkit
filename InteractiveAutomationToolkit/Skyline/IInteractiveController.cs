@@ -47,6 +47,7 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		///     The app returns to automatic user interaction mode when the method is exited.
 		/// </summary>
 		/// <param name="action">Method that will control the event loop manually.</param>
+		[Obsolete("Call Dialog.ShowStatic instead.", false)]
 		void RequestManualMode(Action action);
 
 		/// <summary>

@@ -5,7 +5,7 @@
 	/// <summary>
 	/// Used to define the position of a section in another section or dialog.
 	/// </summary>
-	[Obsolete]
+	[Obsolete("Replaced by PanelLocation.", false)]
 	public class SectionLayout : ILayout
 	{
 		private int column;

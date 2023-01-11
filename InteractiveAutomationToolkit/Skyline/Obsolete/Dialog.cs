@@ -6,14 +6,26 @@
 
 	using Skyline.DataMiner.Automation;
 
-	[Obsolete]
+	/// <summary>
+	///     A dialog represents a single window that can be shown.
+	///     You can show widgets in the window by adding them to the dialog.
+	///     The dialog uses a grid to determine the layout of its widgets.
+	/// </summary>
+	[Obsolete("Use Dialog<TPanel> instead.", false)]
 	public class Dialog : Dialog<GridPanel>
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Dialog"/> class.
+		/// </summary>
+		/// <param name="engine">Allows interaction with the DataMiner System.</param>
 		public Dialog(IEngine engine) : base(engine)
 		{
 		}
 
-		[Obsolete]
+		/// <summary>
+		///     Gets widgets that are added to the dialog.
+		/// </summary>
+		[Obsolete("Call GetWidgets instead.", false)]
 		public IEnumerable<Widget> Widgets => Panel.GetWidgets(true).Cast<Widget>();
 
 		/// <summary>
@@ -27,7 +39,7 @@
 		/// <returns>The dialog.</returns>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
-		[Obsolete]
+		[Obsolete("Call Panel.Add instead.", false)]
 		public Dialog AddWidget(
 			Widget widget,
 			int row,
@@ -54,7 +66,7 @@
 		/// <returns>The dialog.</returns>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
-		[Obsolete]
+		[Obsolete("Call Panel.Add instead.", false)]
 		public Dialog AddWidget(
 			Widget widget,
 			int fromRow,
@@ -78,7 +90,7 @@
 		/// <returns>The dialog.</returns>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
-		[Obsolete]
+		[Obsolete("Call Panel.Add instead.", false)]
 		public Dialog AddWidget(Widget widget, IWidgetLayout widgetLayout)
 		{
 			Panel.Add(widget, widgetLayout.Row, widgetLayout.Column, widgetLayout.RowSpan, widgetLayout.ColumnSpan);
@@ -93,7 +105,7 @@
 		/// <param name="section">Section to be added to the dialog.</param>
 		/// <param name="layout">Left top position of the section within the dialog.</param>
 		/// <returns>Updated dialog.</returns>
-		[Obsolete]
+		[Obsolete("Call Panel.Add instead.", false)]
 		public Dialog AddSection(Section section, SectionLayout layout)
 		{
 			foreach (Widget widget in section.Widgets)
@@ -120,7 +132,7 @@
 		/// <param name="fromRow">Row in the dialog where the section should be added.</param>
 		/// <param name="fromColumn">Column in the dialog where the section should be added.</param>
 		/// <returns>Updated dialog.</returns>
-		[Obsolete]
+		[Obsolete("Call Panel.Add instead.", false)]
 		public Dialog AddSection(Section section, int fromRow, int fromColumn)
 		{
 			return AddSection(section, new SectionLayout(fromRow, fromColumn));
@@ -129,7 +141,7 @@
 		/// <summary>
 		/// Removes all widgets from the dialog.
 		/// </summary>
-		[Obsolete]
+		[Obsolete("Call Panel.Clear instead.", false)]
 		public void Clear()
 		{
 			Panel.Clear();
@@ -142,7 +154,7 @@
 		/// <param name="widgetLayout">The layout to apply to the widget.</param>
 		/// <exception cref="NullReferenceException">When widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget is not part of the dialog.</exception>
-		[Obsolete]
+		[Obsolete("Call Panel.Move instead.", false)]
 		public void SetWidgetLayout(Widget widget, IWidgetLayout widgetLayout)
 		{
 			var widgetLocation = new WidgetLocation(
@@ -163,7 +175,7 @@
 		/// <returns>The widget layout in the dialog.</returns>
 		/// <exception cref="NullReferenceException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget is not part of the dialog.</exception>
-		[Obsolete]
+		[Obsolete("Call Panel.GetLocation instead.", false)]
 		public IWidgetLayout GetWidgetLayout(Widget widget)
 		{
 			WidgetLocation location = Panel.GetLocation(widget);
@@ -181,12 +193,12 @@
 		/// </summary>
 		/// <param name="widget">Widget to remove.</param>
 		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
-		[Obsolete]
+		[Obsolete("Call Panel.Remove instead.", false)]
 		public void RemoveWidget(Widget widget)
 		{
 			if (widget == null)
 			{
-				throw new ArgumentNullException("widget");
+				throw new ArgumentNullException(nameof(widget));
 			}
 
 			Panel.Remove(widget);
