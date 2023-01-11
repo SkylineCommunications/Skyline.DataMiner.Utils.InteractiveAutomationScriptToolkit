@@ -45,7 +45,7 @@
 		/// <param name="widget">The widget to insert.</param>
 		/// <param name="span">Number of rows for a horizontal orientation or number of columns for a vertical orientation.</param>
 		/// <exception cref="IndexOutOfRangeException">When <paramref name="index"/> is less than 0.</exception>
-		/// <exception cref="IndexOutOfRangeException">When <paramref name="index"/> is is greater than <see cref="IList{T}.Count"/>.</exception>
+		/// <exception cref="IndexOutOfRangeException">When <paramref name="index"/> is is greater than <see cref="ICollection{T}.Count"/>.</exception>
 		/// <exception cref="ArgumentOutOfRangeException">When <paramref name="span"/> is smaller than 1.</exception>
 		void Insert(int index, IWidget widget, int span);
 

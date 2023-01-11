@@ -119,6 +119,7 @@
 			CurrentDialog.ShowStatic(false);
 		}
 
+		[Obsolete("Deprecated along with RequestManualMode.")]
 		private void RunManualAction()
 		{
 			isManualModeRequested = false;

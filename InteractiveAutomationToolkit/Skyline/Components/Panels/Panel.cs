@@ -126,6 +126,15 @@
 		}
 
 		/// <summary>
+		/// Sets the <see cref="IComponent.Parent"/> property of <paramref name="component"/> to <c>null</c>.
+		/// </summary>
+		/// <param name="component">A component that is going to be removed from this panel.</param>
+		protected static void RemoveParentFrom(IComponent component)
+		{
+			component.Parent = null;
+		}
+
+		/// <summary>
 		/// Sets the <see cref="IComponent.Parent"/> property of <paramref name="component"/> to <c>this</c>.
 		/// </summary>
 		/// <param name="component">A component that is going to be added to this panel.</param>
@@ -149,15 +158,6 @@
 			}
 
 			component.Parent = this;
-		}
-
-		/// <summary>
-		/// Sets the <see cref="IComponent.Parent"/> property of <paramref name="component"/> to <c>null</c>.
-		/// </summary>
-		/// <param name="component">A component that is going to be removed from this panel.</param>
-		protected void RemoveParentFrom(IComponent component)
-		{
-			component.Parent = null;
 		}
 
 		private static IEnumerable<IComponent> WalkParents(IComponent component)

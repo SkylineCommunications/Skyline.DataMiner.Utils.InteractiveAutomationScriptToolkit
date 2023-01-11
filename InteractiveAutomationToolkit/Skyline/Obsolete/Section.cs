@@ -16,17 +16,17 @@
 		private bool isVisible = true;
 
 		/// <summary>
-		/// Number of columns that are currently defined by the widgets that have been added to this section.
+		/// 	Number of columns that are currently defined by the widgets that have been added to this section.
 		/// </summary>
 		public int ColumnCount { get; private set; }
 
 		/// <summary>
-		/// Number of rows that are currently defined by the widgets that have been added to this section.
+		/// 	Number of rows that are currently defined by the widgets that have been added to this section.
 		/// </summary>
 		public int RowCount { get; private set; }
 
 		/// <summary>
-		///		Gets or sets a value indicating whether the widgets within the section are visible or not.
+		/// 	Gets or sets a value indicating whether the widgets within the section are visible or not.
 		/// </summary>
 		public bool IsVisible
 		{
@@ -43,7 +43,7 @@
 		}
 
 		/// <summary>
-		///		Gets or sets a value indicating whether the interactive widgets within the section are enabled or not.
+		/// 	Gets or sets a value indicating whether the interactive widgets within the section are enabled or not.
 		/// </summary>
 		public bool IsEnabled
 		{
@@ -147,7 +147,7 @@
 		}
 
 		/// <summary>
-		/// Adds the widgets from the section to the section.
+		/// 	Adds the widgets from the section to the section.
 		/// </summary>
 		/// <param name="section">Section to be added to the section.</param>
 		/// <param name="layout">Left-top position of the section within the parent section.</param>
@@ -220,7 +220,7 @@
 		}
 
 		/// <summary>
-		/// Removes all widgets from the section.
+		/// 	Removes all widgets from the section.
 		/// </summary>
 		public void Clear()
 		{
@@ -243,7 +243,7 @@
 		}
 
 		/// <summary>
-		///		Used to update the RowCount and ColumnCount properties based on the Widgets added to the section.
+		/// 	Used to update the RowCount and ColumnCount properties based on the Widgets added to the section.
 		/// </summary>
 		private void UpdateRowAndColumnCount()
 		{

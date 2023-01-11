@@ -35,7 +35,7 @@
 			ColumnSpan = columnSpan;
 			HorizontalAlignment = horizontalAlignment;
 			VerticalAlignment = verticalAlignment;
-			Margin = new Margin();
+			Margin = default;
 		}
 
 		/// <summary>
@@ -105,11 +105,6 @@
 
 			set
 			{
-				if (value == null)
-				{
-					throw new ArgumentNullException("value");
-				}
-
 				margin = value;
 			}
 		}

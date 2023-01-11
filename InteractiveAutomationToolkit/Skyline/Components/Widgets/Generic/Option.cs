@@ -70,7 +70,7 @@
 		}
 
 		/// <inheritdoc/>
-		public bool Equals(Option<TValue> other)
+		public virtual bool Equals(Option<TValue> other)
 		{
 			if (ReferenceEquals(null, other))
 			{

@@ -372,6 +372,22 @@
 			}
 		}
 
+		private static void EnableWidgets(IEnumerable<IInteractiveWidget> widgets)
+		{
+			foreach (IInteractiveWidget widget in widgets)
+			{
+				widget.IsEnabled = true;
+			}
+		}
+
+		private static void DisableWidgets(IEnumerable<IInteractiveWidget> widgets)
+		{
+			foreach (IInteractiveWidget widget in widgets)
+			{
+				widget.IsEnabled = false;
+			}
+		}
+
 		private string GetColumnDefinitions()
 		{
 			return GetDefinitions(columnDefinitions, Panel.GetColumnCount());
@@ -410,22 +426,6 @@
 				.OfType<IInteractiveWidget>()
 				.Where(widget => widget.IsEnabled)
 				.ToArray();
-		}
-
-		private void EnableWidgets(IEnumerable<IInteractiveWidget> widgets)
-		{
-			foreach (IInteractiveWidget widget in widgets)
-			{
-				widget.IsEnabled = true;
-			}
-		}
-
-		private void DisableWidgets(IEnumerable<IInteractiveWidget> widgets)
-		{
-			foreach (IInteractiveWidget widget in widgets)
-			{
-				widget.IsEnabled = false;
-			}
 		}
 	}
 }

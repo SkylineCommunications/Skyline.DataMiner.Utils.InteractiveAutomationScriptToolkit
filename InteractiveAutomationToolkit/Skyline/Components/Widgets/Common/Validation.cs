@@ -14,7 +14,7 @@
 		private readonly IWidget widget;
 
 		/// <summary>
-		///		Initializes a new instance of the <see cref="Validation" /> class.
+		/// 	Initializes a new instance of the <see cref="Validation" /> class.
 		/// </summary>
 		/// <param name="widget">Widget that will implement this behavior.</param>
 		/// <exception cref="ArgumentNullException">When <paramref name="widget"/> is <c>null</c>.</exception>
