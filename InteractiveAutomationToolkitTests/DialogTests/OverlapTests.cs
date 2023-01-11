@@ -25,7 +25,7 @@ namespace InteractiveAutomationToolkitTests
 			dialog.Panel.Add(label1, 0, 0, 2, 2);
 			dialog.Panel.Add(label2, 1, 1, 2, 3);
 
-			Assert.ThrowsException<OverlappingWidgetsException>(() => dialog.Show(false));
+			Assert.ThrowsException<OverlappingWidgetsException>(() => dialog.ShowStatic(false));
 		}
 
 		/// <summary>
@@ -41,7 +41,7 @@ namespace InteractiveAutomationToolkitTests
 			dialog.Panel.Add(label1, 0, 0, 1, 3);
 			dialog.Panel.Add(label2, 0, 2, 1, 2);
 
-			Assert.ThrowsException<OverlappingWidgetsException>(() => dialog.Show(false));
+			Assert.ThrowsException<OverlappingWidgetsException>(() => dialog.ShowStatic(false));
 		}
 
 		/// <summary>
@@ -59,7 +59,7 @@ namespace InteractiveAutomationToolkitTests
 
 			try
 			{
-				dialog.Show(false);
+				dialog.ShowStatic(false);
 			}
 			catch (Exception ex)
 			{
@@ -80,7 +80,7 @@ namespace InteractiveAutomationToolkitTests
 			dialog.Panel.Add(label1, 0, 0, 3, 1);
 			dialog.Panel.Add(label2, 2, 0, 2, 1);
 
-			Assert.ThrowsException<OverlappingWidgetsException>(() => dialog.Show(false));
+			Assert.ThrowsException<OverlappingWidgetsException>(() => dialog.ShowStatic(false));
 		}
 
 		/// <summary>
@@ -96,7 +96,7 @@ namespace InteractiveAutomationToolkitTests
 			dialog.Panel.Add(label1, 0, 0);
 			dialog.Panel.Add(label2, 0, 0);
 
-			Assert.ThrowsException<OverlappingWidgetsException>(() => dialog.Show(false));
+			Assert.ThrowsException<OverlappingWidgetsException>(() => dialog.ShowStatic(false));
 		}
 	}
 }

@@ -235,19 +235,33 @@
 			rowDefinitions[row] = Stretch;
 		}
 
-		/// <inheritdoc />
-		public void Show(bool requireResponse = true)
+		/// <inheritdoc/>
+		public void ShowStatic(bool disabled)
+		{
+			IInteractiveWidget[] widgets = disabled
+				? GetEnabledWidgets()
+				: Array.Empty<IInteractiveWidget>();
+
+			DisableWidgets(widgets);
+
+			UIBuilder uib = Build();
+			uib.RequireResponse = false;
+
+			Engine.ShowUI(uib);
+
+			EnableWidgets(widgets);
+		}
+
+		/// <inheritdoc/>
+		public void ShowInteractive()
 		{
 			UIBuilder uib = Build();
-			uib.RequireResponse = requireResponse;
+			uib.RequireResponse = true;
 
 			UIResults uir = Engine.ShowUI(uib);
 
-			if (requireResponse)
-			{
-				LoadChanges(uir);
-				RaiseResultEvents(uir);
-			}
+			LoadChanges(uir);
+			RaiseResultEvents(uir);
 		}
 
 		private static void CheckIfWidgetsOverlap(WidgetLocationPair[] widgetLocationPairs)
@@ -275,7 +289,7 @@
 			}
 		}
 
-		private UIBuilder Build()
+		internal UIBuilder Build()
 		{
 			WidgetLocationPair[] visibleWidgetLocationPairs = Panel.GetWidgetLocationPairs()
 				.Where(pair => pair.Widget.IsVisible)
@@ -351,7 +365,7 @@
 			return GetDefinitions(rowDefinitions, Panel.GetRowCount());
 		}
 
-		private void LoadChanges(UIResults uir)
+		internal void LoadChanges(UIResults uir)
 		{
 			foreach (InteractiveWidget interactiveWidget in Panel.GetWidgets().OfType<InteractiveWidget>())
 			{
@@ -362,7 +376,7 @@
 			}
 		}
 
-		private void RaiseResultEvents(UIResults uir)
+		internal void RaiseResultEvents(UIResults uir)
 		{
 			Interacted?.Invoke(this, EventArgs.Empty);
 
@@ -387,6 +401,30 @@
 			foreach (InteractiveWidget intractable in intractableWidgets)
 			{
 				intractable.RaiseResultEvents();
+			}
+		}
+
+		private IInteractiveWidget[] GetEnabledWidgets()
+		{
+			return Panel.GetWidgets(true)
+				.OfType<IInteractiveWidget>()
+				.Where(widget => widget.IsEnabled)
+				.ToArray();
+		}
+
+		private void EnableWidgets(IEnumerable<IInteractiveWidget> widgets)
+		{
+			foreach (IInteractiveWidget widget in widgets)
+			{
+				widget.IsEnabled = true;
+			}
+		}
+
+		private void DisableWidgets(IEnumerable<IInteractiveWidget> widgets)
+		{
+			foreach (IInteractiveWidget widget in widgets)
+			{
+				widget.IsEnabled = false;
 			}
 		}
 	}

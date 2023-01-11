@@ -147,12 +147,16 @@ namespace Skyline.DataMiner.InteractiveAutomationToolkit
 		void SetRowHeightStretch(int row);
 
 		/// <summary>
-		///     Shows the dialog window.
-		///     Also loads changes and triggers events when <paramref name="requireResponse" /> is <c>true</c>.
+		/// 	Shows the dialog window and returns immediately.
 		/// </summary>
-		/// <param name="requireResponse">If the dialog expects user interaction.</param>
-		/// <remarks>Should only be used when you create your own event loop.</remarks>
-		void Show(bool requireResponse = true);
+		/// <remarks>Users wont be able to interact with widgets.</remarks>
+		/// <param name="disabled">When <c>true</c>, shows all widgets in a disabled state.</param>
+		void ShowStatic(bool disabled);
+
+		/// <summary>
+		///     Shows the dialog window and returns only after a user has interacted with a widget that has at least one event handler registered.
+		/// </summary>
+		void ShowInteractive();
 	}
 
 	/// <inheritdoc />

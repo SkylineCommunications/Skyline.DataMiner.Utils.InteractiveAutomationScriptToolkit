@@ -191,5 +191,26 @@
 
 			Panel.Remove(widget);
 		}
+
+		/// <summary>
+		///     Shows the dialog window.
+		///     Also loads changes and triggers events when <paramref name="requireResponse" /> is <c>true</c>.
+		/// </summary>
+		/// <param name="requireResponse">If the dialog expects user interaction.</param>
+		/// <remarks>Should only be used when you create your own event loop.</remarks>
+		[Obsolete("Call ShowInteractive or ShowStatic instead.", false)]
+		public void Show(bool requireResponse = true)
+		{
+			UIBuilder uib = Build();
+			uib.RequireResponse = requireResponse;
+
+			UIResults uir = Engine.ShowUI(uib);
+
+			if (requireResponse)
+			{
+				LoadChanges(uir);
+				RaiseResultEvents(uir);
+			}
+		}
 	}
 }

@@ -69,7 +69,7 @@
 					else
 					{
 						CurrentDialog = nextDialog;
-						CurrentDialog.Show();
+						CurrentDialog.ShowInteractive();
 					}
 				}
 				catch (Exception)
@@ -113,7 +113,7 @@
 			}
 
 			CurrentDialog = nextDialog;
-			CurrentDialog.Show(false);
+			CurrentDialog.ShowStatic(false);
 		}
 
 		private void RunManualAction()
