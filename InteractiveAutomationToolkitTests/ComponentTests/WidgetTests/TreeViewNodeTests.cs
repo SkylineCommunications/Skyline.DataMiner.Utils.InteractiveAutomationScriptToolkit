@@ -8,6 +8,7 @@
 
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+	using Skyline.DataMiner.Net.AutomationUI.Objects;
 	using Skyline.DataMiner.Utils.InteractiveAutomationToolkit;
 
 	using static FluentAssertions.FluentActions;
@@ -23,13 +24,16 @@
 
 			// Assert
 			node.Children.Should().BeEmpty("a newly instantiated node should not have children.");
+			node.TreeViewItem.ChildItems.Should().BeEmpty();
 			node.Descendants.Should().BeEmpty("there can't be descendants if there are no children.");
 			node.Parent.Should().BeNull("a newly instantiated node should not have a parent");
 			node.Ancestors.Should().BeEmpty("there can't be ancestors if there is no parent.");
 			node.Siblings.Should().BeEmpty("there can't be siblings if there is no parent.");
 			node.Depth.Should().Be(0, "because it is a root node.");
-			node.Text.Should().Be("Node", "because this is the default when no text is specified.");
-			node.Style.Should().Be(TreeViewNodeStyle.None, "because this is the default.");
+			node.Text.Should().Be("Node", "this is the default when no text is specified.");
+			node.TreeViewItem.DisplayValue.Should().Be("Node");
+			node.Style.Should().Be(TreeViewNodeStyle.None, "this is the default.");
+			node.TreeViewItem.ItemType.Should().Be(TreeViewItem.TreeViewItemType.Empty);
 		}
 
 		[TestMethod]
@@ -40,6 +44,7 @@
 
 			// Assert
 			node.Text.Should().Be("foo");
+			node.TreeViewItem.DisplayValue.Should().Be("foo");
 		}
 
 		[TestMethod]
@@ -51,6 +56,8 @@
 			// Assert
 			node.Text.Should().Be("foo");
 			node.IsChecked.Should().BeTrue();
+			node.TreeViewItem.DisplayValue.Should().Be("foo");
+			node.TreeViewItem.IsChecked.Should().BeTrue();
 		}
 
 		[TestMethod]
@@ -64,6 +71,7 @@
 
 			// Assert
 			node.Text.Should().Be("bar");
+			node.TreeViewItem.DisplayValue.Should().Be("bar");
 		}
 
 		[TestMethod]
@@ -77,6 +85,7 @@
 
 			// Assert
 			node.Text.Should().BeEmpty();
+			node.TreeViewItem.DisplayValue.Should().BeEmpty();
 		}
 
 		[TestMethod]
@@ -90,6 +99,7 @@
 
 			// Assert
 			node.Style.Should().Be(TreeViewNodeStyle.Checkbox);
+			node.TreeViewItem.ItemType.Should().Be(TreeViewItem.TreeViewItemType.CheckBox);
 		}
 
 		[TestMethod]
@@ -114,6 +124,7 @@
 
 			// Assert
 			node.Children.Should().HaveCount(1, "a child was added.");
+			node.TreeViewItem.ChildItems.Should().HaveCount(1);
 			child.Parent.Should().Be(node);
 			child.Ancestors.Should().HaveCount(1, "the single parent counts as ancestor.");
 			child.Depth.Should().Be(1, "it is the direct child of the root node with depth 0.");
@@ -167,6 +178,7 @@
 
 			// Assert
 			node.Children.Should().HaveCount(2, "2 children got added.");
+			node.TreeViewItem.ChildItems.Should().HaveCount(2);
 			child1.Siblings.Should().HaveCount(1).And.HaveElementAt(0, child2, "child1 has the same parent as child2.");
 		}
 
@@ -193,6 +205,7 @@
 
 			// Assert
 			node.Children.Should().BeEmpty("it should no longer have a child.");
+			node.TreeViewItem.ChildItems.Should().BeEmpty();
 			child.Parent.Should().BeNull("it was removed from the parent.");
 			child.Depth.Should().Be(0, "because it became a root node.");
 		}
@@ -219,6 +232,27 @@
 
 			// Act & Assert
 			Invoking(() => node.Children.Remove(new TreeViewNode())).Should().NotThrow();
+		}
+
+		[TestMethod]
+		public void RemoveInternalNodeTest()
+		{
+			// Arrange
+			var top = new TreeViewNode { Children = { new TreeViewNode() } };
+			var middle = new TreeViewNode { Children = { new TreeViewNode() } };
+			top.Children.Add(middle);
+			var bottom = new TreeViewNode();
+			middle.Children.Add(bottom);
+
+			// Act
+			top.Children.Remove(middle);
+
+			// Assert
+			top.Children.Should().HaveCount(1, "only one of the 2 node have been removed.");
+			top.TreeViewItem.ChildItems.Should().HaveCount(1);
+			middle.Children.Should().HaveCount(2, "it should only affect the parent of this node.");
+			middle.TreeViewItem.ChildItems.Should().HaveCount(2);
+			bottom.Parent.Should().NotBeNull("this node is still a child of the middle node.");
 		}
 
 		[TestMethod]
@@ -277,7 +311,30 @@
 
 			// Assert
 			nodeA.Children.Should().BeEmpty("all children should have been removed.");
+			nodeA.TreeViewItem.ChildItems.Should().BeEmpty();
 			nodeC.Depth.Should().Be(1, "parent nodeB became a root node.");
+		}
+
+		[TestMethod]
+		public void ClearInternalNodeTest()
+		{
+			// Arrange
+			var top = new TreeViewNode { Children = { new TreeViewNode() } };
+			var middle = new TreeViewNode { Children = { new TreeViewNode() } };
+			top.Children.Add(middle);
+			var bottom = new TreeViewNode { Children = { new TreeViewNode() } };
+			middle.Children.Add(bottom);
+
+			// Act
+			middle.Children.Clear();
+
+			// Assert
+			top.Children.Should().HaveCount(2);
+			top.TreeViewItem.ChildItems.Should().HaveCount(2);
+			middle.Children.Should().BeEmpty();
+			middle.TreeViewItem.ChildItems.Should().BeEmpty();
+			bottom.Children.Should().HaveCount(1);
+			bottom.TreeViewItem.ChildItems.Should().HaveCount(1);
 		}
 
 		[TestMethod]

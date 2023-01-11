@@ -166,6 +166,22 @@ namespace InteractiveAutomationToolkitTests
 		}
 
 		[TestMethod]
+		public void AddChildToMultipleRootNodesTest()
+		{
+			// Arrange
+			var treeView = new TreeView();
+			var rootNode1 = new TreeViewNode();
+			var rootNode2 = new TreeViewNode();
+			var child = new TreeViewNode();
+			treeView.RootNodes.Add(rootNode1);
+			treeView.RootNodes.Add(rootNode2);
+			rootNode1.Children.Add(child);
+
+			// Act & Assert
+			Invoking(() => rootNode2.Children.Add(child)).Should().Throw<ArgumentException>();
+		}
+
+		[TestMethod]
 		public void ContainsRootNodeTest()
 		{
 			// Arrange
