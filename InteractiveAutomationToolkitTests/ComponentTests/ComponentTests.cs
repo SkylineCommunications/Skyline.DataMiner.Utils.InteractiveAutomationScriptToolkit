@@ -6,7 +6,7 @@
 
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-	using Skyline.DataMiner.InteractiveAutomationToolkit;
+	using Skyline.DataMiner.Utils.InteractiveAutomationToolkit;
 
 	[TestClass]
 	public class ComponentTests

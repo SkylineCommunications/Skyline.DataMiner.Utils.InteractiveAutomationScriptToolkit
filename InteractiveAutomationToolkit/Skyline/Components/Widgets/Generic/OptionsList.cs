@@ -1,4 +1,4 @@
-﻿namespace Skyline.DataMiner.InteractiveAutomationToolkit
+﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 {
 	using System;
 	using System.Collections;
@@ -7,7 +7,7 @@
 
 	using Skyline.DataMiner.Automation;
 
-	/// <inheritdoc cref="Skyline.DataMiner.InteractiveAutomationToolkit.IOptionsList{T}" />
+	/// <inheritdoc cref="IOptionsList{T}" />
 	internal class OptionsList<T> : IOptionsList<T>, IReadonlyOptionsList<T>
 	{
 		private readonly IList<string> names;

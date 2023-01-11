@@ -1,10 +1,10 @@
-﻿namespace Skyline.DataMiner.InteractiveAutomationToolkit
+﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 
-	/// <inheritdoc cref="Skyline.DataMiner.InteractiveAutomationToolkit.IPanel" />
+	/// <inheritdoc cref="IPanel" />
 	public abstract class Panel : Component, IPanel
 	{
 		/// <inheritdoc />

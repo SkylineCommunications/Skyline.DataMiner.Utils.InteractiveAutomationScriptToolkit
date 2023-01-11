@@ -7,7 +7,7 @@ namespace InteractiveAutomationToolkitTests
 	using Moq;
 
 	using Skyline.DataMiner.Automation;
-	using Skyline.DataMiner.InteractiveAutomationToolkit;
+	using Skyline.DataMiner.Utils.InteractiveAutomationToolkit;
 
 	[TestClass]
 	public class OverlapTests

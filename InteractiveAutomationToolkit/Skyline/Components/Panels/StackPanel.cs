@@ -1,4 +1,4 @@
-﻿namespace Skyline.DataMiner.InteractiveAutomationToolkit
+﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 {
 	using System;
 	using System.Collections;
@@ -7,7 +7,7 @@
 	using System.Diagnostics;
 	using System.Linq;
 
-	/// <inheritdoc cref="Skyline.DataMiner.InteractiveAutomationToolkit.IStackPanel" />
+	/// <inheritdoc cref="IStackPanel" />
 	public class StackPanel : Panel, IStackPanel
 	{
 		private readonly List<IComponent> components = new List<IComponent>();

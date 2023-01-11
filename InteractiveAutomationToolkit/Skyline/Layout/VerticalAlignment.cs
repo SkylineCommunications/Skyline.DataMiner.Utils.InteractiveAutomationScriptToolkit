@@ -1,4 +1,4 @@
-﻿namespace Skyline.DataMiner.InteractiveAutomationToolkit
+﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 {
 	/// <summary>
 	///     Specifies the vertical alignment of a widget added to a dialog or panel.

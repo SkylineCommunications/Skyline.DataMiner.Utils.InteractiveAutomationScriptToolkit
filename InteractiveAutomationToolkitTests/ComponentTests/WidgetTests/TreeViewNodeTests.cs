@@ -8,7 +8,7 @@
 
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-	using Skyline.DataMiner.InteractiveAutomationToolkit;
+	using Skyline.DataMiner.Utils.InteractiveAutomationToolkit;
 
 	using static FluentAssertions.FluentActions;
 

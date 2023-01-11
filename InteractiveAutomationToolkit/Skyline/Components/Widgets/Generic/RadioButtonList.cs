@@ -1,4 +1,4 @@
-﻿namespace Skyline.DataMiner.InteractiveAutomationToolkit
+﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 {
 	using System;
 	using System.Collections.Generic;
@@ -6,7 +6,7 @@
 
 	using Skyline.DataMiner.Automation;
 
-	/// <inheritdoc cref="Skyline.DataMiner.InteractiveAutomationToolkit.IRadioButtonList{T}" />
+	/// <inheritdoc cref="IRadioButtonList{T}" />
 	public class RadioButtonList<T> : InteractiveWidget, IRadioButtonList<T>
 	{
 		private readonly Validation validation;

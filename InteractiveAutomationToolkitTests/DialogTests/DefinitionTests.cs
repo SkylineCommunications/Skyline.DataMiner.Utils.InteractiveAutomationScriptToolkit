@@ -9,7 +9,7 @@ namespace InteractiveAutomationToolkitTests
 	using Moq;
 
 	using Skyline.DataMiner.Automation;
-	using Skyline.DataMiner.InteractiveAutomationToolkit;
+	using Skyline.DataMiner.Utils.InteractiveAutomationToolkit;
 
 	using static FluentAssertions.FluentActions;
 

@@ -1,11 +1,11 @@
-﻿namespace Skyline.DataMiner.InteractiveAutomationToolkit
+﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Diagnostics;
 	using System.Linq;
 
-	/// <inheritdoc cref="Skyline.DataMiner.InteractiveAutomationToolkit.IFormPanel" />
+	/// <inheritdoc cref="IFormPanel" />
 	public class FormPanel : Panel, IFormPanel
 	{
 		private readonly List<IComponent> components = new List<IComponent>();

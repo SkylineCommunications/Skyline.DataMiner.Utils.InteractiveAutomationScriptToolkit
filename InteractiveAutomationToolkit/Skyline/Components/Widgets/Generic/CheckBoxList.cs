@@ -1,4 +1,4 @@
-﻿namespace Skyline.DataMiner.InteractiveAutomationToolkit
+﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 {
 	using System;
 	using System.Collections;
@@ -7,7 +7,7 @@
 
 	using Skyline.DataMiner.Automation;
 
-	/// <inheritdoc cref="Skyline.DataMiner.InteractiveAutomationToolkit.ICheckBoxList{T}" />
+	/// <inheritdoc cref="ICheckBoxList{T}" />
 	public class CheckBoxList<T> : InteractiveWidget, ICheckBoxList<T>
 	{
 		private readonly Validation validation;

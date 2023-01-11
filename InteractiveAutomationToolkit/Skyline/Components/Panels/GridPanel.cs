@@ -1,10 +1,10 @@
-﻿namespace Skyline.DataMiner.InteractiveAutomationToolkit
+﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 
-	/// <inheritdoc cref="Skyline.DataMiner.InteractiveAutomationToolkit.IGridPanel" />
+	/// <inheritdoc cref="IGridPanel" />
 	public class GridPanel : Panel, IGridPanel
 	{
 		private readonly HashSet<IPanel> panels = new HashSet<IPanel>();
