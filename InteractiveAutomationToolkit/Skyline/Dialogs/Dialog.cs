@@ -333,38 +333,6 @@
 			return builder;
 		}
 
-		private string GetColumnDefinitions()
-		{
-			return GetDefinitions(columnDefinitions, Panel.GetColumnCount());
-		}
-
-		private string GetDefinitions(Dictionary<int, string> definitions, int amount)
-		{
-			return String.Join(";", GetDefinitionsEnumerator() ?? Array.Empty<string>());
-
-			// ReSharper disable once RedundantNameQualifier
-			// DIS code generation fails to generate this local function if the return type is not fully Qualified
-			System.Collections.Generic.IEnumerable<string> GetDefinitionsEnumerator()
-			{
-				for (var i = 0; i < amount; i++)
-				{
-					if (definitions.TryGetValue(i, out string s))
-					{
-						yield return s;
-					}
-					else
-					{
-						yield return Auto;
-					}
-				}
-			}
-		}
-
-		private string GetRowDefinitions()
-		{
-			return GetDefinitions(rowDefinitions, Panel.GetRowCount());
-		}
-
 		internal void LoadChanges(UIResults uir)
 		{
 			foreach (InteractiveWidget interactiveWidget in Panel.GetWidgets().OfType<InteractiveWidget>())
@@ -402,6 +370,38 @@
 			{
 				intractable.RaiseResultEvents();
 			}
+		}
+
+		private string GetColumnDefinitions()
+		{
+			return GetDefinitions(columnDefinitions, Panel.GetColumnCount());
+		}
+
+		private string GetDefinitions(Dictionary<int, string> definitions, int amount)
+		{
+			return String.Join(";", GetDefinitionsEnumerator() ?? Array.Empty<string>());
+
+			// ReSharper disable once RedundantNameQualifier
+			// DIS code generation fails to generate this local function if the return type is not fully Qualified
+			System.Collections.Generic.IEnumerable<string> GetDefinitionsEnumerator()
+			{
+				for (var i = 0; i < amount; i++)
+				{
+					if (definitions.TryGetValue(i, out string s))
+					{
+						yield return s;
+					}
+					else
+					{
+						yield return Auto;
+					}
+				}
+			}
+		}
+
+		private string GetRowDefinitions()
+		{
+			return GetDefinitions(rowDefinitions, Panel.GetRowCount());
 		}
 
 		private IInteractiveWidget[] GetEnabledWidgets()
