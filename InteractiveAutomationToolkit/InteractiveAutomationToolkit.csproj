@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>net462</TargetFramework>
+		<PlatformTarget>x86</PlatformTarget>
 		<CodeAnalysisRuleSet>InteractiveAutomationToolkit.ruleset</CodeAnalysisRuleSet>
 		<AssemblyName>Skyline.DataMiner.Utils.InteractiveAutomationToolkit</AssemblyName>
 		<RootNamespace>Skyline.DataMiner.Utils.InteractiveAutomationToolkit</RootNamespace>
@@ -43,7 +44,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
 	  <PackageReference Include="Skyline.DataMiner.Dev.Automation" Version="10.1.8" />
 	  <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
 	    <PrivateAssets>all</PrivateAssets>
