@@ -67,7 +67,7 @@
 		private event EventHandler<ChangedEventArgs> OnChanged;
 
 		/// <inheritdoc />
-		public CheckedOptionCollection<T> CheckedOptions { get; }
+		public ICheckedOptionCollection<T> CheckedOptions { get; }
 
 		/// <inheritdoc />
 		public IOptionsList<T> Options => optionsCollection;
@@ -122,11 +122,11 @@
 
 				if (isChecked)
 				{
-					CheckedOptions.Check(option);
+					CheckedOptions.Add(option);
 				}
 				else
 				{
-					CheckedOptions.Uncheck(option);
+					CheckedOptions.Remove(option);
 				}
 
 				if (hasChanged && WantsOnChange)
@@ -178,248 +178,6 @@
 			/// </summary>
 			public Option<T> Option { get; }
 		}
-
-		/// <summary>
-		/// Collection of checked options in a <see cref="ICheckBoxList{T}"/>.
-		/// </summary>
-		/// <typeparam name="TValue">The type of the value of the options.</typeparam>
-		public class CheckedOptionCollection<TValue> : ICollection<Option<TValue>>, IReadOnlyCollection<Option<TValue>>
-		{
-			private readonly HashSet<Option<TValue>> checkedOptions = new HashSet<Option<TValue>>();
-			private readonly IOptionsList<TValue> optionsList;
-
-			/// <summary>
-			/// Initializes a new instance of the <see cref="CheckedOptionCollection{T}"/> class.
-			/// </summary>
-			/// <param name="optionsList">The options list of the checkbox list.</param>
-			public CheckedOptionCollection(IOptionsList<TValue> optionsList) => this.optionsList = optionsList;
-
-			/// <inheritdoc cref="ICollection{T}.Count" />
-			public virtual int Count => checkedOptions.Count;
-
-			/// <inheritdoc/>
-			bool ICollection<Option<TValue>>.IsReadOnly => false;
-
-			/// <inheritdoc/>
-			public virtual IEnumerator<Option<TValue>> GetEnumerator()
-			{
-				return checkedOptions.GetEnumerator();
-			}
-
-			/// <inheritdoc/>
-			IEnumerator IEnumerable.GetEnumerator()
-			{
-				return ((IEnumerable)checkedOptions).GetEnumerator();
-			}
-
-			/// <inheritdoc/>
-			void ICollection<Option<TValue>>.Add(Option<TValue> item)
-			{
-				Check(item);
-			}
-
-			/// <summary>
-			/// Checks the specified option.
-			/// </summary>
-			/// <param name="item">The option to be checked.</param>
-			public virtual void Check(Option<TValue> item)
-			{
-				if (optionsList.Contains(item))
-				{
-					checkedOptions.Add(item);
-				}
-			}
-
-			/// <summary>
-			/// Checks the option with specified name.
-			/// </summary>
-			/// <param name="name">The option with specified name to be checked.</param>
-			public virtual void CheckName(string name)
-			{
-				int index = optionsList.IndexOfName(name);
-				if (index == -1)
-				{
-					return;
-				}
-
-				checkedOptions.Add(optionsList[index]);
-			}
-
-			/// <summary>
-			/// Checks the option with specified value.
-			/// </summary>
-			/// <param name="value">The options with specified value to be checked.</param>
-			public virtual void CheckValue(TValue value)
-			{
-				int index = optionsList.IndexOfValue(value);
-				if (index == -1)
-				{
-					return;
-				}
-
-				checkedOptions.Add(optionsList[index]);
-			}
-
-			/// <summary>
-			/// Checks all options of the specified collection.
-			/// </summary>
-			/// <param name="options">The collections of options to be checked.</param>
-			public virtual void CheckRange(IEnumerable<Option<TValue>> options)
-			{
-				if (options == null)
-				{
-					throw new ArgumentNullException(nameof(options));
-				}
-
-				foreach (Option<TValue> option in options)
-				{
-					Check(option);
-				}
-			}
-
-			/// <summary>
-			/// Checks all options with the specified names.
-			/// </summary>
-			/// <param name="names">The collections of names of options to be checked.</param>
-			public virtual void CheckNameRange(IEnumerable<string> names)
-			{
-				if (names == null)
-				{
-					throw new ArgumentNullException(nameof(names));
-				}
-
-				foreach (string text in names)
-				{
-					CheckName(text);
-				}
-			}
-
-			/// <summary>
-			/// Checks all options with the specified values.
-			/// </summary>
-			/// <param name="values">The collections of values of options to be checked.</param>
-			public virtual void CheckValueRange(IEnumerable<TValue> values)
-			{
-				if (values == null)
-				{
-					throw new ArgumentNullException(nameof(values));
-				}
-
-				foreach (TValue value in values)
-				{
-					CheckValue(value);
-				}
-			}
-
-			/// <summary>
-			/// Checks all options.
-			/// </summary>
-			public virtual void CheckAll()
-			{
-				CheckRange(optionsList);
-			}
-
-			/// <inheritdoc/>
-			void ICollection<Option<TValue>>.Clear()
-			{
-				checkedOptions.Clear();
-			}
-
-			/// <summary>
-			/// Unchecks all options.
-			/// </summary>
-			public virtual void UncheckAll()
-			{
-				checkedOptions.Clear();
-			}
-
-			/// <inheritdoc/>
-			bool ICollection<Option<TValue>>.Contains(Option<TValue> item)
-			{
-				return checkedOptions.Contains(item);
-			}
-
-			/// <summary>
-			/// Determines whether an option is checked.
-			/// </summary>
-			/// <param name="item">The option to be determined if checked.</param>
-			/// <returns><c>true</c> if the option is checked; otherwise <c>false</c>.</returns>
-			public virtual bool IsChecked(Option<TValue> item)
-			{
-				return checkedOptions.Contains(item);
-			}
-
-			/// <summary>
-			/// Determines whether an option with specified name is checked.
-			/// </summary>
-			/// <param name="name">The name of the option to be determined if checked.</param>
-			/// <returns><c>true</c> if the option is checked; otherwise <c>false</c>.</returns>
-			public virtual bool IsNameChecked(string name)
-			{
-				return optionsList.Any(option => option.Name == name);
-			}
-
-			/// <summary>
-			/// Determines whether an option with specified value is checked.
-			/// </summary>
-			/// <param name="value">The value of the option to be determined if checked.</param>
-			/// <returns><c>true</c> if the option is checked; otherwise <c>false</c>.</returns>
-			public virtual bool IsValueChecked(T value)
-			{
-				return optionsList.Any(option => Equals(option.Value, value));
-			}
-
-			/// <inheritdoc/>
-			void ICollection<Option<TValue>>.CopyTo(Option<TValue>[] array, int arrayIndex)
-			{
-				checkedOptions.CopyTo(array, arrayIndex);
-			}
-
-			/// <summary>
-			/// Unchecks the specified option.
-			/// </summary>
-			/// <param name="item">The option to be unchecked.</param>
-			public virtual void Uncheck(Option<TValue> item)
-			{
-				checkedOptions.Remove(item);
-			}
-
-			/// <inheritdoc/>
-			bool ICollection<Option<TValue>>.Remove(Option<TValue> item)
-			{
-				return checkedOptions.Remove(item);
-			}
-
-			/// <summary>
-			/// Unchecks the option with specified name.
-			/// </summary>
-			/// <param name="name">The option with specified name to be checked.</param>
-			public void UncheckName(string name)
-			{
-				int index = optionsList.IndexOfName(name);
-				if (index == -1)
-				{
-					return;
-				}
-
-				Uncheck(optionsList[index]);
-			}
-
-			/// <summary>
-			/// Unchecks the option with specified value.
-			/// </summary>
-			/// <param name="value">The option with specified value to be checked.</param>
-			public void UncheckValue(TValue value)
-			{
-				int index = optionsList.IndexOfValue(value);
-				if (index == -1)
-				{
-					return;
-				}
-
-				Uncheck(optionsList[index]);
-			}
-		}
 	}
 
 	/// <inheritdoc />
@@ -443,21 +201,21 @@
 			{
 				Option<T> replaced = base[index];
 				base[index] = value;
-				checkBoxList.CheckedOptions.Uncheck(replaced);
+				checkBoxList.CheckedOptions.Remove(replaced);
 			}
 		}
 
 		/// <inheritdoc/>
 		public override void Clear()
 		{
-			checkBoxList.CheckedOptions.UncheckAll();
+			checkBoxList.CheckedOptions.Clear();
 			base.Clear();
 		}
 
 		/// <inheritdoc/>
 		public override void RemoveAt(int index)
 		{
-			checkBoxList.CheckedOptions.Uncheck(this[index]);
+			checkBoxList.CheckedOptions.Remove(this[index]);
 			base.RemoveAt(index);
 		}
 	}

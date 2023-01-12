@@ -17,7 +17,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 		/// <summary>
 		///     Gets all checked options.
 		/// </summary>
-		CheckBoxList<T>.CheckedOptionCollection<T> CheckedOptions { get; }
+		ICheckedOptionCollection<T> CheckedOptions { get; }
 
 		/// <summary>
 		///     Gets all options.

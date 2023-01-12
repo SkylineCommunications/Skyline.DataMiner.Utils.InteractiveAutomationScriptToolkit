@@ -8,7 +8,7 @@
 	using Skyline.DataMiner.Automation;
 
 	/// <inheritdoc cref="IOptionsList{T}" />
-	internal class OptionsList<T> : IOptionsList<T>, IReadonlyOptionsList<T>
+	internal class OptionsList<T> : IOptionsList<T>
 	{
 		private readonly IList<string> names;
 		private readonly IList<T> values = new List<T>();
