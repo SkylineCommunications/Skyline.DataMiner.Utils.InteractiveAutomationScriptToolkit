@@ -3,7 +3,6 @@
 	using System;
 	using System.Collections;
 	using System.Collections.Generic;
-	using System.Diagnostics.CodeAnalysis;
 	using System.Linq;
 
 	using Skyline.DataMiner.Automation;
@@ -13,14 +12,8 @@
 	/// </summary>
 	public class CheckBoxList : InteractiveWidget, ICheckBoxList
 	{
-		private readonly CheckedCollection checkedCollection;
-		private readonly OptionsCollection optionsCollection;
-
-		[SuppressMessage(
-			"StyleCop.CSharp.NamingRules",
-			"SA1305:Field names should not use Hungarian notation",
-			Justification = "false positive")]
-		private readonly UnCheckedCollection unCheckedCollection;
+		private readonly CheckedOptionCollection checkedOptionCollection;
+		private readonly CheckBoxOptionList checkBoxOptionList;
 
 		private bool changed;
 		private string changedOption;
@@ -47,9 +40,8 @@
 			}
 
 			Type = UIBlockType.CheckBoxList;
-			optionsCollection = new OptionsCollection(this);
-			checkedCollection = new CheckedCollection(this);
-			unCheckedCollection = new UnCheckedCollection(this);
+			checkBoxOptionList = new CheckBoxOptionList(this);
+			checkedOptionCollection = new CheckedOptionCollection(this);
 
 			SetOptions(options);
 		}
@@ -76,13 +68,30 @@
 		private event EventHandler<ChangedEventArgs> OnChanged;
 
 		/// <inheritdoc />
-		public ICollection<string> Checked => checkedCollection;
+		[Obsolete("Use CheckedOptions instead.")]
+		ICollection<string> ICheckBoxList.Checked => checkedOptionCollection;
+
+		/// <summary>
+		/// 	Gets all selected options.
+		/// </summary>
+		[Obsolete("Use CheckedOptions instead.")]
+		public CheckedOptionCollection Checked => checkedOptionCollection;
 
 		/// <inheritdoc />
-		public IList<string> Options => optionsCollection;
+		ICollection<string> ICheckBoxList.CheckedOptions => checkedOptionCollection;
+
+		/// <summary>
+		/// 	Gets all selected options.
+		/// </summary>
+		public CheckedOptionCollection CheckedOptions => checkedOptionCollection;
 
 		/// <inheritdoc />
-		public ICollection<string> Unchecked => unCheckedCollection;
+		IList<string> ICheckBoxList.Options => checkBoxOptionList;
+
+		/// <summary>
+		/// 	Gets all options.
+		/// </summary>
+		public OptionList Options => checkBoxOptionList;
 
 		/// <inheritdoc />
 		public bool IsSorted
@@ -108,13 +117,13 @@
 		/// <inheritdoc />
 		public void Check(string option)
 		{
-			Checked.Add(option ?? String.Empty);
+			CheckedOptions.Add(option ?? String.Empty);
 		}
 
 		/// <inheritdoc />
 		public void CheckAll()
 		{
-			Unchecked.Clear();
+			CheckedOptions.AddRange(Options);
 		}
 
 		/// <inheritdoc />
@@ -141,13 +150,13 @@
 		/// <inheritdoc />
 		public void Uncheck(string option)
 		{
-			Unchecked.Add(option ?? String.Empty);
+			CheckedOptions.Remove(option);
 		}
 
 		/// <inheritdoc />
 		public void UncheckAll()
 		{
-			Checked.Clear();
+			CheckedOptions.Clear();
 		}
 
 		/// <inheritdoc />
@@ -165,7 +174,7 @@
 			foreach (string option in Options)
 			{
 				bool isChecked = checkedOptions.Contains(option);
-				bool hasChanged = Checked.Contains(option) != isChecked;
+				bool hasChanged = CheckedOptions.Contains(option) != isChecked;
 
 				if (isChecked)
 				{
@@ -226,262 +235,141 @@
 			public string Option { get; }
 		}
 
-		private class OptionsCollection : IList<string>, IReadOnlyList<string>
+		private class CheckBoxOptionList : OptionList
 		{
-			private readonly IList<string> options;
-			private readonly CheckBoxList owner;
+			private readonly CheckBoxList checkBoxList;
 
-			public OptionsCollection(CheckBoxList owner)
+			public CheckBoxOptionList(CheckBoxList checkBoxList)
+				: base(checkBoxList.BlockDefinition.GetOptionsCollection())
 			{
-				this.owner = owner;
-				options = owner.BlockDefinition.GetOptionsCollection();
+				this.checkBoxList = checkBoxList;
 			}
 
-			public int Count => options.Count;
-
-			public bool IsReadOnly => options.IsReadOnly;
-
-			public string this[int index]
+			public override string this[int index]
 			{
-				get => options[index];
+				get => base[index];
 
 				set
 				{
-					value = value ?? String.Empty;
-					if (options.Contains(value))
-					{
-						throw new InvalidOperationException($"{nameof(CheckBoxList)} already contains option: {value}");
-					}
-
-					string option = options[index];
-					options[index] = value;
-
-					owner.Checked.Remove(option);
-					owner.Unchecked.Remove(option);
+					string replacedOption = base[index];
+					base[index] = value;
+					checkBoxList.CheckedOptions.Remove(replacedOption);
 				}
 			}
 
-			public void Add(string item)
+			public override void Clear()
 			{
-				item = item ?? String.Empty;
-				if (Contains(item))
-				{
-					throw new InvalidOperationException($"{nameof(CheckBoxList)} already contains option: {item}");
-				}
-
-				options.Add(item);
-				owner.Unchecked.Add(item);
+				base.Clear();
+				checkBoxList.CheckedOptions.Clear();
 			}
 
-			public void Clear()
+			public override bool Remove(string item)
 			{
-				options.Clear();
-				owner.Checked.Clear();
-				owner.Unchecked.Clear();
-			}
-
-			public bool Contains(string item)
-			{
-				return options.Contains(item ?? String.Empty);
-			}
-
-			public void CopyTo(string[] array, int arrayIndex)
-			{
-				options.CopyTo(array, arrayIndex);
-			}
-
-			public IEnumerator<string> GetEnumerator()
-			{
-				return options.GetEnumerator();
-			}
-
-			public bool Remove(string item)
-			{
-				item = item ?? String.Empty;
-				if (!options.Remove(item))
+				if (!base.Remove(item))
 				{
 					return false;
 				}
 
-				owner.Checked.Remove(item);
-				owner.Unchecked.Remove(item);
-
+				checkBoxList.CheckedOptions.Remove(item);
 				return true;
 			}
 
-			IEnumerator IEnumerable.GetEnumerator()
+			public override void RemoveAt(int index)
 			{
-				return ((IEnumerable)options).GetEnumerator();
+				checkBoxList.CheckedOptions.Remove(this[index]);
+				base.RemoveAt(index);
 			}
+		}
+	}
 
-			public int IndexOf(string item)
+	/// <summary>
+	///     Collection of checked options in a <see cref="CheckBoxList" />.
+	/// </summary>
+	public class CheckedOptionCollection : ICollection<string>, IReadOnlyCollection<string>
+	{
+		private readonly HashSet<string> @checked = new HashSet<string>();
+		private readonly CheckBoxList checkBoxList;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CheckedOptionCollection"/> class.
+		/// </summary>
+		/// <param name="checkBoxList">The checkbox list widget for this collection.</param>
+		public CheckedOptionCollection(CheckBoxList checkBoxList) => this.checkBoxList = checkBoxList;
+
+		/// <inheritdoc cref="ICollection{T}.Count" />
+		public int Count => @checked.Count;
+
+		/// <inheritdoc/>
+		public bool IsReadOnly => ((ICollection<string>)@checked).IsReadOnly;
+
+		/// <inheritdoc/>
+		public void Add(string item)
+		{
+			if (checkBoxList.Options.Contains(item) && @checked.Add(item))
 			{
-				return options.IndexOf(item ?? String.Empty);
-			}
-
-			public void Insert(int index, string item)
-			{
-				item = item ?? String.Empty;
-
-				if (!options.Contains(item))
-				{
-					throw new InvalidOperationException($"{nameof(CheckBoxList)} already contains option: {item}");
-				}
-
-				options.Insert(index, item);
-				owner.Unchecked.Add(item);
-			}
-
-			public void RemoveAt(int index)
-			{
-				string option = options[index];
-				options.RemoveAt(index);
-				owner.Checked.Remove(option);
-				owner.Unchecked.Remove(option);
+				checkBoxList.BlockDefinition.InitialValue = String.Join(";", @checked);
 			}
 		}
 
-		private class CheckedCollection : ICollection<string>, IReadOnlyCollection<string>
+		/// <summary>
+		/// 	Adds the elements of the specified collection to the end of the <see cref="CheckedOptionCollection"/>.
+		/// </summary>
+		/// <param name="items">The collection whose elements should be added to the end of the <see cref="CheckedOptionCollection"/>.</param>
+		/// <exception cref="ArgumentNullException">When <paramref name="items"/> is <c>null</c>.</exception>
+		public void AddRange(IEnumerable<string> items)
 		{
-			private readonly HashSet<string> @checked = new HashSet<string>();
-			private readonly CheckBoxList owner;
-
-			public CheckedCollection(CheckBoxList owner) => this.owner = owner;
-
-			public int Count => @checked.Count;
-
-			public bool IsReadOnly => ((ICollection<string>)@checked).IsReadOnly;
-
-			public void Add(string item)
+			if (items == null)
 			{
-				item = item ?? String.Empty;
-				if (!owner.Options.Contains(item))
-				{
-					return;
-				}
-
-				if (!@checked.Add(item))
-				{
-					return;
-				}
-
-				owner.Unchecked.Remove(item);
-				owner.BlockDefinition.InitialValue = String.Join(";", @checked);
+				throw new ArgumentNullException(nameof(items));
 			}
 
-			public void Clear()
+			foreach (string item in items)
 			{
-				@checked.Clear();
-				foreach (string option in owner.Options)
-				{
-					owner.Unchecked.Add(option);
-				}
-
-				owner.BlockDefinition.InitialValue = String.Empty;
-			}
-
-			public bool Contains(string item)
-			{
-				return @checked.Contains(item ?? String.Empty);
-			}
-
-			public void CopyTo(string[] array, int arrayIndex)
-			{
-				@checked.CopyTo(array, arrayIndex);
-			}
-
-			public IEnumerator<string> GetEnumerator()
-			{
-				return @checked.GetEnumerator();
-			}
-
-			public bool Remove(string item)
-			{
-				item = item ?? String.Empty;
-				if (!@checked.Remove(item))
-				{
-					return false;
-				}
-
-				owner.BlockDefinition.InitialValue = String.Join(";", @checked);
-
-				return true;
-			}
-
-			IEnumerator IEnumerable.GetEnumerator()
-			{
-				return ((IEnumerable)@checked).GetEnumerator();
+				Add(item);
 			}
 		}
 
-		private class UnCheckedCollection : ICollection<string>, IReadOnlyCollection<string>
+		/// <inheritdoc/>
+		public void Clear()
 		{
-			private readonly CheckBoxList owner;
-			private readonly HashSet<string> @unchecked = new HashSet<string>();
+			@checked.Clear();
+			checkBoxList.BlockDefinition.InitialValue = String.Empty;
+		}
 
-			public UnCheckedCollection(CheckBoxList owner) => this.owner = owner;
+		/// <inheritdoc/>
+		public bool Contains(string item)
+		{
+			return @checked.Contains(item);
+		}
 
-			public int Count => @unchecked.Count;
+		/// <inheritdoc/>
+		public void CopyTo(string[] array, int arrayIndex)
+		{
+			@checked.CopyTo(array, arrayIndex);
+		}
 
-			public bool IsReadOnly => ((ICollection<string>)@unchecked).IsReadOnly;
+		/// <inheritdoc/>
+		public IEnumerator<string> GetEnumerator()
+		{
+			return @checked.GetEnumerator();
+		}
 
-			public void Add(string item)
+		/// <inheritdoc/>
+		public bool Remove(string item)
+		{
+			if (@checked.Remove(item))
 			{
-				item = item ?? String.Empty;
-				if (!owner.Options.Contains(item))
-				{
-					return;
-				}
-
-				if (!@unchecked.Add(item))
-				{
-					return;
-				}
-
-				owner.Checked.Remove(item);
-			}
-
-			public void Clear()
-			{
-				@unchecked.Clear();
-				foreach (string option in owner.Options)
-				{
-					owner.Checked.Add(option);
-				}
-			}
-
-			public bool Contains(string item)
-			{
-				return @unchecked.Contains(item ?? String.Empty);
-			}
-
-			public void CopyTo(string[] array, int arrayIndex)
-			{
-				@unchecked.CopyTo(array, arrayIndex);
-			}
-
-			public IEnumerator<string> GetEnumerator()
-			{
-				return @unchecked.GetEnumerator();
-			}
-
-			public bool Remove(string item)
-			{
-				item = item ?? String.Empty;
-				if (!@unchecked.Remove(item))
-				{
-					return false;
-				}
-
-				owner.Checked.Add(item);
-
+				checkBoxList.BlockDefinition.InitialValue = String.Join(";", @checked);
 				return true;
 			}
 
-			IEnumerator IEnumerable.GetEnumerator()
-			{
-				return ((IEnumerable)@unchecked).GetEnumerator();
-			}
+			return false;
+		}
+
+		/// <inheritdoc/>
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return ((IEnumerable)@checked).GetEnumerator();
 		}
 	}
 }

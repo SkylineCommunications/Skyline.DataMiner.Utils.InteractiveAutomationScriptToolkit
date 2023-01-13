@@ -10,7 +10,7 @@
 	public class DropDown<T> : InteractiveWidget, IDropDown<T>
 	{
 		private readonly Validation validation;
-		private readonly DropdownOptionsList<T> dropdownOptionsList;
+		private readonly DropdownOptionList<T> dropdownOptionList;
 		private bool changed;
 		private string previous;
 
@@ -36,7 +36,7 @@
 
 			Type = UIBlockType.DropDown;
 			validation = new Validation(this);
-			dropdownOptionsList = new DropdownOptionsList<T>(this);
+			dropdownOptionList = new DropdownOptionList<T>(this);
 
 			Options.AddRange(options);
 		}
@@ -63,7 +63,12 @@
 		private event EventHandler<ChangedEventArgs> OnChanged;
 
 		/// <inheritdoc />
-		public IOptionsList<T> Options => dropdownOptionsList;
+		IList<Option<T>> IDropDown<T>.Options => dropdownOptionList;
+
+		/// <summary>
+		/// 	Gets the possible options.
+		/// </summary>
+		public OptionList<T> Options => dropdownOptionList;
 
 		/// <inheritdoc />
 		public bool IsDisplayFilterShown
@@ -86,7 +91,7 @@
 
 			set
 			{
-				if (!dropdownOptionsList.Contains(value))
+				if (!dropdownOptionList.Contains(value))
 				{
 					return;
 				}
@@ -128,19 +133,19 @@
 		{
 			get
 			{
-				int index = dropdownOptionsList.IndexOfName(SelectedName);
-				return index == -1 ? default : dropdownOptionsList[index].Value;
+				int index = dropdownOptionList.IndexOfName(SelectedName);
+				return index == -1 ? default : dropdownOptionList[index].Value;
 			}
 
 			set
 			{
-				int index = dropdownOptionsList.IndexOfValue(value);
+				int index = dropdownOptionList.IndexOfValue(value);
 				if (index == -1)
 				{
 					return;
 				}
 
-				SelectedName = dropdownOptionsList[index].Name;
+				SelectedName = dropdownOptionList[index].Name;
 			}
 		}
 
@@ -193,11 +198,11 @@
 		{
 			if (changed && OnChanged != null)
 			{
-				int index = dropdownOptionsList.IndexOfName(previous);
+				int index = dropdownOptionList.IndexOfName(previous);
 				Option<T> previousOption = default;
 				if (index != -1)
 				{
-					previousOption = dropdownOptionsList[index];
+					previousOption = dropdownOptionList[index];
 				}
 
 				OnChanged(this, new ChangedEventArgs(Selected, previousOption));
@@ -235,15 +240,15 @@
 	}
 
 	/// <inheritdoc />
-	internal class DropdownOptionsList<T> : OptionsList<T>
+	internal class DropdownOptionList<T> : OptionList<T>
 	{
 		private readonly IDropDown<T> dropDown;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="DropdownOptionsList{T}"/> class.
+		/// Initializes a new instance of the <see cref="DropdownOptionList{T}"/> class.
 		/// </summary>
 		/// <param name="dropDown">The dropdown widget for this collection.</param>
-		public DropdownOptionsList(IDropDown<T> dropDown) :
+		public DropdownOptionList(IDropDown<T> dropDown) :
 			base(dropDown.BlockDefinition.GetOptionsCollection()) => this.dropDown = dropDown;
 
 		/// <inheritdoc/>

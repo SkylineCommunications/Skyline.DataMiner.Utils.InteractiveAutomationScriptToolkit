@@ -10,7 +10,7 @@
 	public class RadioButtonList<T> : InteractiveWidget, IRadioButtonList<T>
 	{
 		private readonly Validation validation;
-		private readonly RadioButtonOptionsList<T> optionsCollection;
+		private readonly RadioButtonOptionList<T> optionCollection;
 		private bool changed;
 		private string previous;
 
@@ -35,9 +35,9 @@
 
 			Type = UIBlockType.RadioButtonList;
 			validation = new Validation(this);
-			optionsCollection = new RadioButtonOptionsList<T>(this);
+			optionCollection = new RadioButtonOptionList<T>(this);
 
-			optionsCollection.AddRange(options);
+			optionCollection.AddRange(options);
 		}
 
 		/// <inheritdoc />
@@ -62,7 +62,12 @@
 		private event EventHandler<ChangedEventArgs> OnChanged;
 
 		/// <inheritdoc />
-		public IOptionsList<T> Options => optionsCollection;
+		IList<Option<T>> IRadioButtonList<T>.Options => optionCollection;
+
+		/// <summary>
+		/// 	Gets all options.
+		/// </summary>
+		public OptionList<T> Options => optionCollection;
 
 		/// <inheritdoc />
 		public bool IsSorted
@@ -74,7 +79,7 @@
 		/// <inheritdoc/>
 		public Option<T> Selected
 		{
-			get => SelectedName == null ? default : optionsCollection[optionsCollection.IndexOfName(SelectedName)];
+			get => SelectedName == null ? default : optionCollection[optionCollection.IndexOfName(SelectedName)];
 
 			set
 			{
@@ -84,7 +89,7 @@
 					return;
 				}
 
-				if (optionsCollection.Contains(value))
+				if (optionCollection.Contains(value))
 				{
 					SelectedName = value.Name;
 				}
@@ -116,16 +121,16 @@
 		{
 			get
 			{
-				int index = optionsCollection.IndexOfName(SelectedName);
-				return index == -1 ? default : optionsCollection[index].Value;
+				int index = optionCollection.IndexOfName(SelectedName);
+				return index == -1 ? default : optionCollection[index].Value;
 			}
 
 			set
 			{
-				int index = optionsCollection.IndexOfValue(value);
+				int index = optionCollection.IndexOfValue(value);
 				if (index != -1)
 				{
-					SelectedName = optionsCollection[index].Name;
+					SelectedName = optionCollection[index].Name;
 					return;
 				}
 
@@ -186,11 +191,11 @@
 		{
 			if (changed && OnChanged != null)
 			{
-				int index = optionsCollection.IndexOfName(previous);
+				int index = optionCollection.IndexOfName(previous);
 				Option<T> previousOption = default;
 				if (index != -1)
 				{
-					previousOption = optionsCollection[index];
+					previousOption = optionCollection[index];
 				}
 
 				OnChanged(this, new ChangedEventArgs(Selected, previousOption));
@@ -228,15 +233,15 @@
 	}
 
 	/// <inheritdoc />
-	internal class RadioButtonOptionsList<T> : OptionsList<T>
+	internal class RadioButtonOptionList<T> : OptionList<T>
 	{
 		private readonly IRadioButtonList<T> radioButtonList;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="RadioButtonOptionsList{T}"/> class.
+		/// Initializes a new instance of the <see cref="RadioButtonOptionList{T}"/> class.
 		/// </summary>
 		/// <param name="radioButtonList">The radio button list widget for this collection.</param>
-		public RadioButtonOptionsList(IRadioButtonList<T> radioButtonList) :
+		public RadioButtonOptionList(IRadioButtonList<T> radioButtonList) :
 			base(radioButtonList.BlockDefinition.GetOptionsCollection()) => this.radioButtonList = radioButtonList;
 
 		/// <inheritdoc/>

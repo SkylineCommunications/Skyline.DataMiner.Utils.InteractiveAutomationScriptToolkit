@@ -1,7 +1,6 @@
 ﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 {
 	using System;
-	using System.Collections;
 	using System.Collections.Generic;
 	using System.Linq;
 
@@ -42,7 +41,7 @@
 			optionsCollection = new CheckBoxListCollection<T>(this);
 			optionsCollection.AddRange(options);
 
-			CheckedOptions = new CheckedOptionCollection<T>(optionsCollection);
+			CheckedOptions = new CheckedOptionCollection<T>(this);
 		}
 
 		/// <inheritdoc />
@@ -67,10 +66,20 @@
 		private event EventHandler<ChangedEventArgs> OnChanged;
 
 		/// <inheritdoc />
-		public ICheckedOptionCollection<T> CheckedOptions { get; }
+		ICollection<Option<T>> ICheckBoxList<T>.CheckedOptions => CheckedOptions;
+
+		/// <summary>
+		/// 	Gets all checked options.
+		/// </summary>
+		public CheckedOptionCollection<T> CheckedOptions { get; }
 
 		/// <inheritdoc />
-		public IOptionsList<T> Options => optionsCollection;
+		IList<Option<T>> ICheckBoxList<T>.Options => optionsCollection;
+
+		/// <summary>
+		/// 	Gets all options.
+		/// </summary>
+		public OptionList<T> Options => optionsCollection;
 
 		/// <inheritdoc />
 		public bool IsSorted
@@ -181,7 +190,7 @@
 	}
 
 	/// <inheritdoc />
-	internal class CheckBoxListCollection<T> : OptionsList<T>
+	internal class CheckBoxListCollection<T> : OptionList<T>
 	{
 		private readonly ICheckBoxList<T> checkBoxList;
 

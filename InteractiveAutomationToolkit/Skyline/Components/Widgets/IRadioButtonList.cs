@@ -42,6 +42,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 		/// </summary>
 		/// <param name="option">Option to add.</param>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
+		[Obsolete("Call Options.Add instead.")]
 		void AddOption(string option);
 
 		/// <summary>
@@ -52,7 +53,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 		///     <see cref="RadioButtonList.Selected" /> will be set to <c>null</c>.
 		/// </remarks>
 		/// <param name="option">Option to remove.</param>
-		/// <exception cref="ArgumentNullException">When option is null.</exception>
+		[Obsolete("Call Options.Remove instead.")]
 		void RemoveOption(string option);
 
 		/// <summary>

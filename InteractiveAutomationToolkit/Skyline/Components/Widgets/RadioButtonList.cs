@@ -1,7 +1,6 @@
 ﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 {
 	using System;
-	using System.Collections;
 	using System.Collections.Generic;
 	using System.Linq;
 
@@ -12,7 +11,7 @@
 	/// </summary>
 	public class RadioButtonList : InteractiveWidget, IRadioButtonList
 	{
-		private readonly OptionsCollection optionsCollection;
+		private readonly RadioButtonOptionList options;
 		private bool changed;
 		private string previous;
 
@@ -37,7 +36,7 @@
 			}
 
 			Type = UIBlockType.RadioButtonList;
-			optionsCollection = new OptionsCollection(this);
+			this.options = new RadioButtonOptionList(this);
 
 			SetOptions(options);
 
@@ -66,7 +65,12 @@
 		private event EventHandler<ChangedEventArgs> OnChanged;
 
 		/// <inheritdoc />
-		public IList<string> Options => optionsCollection;
+		IList<string> IRadioButtonList.Options => options;
+
+		/// <summary>
+		/// Gets all options.
+		/// </summary>
+		public OptionList Options => options;
 
 		/// <inheritdoc />
 		public bool IsSorted
@@ -103,6 +107,7 @@
 		}
 
 		/// <inheritdoc />
+		[Obsolete("Call Options.Add instead.")]
 		public void AddOption(string option)
 		{
 			if (option == null)
@@ -114,13 +119,9 @@
 		}
 
 		/// <inheritdoc />
+		[Obsolete("Call Options.Remove instead.")]
 		public void RemoveOption(string option)
 		{
-			if (option == null)
-			{
-				throw new ArgumentNullException(nameof(option));
-			}
-
 			Options.Remove(option);
 		}
 
@@ -203,136 +204,60 @@
 			public string SelectedValue { get; }
 		}
 
-		private class OptionsCollection : IList<string>, IReadOnlyList<string>
+		private class RadioButtonOptionList : OptionList
 		{
-			private readonly IList<string> options;
-			private readonly RadioButtonList owner;
+			private readonly RadioButtonList radioButtonList;
 
-			public OptionsCollection(RadioButtonList owner)
+			public RadioButtonOptionList(RadioButtonList radioButtonList)
+				: base(radioButtonList.BlockDefinition.GetOptionsCollection())
 			{
-				this.owner = owner;
-				options = owner.BlockDefinition.GetOptionsCollection();
+				this.radioButtonList = radioButtonList;
 			}
 
-			public int Count => options.Count;
-
-			public bool IsReadOnly => options.IsReadOnly;
-
-			public string this[int index]
+			public override string this[int index]
 			{
-				get => options[index];
+				get => base[index];
 
 				set
 				{
-					if (options.Contains(value))
-					{
-						throw new InvalidOperationException(
-							$"{nameof(RadioButtonList)} already contains option: {value}");
-					}
+					string replacedOption = base[index];
+					base[index] = value;
 
-					string option = options[index];
-					options[index] = value;
-
-					if (owner.Selected == option)
+					if (radioButtonList.Selected == replacedOption)
 					{
-						owner.Selected = this.FirstOrDefault();
-					}
-
-					if (owner.Selected == null)
-					{
-						owner.Selected = value;
+						radioButtonList.Selected = value;
 					}
 				}
 			}
 
-			public void Add(string item)
+			public override void Clear()
 			{
-				if (item == null)
-				{
-					throw new ArgumentNullException(nameof(item));
-				}
-
-				if (options.Contains(item))
-				{
-					throw new InvalidOperationException($"{nameof(DropDown)} already contains option: {item}");
-				}
-
-				options.Add(item);
+				base.Clear();
+				radioButtonList.Selected = null;
 			}
 
-			public void Clear()
+			public override bool Remove(string item)
 			{
-				options.Clear();
-				owner.Selected = null;
-			}
-
-			public bool Contains(string item)
-			{
-				return options.Contains(item);
-			}
-
-			public void CopyTo(string[] array, int arrayIndex)
-			{
-				options.CopyTo(array, arrayIndex);
-			}
-
-			public IEnumerator<string> GetEnumerator()
-			{
-				return options.GetEnumerator();
-			}
-
-			public bool Remove(string item)
-			{
-				if (!options.Remove(item))
+				if (!base.Remove(item))
 				{
 					return false;
 				}
 
-				if (owner.Selected == item)
+				if (radioButtonList.Selected == item)
 				{
-					owner.Selected = null;
+					radioButtonList.Selected = null;
 				}
 
 				return true;
 			}
 
-			IEnumerator IEnumerable.GetEnumerator()
+			public override void RemoveAt(int index)
 			{
-				return ((IEnumerable)options).GetEnumerator();
-			}
-
-			public int IndexOf(string item)
-			{
-				return options.IndexOf(item);
-			}
-
-			public void Insert(int index, string item)
-			{
-				if (item == null)
+				string removedOption = this[index];
+				base.RemoveAt(index);
+				if (radioButtonList.Selected == removedOption)
 				{
-					throw new ArgumentNullException(nameof(item));
-				}
-
-				if (options.Contains(item))
-				{
-					throw new InvalidOperationException($"{nameof(RadioButtonList)} already contains option: {item}");
-				}
-
-				options.Insert(index, item);
-
-				if (owner.Selected == null)
-				{
-					owner.Selected = item;
-				}
-			}
-
-			public void RemoveAt(int index)
-			{
-				string option = options[index];
-				options.RemoveAt(index);
-				if (owner.Selected == option)
-				{
-					owner.Selected = this.FirstOrDefault();
+					radioButtonList.Selected = null;
 				}
 			}
 		}

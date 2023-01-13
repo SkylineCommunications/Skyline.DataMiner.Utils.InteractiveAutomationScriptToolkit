@@ -17,17 +17,18 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 		/// <summary>
 		///     Gets all selected options.
 		/// </summary>
+		[Obsolete("Use CheckedOptions instead.")]
 		ICollection<string> Checked { get; }
+
+		/// <summary>
+		/// 	Gets all selected options.
+		/// </summary>
+		ICollection<string> CheckedOptions { get; }
 
 		/// <summary>
 		///     Gets all options.
 		/// </summary>
 		IList<string> Options { get; }
-
-		/// <summary>
-		///     Gets all options that are not selected.
-		/// </summary>
-		ICollection<string> Unchecked { get; }
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the options are sorted naturally.
@@ -44,6 +45,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 		///     Adds an option to the checkbox list.
 		/// </summary>
 		/// <param name="option">Option to add.</param>
+		[Obsolete("Call Options.Add instead.")]
 		void AddOption(string option);
 
 		/// <summary>
@@ -62,6 +64,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 		///     Removes an option from the checkbox list.
 		/// </summary>
 		/// <param name="option">Option to remove.</param>
+		[Obsolete("Call Options.Remove instead.")]
 		void RemoveOption(string option);
 
 		/// <summary>

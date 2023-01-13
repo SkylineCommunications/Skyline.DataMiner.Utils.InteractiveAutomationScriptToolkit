@@ -1,6 +1,7 @@
 namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 {
 	using System;
+	using System.Collections.Generic;
 
 	/// <summary>
 	///     Represents a drop-down list.
@@ -17,7 +18,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 		/// <summary>
 		///     Gets  the possible options.
 		/// </summary>
-		IOptionsList<T> Options { get; }
+		IList<Option<T>> Options { get; }
 
 		/// <summary>
 		///     Gets or sets a value indicating whether a filter box is available for the drop-down list.

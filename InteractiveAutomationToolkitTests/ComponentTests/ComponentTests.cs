@@ -66,7 +66,7 @@
 			dropDown2.SetOptions(options);
 			Assert.AreEqual("option1", dropDown2.Selected);
 
-			dropDown1.RemoveOption("option1");
+			dropDown1.Options.Remove("option1");
 			Assert.AreNotEqual("option1", dropDown1.Selected);
 
 			dropDown1.SetOptions(options);
@@ -81,7 +81,7 @@
 			{
 				string[] options = { "option 1", "option 2", "option 3" };
 				var dropDown = new DropDown();
-				dropDown.RemoveOption(options.First());
+				dropDown.Options.Remove(options.First());
 
 				dropDown.SetOptions(new[] { "option 4", "option 5", "option 6" });
 			}

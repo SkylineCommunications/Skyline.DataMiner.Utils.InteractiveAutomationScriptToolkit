@@ -1,6 +1,7 @@
 namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 {
 	using System;
+	using System.Collections.Generic;
 
 	/// <summary>
 	///     Represents a group of radio buttons.
@@ -17,7 +18,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 		/// <summary>
 		///     Gets all options.
 		/// </summary>
-		IOptionsList<T> Options { get; }
+		IList<Option<T>> Options { get; }
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the options are sorted naturally.

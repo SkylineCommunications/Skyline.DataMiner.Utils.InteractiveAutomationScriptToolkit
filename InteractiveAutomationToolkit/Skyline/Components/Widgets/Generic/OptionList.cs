@@ -7,17 +7,20 @@
 
 	using Skyline.DataMiner.Automation;
 
-	/// <inheritdoc cref="IOptionsList{T}" />
-	internal class OptionsList<T> : IOptionsList<T>
+	/// <summary>
+	/// Represents a unique collection of option objects.
+	/// </summary>
+	/// <typeparam name="T">The type of the values of the options.</typeparam>
+	public class OptionList<T> : IList<Option<T>>, IReadOnlyList<Option<T>>
 	{
 		private readonly IList<string> names;
 		private readonly IList<T> values = new List<T>();
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OptionsList{T}"/> class.
+		/// Initializes a new instance of the <see cref="OptionList{T}"/> class.
 		/// </summary>
 		/// <param name="widgetOptionsCollection">The options list from the widget's <see cref="UIBlockDefinition"/>.</param>
-		public OptionsList(IList<string> widgetOptionsCollection) => names = widgetOptionsCollection;
+		public OptionList(IList<string> widgetOptionsCollection) => names = widgetOptionsCollection;
 
 		/// <inheritdoc cref="ICollection{T}.Count" />
 		public int Count => names.Count;
@@ -40,7 +43,11 @@
 			}
 		}
 
-		/// <inheritdoc/>
+		/// <summary>
+		/// 	Adds an option to the <see cref="OptionList{T}"/>with the specified name and value.
+		/// </summary>
+		/// <param name="name">The name associated with the value.</param>
+		/// <param name="value">The value in the name/value pair.</param>
 		/// <exception cref="InvalidOperationException">
 		/// if <paramref name="name"/> or <paramref name="value"/> is not unique.
 		/// </exception>
@@ -65,10 +72,15 @@
 		{
 			ThrowIfNameNull(item);
 
+			// ReSharper disable once PossibleNullReferenceException
+			// Check is performed in method above
 			Add(item.Name, item.Value);
 		}
 
-		/// <inheritdoc/>
+		/// <summary>
+		/// Adds the options of the specified collection to the end of the <see cref="OptionList{T}"/>.
+		/// </summary>
+		/// <param name="options">The collection whose options of the specified collection to the end of the <see cref="OptionList{T}"/>.</param>
 		public void AddRange(IEnumerable<Option<T>> options)
 		{
 			if (options == null)
@@ -89,13 +101,21 @@
 			values.Clear();
 		}
 
-		/// <inheritdoc cref="IOptionsList{T}.ContainsName" />
+		/// <summary>
+		/// 	Determines whether an option with the specified name is in the <see cref="OptionList{T}"/>.
+		/// </summary>
+		/// <param name="name">The name to locate int the <see cref="OptionList{T}"/>.</param>
+		/// <returns><c>true</c> if <paramref name="name"/> is found in the <see cref="OptionList{T}"/>; otherwise, <c>false</c>.</returns>
 		public bool ContainsName(string name)
 		{
 			return names.Contains(name);
 		}
 
-		/// <inheritdoc cref="IOptionsList{T}.ContainsValue" />
+		/// <summary>
+		/// 	Determines whether an option with the specified value is in the <see cref="OptionList{T}"/>.
+		/// </summary>
+		/// <param name="value">The value to locate int the <see cref="OptionList{T}"/>.</param>
+		/// <returns><c>true</c> if <paramref name="value"/> is found in the <see cref="OptionList{T}"/>; otherwise, <c>false</c>.</returns>
 		public bool ContainsValue(T value)
 		{
 			return values.Contains(value);
@@ -136,13 +156,21 @@
 			return GetEnumerator();
 		}
 
-		/// <inheritdoc cref="IOptionsList{T}.IndexOfName" />
+		/// <summary>
+		/// 	Searches for the specified name and returns the zero-based index of the first occurrence within the entire <see cref="OptionList{T}"/>.
+		/// </summary>
+		/// <param name="name">The name to locate in the <see cref="OptionList{T}"/>.</param>
+		/// <returns>the zero-based index of the first occurrence within the entire <see cref="OptionList{T}"/>, if found; otherwise -1.</returns>
 		public int IndexOfName(string name)
 		{
 			return names.IndexOf(name);
 		}
 
-		/// <inheritdoc cref="IOptionsList{T}.IndexOfValue" />
+		/// <summary>
+		/// 	Searches for the specified value and returns the zero-based index of the first occurrence within the entire <see cref="OptionList{T}"/>.
+		/// </summary>
+		/// <param name="value">The value to locate in the <see cref="OptionList{T}"/>.</param>
+		/// <returns>the zero-based index of the first occurrence within the entire <see cref="OptionList{T}"/>, if found; otherwise -1.</returns>
 		public int IndexOfValue(T value)
 		{
 			return values.IndexOf(value);
@@ -162,7 +190,12 @@
 			return indexOfName == indexOfValue ? indexOfName : -1;
 		}
 
-		/// <inheritdoc/>
+		/// <summary>
+		/// 	Inserts an option with the specified name and value to the <see cref="OptionList{T}"/> at the specified index.
+		/// </summary>
+		/// <param name="index">The zero-based index at which the option should be inserted.</param>
+		/// <param name="name">The name associated with the value.</param>
+		/// <param name="value">The value in the name/value pair.</param>
 		public virtual void Insert(int index, string name, T value)
 		{
 			if (name == null)
@@ -194,7 +227,11 @@
 			values.RemoveAt(index);
 		}
 
-		/// <inheritdoc/>
+		/// <summary>
+		/// 	Removes the first occurrence of an option with specified name from the <see cref="OptionList{T}"/>.
+		/// </summary>
+		/// <param name="name">The option with the specified name to remove from the <see cref="OptionList{T}"/>.</param>
+		/// <returns><c>true</c> if the option is successfully removed; otherwise, <c>false</c>. This method also returns <c>false</c> if the option was not found.</returns>
 		public bool RemoveName(string name)
 		{
 			int index = names.IndexOf(name);
@@ -208,7 +245,11 @@
 			return true;
 		}
 
-		/// <inheritdoc/>
+		/// <summary>
+		/// 	Removes the first occurrence of an option with specified value from the <see cref="OptionList{T}"/>.
+		/// </summary>
+		/// <param name="value">The option with the specified value to remove from the <see cref="OptionList{T}"/>.</param>
+		/// <returns><c>true</c> if the option is successfully removed; otherwise, <c>false</c>. This method also returns <c>false</c> if the option was not found.</returns>
 		public bool RemoveValue(T value)
 		{
 			int index = values.IndexOf(value);
@@ -258,12 +299,12 @@
 		{
 			if (name != replaced.Name && names.Contains(name))
 			{
-				throw new InvalidOperationException($"Collection already contains name: {name}");
+				throw new ArgumentException($"Collection already contains name: {name}");
 			}
 
 			if (!EqualityComparer<T>.Default.Equals(value, replaced.Value) && values.Contains(value))
 			{
-				throw new InvalidOperationException($"Collection already contains value: {value}");
+				throw new ArgumentException($"Collection already contains value: {value}");
 			}
 		}
 
@@ -271,12 +312,12 @@
 		{
 			if (names.Contains(name))
 			{
-				throw new InvalidOperationException($"Collection already contains name: {name}");
+				throw new ArgumentException($"Collection already contains name: {name}");
 			}
 
 			if (values.Contains(value))
 			{
-				throw new InvalidOperationException($"Collection already contains value: {value}");
+				throw new ArgumentException($"Collection already contains value: {value}");
 			}
 		}
 	}

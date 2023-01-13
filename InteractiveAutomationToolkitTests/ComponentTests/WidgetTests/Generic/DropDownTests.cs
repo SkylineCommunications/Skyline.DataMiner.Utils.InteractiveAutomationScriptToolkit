@@ -115,7 +115,7 @@
 			var dropDown = new DropDown<int>(new[] { Option.Create("foo", 1) });
 
 			// Act & Assert
-			Invoking(() => dropDown.Options.Add("foo", 2)).Should().Throw<InvalidOperationException>();
+			Invoking(() => dropDown.Options.Add("foo", 2)).Should().Throw<ArgumentException>();
 		}
 
 		[TestMethod]
@@ -125,7 +125,7 @@
 			var dropDown = new DropDown<int>(new[] { Option.Create("foo", 1) });
 
 			// Act & Assert
-			Invoking(() => dropDown.Options.Add("bar", 1)).Should().Throw<InvalidOperationException>();
+			Invoking(() => dropDown.Options.Add("bar", 1)).Should().Throw<ArgumentException>();
 		}
 
 		[TestMethod]

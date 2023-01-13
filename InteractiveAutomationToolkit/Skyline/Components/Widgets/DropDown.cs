@@ -1,7 +1,6 @@
 ﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 {
 	using System;
-	using System.Collections;
 	using System.Collections.Generic;
 	using System.Linq;
 
@@ -13,7 +12,7 @@
 	public class DropDown : InteractiveWidget, IDropDown
 	{
 		private readonly Validation validation;
-		private readonly OptionsCollection optionsCollection;
+		private readonly DropDownOptionCollection optionCollection;
 		private bool changed;
 		private string previous;
 
@@ -40,7 +39,7 @@
 
 			Type = UIBlockType.DropDown;
 			validation = new Validation(this);
-			optionsCollection = new OptionsCollection(this);
+			optionCollection = new DropDownOptionCollection(this);
 
 			SetOptions(options);
 
@@ -69,7 +68,12 @@
 		private event EventHandler<ChangedEventArgs> OnChanged;
 
 		/// <inheritdoc />
-		public IList<string> Options => optionsCollection;
+		IList<string> IDropDown.Options => optionCollection;
+
+		/// <summary>
+		///     Gets  the possible options.
+		/// </summary>
+		public OptionList Options => optionCollection;
 
 		/// <inheritdoc />
 		public bool IsDisplayFilterShown
@@ -93,9 +97,9 @@
 			set
 			{
 				// Prevent setting a value that is not part of the options
-				if (Options.Contains(value ?? String.Empty))
+				if (Options.Contains(value))
 				{
-					BlockDefinition.InitialValue = value ?? String.Empty;
+					BlockDefinition.InitialValue = value;
 				}
 			}
 		}
@@ -122,6 +126,7 @@
 		}
 
 		/// <inheritdoc />
+		[Obsolete("Call Options.Add instead.")]
 		public void AddOption(string option)
 		{
 			Options.Add(option ?? String.Empty);
@@ -130,13 +135,14 @@
 		/// <inheritdoc />
 		public void ForceSelected(string selected)
 		{
-			BlockDefinition.InitialValue = selected ?? String.Empty;
+			BlockDefinition.InitialValue = selected;
 		}
 
 		/// <inheritdoc />
+		[Obsolete("Call Options.Remove instead.")]
 		public void RemoveOption(string option)
 		{
-			Options.Remove(option ?? String.Empty);
+			Options.Remove(option);
 		}
 
 		/// <inheritdoc />
@@ -152,7 +158,7 @@
 			Options.Clear();
 			foreach (string option in optionsToSet)
 			{
-				Options.Add(option ?? String.Empty);
+				Options.Add(option);
 			}
 
 			Selected = copyOfSelected;
@@ -211,146 +217,93 @@
 			public string Selected { get; }
 		}
 
-		private class OptionsCollection : IList<string>, IReadOnlyList<string>
+		private class DropDownOptionCollection : OptionList
 		{
-			private readonly IList<string> options;
-			private readonly DropDown owner;
+			private readonly DropDown dropDown;
 
-			public OptionsCollection(DropDown owner)
+			public DropDownOptionCollection(DropDown dropDown) : base(dropDown.BlockDefinition.GetOptionsCollection())
 			{
-				this.owner = owner;
-				options = owner.BlockDefinition.GetOptionsCollection();
+				this.dropDown = dropDown;
 			}
 
-			public int Count => options.Count;
-
-			public bool IsReadOnly => options.IsReadOnly;
-
-			public string this[int index]
+			public override string this[int index]
 			{
-				get => options[index];
+				get => base[index];
 
 				set
 				{
-					value = value ?? String.Empty;
-					if (options.Contains(value))
-					{
-						throw new InvalidOperationException($"{nameof(DropDown)} already contains option: {value}");
-					}
+					string replacedOption = base[index];
+					base[index] = value;
 
-					string option = options[index];
-					options[index] = value;
-
-					if (owner.Selected == option)
+					if (dropDown.Selected == replacedOption)
 					{
-						owner.Selected = this.FirstOrDefault();
+						dropDown.BlockDefinition.InitialValue = value;
 					}
 
 					// Cube will select the first option even if UIBlockDefinition.InitialValue is null.
 					// But I believe this behavior should be reflected by the Selected property.
 					// Selected should never be null if options is not empty.
-					if (owner.Selected == null)
+					if (dropDown.Selected == null)
 					{
-						owner.Selected = value;
+						dropDown.Selected = value;
 					}
 				}
 			}
 
-			public void Add(string item)
+			public override void Add(string item)
 			{
-				item = item ?? String.Empty;
-
-				if (options.Contains(item))
-				{
-					throw new InvalidOperationException($"{nameof(DropDown)} already contains option: {item}");
-				}
-
-				options.Add(item);
+				base.Add(item);
 
 				// Cube will select the first option even if UIBlockDefinition.InitialValue is null.
 				// But I believe this behavior should be reflected by the Selected property.
 				// Selected should never be null if options is not empty.
-				if (owner.Selected == null)
+				if (dropDown.Selected == null)
 				{
-					owner.Selected = item;
+					dropDown.Selected = item;
 				}
 			}
 
-			public void Clear()
+			public override void Clear()
 			{
-				options.Clear();
-				owner.BlockDefinition.InitialValue = null;
+				base.Clear();
+				dropDown.BlockDefinition.InitialValue = null;
 			}
 
-			public bool Contains(string item)
+			public override void Insert(int index, string item)
 			{
-				return options.Contains(item ?? String.Empty);
+				base.Insert(index, item);
+
+				// Cube will select the first option even if UIBlockDefinition.InitialValue is null.
+				// But I believe this behavior should be reflected by the Selected property.
+				// Selected should never be null if options is not empty.
+				if (dropDown.Selected == null)
+				{
+					dropDown.Selected = item;
+				}
 			}
 
-			public void CopyTo(string[] array, int arrayIndex)
+			public override bool Remove(string item)
 			{
-				options.CopyTo(array, arrayIndex);
-			}
-
-			public IEnumerator<string> GetEnumerator()
-			{
-				return options.GetEnumerator();
-			}
-
-			public bool Remove(string item)
-			{
-				item = item ?? String.Empty;
-
-				if (!options.Remove(item))
+				if (!base.Remove(item))
 				{
 					return false;
 				}
 
-				if (owner.Selected == item)
+				if (dropDown.Selected == item)
 				{
-					owner.Selected = this.FirstOrDefault();
+					dropDown.BlockDefinition.InitialValue = this.FirstOrDefault();
 				}
 
 				return true;
 			}
 
-			IEnumerator IEnumerable.GetEnumerator()
+			public override void RemoveAt(int index)
 			{
-				return ((IEnumerable)options).GetEnumerator();
-			}
-
-			public int IndexOf(string item)
-			{
-				return options.IndexOf(item ?? String.Empty);
-			}
-
-			public void Insert(int index, string item)
-			{
-				item = item ?? String.Empty;
-
-				if (options.Contains(item))
+				string item = this[index];
+				base.RemoveAt(index);
+				if (dropDown.Selected == item)
 				{
-					throw new InvalidOperationException($"{nameof(DropDown)} already contains option: {item}");
-				}
-
-				options.Insert(index, item);
-
-				// Cube will select the first option even if UIBlockDefinition.InitialValue is null.
-				// But I believe this behavior should be reflected by the Selected property.
-				// Selected should never be null if options is not empty.
-				if (owner.Selected == null)
-				{
-					owner.Selected = item;
-				}
-			}
-
-			public void RemoveAt(int index)
-			{
-				string option = options[index];
-				options.RemoveAt(index);
-				if (owner.Selected == option)
-				{
-					owner.Selected = this.FirstOrDefault();
+					dropDown.BlockDefinition.InitialValue = this.FirstOrDefault();
 				}
 			}
 		}

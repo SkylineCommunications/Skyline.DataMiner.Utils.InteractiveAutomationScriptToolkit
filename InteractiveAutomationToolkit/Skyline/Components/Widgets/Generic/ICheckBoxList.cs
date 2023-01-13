@@ -1,6 +1,7 @@
 namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 {
 	using System;
+	using System.Collections.Generic;
 
 	/// <summary>
 	///     Represents a list of checkboxes.
@@ -17,12 +18,12 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 		/// <summary>
 		///     Gets all checked options.
 		/// </summary>
-		ICheckedOptionCollection<T> CheckedOptions { get; }
+		ICollection<Option<T>> CheckedOptions { get; }
 
 		/// <summary>
 		///     Gets all options.
 		/// </summary>
-		IOptionsList<T> Options { get; }
+		IList<Option<T>> Options { get; }
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the options are sorted naturally.

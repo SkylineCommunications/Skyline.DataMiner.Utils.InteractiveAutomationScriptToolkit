@@ -47,6 +47,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 		///     Adds an option to the drop-down list.
 		/// </summary>
 		/// <param name="option">Option to add.</param>
+		[Obsolete("Call Options.Add instead.")]
 		void AddOption(string option);
 
 		/// <summary>
@@ -66,6 +67,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 		///     <see cref="DropDown.Selected" /> will be set to the first available option.
 		///     In case this was the last option, <see cref="DropDown.Selected" /> will be set to <c>null</c>.
 		/// </remarks>
+		[Obsolete("Call Options.Remove instead.")]
 		void RemoveOption(string option);
 
 		/// <summary>

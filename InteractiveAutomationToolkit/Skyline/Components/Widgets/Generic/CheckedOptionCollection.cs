@@ -9,20 +9,20 @@
 	///     Collection of checked options in a <see cref="ICheckBoxList{T}" />.
 	/// </summary>
 	/// <typeparam name="T">The type of the value of the options.</typeparam>
-	public class CheckedOptionCollection<T> : ICheckedOptionCollection<T>
+	public class CheckedOptionCollection<T> : ICollection<Option<T>>, IReadOnlyCollection<Option<T>>
 	{
 		private readonly HashSet<Option<T>> checkedOptions = new HashSet<Option<T>>();
-		private readonly IOptionsList<T> optionsList;
+		private readonly CheckBoxList<T> checkBoxList;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="CheckedOptionCollection{T}" /> class.
 		/// </summary>
-		/// <param name="optionsList">The options list of the checkbox list.</param>
-		public CheckedOptionCollection(IOptionsList<T> optionsList)
+		/// <param name="checkBoxList">The checkbox list widget for this collection.</param>
+		public CheckedOptionCollection(CheckBoxList<T> checkBoxList)
 		{
-			this.optionsList = optionsList;
-			Names = new CheckedNameCollection<T>(this);
-			Values = new CheckedValueCollection<T>(this);
+			this.checkBoxList = checkBoxList;
+			Names = new CheckedNameCollection<T>(checkBoxList);
+			Values = new CheckedValueCollection<T>(checkBoxList);
 		}
 
 		/// <inheritdoc cref="ICollection{T}.Count" />
@@ -31,18 +31,22 @@
 		/// <inheritdoc />
 		public bool IsReadOnly => false;
 
-		/// <inheritdoc/>
-		public ICheckedNameCollection Names { get; }
+		/// <summary>
+		/// 	Gets the collection of names that have been selected in the <see cref="CheckBoxList{T}"/>.
+		/// </summary>
+		public CheckedNameCollection<T> Names { get; }
 
-		/// <inheritdoc/>
-		public ICheckedValueCollection<T> Values { get; }
+		/// <summary>
+		/// 	Gets the collection of values that have been selected in the <see cref="CheckBoxList{T}"/>.
+		/// </summary>
+		public CheckedValueCollection<T> Values { get; }
 
 		/// <inheritdoc />
 		public void Add(Option<T> item)
 		{
-			if (optionsList.Contains(item))
+			if (checkBoxList.Options.Contains(item) && checkedOptions.Add(item))
 			{
-				checkedOptions.Add(item);
+				checkBoxList.BlockDefinition.InitialValue = String.Join(";", Names);
 			}
 		}
 
@@ -67,6 +71,7 @@
 		public void Clear()
 		{
 			checkedOptions.Clear();
+			checkBoxList.BlockDefinition.InitialValue = String.Empty;
 		}
 
 		/// <inheritdoc />
@@ -90,7 +95,13 @@
 		/// <inheritdoc />
 		public bool Remove(Option<T> item)
 		{
-			return checkedOptions.Remove(item);
+			if (checkedOptions.Remove(item))
+			{
+				checkBoxList.BlockDefinition.InitialValue = String.Join(";", Names);
+				return true;
+			}
+
+			return false;
 		}
 
 		/// <inheritdoc />
@@ -99,31 +110,42 @@
 			return ((IEnumerable)checkedOptions).GetEnumerator();
 		}
 
-		private class CheckedNameCollection<TValue> : ICheckedNameCollection
+		/// <summary>
+		/// 	Represents a collection of names that have been selected in a <see cref="CheckBoxList{T}"/>.
+		/// </summary>
+		/// <typeparam name="TValue">The type of the values of the options.</typeparam>
+		public class CheckedNameCollection<TValue> : ICollection<string>, IReadOnlyCollection<string>
 		{
-			private readonly CheckedOptionCollection<TValue> @checked;
+			private readonly CheckBoxList<TValue> checkBoxList;
 
-			public CheckedNameCollection(CheckedOptionCollection<TValue> @checked) => this.@checked = @checked;
+			/// <summary>
+			/// Initializes a new instance of the <see cref="CheckedNameCollection{TValue}"/> class.
+			/// </summary>
+			/// <param name="checkBoxList">The checkbox list widget for this collection.</param>
+			public CheckedNameCollection(CheckBoxList<TValue> checkBoxList) => this.checkBoxList = checkBoxList;
+
+			/// <inheritdoc cref="ICollection{T}.Count" />
+			public int Count => checkBoxList.CheckedOptions.Count;
 
 			/// <inheritdoc/>
-			public int Count => @checked.Count;
-
-			/// <inheritdoc/>
-			public bool IsReadOnly => @checked.IsReadOnly;
+			public bool IsReadOnly => checkBoxList.CheckedOptions.IsReadOnly;
 
 			/// <inheritdoc/>
 			public void Add(string item)
 			{
-				int index = @checked.optionsList.IndexOfName(item);
+				int index = checkBoxList.Options.IndexOfName(item);
 				if (index == -1)
 				{
 					return;
 				}
 
-				@checked.checkedOptions.Add(@checked.optionsList[index]);
+				checkBoxList.CheckedOptions.Add(checkBoxList.Options[index]);
 			}
 
-			/// <inheritdoc/>
+			/// <summary>
+			/// 	Adds all options with specified names to the collection of checked options.
+			/// </summary>
+			/// <param name="names">The collections of names of options to be checked.</param>
 			public void AddRange(IEnumerable<string> names)
 			{
 				if (names == null)
@@ -133,26 +155,26 @@
 
 				foreach (string text in names)
 				{
-					int index = @checked.optionsList.IndexOfName(text);
+					int index = checkBoxList.Options.IndexOfName(text);
 					if (index == -1)
 					{
 						continue;
 					}
 
-					@checked.checkedOptions.Add(@checked.optionsList[index]);
+					checkBoxList.CheckedOptions.Add(checkBoxList.Options[index]);
 				}
 			}
 
 			/// <inheritdoc/>
 			public void Clear()
 			{
-				@checked.Clear();
+				checkBoxList.CheckedOptions.Clear();
 			}
 
 			/// <inheritdoc/>
 			public bool Contains(string item)
 			{
-				return @checked.optionsList.Any(option => option.Name == item);
+				return checkBoxList.CheckedOptions.Any(option => option.Name == item);
 			}
 
 			/// <inheritdoc/>
@@ -182,19 +204,19 @@
 			/// <inheritdoc/>
 			public IEnumerator<string> GetEnumerator()
 			{
-				return @checked.Select(option => option.Name).GetEnumerator();
+				return checkBoxList.CheckedOptions.Select(option => option.Name).GetEnumerator();
 			}
 
 			/// <inheritdoc/>
 			public bool Remove(string item)
 			{
-				int index = @checked.optionsList.IndexOfName(item);
+				int index = checkBoxList.Options.IndexOfName(item);
 				if (index == -1)
 				{
 					return false;
 				}
 
-				return @checked.Remove(@checked.optionsList[index]);
+				return checkBoxList.CheckedOptions.Remove(checkBoxList.Options[index]);
 			}
 
 			/// <inheritdoc/>
@@ -204,31 +226,42 @@
 			}
 		}
 
-		private class CheckedValueCollection<TValue> : ICheckedValueCollection<TValue>
+		/// <summary>
+		/// 	Represents a collection of values that have been selected in a <see cref="CheckBoxList{T}"/>.
+		/// </summary>
+		/// <typeparam name="TValue">The type of the values.</typeparam>
+		public class CheckedValueCollection<TValue> : ICollection<TValue>
 		{
-			private readonly CheckedOptionCollection<TValue> @checked;
+			private readonly CheckBoxList<TValue> checkBoxList;
 
-			public CheckedValueCollection(CheckedOptionCollection<TValue> @checked) => this.@checked = @checked;
+			/// <summary>
+			/// Initializes a new instance of the <see cref="CheckedValueCollection{TValue}"/> class.
+			/// </summary>
+			/// <param name="checkBoxList">The checkbox list widget for this collection.</param>
+			public CheckedValueCollection(CheckBoxList<TValue> checkBoxList) => this.checkBoxList = checkBoxList;
 
 			/// <inheritdoc/>
-			public int Count => @checked.Count;
+			public int Count => checkBoxList.CheckedOptions.Count;
 
 			/// <inheritdoc/>
-			public bool IsReadOnly => @checked.IsReadOnly;
+			public bool IsReadOnly => checkBoxList.CheckedOptions.IsReadOnly;
 
 			/// <inheritdoc/>
 			public void Add(TValue item)
 			{
-				int index = @checked.optionsList.IndexOfValue(item);
+				int index = checkBoxList.Options.IndexOfValue(item);
 				if (index == -1)
 				{
 					return;
 				}
 
-				@checked.checkedOptions.Add(@checked.optionsList[index]);
+				checkBoxList.CheckedOptions.Add(checkBoxList.Options[index]);
 			}
 
-			/// <inheritdoc/>
+			/// <summary>
+			/// 	Adds all options with specified values to the collection of checked options.
+			/// </summary>
+			/// <param name="values">The collections of names of options to be checked.</param>
 			public void AddRange(IEnumerable<TValue> values)
 			{
 				if (values == null)
@@ -238,26 +271,26 @@
 
 				foreach (TValue value in values)
 				{
-					int index = @checked.optionsList.IndexOfValue(value);
+					int index = checkBoxList.Options.IndexOfValue(value);
 					if (index == -1)
 					{
 						continue;
 					}
 
-					@checked.checkedOptions.Add(@checked.optionsList[index]);
+					checkBoxList.CheckedOptions.Add(checkBoxList.Options[index]);
 				}
 			}
 
 			/// <inheritdoc/>
 			public void Clear()
 			{
-				@checked.Clear();
+				checkBoxList.CheckedOptions.Clear();
 			}
 
 			/// <inheritdoc/>
 			public bool Contains(TValue item)
 			{
-				return @checked.optionsList.Any(option => EqualityComparer<TValue>.Default.Equals(option.Value, item));
+				return checkBoxList.CheckedOptions.Any(option => EqualityComparer<TValue>.Default.Equals(option.Value, item));
 			}
 
 			/// <inheritdoc/>
@@ -287,19 +320,19 @@
 			/// <inheritdoc/>
 			public IEnumerator<TValue> GetEnumerator()
 			{
-				return @checked.Select(option => option.Value).GetEnumerator();
+				return checkBoxList.CheckedOptions.Select(option => option.Value).GetEnumerator();
 			}
 
 			/// <inheritdoc/>
 			public bool Remove(TValue item)
 			{
-				int index = @checked.optionsList.IndexOfValue(item);
+				int index = checkBoxList.Options.IndexOfValue(item);
 				if (index == -1)
 				{
 					return false;
 				}
 
-				return @checked.Remove(@checked.optionsList[index]);
+				return checkBoxList.CheckedOptions.Remove(checkBoxList.Options[index]);
 			}
 
 			/// <inheritdoc/>
