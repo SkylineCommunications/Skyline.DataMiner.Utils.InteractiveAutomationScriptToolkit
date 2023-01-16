@@ -96,6 +96,8 @@
 
 			remove
 			{
+				engine?.GenerateInformation("Unsubscribing from FocusLost event");
+
 				OnFocusLost -= value;
 				if (OnFocusLost == null || !OnFocusLost.GetInvocationList().Any())
 				{
@@ -235,7 +237,11 @@
 		internal override void RaiseResultEvents()
 		{
 			if (changed) OnChanged?.Invoke(this, new TextBoxChangedEventArgs(Text, previous));
-			if (focusLost) OnFocusLost?.Invoke(this, EventArgs.Empty);
+			if (focusLost)
+			{
+				engine?.GenerateInformation($"Invoking OnFocusLost");
+				OnFocusLost?.Invoke(this, EventArgs.Empty);
+			}
 
 			changed = false;
 			focusLost = false;
