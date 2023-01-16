@@ -13,12 +13,16 @@
 		private bool focusLost;
 		private string previous;
 
+		private readonly IEngine engine;
+
 		/// <summary>
 		///     Initializes a new instance of the <see cref="TextBox" /> class.
 		/// </summary>
 		/// <param name="text">The text displayed in the text box.</param>
-		public TextBox(string text)
+		public TextBox(string text, IEngine engine = null)
 		{
+			this.engine = engine;
+
 			Type = UIBlockType.TextBox;
 			Text = text;
 			PlaceHolder = String.Empty;
@@ -68,8 +72,7 @@
 				OnChanged -= value;
 
 				bool noOnChangedEvents = OnChanged == null || !OnChanged.GetInvocationList().Any();
-				bool noOnFocusEvents = OnFocusLost == null || !OnFocusLost.GetInvocationList().Any();
-				if (noOnChangedEvents && noOnFocusEvents)
+				if (noOnChangedEvents)
 				{
 					WantsOnChange = false;
 				}
@@ -86,9 +89,9 @@
 		{
 			add
 			{
+				engine?.GenerateInformation("Subscribing on FocusLost event");
 				OnFocusLost += value;
 				WantsOnFocusLost = true;
-				WantsOnChange = true;
 			}
 
 			remove
@@ -97,10 +100,6 @@
 				if (OnFocusLost == null || !OnFocusLost.GetInvocationList().Any())
 				{
 					WantsOnFocusLost = false;
-					if (OnChanged == null || !OnChanged.GetInvocationList().Any())
-					{
-						WantsOnChange = false;
-					}
 				}
 			}
 		}
@@ -218,6 +217,8 @@
 		{
 			string value = uiResults.GetString(this);
 			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);
+
+			engine?.GenerateInformation($"Result from UIResults: {value}, wasOnFocusLost: {wasOnFocusLost}");
 
 			if (WantsOnChange)
 			{
