@@ -218,7 +218,7 @@
 			string value = uiResults.GetString(this);
 			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);
 
-			engine?.GenerateInformation($"Result from UIResults: {value}, wasOnFocusLost: {wasOnFocusLost}");
+			engine?.GenerateInformation($"Result from UIResults: {value}, wasOnFocusLost: {wasOnFocusLost}, WantsOnFocusLost: {BlockDefinition.WantsOnFocusLost}");
 
 			if (WantsOnChange)
 			{
