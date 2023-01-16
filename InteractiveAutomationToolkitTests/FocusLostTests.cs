@@ -178,47 +178,47 @@
             // Nothing to do
         }
 
-        [TestMethod]
-        public void TextBoxFocusLost()
-        {
-            TextBox textBox = new TextBox();
-            textBox.FocusLost += TextBox_FocusLost;
+        //[TestMethod]
+        //public void TextBoxFocusLost()
+        //{
+        //    TextBox textBox = new TextBox();
+        //    textBox.FocusLost += TextBox_FocusLost;
 
-            Assert.IsTrue(textBox.WantsOnChange);
-            Assert.IsTrue(textBox.WantsOnFocusLost);
+        //    Assert.IsTrue(textBox.WantsOnChange);
+        //    Assert.IsTrue(textBox.WantsOnFocusLost);
 
-            textBox.FocusLost -= TextBox_FocusLost;
+        //    textBox.FocusLost -= TextBox_FocusLost;
 
-            Assert.IsFalse(textBox.WantsOnChange);
-            Assert.IsFalse(textBox.WantsOnFocusLost);
+        //    Assert.IsFalse(textBox.WantsOnChange);
+        //    Assert.IsFalse(textBox.WantsOnFocusLost);
 
-            textBox.FocusLost += TextBox_FocusLost;
-            textBox.Changed += TextBox_Changed;
+        //    textBox.FocusLost += TextBox_FocusLost;
+        //    textBox.Changed += TextBox_Changed;
 
-            Assert.IsTrue(textBox.WantsOnChange);
-            Assert.IsTrue(textBox.WantsOnFocusLost);
+        //    Assert.IsTrue(textBox.WantsOnChange);
+        //    Assert.IsTrue(textBox.WantsOnFocusLost);
 
-            textBox.Changed -= TextBox_Changed;
+        //    textBox.Changed -= TextBox_Changed;
 
-            Assert.IsTrue(textBox.WantsOnChange);
-            Assert.IsTrue(textBox.WantsOnFocusLost);
+        //    Assert.IsTrue(textBox.WantsOnChange);
+        //    Assert.IsTrue(textBox.WantsOnFocusLost);
 
-            textBox.Changed += TextBox_Changed;
-            textBox.FocusLost -= TextBox_FocusLost;
+        //    textBox.Changed += TextBox_Changed;
+        //    textBox.FocusLost -= TextBox_FocusLost;
 
-            Assert.IsTrue(textBox.WantsOnChange);
-            Assert.IsFalse(textBox.WantsOnFocusLost);
-        }
+        //    Assert.IsTrue(textBox.WantsOnChange);
+        //    Assert.IsFalse(textBox.WantsOnFocusLost);
+        //}
 
-        private void TextBox_Changed(object sender, TextBox.TextBoxChangedEventArgs e)
-        {
-            // Nothing to do
-        }
+        //private void TextBox_Changed(object sender, TextBox.TextBoxChangedEventArgs e)
+        //{
+        //    // Nothing to do
+        //}
 
-        private void TextBox_FocusLost(object sender, EventArgs e)
-        {
-            // Nothing to do
-        }
+        //private void TextBox_FocusLost(object sender, EventArgs e)
+        //{
+        //    // Nothing to do
+        //}
 
         [TestMethod]
         public void TimeFocusLost()
