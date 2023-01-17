@@ -1,4 +1,4 @@
-# Skyline.DataMiner.InteractiveAutomationToolkit
+# Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 
 This package is an extension to
 [Skyline.DataMiner.Automation](https://docs.dataminer.services/develop/api/types/Skyline.DataMiner.Automation.html).
@@ -71,7 +71,7 @@ internal class Script
 }
 
 // You can define your dialogs by inheriting from the Dialog class
-public class HelloWorldDialog : Dialog
+public class HelloWorldDialog : Dialog<GridPanel>
 {
 	public HelloWorldDialog(IEngine engine)
 		: base(engine)
@@ -80,13 +80,13 @@ public class HelloWorldDialog : Dialog
 		var label = new Label("Hello, World!") { Style = TextStyle.Title };
 
 		// Add it to the dialog grid at position 0,0
-		AddWidget(label, 0, 0);
+		Panel.Add(label, 0, 0);
 
 		// Create a button widget
 		var button = new Button("OK");
 
 		// Add it to the dialog just below the label
-		AddWidget(button, 1, 0);
+		Panel.Add(button, 1, 0);
 
 		// Add an action to be performed whenever the button is clicked
 		button.Pressed += (sender, args) => engine.ExitSuccess("Done");
@@ -120,12 +120,12 @@ C) **Minor version:** increments when there are non-breaking fixes.
 
 ### DataMiner compatibility
 
-| NuGet Version | Minimum DataMiner Version    |
-|---------------|------------------------------|
-| 2.0.x         | 9.6.13 (NuGet not supported) |
-| 2.1.x         | 10.0.5 (NuGet not supported) |
-| 2.2.x         | 10.1.5                       |
-| 2.3.x         | 10.1.8                       |
+| NuGet Version | Minimum DataMiner Version |
+|---------------|---------------------------|
+| 2.1.x         | 10.1.0                    |
+| 2.2.x         | 10.1.5                    |
+| 2.3.x         | 10.1.8                    |
+| 2.4.x         | 10.1.10                   |
 
 **Note:** DataMiner only supports NuGet packages from version 10.0.10 onwards.
 [DIS Community packages](https://community.dataminer.services/documentation/interactive-automation-script-toolkit/)
@@ -136,7 +136,7 @@ can be used on older versions.
 When you use this NuGet package, it is possible you get the following error when launching the script:
 `DataMinerException: Show UI Failed: 0x800402F5 (Interactive UI can only be used in interactive mode. )`
 This is due to a DataMiner software issue causing the script to be launched in the wrong mode.
-The DataMiner software perform a simple string search to detect if the script should be launched in interactive mode.
+The DataMiner software performs a simple string search to detect if the script should be launched in interactive mode.
 It is looking for the following string "engine.ShowUI" which is normally always present in the source code of the
 script.
 This method call is now handled by the NuGet package, so the string can no longer be found in the script source code,
@@ -167,17 +167,27 @@ Script UI.
 ### x.3.x (10.1.8)
 
 * New widget: FileSelector
+* New CheckRecursively property for TreeViewNode
 
 ### x.2.x (10.1.5)
 
 * New widget: TreeView [&ast;](#notes)
 * Tooltip property for most widgets [&ast;](#notes)
 
-### x.1.x (10.0.5)
+### x.1.x (10.1.0)
 
 * ValidationText and ValidationState property to highlight invalid user input [&ast;](#notes)
 * PlaceHolder property for TextBox and PasswordBox widgets to allow placeholder text [&ast;](#notes)
 
 ### Notes
 
-&ast; Only visible if the script is run within one of the DataMiner web apps, for example the Jobs app.
+&ast;
+Some widgets are not supported by the native Cube UI 
+and require the script to be executed from one of the DataMiner web apps like Dashboards or a Low-Code App.
+We are working on a feature that allows you to run the script using the web UI from within Cube. 
+The feature can already be activated
+by enabling the [UseWebIAS](https://docs.dataminer.services/user-guide/Reference/Soft-launch_options/Overview_of_Soft_Launch_Options.html#usewebias) soft-launch option.
+After activating the soft-launch options,
+scripts will now have an additional _Web Compliant_ checkbox
+that allows you to activate the feature for each script individually.
+Be aware that the feature is still in development and might contain bugs. 
