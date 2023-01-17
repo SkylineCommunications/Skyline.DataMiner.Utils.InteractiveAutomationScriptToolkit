@@ -236,6 +236,8 @@
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
+			engine?.GenerateInformation($"focusLost: {focusLost}");
+
 			if (changed) OnChanged?.Invoke(this, new TextBoxChangedEventArgs(Text, previous));
 			if (focusLost)
 			{
