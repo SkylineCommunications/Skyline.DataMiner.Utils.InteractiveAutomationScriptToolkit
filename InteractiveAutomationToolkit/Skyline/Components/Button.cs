@@ -77,15 +77,15 @@
 			add
 			{
 				OnPressed += value;
-				WantsOnChange = true;
+				BlockDefinition.WantsOnChange = true;
 			}
 
 			remove
 			{
 				OnPressed -= value;
-				if(OnPressed == null || !OnPressed.GetInvocationList().Any())
+				if (OnPressed == null || !OnPressed.GetInvocationList().Any())
 				{
-					WantsOnChange = false;
+					BlockDefinition.WantsOnChange = false;
 				}
 			}
 		}

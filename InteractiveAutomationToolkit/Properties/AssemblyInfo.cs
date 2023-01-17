@@ -37,3 +37,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.0.9.1")]
 [assembly: NeutralResourcesLanguage("")]
 
+[assembly: InternalsVisibleTo("InteractiveAutomationToolkitTests")]
+

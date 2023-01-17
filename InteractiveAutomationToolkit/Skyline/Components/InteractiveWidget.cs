@@ -14,7 +14,6 @@
 		protected InteractiveWidget()
 		{
 			BlockDefinition.DestVar = Guid.NewGuid().ToString();
-			WantsOnChange = false;
 		}
 
 		/// <summary>
@@ -44,24 +43,6 @@
 			set
 			{
 				BlockDefinition.IsEnabled = value;
-			}
-		}
-
-		/// <summary>
-		///     Gets or sets a value indicating whether an update of the current value of the dialog box item will trigger an
-		///     event.
-		/// </summary>
-		/// <remarks>Is <c>false</c> by default except for <see cref="Button" />.</remarks>
-		public bool WantsOnChange
-		{
-			get
-			{
-				return BlockDefinition.WantsOnChange;
-			}
-
-			set
-			{
-				BlockDefinition.WantsOnChange = value;
 			}
 		}
 

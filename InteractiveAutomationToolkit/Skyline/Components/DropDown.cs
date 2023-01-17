@@ -45,7 +45,7 @@
 			add
 			{
 				OnChanged += value;
-				WantsOnChange = true;
+				BlockDefinition.WantsOnChange = true;
 			}
 
 			remove
@@ -53,7 +53,7 @@
 				OnChanged -= value;
 				if (OnChanged == null || !OnChanged.GetInvocationList().Any())
 				{
-					WantsOnChange = false;
+					BlockDefinition.WantsOnChange = false;
 				}
 			}
 		}
@@ -260,7 +260,7 @@
 		{
 			string selectedValue = uiResults.GetString(this);
 
-			if (WantsOnChange) changed = selectedValue != Selected;
+			if (BlockDefinition.WantsOnChange) changed = selectedValue != Selected;
 
 			previous = Selected;
 			Selected = selectedValue;

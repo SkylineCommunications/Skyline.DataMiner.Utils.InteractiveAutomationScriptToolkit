@@ -13,16 +13,12 @@
 		private bool focusLost;
 		private string previous;
 
-		private readonly IEngine engine;
-
 		/// <summary>
 		///     Initializes a new instance of the <see cref="TextBox" /> class.
 		/// </summary>
 		/// <param name="text">The text displayed in the text box.</param>
-		public TextBox(string text, IEngine engine = null)
+		public TextBox(string text)
 		{
-			this.engine = engine;
-
 			Type = UIBlockType.TextBox;
 			Text = text;
 			PlaceHolder = String.Empty;
@@ -38,24 +34,6 @@
 		}
 
 		/// <summary>
-		///     Gets or sets a value indicating whether an update of the current value of the dialog box item will trigger a
-		///     FocusLost event.
-		/// </summary>
-		/// <remarks>Is <c>false</c> by default.</remarks>
-		public bool WantsOnFocusLost
-		{
-			get
-			{
-				return BlockDefinition.WantsOnFocusLost;
-			}
-
-			set
-			{
-				BlockDefinition.WantsOnFocusLost = value;
-			}
-		}
-
-		/// <summary>
 		///     Triggered when the text in the text box changes.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
@@ -64,7 +42,7 @@
 			add
 			{
 				OnChanged += value;
-				WantsOnChange = true;
+				BlockDefinition.WantsOnChange = true;
 			}
 
 			remove
@@ -74,7 +52,7 @@
 				bool noOnChangedEvents = OnChanged == null || !OnChanged.GetInvocationList().Any();
 				if (noOnChangedEvents)
 				{
-					WantsOnChange = false;
+					BlockDefinition.WantsOnChange = false;
 				}
 			}
 		}
@@ -89,19 +67,16 @@
 		{
 			add
 			{
-				engine?.GenerateInformation("Subscribing on FocusLost event");
 				OnFocusLost += value;
-				WantsOnFocusLost = true;
+				BlockDefinition.WantsOnFocusLost = true;
 			}
 
 			remove
 			{
-				engine?.GenerateInformation("Unsubscribing from FocusLost event");
-
 				OnFocusLost -= value;
 				if (OnFocusLost == null || !OnFocusLost.GetInvocationList().Any())
 				{
-					WantsOnFocusLost = false;
+					BlockDefinition.WantsOnFocusLost = false;
 				}
 			}
 		}
@@ -220,15 +195,13 @@
 			string value = uiResults.GetString(this);
 			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);
 
-			engine?.GenerateInformation($"Result from UIResults: {value}, wasOnFocusLost: {wasOnFocusLost}, BlockDefinition.WantsOnFocusLost: {BlockDefinition.WantsOnFocusLost}");
-
-			if (WantsOnChange)
+			if (BlockDefinition.WantsOnChange)
 			{
 				changed = value != Text;
 				previous = Text;
 			}
 
-			if (WantsOnFocusLost) focusLost = wasOnFocusLost;
+			if (BlockDefinition.WantsOnFocusLost) focusLost = wasOnFocusLost;
 
 			Text = value;
 		}
@@ -236,14 +209,8 @@
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			engine?.GenerateInformation($"focusLost: {focusLost}");
-
 			if (changed) OnChanged?.Invoke(this, new TextBoxChangedEventArgs(Text, previous));
-			if (focusLost)
-			{
-				engine?.GenerateInformation($"Invoking OnFocusLost");
-				OnFocusLost?.Invoke(this, EventArgs.Empty);
-			}
+			if (focusLost) OnFocusLost?.Invoke(this, EventArgs.Empty);
 
 			changed = false;
 			focusLost = false;

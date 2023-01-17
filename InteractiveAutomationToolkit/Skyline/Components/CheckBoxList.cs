@@ -44,15 +44,15 @@
 			add
 			{
 				OnChanged += value;
-				WantsOnChange = true;
+				BlockDefinition.WantsOnChange = true;
 			}
 
 			remove
 			{
 				OnChanged -= value;
-				if(OnChanged == null || !OnChanged.GetInvocationList().Any())
+				if (OnChanged == null || !OnChanged.GetInvocationList().Any())
 				{
-					WantsOnChange = false;
+					BlockDefinition.WantsOnChange = false;
 				}
 			}
 		}
@@ -321,7 +321,7 @@
 
 				options[option] = isChecked;
 
-				if (hasChanged && WantsOnChange)
+				if (hasChanged && BlockDefinition.WantsOnChange)
 				{
 					changed = true;
 					changedOption = option;

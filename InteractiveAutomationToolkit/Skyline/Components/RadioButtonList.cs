@@ -42,7 +42,7 @@
 			add
 			{
 				OnChanged += value;
-				WantsOnChange = true;
+				BlockDefinition.WantsOnChange = true;
 			}
 
 			remove
@@ -50,7 +50,7 @@
 				OnChanged -= value;
 				if (OnChanged == null || !OnChanged.GetInvocationList().Any())
 				{
-					WantsOnChange = false;
+					BlockDefinition.WantsOnChange = false;
 				}
 			}
 		}
