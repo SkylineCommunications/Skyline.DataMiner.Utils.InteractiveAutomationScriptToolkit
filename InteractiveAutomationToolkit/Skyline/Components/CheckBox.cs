@@ -32,24 +32,6 @@
 		}
 
 		/// <summary>
-		///     Gets or sets a value indicating whether an update of the current value of the dialog box item will trigger a
-		///     FocusLost event.
-		/// </summary>
-		/// <remarks>Is <c>false</c> by default.</remarks>
-		public bool WantsOnFocusLost
-		{
-			get
-			{
-				return BlockDefinition.WantsOnFocusLost;
-			}
-
-			set
-			{
-				BlockDefinition.WantsOnFocusLost = value;
-			}
-		}
-
-		/// <summary>
 		///     Triggered when the state of the checkbox changes.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
@@ -58,7 +40,7 @@
 			add
 			{
 				OnChanged += value;
-				WantsOnChange = true;
+				BlockDefinition.WantsOnChange = true;
 			}
 
 			remove
@@ -67,11 +49,10 @@
 				bool noOnChangedEvents = OnChanged == null || !OnChanged.GetInvocationList().Any();
 				bool noOnCheckedEvents = OnChecked == null || !OnChecked.GetInvocationList().Any();
 				bool noOnUnCheckedEvents = OnUnChecked == null || !OnUnChecked.GetInvocationList().Any();
-				bool noOnFocusEvents = OnFocusLost == null || !OnFocusLost.GetInvocationList().Any();
 
-				if (noOnChangedEvents && noOnCheckedEvents && noOnUnCheckedEvents && noOnFocusEvents)
+				if (noOnChangedEvents && noOnCheckedEvents && noOnUnCheckedEvents)
 				{
-					WantsOnChange = false;
+					BlockDefinition.WantsOnChange = false;
 				}
 			}
 		}
@@ -85,7 +66,7 @@
 			add
 			{
 				OnChecked += value;
-				WantsOnChange = true;
+				BlockDefinition.WantsOnChange = true;
 			}
 
 			remove
@@ -94,11 +75,10 @@
 				bool noOnChangedEvents = OnChanged == null || !OnChanged.GetInvocationList().Any();
 				bool noOnCheckedEvents = OnChecked == null || !OnChecked.GetInvocationList().Any();
 				bool noOnUnCheckedEvents = OnUnChecked == null || !OnUnChecked.GetInvocationList().Any();
-				bool noOnFocusEvents = OnFocusLost == null || !OnFocusLost.GetInvocationList().Any();
 
-				if (noOnChangedEvents && noOnCheckedEvents && noOnUnCheckedEvents && noOnFocusEvents)
+				if (noOnChangedEvents && noOnCheckedEvents && noOnUnCheckedEvents)
 				{
-					WantsOnChange = false;
+					BlockDefinition.WantsOnChange = false;
 				}
 			}
 		}
@@ -112,7 +92,7 @@
 			add
 			{
 				OnUnChecked += value;
-				WantsOnChange = true;
+				BlockDefinition.WantsOnChange = true;
 			}
 
 			remove
@@ -121,11 +101,10 @@
 				bool noOnChangedEvents = OnChanged == null || !OnChanged.GetInvocationList().Any();
 				bool noOnCheckedEvents = OnChecked == null || !OnChecked.GetInvocationList().Any();
 				bool noOnUnCheckedEvents = OnUnChecked == null || !OnUnChecked.GetInvocationList().Any();
-				bool noOnFocusEvents = OnFocusLost == null || !OnFocusLost.GetInvocationList().Any();
 
-				if (noOnChangedEvents && noOnCheckedEvents && noOnUnCheckedEvents && noOnFocusEvents)
+				if (noOnChangedEvents && noOnCheckedEvents && noOnUnCheckedEvents)
 				{
-					WantsOnChange = false;
+					BlockDefinition.WantsOnChange = false;
 				}
 			}
 		}
@@ -145,8 +124,7 @@
 			add
 			{
 				OnFocusLost += value;
-				WantsOnFocusLost = true;
-				WantsOnChange = true;
+				BlockDefinition.WantsOnFocusLost = true;
 			}
 
 			remove
@@ -154,11 +132,7 @@
 				OnFocusLost -= value;
 				if (OnFocusLost == null || !OnFocusLost.GetInvocationList().Any())
 				{
-					WantsOnFocusLost = false;
-					if (OnChanged == null || !OnChanged.GetInvocationList().Any())
-					{
-						WantsOnChange = false;
-					}
+					BlockDefinition.WantsOnFocusLost = false;
 				}
 			}
 		}
@@ -226,8 +200,8 @@
 			bool result = uiResults.GetChecked(this);
 			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);
 
-			if (WantsOnChange) changed = result != IsChecked;
-			if (WantsOnFocusLost) focusLost = wasOnFocusLost;
+			if (BlockDefinition.WantsOnChange) changed = result != IsChecked;
+			if (BlockDefinition.WantsOnFocusLost) focusLost = wasOnFocusLost;
 
 			IsChecked = result;
 		}

@@ -36,24 +36,6 @@
 		}
 
 		/// <summary>
-		///     Gets or sets a value indicating whether an update of the current value of the dialog box item will trigger a
-		///     FocusLost event.
-		/// </summary>
-		/// <remarks>Is <c>false</c> by default.</remarks>
-		public bool WantsOnFocusLost
-		{
-			get
-			{
-				return BlockDefinition.WantsOnFocusLost;
-			}
-
-			set
-			{
-				BlockDefinition.WantsOnFocusLost = value;
-			}
-		}
-
-		/// <summary>
 		///     Triggered when a different datetime is picked.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
@@ -62,18 +44,16 @@
 			add
 			{
 				OnChanged += value;
-				WantsOnChange = true;
+				BlockDefinition.WantsOnChange = true;
 			}
 
 			remove
 			{
 				OnChanged -= value;
 
-				bool noOnChangedEvents = OnChanged == null || !OnChanged.GetInvocationList().Any();
-				bool noOnFocusEvents = OnFocusLost == null || !OnFocusLost.GetInvocationList().Any();
-				if (noOnChangedEvents && noOnFocusEvents)
+				if (OnChanged == null || !OnChanged.GetInvocationList().Any())
 				{
-					WantsOnChange = false;
+					BlockDefinition.WantsOnChange = false;
 				}
 			}
 		}
@@ -89,8 +69,7 @@
 			add
 			{
 				OnFocusLost += value;
-				WantsOnFocusLost = true;
-				WantsOnChange = true;
+				BlockDefinition.WantsOnFocusLost = true;
 			}
 
 			remove
@@ -98,12 +77,7 @@
 				OnFocusLost -= value;
 				if (OnFocusLost == null || !OnFocusLost.GetInvocationList().Any())
 				{
-					WantsOnFocusLost = false;
-
-					if (OnChanged == null ||!OnChanged.GetInvocationList().Any())
-					{
-						WantsOnChange = false;
-					}
+					BlockDefinition.WantsOnFocusLost = false;
 				}
 			}
 		}
@@ -191,13 +165,13 @@
 			DateTime result = uiResults.GetDateTime(DestVar);
 			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);
 
-			if (WantsOnChange && (result != DateTime))
+			if (BlockDefinition.WantsOnChange && (result != DateTime))
 			{
 				changed = true;
 				previous = DateTime;
 			}
 
-			if (WantsOnFocusLost) focusLost = wasOnFocusLost;
+			if (BlockDefinition.WantsOnFocusLost) focusLost = wasOnFocusLost;
 
 			DateTime = result;
 		}

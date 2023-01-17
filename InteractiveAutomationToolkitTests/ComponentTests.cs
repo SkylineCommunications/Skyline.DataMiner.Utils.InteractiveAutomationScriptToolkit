@@ -17,13 +17,13 @@
 		public void WantsOnChangeButtonOnPressedEvent()
 		{
 			Button button = new Button("Button 1");
-			Assert.IsFalse(button.WantsOnChange);
+			Assert.IsFalse(button.BlockDefinition.WantsOnChange);
 
 			button.Pressed += Button_Pressed;
-			Assert.IsTrue(button.WantsOnChange);
+			Assert.IsTrue(button.BlockDefinition.WantsOnChange);
 
 			button.Pressed -= Button_Pressed;
-			Assert.IsFalse(button.WantsOnChange);
+			Assert.IsFalse(button.BlockDefinition.WantsOnChange);
 		}
 
 		/// <summary>
@@ -33,13 +33,13 @@
 		public void WantsOnChangeCheckBoxOnChangedEvent()
 		{
 			CheckBox checkBox = new CheckBox();
-			Assert.IsFalse(checkBox.WantsOnChange);
+			Assert.IsFalse(checkBox.BlockDefinition.WantsOnChange);
 
 			checkBox.Changed += CheckBox_Changed;
-			Assert.IsTrue(checkBox.WantsOnChange);
+			Assert.IsTrue(checkBox.BlockDefinition.WantsOnChange);
 
 			checkBox.Changed -= CheckBox_Changed;
-			Assert.IsFalse(checkBox.WantsOnChange);
+			Assert.IsFalse(checkBox.BlockDefinition.WantsOnChange);
 		}
 
 		/// <summary>
@@ -49,13 +49,13 @@
 		public void WantsOnChangeCheckBoxOnCheckedEvent()
 		{
 			CheckBox checkBox = new CheckBox();
-			Assert.IsFalse(checkBox.WantsOnChange);
+			Assert.IsFalse(checkBox.BlockDefinition.WantsOnChange);
 
 			checkBox.Checked += CheckBox_Checked;
-			Assert.IsTrue(checkBox.WantsOnChange);
+			Assert.IsTrue(checkBox.BlockDefinition.WantsOnChange);
 
 			checkBox.Checked -= CheckBox_Checked;
-			Assert.IsFalse(checkBox.WantsOnChange);
+			Assert.IsFalse(checkBox.BlockDefinition.WantsOnChange);
 		}
 
 		/// <summary>
@@ -65,13 +65,13 @@
 		public void WantsOnChangeCheckBoxOnUnCheckedEvent()
 		{
 			CheckBox checkBox = new CheckBox();
-			Assert.IsFalse(checkBox.WantsOnChange);
+			Assert.IsFalse(checkBox.BlockDefinition.WantsOnChange);
 
 			checkBox.UnChecked += CheckBox_UnChecked;
-			Assert.IsTrue(checkBox.WantsOnChange);
+			Assert.IsTrue(checkBox.BlockDefinition.WantsOnChange);
 
 			checkBox.UnChecked -= CheckBox_UnChecked;
-			Assert.IsFalse(checkBox.WantsOnChange);
+			Assert.IsFalse(checkBox.BlockDefinition.WantsOnChange);
 		}
 
 		/// <summary>
@@ -82,13 +82,13 @@
 		{
 			string[] options = new string[] { "Option1", "Option2", "Option3" };
 			CheckBoxList checkBoxList = new CheckBoxList(options);
-			Assert.IsFalse(checkBoxList.WantsOnChange);
+			Assert.IsFalse(checkBoxList.BlockDefinition.WantsOnChange);
 
 			checkBoxList.Changed += CheckBoxList_Changed;
-			Assert.IsTrue(checkBoxList.WantsOnChange);
+			Assert.IsTrue(checkBoxList.BlockDefinition.WantsOnChange);
 
 			checkBoxList.Changed -= CheckBoxList_Changed;
-			Assert.IsFalse(checkBoxList.WantsOnChange);
+			Assert.IsFalse(checkBoxList.BlockDefinition.WantsOnChange);
 		}
 
 		/// <summary>
@@ -99,13 +99,13 @@
 		{
 			IEnumerable<Widget> widgets = new Widget[] { new Label("Label1"), new Label("Label2") };
 			CollapseButton collapseButton = new CollapseButton(widgets, false);
-			Assert.IsTrue(collapseButton.WantsOnChange);
+			Assert.IsTrue(collapseButton.BlockDefinition.WantsOnChange);
 
 			collapseButton.Pressed += CollapseButton_Pressed;
-			Assert.IsTrue(collapseButton.WantsOnChange);
+			Assert.IsTrue(collapseButton.BlockDefinition.WantsOnChange);
 
 			collapseButton.Pressed -= CollapseButton_Pressed;
-			Assert.IsTrue(collapseButton.WantsOnChange);
+			Assert.IsTrue(collapseButton.BlockDefinition.WantsOnChange);
 		}
 
 		/// <summary>
@@ -115,13 +115,13 @@
 		public void WantsOnChangeCalendarOnChangedEvent()
 		{
 			Calendar calendar = new Calendar();
-			Assert.IsFalse(calendar.WantsOnChange);
+			Assert.IsFalse(calendar.BlockDefinition.WantsOnChange);
 
 			calendar.Changed += Calendar_Changed;
-			Assert.IsTrue(calendar.WantsOnChange);
+			Assert.IsTrue(calendar.BlockDefinition.WantsOnChange);
 
 			calendar.Changed -= Calendar_Changed;
-			Assert.IsFalse(calendar.WantsOnChange);
+			Assert.IsFalse(calendar.BlockDefinition.WantsOnChange);
 		}
 
 		/// <summary>
@@ -131,13 +131,13 @@
 		public void WantsOnChangeDateTimePickerOnChangedEvent()
 		{
 			DateTimePicker dateTimePicker = new DateTimePicker();
-			Assert.IsFalse(dateTimePicker.WantsOnChange);
+			Assert.IsFalse(dateTimePicker.BlockDefinition.WantsOnChange);
 
 			dateTimePicker.Changed += DateTimePicker_Changed;
-			Assert.IsTrue(dateTimePicker.WantsOnChange);
+			Assert.IsTrue(dateTimePicker.BlockDefinition.WantsOnChange);
 
 			dateTimePicker.Changed -= DateTimePicker_Changed;
-			Assert.IsFalse(dateTimePicker.WantsOnChange);
+			Assert.IsFalse(dateTimePicker.BlockDefinition.WantsOnChange);
 		}
 
 		/// <summary>
@@ -148,13 +148,13 @@
 		{
 			string[] options = new string[] { "Option1", "Option2", "Option3" };
 			DropDown dropDown = new DropDown(options);
-			Assert.IsFalse(dropDown.WantsOnChange);
+			Assert.IsFalse(dropDown.BlockDefinition.WantsOnChange);
 
 			dropDown.Changed += DropDown_Changed;
-			Assert.IsTrue(dropDown.WantsOnChange);
+			Assert.IsTrue(dropDown.BlockDefinition.WantsOnChange);
 
 			dropDown.Changed -= DropDown_Changed;
-			Assert.IsFalse(dropDown.WantsOnChange);
+			Assert.IsFalse(dropDown.BlockDefinition.WantsOnChange);
 		}
 
 		/// <summary>
@@ -164,13 +164,13 @@
 		public void WantsOnChangeNumericOnChangedEvent()
 		{
 			Numeric numeric = new Numeric();
-			Assert.IsFalse(numeric.WantsOnChange);
+			Assert.IsFalse(numeric.BlockDefinition.WantsOnChange);
 
 			numeric.Changed += Numeric_Changed;
-			Assert.IsTrue(numeric.WantsOnChange);
+			Assert.IsTrue(numeric.BlockDefinition.WantsOnChange);
 
 			numeric.Changed -= Numeric_Changed;
-			Assert.IsFalse(numeric.WantsOnChange);
+			Assert.IsFalse(numeric.BlockDefinition.WantsOnChange);
 		}
 
 		/// <summary>
@@ -181,13 +181,13 @@
 		{
 			string[] options = new string[] { "Option1", "Option2", "Option3" };
 			RadioButtonList radioButtonList = new RadioButtonList(options);
-			Assert.IsFalse(radioButtonList.WantsOnChange);
+			Assert.IsFalse(radioButtonList.BlockDefinition.WantsOnChange);
 
 			radioButtonList.Changed += RadioButtonList_Changed;
-			Assert.IsTrue(radioButtonList.WantsOnChange);
+			Assert.IsTrue(radioButtonList.BlockDefinition.WantsOnChange);
 
 			radioButtonList.Changed -= RadioButtonList_Changed;
-			Assert.IsFalse(radioButtonList.WantsOnChange);
+			Assert.IsFalse(radioButtonList.BlockDefinition.WantsOnChange);
 		}
 
 		/// <summary>
@@ -197,13 +197,13 @@
 		public void WantsOnChangeTextBoxOnChangedEvent()
 		{
 			TextBox textBox = new TextBox();
-			Assert.IsFalse(textBox.WantsOnChange);
+			Assert.IsFalse(textBox.BlockDefinition.WantsOnChange);
 
 			textBox.Changed += TextBox_Changed;
-			Assert.IsTrue(textBox.WantsOnChange);
+			Assert.IsTrue(textBox.BlockDefinition.WantsOnChange);
 
 			textBox.Changed -= TextBox_Changed;
-			Assert.IsFalse(textBox.WantsOnChange);
+			Assert.IsFalse(textBox.BlockDefinition.WantsOnChange);
 		}
 
 		/// <summary>
@@ -213,13 +213,13 @@
 		public void WantsOnChangeTimePickerOnChangedEvent()
 		{
 			TimePicker timePicker = new TimePicker();
-			Assert.IsFalse(timePicker.WantsOnChange);
+			Assert.IsFalse(timePicker.BlockDefinition.WantsOnChange);
 
 			timePicker.Changed += TimePicker_Changed;
-			Assert.IsTrue(timePicker.WantsOnChange);
+			Assert.IsTrue(timePicker.BlockDefinition.WantsOnChange);
 
 			timePicker.Changed -= TimePicker_Changed;
-			Assert.IsFalse(timePicker.WantsOnChange);
+			Assert.IsFalse(timePicker.BlockDefinition.WantsOnChange);
 		}
 
 		/// <summary>

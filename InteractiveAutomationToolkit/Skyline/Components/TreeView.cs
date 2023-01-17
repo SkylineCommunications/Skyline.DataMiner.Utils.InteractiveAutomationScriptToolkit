@@ -49,7 +49,7 @@
 			add
 			{
 				OnChanged += value;
-				WantsOnChange = true;
+				BlockDefinition.WantsOnChange = true;
 			}
 
 			remove
@@ -57,7 +57,7 @@
 				OnChanged -= value;
 				if (OnChanged == null || !OnChanged.GetInvocationList().Any())
 				{
-					WantsOnChange = false;
+					BlockDefinition.WantsOnChange = false;
 				}
 			}
 		}
@@ -73,7 +73,7 @@
 			add
 			{
 				OnChecked += value;
-				WantsOnChange = true;
+				BlockDefinition.WantsOnChange = true;
 			}
 
 			remove
@@ -81,7 +81,7 @@
 				OnChecked -= value;
 				if (OnChecked == null || !OnChecked.GetInvocationList().Any())
 				{
-					WantsOnChange = false;
+					BlockDefinition.WantsOnChange = false;
 				}
 			}
 		}
@@ -97,7 +97,7 @@
 			add
 			{
 				OnUnchecked += value;
-				WantsOnChange = true;
+				BlockDefinition.WantsOnChange = true;
 			}
 
 			remove
@@ -105,7 +105,7 @@
 				OnUnchecked -= value;
 				if (OnUnchecked == null || !OnUnchecked.GetInvocationList().Any())
 				{
-					WantsOnChange = false;
+					BlockDefinition.WantsOnChange = false;
 				}
 			}
 		}

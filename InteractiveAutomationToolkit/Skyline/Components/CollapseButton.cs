@@ -33,7 +33,7 @@
 
 			IsCollapsed = isCollapsed;
 
-			WantsOnChange = true;
+			BlockDefinition.WantsOnChange = true;
 		}
 
 		/// <summary>
