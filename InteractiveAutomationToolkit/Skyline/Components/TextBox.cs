@@ -48,10 +48,7 @@
 			remove
 			{
 				OnChanged -= value;
-
-				bool noOnChangedEvents = OnChanged == null || !OnChanged.GetInvocationList().Any();
-				bool noOnFocusEvents = OnFocusLost == null || !OnFocusLost.GetInvocationList().Any();
-				if (noOnChangedEvents && noOnFocusEvents)
+				if (OnChanged == null || !OnChanged.GetInvocationList().Any())
 				{
 					BlockDefinition.WantsOnChange = false;
 				}
