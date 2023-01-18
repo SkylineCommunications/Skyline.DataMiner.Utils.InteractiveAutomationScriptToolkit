@@ -64,7 +64,7 @@
 		///     Triggered when the user loses focus of the Calender.
 		///     WantsOnFocusLost will be set to true when this event is subscribed to.
 		/// </summary>
-		public event EventHandler FocusLost
+		public event EventHandler<CalendarFocusLostEventArgs> FocusLost
 		{
 			add
 			{
@@ -82,7 +82,7 @@
 			}
 		}
 
-		private event EventHandler OnFocusLost;
+		private event EventHandler<CalendarFocusLostEventArgs> OnFocusLost;
 
 		/// <summary>
 		///     Gets or sets the datetime displayed on the calendar.
@@ -180,7 +180,7 @@
 		internal override void RaiseResultEvents()
 		{
 			if (changed && OnChanged != null) OnChanged?.Invoke(this, new CalendarChangedEventArgs(DateTime, previous));
-			if (focusLost) OnFocusLost?.Invoke(this, EventArgs.Empty);
+			if (focusLost) OnFocusLost?.Invoke(this, new CalendarFocusLostEventArgs(DateTime));
 
 			changed = false;
 			focusLost = false;
@@ -206,6 +206,22 @@
 			///     Gets the previous datetime value.
 			/// </summary>
 			public DateTime Previous { get; private set; }
+		}
+
+		/// <summary>
+		///     Provides data for the <see cref="FocusLost" /> event.
+		/// </summary>
+		public class CalendarFocusLostEventArgs : EventArgs
+		{
+			internal CalendarFocusLostEventArgs(DateTime dateTime)
+			{
+				DateTime = dateTime;
+			}
+
+			/// <summary>
+			///     Gets the new datetime value.
+			/// </summary>
+			public DateTime DateTime { get; private set; }
 		}
 	}
 }

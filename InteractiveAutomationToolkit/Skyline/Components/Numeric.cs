@@ -68,7 +68,7 @@
 		///     Triggered when the user loses focus of the Numeric.
 		///     WantsOnFocusLost will be set to true when this event is subscribed to.
 		/// </summary>
-		public event EventHandler FocusLost
+		public event EventHandler<NumericFocusLostEventArgs> FocusLost
 		{
 			add
 			{
@@ -86,7 +86,7 @@
 			}
 		}
 
-		private event EventHandler OnFocusLost;
+		private event EventHandler<NumericFocusLostEventArgs> OnFocusLost;
 
 		/// <summary>
 		///     Gets or sets the number of decimals to show.
@@ -284,7 +284,7 @@
 		internal override void RaiseResultEvents()
 		{
 			if (changed) OnChanged?.Invoke(this, new NumericChangedEventArgs(Value, previous));
-			if (focusLost) OnFocusLost?.Invoke(this, EventArgs.Empty);
+			if (focusLost) OnFocusLost?.Invoke(this, new NumericFocusLostEventArgs(Value));
 
 			changed = false;
 			focusLost = false;
@@ -324,6 +324,22 @@
 			///     Gets the previous value of the numeric.
 			/// </summary>
 			public double Previous { get; private set; }
+
+			/// <summary>
+			///     Gets the new value of the numeric.
+			/// </summary>
+			public double Value { get; private set; }
+		}
+
+		/// <summary>
+		///     Provides data for the <see cref="FocusLost" /> event.
+		/// </summary>
+		public class NumericFocusLostEventArgs : EventArgs
+		{
+			internal NumericFocusLostEventArgs(double value)
+			{
+				Value = value;
+			}
 
 			/// <summary>
 			///     Gets the new value of the numeric.

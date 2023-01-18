@@ -67,7 +67,7 @@
 		///     Triggered when the user loses focus of the DateTimePicker.
 		///     WantsOnFocusLost will be set to true when this event is subscribed to.
 		/// </summary>
-		public event EventHandler FocusLost
+		public event EventHandler<DateTimePickerFocusLostEventArgs> FocusLost
 		{
 			add
 			{
@@ -85,7 +85,7 @@
 			}
 		}
 
-		private event EventHandler OnFocusLost;
+		private event EventHandler<DateTimePickerFocusLostEventArgs> OnFocusLost;
 
 		/// <summary>
 		///		Gets or sets whether the displayed time is the server time or local time.
@@ -378,7 +378,7 @@
 		internal override void RaiseResultEvents()
 		{
 			if (changed) OnChanged?.Invoke(this, new DateTimePickerChangedEventArgs(DateTime, previous));
-			if (focusLost) OnFocusLost?.Invoke(this, EventArgs.Empty);
+			if (focusLost) OnFocusLost?.Invoke(this, new DateTimePickerFocusLostEventArgs(DateTime));
 
 			changed = false;
 			focusLost = false;
@@ -404,6 +404,22 @@
 			///     Gets the previous datetime value.
 			/// </summary>
 			public DateTime Previous { get; private set; }
+		}
+
+		/// <summary>
+		///     Provides data for the <see cref="FocusLost" /> event.
+		/// </summary>
+		public class DateTimePickerFocusLostEventArgs : EventArgs
+		{
+			internal DateTimePickerFocusLostEventArgs(DateTime dateTime)
+			{
+				DateTime = dateTime;
+			}
+
+			/// <summary>
+			///     Gets the new datetime value.
+			/// </summary>
+			public DateTime DateTime { get; private set; }
 		}
 	}
 }

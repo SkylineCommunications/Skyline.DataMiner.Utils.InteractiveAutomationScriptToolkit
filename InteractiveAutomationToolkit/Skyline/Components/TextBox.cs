@@ -63,7 +63,7 @@
 		///     Triggered when the user loses focus of the TextBox. E.g. clicking somewhere else other than the TextBox widget in the Dialog.
 		///     WantsOnFocusLost will be set to true when this event is subscribed to.
 		/// </summary>
-		public event EventHandler FocusLost
+		public event EventHandler<TextBoxFocusLostEventArgs> FocusLost
 		{
 			add
 			{
@@ -81,7 +81,7 @@
 			}
 		}
 
-		private event EventHandler OnFocusLost;
+		private event EventHandler<TextBoxFocusLostEventArgs> OnFocusLost;
 
 		/// <summary>
 		///     Gets or sets a value indicating whether users are able to enter multiple lines of text.
@@ -210,7 +210,7 @@
 		internal override void RaiseResultEvents()
 		{
 			if (changed) OnChanged?.Invoke(this, new TextBoxChangedEventArgs(Text, previous));
-			if (focusLost) OnFocusLost?.Invoke(this, EventArgs.Empty);
+			if (focusLost) OnFocusLost?.Invoke(this, new TextBoxFocusLostEventArgs(Text));
 
 			changed = false;
 			focusLost = false;
@@ -231,6 +231,22 @@
 			///     Gets the text before the change.
 			/// </summary>
 			public string Previous { get; private set; }
+
+			/// <summary>
+			///     Gets the changed text.
+			/// </summary>
+			public string Value { get; private set; }
+		}
+
+		/// <summary>
+		///     Provides data for the <see cref="FocusLost" /> event.
+		/// </summary>
+		public class TextBoxFocusLostEventArgs : EventArgs
+		{
+			internal TextBoxFocusLostEventArgs(string value)
+			{
+				Value = value;
+			}
 
 			/// <summary>
 			///     Gets the changed text.
