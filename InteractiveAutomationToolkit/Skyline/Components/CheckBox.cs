@@ -119,7 +119,7 @@
 		///     Triggered when the user loses focus of the CheckBox.
 		///     WantsOnFocusLost will be set to true when this event is subscribed to.
 		/// </summary>
-		public event EventHandler FocusLost
+		public event EventHandler<CheckBoxFocusLostEventArgs> FocusLost
 		{
 			add
 			{
@@ -137,7 +137,7 @@
 			}
 		}
 
-		private event EventHandler OnFocusLost;
+		private event EventHandler<CheckBoxFocusLostEventArgs> OnFocusLost;
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the checkbox is selected.
@@ -212,7 +212,7 @@
 			if (changed) OnChanged?.Invoke(this, new CheckBoxChangedEventArgs(IsChecked));
 			if (changed && IsChecked) OnChecked?.Invoke(this, EventArgs.Empty);
 			if (changed && !IsChecked) OnUnChecked?.Invoke(this, EventArgs.Empty);
-			if (focusLost) OnFocusLost?.Invoke(this, EventArgs.Empty);
+			if (focusLost) OnFocusLost?.Invoke(this, new CheckBoxFocusLostEventArgs(IsChecked));
 
 			changed = false;
 			focusLost = false;
@@ -224,6 +224,22 @@
 		public class CheckBoxChangedEventArgs : EventArgs
 		{
 			internal CheckBoxChangedEventArgs(bool isChecked)
+			{
+				IsChecked = isChecked;
+			}
+
+			/// <summary>
+			///     Gets a value indicating whether the checkbox has been checked.
+			/// </summary>
+			public bool IsChecked { get; private set; }
+		}
+
+		/// <summary>
+		///     Provides data for the <see cref="FocusLost" /> event.
+		/// </summary>
+		public class CheckBoxFocusLostEventArgs : EventArgs
+		{
+			internal CheckBoxFocusLostEventArgs(bool isChecked)
 			{
 				IsChecked = isChecked;
 			}

@@ -63,7 +63,7 @@
 		///     Triggered when the user loses focus of the Time.
 		///     WantsOnFocusLost will be set to true when this event is subscribed to.
 		/// </summary>
-		public event EventHandler FocusLost
+		public event EventHandler<TimeFocusLostEventArgs> FocusLost
 		{
 			add
 			{
@@ -81,7 +81,7 @@
 			}
 		}
 
-		private event EventHandler OnFocusLost;
+		private event EventHandler<TimeFocusLostEventArgs> OnFocusLost;
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the value is clipped to the range.
@@ -353,7 +353,7 @@
 		internal override void RaiseResultEvents()
 		{
 			if (changed) OnChanged?.Invoke(this, new TimeChangedEventArgs(TimeSpan, previous));
-			if (focusLost) OnFocusLost?.Invoke(this, EventArgs.Empty);
+			if (focusLost) OnFocusLost?.Invoke(this, new TimeFocusLostEventArgs(TimeSpan));
 
 			changed = false;
 			focusLost = false;
@@ -374,6 +374,22 @@
 			///     Gets the previous timespan.
 			/// </summary>
 			public TimeSpan Previous { get; private set; }
+
+			/// <summary>
+			///     Gets the new timespan.
+			/// </summary>
+			public TimeSpan TimeSpan { get; private set; }
+		}
+
+		/// <summary>
+		///     Provides data for the <see cref="FocusLost" /> event.
+		/// </summary>
+		public class TimeFocusLostEventArgs : EventArgs
+		{
+			internal TimeFocusLostEventArgs(TimeSpan timeSpan)
+			{
+				TimeSpan = timeSpan;
+			}
 
 			/// <summary>
 			///     Gets the new timespan.

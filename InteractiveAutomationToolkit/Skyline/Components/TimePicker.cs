@@ -67,7 +67,7 @@
 		///     Triggered when the user loses focus of the TimePicker.
 		///     WantsOnFocusLost will be set to true when this event is subscribed to.
 		/// </summary>
-		public event EventHandler FocusLost
+		public event EventHandler<TimePickerFocusLostEventArgs> FocusLost
 		{
 			add
 			{
@@ -85,7 +85,7 @@
 			}
 		}
 
-		private event EventHandler OnFocusLost;
+		private event EventHandler<TimePickerFocusLostEventArgs> OnFocusLost;
 
 		/// <summary>
 		///     Gets or sets the last time listed in the time picker control.
@@ -330,7 +330,7 @@
 		internal override void RaiseResultEvents()
 		{
 			if (changed) OnChanged?.Invoke(this, new TimePickerChangedEventArgs(Time, previous));
-			if (focusLost) OnFocusLost?.Invoke(this, EventArgs.Empty);
+			if (focusLost) OnFocusLost?.Invoke(this, new TimePickerFocusLostEventArgs(Time));
 
 			changed = false;
 			focusLost = false;
@@ -359,6 +359,22 @@
 			///     Gets the previous time of day.
 			/// </summary>
 			public TimeSpan Previous { get; private set; }
+
+			/// <summary>
+			///     Gets the new time of day.
+			/// </summary>
+			public TimeSpan TimeSpan { get; private set; }
+		}
+
+		/// <summary>
+		///     Provides data for the <see cref="FocusLost" /> event.
+		/// </summary>
+		public class TimePickerFocusLostEventArgs : EventArgs
+		{
+			internal TimePickerFocusLostEventArgs(TimeSpan timeSpan)
+			{
+				TimeSpan = timeSpan;
+			}
 
 			/// <summary>
 			///     Gets the new time of day.
