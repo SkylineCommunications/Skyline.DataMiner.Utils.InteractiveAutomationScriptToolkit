@@ -23,14 +23,12 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 		/// <summary>
 		///     Gets or sets the maximum value of the range.
 		/// </summary>
-		/// <exception cref="ArgumentException">When the value is smaller than the minimum.</exception>
 		/// <exception cref="ArgumentException">When the value is <c>Double.NaN</c> or infinity.</exception>
 		double Maximum { get; set; }
 
 		/// <summary>
 		///     Gets or sets the minimum value of the range.
 		/// </summary>
-		/// <exception cref="ArgumentException">When the value is larger than the maximum.</exception>
 		/// <exception cref="ArgumentException">When the value is <c>Double.NaN</c> or infinity.</exception>
 		double Minimum { get; set; }
 

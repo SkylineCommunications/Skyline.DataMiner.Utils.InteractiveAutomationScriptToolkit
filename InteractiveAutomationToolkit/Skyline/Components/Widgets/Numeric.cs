@@ -84,12 +84,7 @@
 
 			set
 			{
-				if (value < Minimum)
-				{
-					throw new ArgumentException("Maximum can't be smaller than Minimum", nameof(value));
-				}
-
-				CheckDouble(value);
+				ThrowIfNaNOrInfinity(value);
 
 				BlockDefinition.RangeHigh = value;
 				Value = ClipToRange(Value);
@@ -103,12 +98,7 @@
 
 			set
 			{
-				if (value > Maximum)
-				{
-					throw new ArgumentException("Minimum can't be larger than Maximum", nameof(value));
-				}
-
-				CheckDouble(value);
+				ThrowIfNaNOrInfinity(value);
 
 				BlockDefinition.RangeLow = value;
 				Value = ClipToRange(Value);
@@ -122,7 +112,7 @@
 
 			set
 			{
-				CheckDouble(value);
+				ThrowIfNaNOrInfinity(value);
 				BlockDefinition.RangeStep = value;
 			}
 		}
@@ -196,7 +186,7 @@
 		}
 
 		// ReSharper disable once ParameterOnlyUsedForPreconditionCheck.Local
-		private static void CheckDouble(double value)
+		private static void ThrowIfNaNOrInfinity(double value)
 		{
 			if (Double.IsNaN(value))
 			{
