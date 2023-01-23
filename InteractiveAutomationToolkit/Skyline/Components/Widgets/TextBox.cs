@@ -62,6 +62,13 @@
 			set => BlockDefinition.IsMultiline = value;
 		}
 
+		/// <inheritdoc/>
+		public bool IsRequired
+		{
+			get => BlockDefinition.IsRequired;
+			set => BlockDefinition.IsRequired = value;
+		}
+
 		/// <inheritdoc />
 		public string PlaceHolder
 		{

@@ -19,6 +19,15 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 		bool HasPeekIcon { get; set; }
 
 		/// <summary>
+		/// 	Gets or sets a value indicating whether it is mandatory to provide a value.
+		/// 	If the <see cref="IPasswordBox"/> is empty, the it will have a red border and will display that the field cannot be empty.
+		/// 	This is only a visual indicator to the user, so take care to always validate user input.
+		/// </summary>
+		/// <remarks>This property only works for web compliant scripts or when launched from a DataMiner web app.</remarks>
+		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
+		bool IsRequired { get; set; }
+
+		/// <summary>
 		///     Gets or sets the password set in the password box.
 		/// </summary>
 		string Password { get; set; }

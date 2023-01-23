@@ -44,6 +44,13 @@
 			set => BlockDefinition.HasPeekIcon = value;
 		}
 
+		/// <inheritdoc/>
+		public bool IsRequired
+		{
+			get => BlockDefinition.IsRequired;
+			set => BlockDefinition.IsRequired = value;
+		}
+
 		/// <inheritdoc />
 		public string Password
 		{

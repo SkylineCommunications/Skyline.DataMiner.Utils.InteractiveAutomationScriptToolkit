@@ -77,6 +77,13 @@
 			}
 		}
 
+		/// <inheritdoc/>
+		public bool IsRequired
+		{
+			get => BlockDefinition.IsRequired;
+			set => BlockDefinition.IsRequired = value;
+		}
+
 		/// <inheritdoc />
 		public double Maximum
 		{
