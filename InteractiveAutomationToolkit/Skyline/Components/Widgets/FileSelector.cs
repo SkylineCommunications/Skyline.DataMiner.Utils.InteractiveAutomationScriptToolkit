@@ -30,13 +30,6 @@
 		}
 
 		/// <inheritdoc />
-		public string PlaceHolder
-		{
-			get => BlockDefinition.PlaceholderText;
-			set => BlockDefinition.PlaceholderText = value ?? String.Empty;
-		}
-
-		/// <inheritdoc />
 		public string Tooltip
 		{
 			get => BlockDefinition.TooltipText;
