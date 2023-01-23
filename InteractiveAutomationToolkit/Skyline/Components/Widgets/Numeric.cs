@@ -164,7 +164,10 @@
 					CultureInfo.InvariantCulture,
 					out double result))
 			{
-				return;
+				// The double cannot be parsed if the numeric was cleared (is empty).
+				// However, when any interaction occurs and the window is updated, cube and web will convert this empty value to 0.
+				// To avoid confusion, the api should return the same value (0).
+				result = 0;
 			}
 
 			bool isNotEqual = !IsEqualWithinDecimalMargin(result, value);
