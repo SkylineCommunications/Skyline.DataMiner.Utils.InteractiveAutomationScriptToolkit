@@ -6,7 +6,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 	/// <summary>
 	/// 	Represents a tree structure with nodes that can be checked.
 	/// </summary>
-	/// <remarks>This component is only supported on script launched from a //////temporary  until it is fixedhas beenBELOW // / Engine.eShowUI(TtheTHENGcan no lognger be web UI (e.g. Dashboards).</remarks>
+	/// <remarks>This widget only works for web compliant scripts or when launched from a DataMiner web app.</remarks>
 	public interface ITreeView
 	{
 		/// <summary>

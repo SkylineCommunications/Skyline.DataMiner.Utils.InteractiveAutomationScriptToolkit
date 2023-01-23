@@ -13,7 +13,7 @@
 	/// <summary>
 	///     A tree structure with nodes that can be checked.
 	/// </summary>
-	/// <remarks>This component is only supported on scripts launched from a web UI (e.g. Dashboards).</remarks>
+	/// <remarks>This widget only works for web compliant scripts or when launched from a DataMiner web app.</remarks>
 	public class TreeView : InteractiveWidget, ITreeView
 	{
 		private bool changed;
@@ -24,7 +24,7 @@
 		/// <summary>
 		/// 	Initializes a new instance of the <see cref="TreeView" /> class.
 		/// </summary>
-		/// <remarks>This component is only supported on scripts launched from a web UI (e.g. Dashboards).</remarks>
+		/// <remarks>This widget only works for web compliant scripts or when launched from a DataMiner web app.</remarks>
 		public TreeView() : this(Array.Empty<TreeViewNode>())
 		{
 		}
@@ -33,7 +33,7 @@
 		/// 	Initializes a new instance of the <see cref="TreeView" /> class.
 		/// </summary>
 		/// <param name="rootNode">Root node of the tree view.</param>
-		/// <remarks>This component is only supported on scripts launched from a web UI (e.g. Dashboards).</remarks>
+		/// <remarks>This widget only works for web compliant scripts or when launched from a DataMiner web app.</remarks>
 		public TreeView(TreeViewNode rootNode) : this(new[] { rootNode })
 		{
 		}
@@ -42,7 +42,7 @@
 		/// 	Initializes a new instance of the <see cref="TreeView" /> class.
 		/// </summary>
 		/// <param name="rootNodes">Root nodes of the tree view.</param>
-		/// <remarks>This component is only supported on scripts launched from a web UI (e.g. Dashboards).</remarks>
+		/// <remarks>This widget only works for web compliant scripts or when launched from a DataMiner web app.</remarks>
 		public TreeView(IEnumerable<TreeViewNode> rootNodes)
 		{
 			if (rootNodes == null)

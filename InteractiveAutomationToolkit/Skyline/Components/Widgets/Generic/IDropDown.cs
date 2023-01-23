@@ -64,7 +64,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 		///     Allows setting the selected value to something else than what is available in the options list.
 		///     Useful for setting something like "Please select a value".
 		/// </summary>
-		/// <remarks>This only works in HTML5 (Dashboards, etc.).</remarks>
+		/// <remarks>This method only works for web compliant scripts or when launched from a DataMiner web app.</remarks>
 		/// <param name="selected">String that will appear as selected value even if not available the in options list.</param>
 		void ForceSelected(string selected);
 	}
