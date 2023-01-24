@@ -319,7 +319,7 @@
 		[TestMethod]
 		public void WantsOnChangeTimePickerOnChangedEvent()
 		{
-			var timePicker = new TimePicker();
+			var timePicker = new TimeOfDayPicker();
 			Assert.IsFalse(timePicker.WantsOnChange);
 
 			timePicker.Changed += DoNothing;

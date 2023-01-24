@@ -5,13 +5,13 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 	/// <summary>
 	///     Represents a widget to show/edit a time of day.
 	/// </summary>
-	public interface ITimePicker : ITimePickerBase, IValidate
+	public interface ITimeOfDayPicker : ITimePickerBase, IValidate
 	{
 		/// <summary>
 		///     Triggered when a different time is picked.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
-		event EventHandler<TimePicker.ChangedEventArgs> Changed;
+		event EventHandler<TimeOfDayPicker.ChangedEventArgs> Changed;
 
 		/// <summary>
 		///     Gets or sets the last time listed in the time picker control.

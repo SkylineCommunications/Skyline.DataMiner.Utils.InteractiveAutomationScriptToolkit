@@ -8,8 +8,9 @@
 
 	/// <summary>
 	///     Widget to show/edit a time duration.
+	/// 	See <see cref="System.TimeSpan"></see>
 	/// </summary>
-	public class Time : InteractiveWidget, ITime
+	public class TimeSpanPicker : InteractiveWidget, ITimeSpanPicker
 	{
 		private readonly Validation validation;
 		private bool changed;
@@ -18,10 +19,10 @@
 		private AutomationTimeUpDownOptions timeUpDownOptions;
 
 		/// <summary>
-		///     Initializes a new instance of the <see cref="Time" /> class.
+		///     Initializes a new instance of the <see cref="TimeSpanPicker" /> class.
 		/// </summary>
 		/// <param name="timeSpan">The timespan displayed in the time widget.</param>
-		public Time(TimeSpan timeSpan)
+		public TimeSpanPicker(TimeSpan timeSpan)
 		{
 			Type = UIBlockType.Time;
 			validation = new Validation(this);
@@ -30,9 +31,9 @@
 		}
 
 		/// <summary>
-		///     Initializes a new instance of the <see cref="Time" /> class.
+		///     Initializes a new instance of the <see cref="TimeSpanPicker" /> class.
 		/// </summary>
-		public Time()
+		public TimeSpanPicker()
 			: this(default)
 		{
 		}

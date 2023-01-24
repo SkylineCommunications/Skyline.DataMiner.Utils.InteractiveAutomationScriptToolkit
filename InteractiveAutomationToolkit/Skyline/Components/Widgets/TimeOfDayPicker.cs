@@ -7,9 +7,9 @@
 	using Skyline.DataMiner.Automation;
 
 	/// <summary>
-	///     Widget to show/edit a time of day.
+	///     Widget to show/edit <see cref="DateTime.TimeOfDay"/>.
 	/// </summary>
-	public class TimePicker : TimePickerBase, ITimePicker
+	public class TimeOfDayPicker : TimePickerBase, ITimeOfDayPicker
 	{
 		private readonly Validation validation;
 		private bool changed;
@@ -21,10 +21,10 @@
 		private AutomationTimePickerOptions timePickerOptions;
 
 		/// <summary>
-		///     Initializes a new instance of the <see cref="TimePicker" /> class.
+		///     Initializes a new instance of the <see cref="TimeOfDayPicker" /> class.
 		/// </summary>
 		/// <param name="time">Time displayed in the time picker.</param>
-		public TimePicker(TimeSpan time)
+		public TimeOfDayPicker(TimeSpan time)
 			: base(new AutomationTimePickerOptions())
 		{
 			Type = UIBlockType.Time;
@@ -34,9 +34,9 @@
 		}
 
 		/// <summary>
-		///     Initializes a new instance of the <see cref="TimePicker" /> class.
+		///     Initializes a new instance of the <see cref="TimeOfDayPicker" /> class.
 		/// </summary>
-		public TimePicker()
+		public TimeOfDayPicker()
 			: this(DateTime.Now.TimeOfDay)
 		{
 		}

@@ -5,13 +5,13 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
 	/// <summary>
 	///     Represents a widget to show/edit a time duration.
 	/// </summary>
-	public interface ITime : IInteractiveWidget, IValidate
+	public interface ITimeSpanPicker : IInteractiveWidget, IValidate
 	{
 		/// <summary>
 		///     Triggered when the timespan changes.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
-		event EventHandler<Time.ChangedEventArgs> Changed;
+		event EventHandler<TimeSpanPicker.ChangedEventArgs> Changed;
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the value is clipped to the range.

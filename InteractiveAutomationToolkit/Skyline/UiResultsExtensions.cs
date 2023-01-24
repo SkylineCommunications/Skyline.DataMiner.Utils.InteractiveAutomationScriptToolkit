@@ -45,7 +45,7 @@
 			return results.GetString(interactiveWidget.DestVar);
 		}
 
-		public static TimeSpan GetTime(this UIResults results, Time time)
+		public static TimeSpan GetTime(this UIResults results, TimeSpanPicker time)
 		{
 			string receivedTime = results.GetString(time);
 
@@ -63,7 +63,7 @@
 			return DateTime.Parse(receivedTime, CultureInfo.InvariantCulture).TimeOfDay;
 		}
 
-		public static TimeSpan GetTime(this UIResults results, TimePicker time)
+		public static TimeSpan GetTime(this UIResults results, TimeOfDayPicker time)
 		{
 			return DateTime.Parse(results.GetString(time), CultureInfo.InvariantCulture).TimeOfDay;
 		}
