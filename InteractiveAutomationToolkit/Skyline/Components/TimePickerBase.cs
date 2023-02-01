@@ -18,7 +18,6 @@
 		{
 			DateTimeUpDownOptions = dateTimeUpDownOptions;
 			UpdateOnEnter = false;
-			Kind = DateTimeKind.Local;
 		}
 
 		/// <summary>
