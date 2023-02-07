@@ -14,7 +14,7 @@
 		<PackageProjectUrl>https://skyline.be/</PackageProjectUrl>
 		<Description>Framework used to create Interactive Automation Scripts in DataMiner for DMA version larger than 10.1.8</Description>
 		<PackageIcon>Icon.png</PackageIcon>
-		<readme>README.md</readme>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Version>2.3.0</Version>
 	</PropertyGroup>
 
