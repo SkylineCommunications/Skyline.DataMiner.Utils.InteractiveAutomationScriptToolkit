@@ -6,13 +6,13 @@
 				<Enabled>true</Enabled>
 			</PackageCreation>
 			<PackageSigning>
-				<Enabled>true</Enabled>
+				<Enabled>false</Enabled>
 			</PackageSigning>
 			<PackagePublishing>
 				<Enabled>true</Enabled>
 				<Destinations>
 					<Destination>
-						<Server>publicNuGetOrgStore</Server>
+						<Server>privateSkylineNuGetStore</Server>
 					</Destination>
 				</Destinations>
 			</PackagePublishing>
