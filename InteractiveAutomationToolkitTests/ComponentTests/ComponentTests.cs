@@ -4,6 +4,8 @@
 	using System.Collections.Generic;
 	using System.Linq;
 
+	using FluentAssertions;
+
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 	using Skyline.DataMiner.Utils.InteractiveAutomationToolkit;
@@ -112,13 +114,13 @@
 		public void WantsOnChangeButtonOnPressedEvent()
 		{
 			var button = new Button("Button 1");
-			Assert.IsFalse(button.WantsOnChange);
+			button.WantsOnChange.Should().BeTrue("It should always be true");
 
 			button.Pressed += DoNothing;
-			Assert.IsTrue(button.WantsOnChange);
+			button.WantsOnChange.Should().BeTrue("It should always be true, especially when subscribed on");
 
 			button.Pressed -= DoNothing;
-			Assert.IsFalse(button.WantsOnChange);
+			button.WantsOnChange.Should().BeTrue("It should always be true, even after unsubscribing");
 		}
 
 		/// <summary>

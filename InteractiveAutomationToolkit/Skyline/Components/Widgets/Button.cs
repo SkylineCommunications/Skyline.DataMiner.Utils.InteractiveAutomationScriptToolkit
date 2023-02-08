@@ -20,6 +20,7 @@
 		{
 			Type = UIBlockType.Button;
 			Text = text;
+			WantsOnChange = true;
 		}
 
 		/// <summary>
@@ -42,10 +43,12 @@
 			remove
 			{
 				OnPressed -= value;
-				if (OnPressed == null || !OnPressed.GetInvocationList().Any())
-				{
-					WantsOnChange = false;
-				}
+
+				// The WantsOnChange flag should not be cleared.
+				// If a dialog has no "interactive" UIBlock, it will automatically add an awkward "send interaction" button.
+				// This button always appears on the first row and column, potentially overlapping with other widgets.
+				// This might lead to confusion if the dialog does have a button (one without a event handler).
+				// So we think it is better to always make a button "interactive" to prevent this.
 			}
 		}
 
