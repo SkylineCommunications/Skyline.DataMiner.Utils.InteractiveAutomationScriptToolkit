@@ -7,32 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteractiveAutomationToolki
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteractiveAutomationToolkitTests", "InteractiveAutomationToolkitTests\InteractiveAutomationToolkitTests.csproj", "{5F9CFC53-41E2-4540-8911-9597BDA36F52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example", "Example\Example.csproj", "{76F82C21-ACF6-40F2-8641-012C21A1B3C9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorldExample", "HelloWorldExample\HelloWorldExample.csproj", "{560C7EDA-9887-4FEA-AB36-9E0FB3C9D9F6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventHandlingExample", "EventHandlingExample\EventHandlingExample.csproj", "{D22E91AE-BF77-4577-89FC-18FB993C0669}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwitchDialogExample", "SwitchDialogExample\SwitchDialogExample.csproj", "{B1F8E36D-D5F3-4EC2-94A1-607D2B299133}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{246FE326-48F1-4D98-BBCA-B157023F4C5E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetParamsDemo", "SetParamsDemo\SetParamsDemo.csproj", "{FB6C75D5-19D8-4D8C-A984-4F25E1A3EE7E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LazyLoadingTreeViewExample", "LazyLoadingTreeViewExample\LazyLoadingTreeViewExample.csproj", "{466B34D1-12C5-44F1-9745-1C83A8F2F2B7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportingProgressExample", "ReportingProgressExample\ReportingProgressExample.csproj", "{AE5A9FC0-C841-421C-86D8-05FDB58AD577}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JenkinsDependencies", "JenkinsDependencies", "{F01A2F3F-FCAA-4AA2-9164-906FCC2296EF}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{13BD5700-3F43-4F4F-9174-5FE3E266716F}"
 ProjectSection(SolutionItems) = preProject
-	JenkinsDependencies\SLManagedAutomation.dll = JenkinsDependencies\SLManagedAutomation.dll
-	JenkinsDependencies\SLNetTypes.dll = JenkinsDependencies\SLNetTypes.dll
-EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8CBD42A8-D15B-4845-A81B-250720EAC01D}"
-ProjectSection(SolutionItems) = preProject
-	manifest.xml = manifest.xml
 	JenkinsNuGetConfiguration.xml = JenkinsNuGetConfiguration.xml
+	README.md = README.md
+	LICENSE.txt = LICENSE.txt
 EndProjectSection
 EndProject
 Global
@@ -49,46 +28,11 @@ Global
 		{5F9CFC53-41E2-4540-8911-9597BDA36F52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F9CFC53-41E2-4540-8911-9597BDA36F52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F9CFC53-41E2-4540-8911-9597BDA36F52}.Release|Any CPU.Build.0 = Release|Any CPU
-		{76F82C21-ACF6-40F2-8641-012C21A1B3C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{76F82C21-ACF6-40F2-8641-012C21A1B3C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{76F82C21-ACF6-40F2-8641-012C21A1B3C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{76F82C21-ACF6-40F2-8641-012C21A1B3C9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{560C7EDA-9887-4FEA-AB36-9E0FB3C9D9F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{560C7EDA-9887-4FEA-AB36-9E0FB3C9D9F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{560C7EDA-9887-4FEA-AB36-9E0FB3C9D9F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{560C7EDA-9887-4FEA-AB36-9E0FB3C9D9F6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D22E91AE-BF77-4577-89FC-18FB993C0669}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D22E91AE-BF77-4577-89FC-18FB993C0669}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D22E91AE-BF77-4577-89FC-18FB993C0669}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D22E91AE-BF77-4577-89FC-18FB993C0669}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B1F8E36D-D5F3-4EC2-94A1-607D2B299133}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B1F8E36D-D5F3-4EC2-94A1-607D2B299133}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B1F8E36D-D5F3-4EC2-94A1-607D2B299133}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B1F8E36D-D5F3-4EC2-94A1-607D2B299133}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FB6C75D5-19D8-4D8C-A984-4F25E1A3EE7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FB6C75D5-19D8-4D8C-A984-4F25E1A3EE7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FB6C75D5-19D8-4D8C-A984-4F25E1A3EE7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FB6C75D5-19D8-4D8C-A984-4F25E1A3EE7E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{466B34D1-12C5-44F1-9745-1C83A8F2F2B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{466B34D1-12C5-44F1-9745-1C83A8F2F2B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{466B34D1-12C5-44F1-9745-1C83A8F2F2B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{466B34D1-12C5-44F1-9745-1C83A8F2F2B7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AE5A9FC0-C841-421C-86D8-05FDB58AD577}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AE5A9FC0-C841-421C-86D8-05FDB58AD577}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AE5A9FC0-C841-421C-86D8-05FDB58AD577}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AE5A9FC0-C841-421C-86D8-05FDB58AD577}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{76F82C21-ACF6-40F2-8641-012C21A1B3C9} = {246FE326-48F1-4D98-BBCA-B157023F4C5E}
-		{560C7EDA-9887-4FEA-AB36-9E0FB3C9D9F6} = {246FE326-48F1-4D98-BBCA-B157023F4C5E}
-		{D22E91AE-BF77-4577-89FC-18FB993C0669} = {246FE326-48F1-4D98-BBCA-B157023F4C5E}
-		{B1F8E36D-D5F3-4EC2-94A1-607D2B299133} = {246FE326-48F1-4D98-BBCA-B157023F4C5E}
-		{FB6C75D5-19D8-4D8C-A984-4F25E1A3EE7E} = {246FE326-48F1-4D98-BBCA-B157023F4C5E}
-		{466B34D1-12C5-44F1-9745-1C83A8F2F2B7} = {246FE326-48F1-4D98-BBCA-B157023F4C5E}
-		{AE5A9FC0-C841-421C-86D8-05FDB58AD577} = {246FE326-48F1-4D98-BBCA-B157023F4C5E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {63CE52E0-29CA-4259-B07D-CBD0C547125D}
