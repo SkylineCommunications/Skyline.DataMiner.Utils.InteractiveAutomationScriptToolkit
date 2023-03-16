@@ -4,7 +4,8 @@
 	using System.Collections.Generic;
 	using System.Linq;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
-	using Skyline.DataMiner.DeveloperCommunityLibrary.InteractiveAutomationToolkit;
+
+	using Skyline.DataMiner.Utils.InteractiveAutomationScript;
 
 	[TestClass]
 	public class ComponentTests
