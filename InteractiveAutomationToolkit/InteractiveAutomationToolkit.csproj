@@ -3,19 +3,21 @@
 		<TargetFramework>net462</TargetFramework>
 		<PlatformTarget>x86</PlatformTarget>
 		<CodeAnalysisRuleSet>InteractiveAutomationToolkit.ruleset</CodeAnalysisRuleSet>
-		<AssemblyName>Skyline.DataMiner.Utils.InteractiveAutomationToolkit</AssemblyName>
-		<RootNamespace>Skyline.DataMiner.Utils.InteractiveAutomationToolkit</RootNamespace>
+		<AssemblyName>Skyline.DataMiner.Utils.InteractiveAutomationScriptToolkit.Preview</AssemblyName>
+		<RootNamespace>Skyline.DataMiner.Utils.InteractiveAutomationScript</RootNamespace>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Authors>SkylineCommunications</Authors>
 		<Company>Skyline Communications</Company>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageTags>Skyline;DataMiner;Toolkit</PackageTags>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<PackageTags>Skyline;DataMiner;GUI</PackageTags>
 		<PackageProjectUrl>https://skyline.be/</PackageProjectUrl>
-		<Description>Framework used to create Interactive Automation Scripts in DataMiner for DMA version larger than 10.1.8</Description>
+		<RepositoryUrl>https://github.com/SkylineCommunications/Skyline.DataMiner.Utils.InteractiveAutomationScriptToolkit</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<Description>Framework to create Interactive Automation Scripts in DataMiner.</Description>
 		<PackageIcon>Icon.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<Version>2.3.0</Version>
+		<Version>1.0.0</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -44,7 +46,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Skyline.DataMiner.Dev.Automation" Version="10.1.8" />
+	  <PackageReference Include="Skyline.DataMiner.Dev.Automation" Version="10.3.3" />
 	  <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
 	    <PrivateAssets>all</PrivateAssets>
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

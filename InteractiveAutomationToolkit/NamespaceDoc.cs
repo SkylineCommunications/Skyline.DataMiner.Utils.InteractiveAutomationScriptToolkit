@@ -1,4 +1,4 @@
-﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationToolkit
+﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 {
 	using System.Runtime.CompilerServices;
 

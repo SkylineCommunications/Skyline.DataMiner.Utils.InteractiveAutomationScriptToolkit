@@ -6,7 +6,7 @@
 
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-	using Skyline.DataMiner.Utils.InteractiveAutomationToolkit;
+	using Skyline.DataMiner.Utils.InteractiveAutomationScript;
 
 	using static FluentAssertions.FluentActions;
 

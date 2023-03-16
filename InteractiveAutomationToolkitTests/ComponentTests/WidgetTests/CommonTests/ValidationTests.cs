@@ -9,7 +9,7 @@
 	using Moq;
 
 	using Skyline.DataMiner.Automation;
-	using Skyline.DataMiner.Utils.InteractiveAutomationToolkit;
+	using Skyline.DataMiner.Utils.InteractiveAutomationScript;
 
 	using static FluentAssertions.FluentActions;
 
