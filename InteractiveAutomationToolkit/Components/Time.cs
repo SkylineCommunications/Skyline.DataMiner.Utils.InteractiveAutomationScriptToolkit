@@ -32,7 +32,7 @@
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Time" /> class.
 		/// </summary>
-		public Time() : this(new TimeSpan())
+		public Time() : this(default)
 		{
 		}
 
@@ -58,8 +58,6 @@
 			}
 		}
 
-		private event EventHandler<TimeChangedEventArgs> OnChanged;
-
 		/// <summary>
 		///     Triggered when the user loses focus of the Time.
 		///     WantsOnFocusLost will be set to true when this event is subscribed to.
@@ -82,11 +80,13 @@
 			}
 		}
 
+		private event EventHandler<TimeChangedEventArgs> OnChanged;
+
 		private event EventHandler<TimeFocusLostEventArgs> OnFocusLost;
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the value is clipped to the range.
-		///     Default: <c>false</c>
+		///     Default: <c>false</c>.
 		/// </summary>
 		public bool ClipValueToRange
 		{
@@ -103,7 +103,7 @@
 
 		/// <summary>
 		///     Gets or sets the number of digits to be used in order to represent the fractions of seconds.
-		///     Default: <c>0</c>
+		///     Default: <c>0</c>.
 		/// </summary>
 		public int Decimals
 		{
@@ -125,7 +125,7 @@
 
 		/// <summary>
 		///     Gets or sets a value indicating whether seconds are displayed in the time widget.
-		///     Default: <c>true</c>
+		///     Default: <c>true</c>.
 		/// </summary>
 		public bool HasSeconds
 		{
@@ -142,7 +142,7 @@
 
 		/// <summary>
 		///     Gets or sets a value indicating whether a spinner button is shown.
-		///     Default: <c>true</c>
+		///     Default: <c>true</c>.
 		/// </summary>
 		public bool HasSpinnerButton
 		{
@@ -159,7 +159,7 @@
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the spinner button is enabled.
-		///     Default: <c>true</c>
+		///     Default: <c>true</c>.
 		/// </summary>
 		public bool IsSpinnerButtonEnabled
 		{
@@ -198,7 +198,7 @@
 
 		/// <summary>
 		///     Gets or sets the maximum timespan.
-		///     Default: <c>TimeSpan.MaxValue</c>
+		///     Default: <c>TimeSpan.MaxValue</c>.
 		/// </summary>
 		/// <exception cref="ArgumentOutOfRangeException">When the maximum is smaller than the minimum.</exception>
 		public TimeSpan Maximum
@@ -221,7 +221,7 @@
 
 		/// <summary>
 		///     Gets or sets the minimum timespan.
-		///     Default: <c>TimeSpan.MinValue</c>
+		///     Default: <c>TimeSpan.MinValue</c>.
 		/// </summary>
 		/// <exception cref="ArgumentOutOfRangeException">When the minimum is larger than the maximum.</exception>
 		public TimeSpan Minimum
@@ -263,7 +263,7 @@
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the widget will only trigger an event when the enter key is pressed.
-		///     Default: <c>false</c>
+		///     Default: <c>false</c>.
 		/// </summary>
 		public bool UpdateOnEnter
 		{
@@ -278,9 +278,9 @@
 			}
 		}
 
-        /// <summary>
-		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by the client to add a visual marker on the input field.
+		/// <summary>
+		/// 	Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
+		/// 	This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public UIValidationState ValidationState
@@ -297,8 +297,8 @@
 		}
 
 		/// <summary>
-		///		Gets or sets the text that is shown if the validation state is invalid.
-		///		This should be used by the client to add a visual marker on the input field.
+		/// 	Gets or sets the text that is shown if the validation state is invalid.
+		/// 	This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public string ValidationText
@@ -345,7 +345,10 @@
 				previous = TimeSpan;
 			}
 
-			if (BlockDefinition.WantsOnFocusLost) focusLost = wasOnFocusLost;
+			if (BlockDefinition.WantsOnFocusLost)
+			{
+				focusLost = wasOnFocusLost;
+			}
 
 			TimeSpan = result;
 		}
@@ -353,8 +356,15 @@
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			if (changed) OnChanged?.Invoke(this, new TimeChangedEventArgs(TimeSpan, previous));
-			if (focusLost) OnFocusLost?.Invoke(this, new TimeFocusLostEventArgs(TimeSpan));
+			if (changed)
+			{
+				OnChanged?.Invoke(this, new TimeChangedEventArgs(TimeSpan, previous));
+			}
+
+			if (focusLost)
+			{
+				OnFocusLost?.Invoke(this, new TimeFocusLostEventArgs(TimeSpan));
+			}
 
 			changed = false;
 			focusLost = false;
@@ -365,6 +375,11 @@
 		/// </summary>
 		public class TimeChangedEventArgs : EventArgs
 		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="TimeChangedEventArgs"/> class.
+			/// </summary>
+			/// <param name="timeSpan"></param>
+			/// <param name="previous"></param>
 			internal TimeChangedEventArgs(TimeSpan timeSpan, TimeSpan previous)
 			{
 				TimeSpan = timeSpan;
@@ -387,6 +402,10 @@
 		/// </summary>
 		public class TimeFocusLostEventArgs : EventArgs
 		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="TimeFocusLostEventArgs"/> class.
+			/// </summary>
+			/// <param name="timeSpan"></param>
 			internal TimeFocusLostEventArgs(TimeSpan timeSpan)
 			{
 				TimeSpan = timeSpan;

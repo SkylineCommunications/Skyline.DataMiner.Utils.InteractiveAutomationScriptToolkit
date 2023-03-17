@@ -81,14 +81,22 @@
 		public static IEnumerable<string> GetExpandedItemKeys(this UIResults uiResults, TreeView treeView)
 		{
 			string[] expandedItems = uiResults.GetExpanded(treeView.DestVar);
-			if (expandedItems == null) return new string[0];
+			if (expandedItems == null)
+			{
+				return Array.Empty<string>();
+			}
+
 			return expandedItems.Where(x => !String.IsNullOrWhiteSpace(x)).ToList();
 		}
 
 		public static IEnumerable<string> GetCheckedItemKeys(this UIResults uiResults, TreeView treeView)
 		{
 			string result = uiResults.GetString(treeView.DestVar);
-			if (String.IsNullOrEmpty(result)) return new string[0];
+			if (String.IsNullOrEmpty(result))
+			{
+				return Array.Empty<string>();
+			}
+
 			return result.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
 		}
 	}

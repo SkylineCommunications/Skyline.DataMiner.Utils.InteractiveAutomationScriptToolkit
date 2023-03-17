@@ -7,7 +7,7 @@
 	using Skyline.DataMiner.Automation;
 
 	/// <summary>
-	///		A button that can be used to show/hide a collection of widgets.
+	/// 	A button that can be used to show/hide a collection of widgets.
 	/// </summary>
 	public class CollapseButton : InteractiveWidget
 	{
@@ -21,7 +21,7 @@
 		private bool isCollapsed;
 
 		/// <summary>
-		/// Initializes a new instance of the CollapseButton class.
+		/// Initializes a new instance of the <see cref="CollapseButton"/> class.
 		/// </summary>
 		/// <param name="linkedWidgets">Widgets that are linked to this collapse button.</param>
 		/// <param name="isCollapsed">State of the collapse button.</param>
@@ -38,7 +38,7 @@
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the CollapseButton class.
+		/// Initializes a new instance of the <see cref="CollapseButton"/> class.
 		/// </summary>
 		/// <param name="isCollapsed">State of the collapse button.</param>
 		public CollapseButton(bool isCollapsed = false) : this(new Widget[0], isCollapsed)
@@ -65,7 +65,7 @@
 		private event EventHandler<EventArgs> OnPressed;
 
 		/// <summary>
-		/// Indicates if the collapse button is collapsed or not.
+		/// Gets or sets a value indicating whether the collapse button is collapsed or not.
 		/// If the collapse button is collapsed, the IsVisible property of all linked widgets is set to false.
 		/// If the collapse button is not collapsed, the IsVisible property of all linked widgets is set to true.
 		/// </summary>
@@ -99,10 +99,16 @@
 
 			set
 			{
-				if (String.IsNullOrWhiteSpace(value)) throw new ArgumentException("The Collapse text cannot be empty.");
+				if (String.IsNullOrWhiteSpace(value))
+				{
+					throw new ArgumentException("The Collapse text cannot be empty.");
+				}
 
 				collapseText = value;
-				if (!IsCollapsed) BlockDefinition.Text = collapseText;
+				if (!IsCollapsed)
+				{
+					BlockDefinition.Text = collapseText;
+				}
 			}
 		}
 
@@ -140,15 +146,21 @@
 
 			set
 			{
-				if (String.IsNullOrWhiteSpace(value)) throw new ArgumentException("The Expand text cannot be empty.");
+				if (String.IsNullOrWhiteSpace(value))
+				{
+					throw new ArgumentException("The Expand text cannot be empty.");
+				}
 
 				expandText = value;
-				if (IsCollapsed) BlockDefinition.Text = expandText;
+				if (IsCollapsed)
+				{
+					BlockDefinition.Text = expandText;
+				}
 			}
 		}
 
 		/// <summary>
-		/// Collection of widgets that are affected by this collapse button.
+		/// Gets the collection of widgets that are affected by this collapse button.
 		/// </summary>
 		public List<Widget> LinkedWidgets { get; private set; }
 

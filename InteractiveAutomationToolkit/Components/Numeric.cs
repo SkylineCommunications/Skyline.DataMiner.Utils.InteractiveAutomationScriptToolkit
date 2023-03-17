@@ -63,8 +63,6 @@
 			}
 		}
 
-		private event EventHandler<NumericChangedEventArgs> OnChanged;
-
 		/// <summary>
 		///     Triggered when the user loses focus of the Numeric.
 		///     WantsOnFocusLost will be set to true when this event is subscribed to.
@@ -86,6 +84,8 @@
 				}
 			}
 		}
+
+		private event EventHandler<NumericChangedEventArgs> OnChanged;
 
 		private event EventHandler<NumericFocusLostEventArgs> OnFocusLost;
 
@@ -183,7 +183,6 @@
 			}
 		}
 
-
 		/// <summary>
 		///     Gets or sets the step size.
 		/// </summary>
@@ -220,8 +219,8 @@
 		}
 
 		/// <summary>
-		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by the client to add a visual marker on the input field.
+		/// 	Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
+		/// 	This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public UIValidationState ValidationState
@@ -238,8 +237,8 @@
 		}
 
 		/// <summary>
-		///		Gets or sets the text that is shown if the validation state is invalid.
-		///		This should be used by the client to add a visual marker on the input field.
+		/// 	Gets or sets the text that is shown if the validation state is invalid.
+		/// 	This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public string ValidationText
@@ -259,7 +258,10 @@
 		internal override void LoadResult(UIResults uiResults)
 		{
 			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);
-			if (BlockDefinition.WantsOnFocusLost) focusLost = wasOnFocusLost;
+			if (BlockDefinition.WantsOnFocusLost)
+			{
+				focusLost = wasOnFocusLost;
+			}
 
 			double result;
 			if (!Double.TryParse(
@@ -284,8 +286,15 @@
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			if (changed) OnChanged?.Invoke(this, new NumericChangedEventArgs(Value, previous));
-			if (focusLost) OnFocusLost?.Invoke(this, new NumericFocusLostEventArgs(Value));
+			if (changed)
+			{
+				OnChanged?.Invoke(this, new NumericChangedEventArgs(Value, previous));
+			}
+
+			if (focusLost)
+			{
+				OnFocusLost?.Invoke(this, new NumericFocusLostEventArgs(Value));
+			}
 
 			changed = false;
 			focusLost = false;
@@ -315,6 +324,11 @@
 		/// </summary>
 		public class NumericChangedEventArgs : EventArgs
 		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="NumericChangedEventArgs"/> class.
+			/// </summary>
+			/// <param name="value"></param>
+			/// <param name="previous"></param>
 			internal NumericChangedEventArgs(double value, double previous)
 			{
 				Value = value;
@@ -337,6 +351,10 @@
 		/// </summary>
 		public class NumericFocusLostEventArgs : EventArgs
 		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="NumericFocusLostEventArgs"/> class.
+			/// </summary>
+			/// <param name="value"></param>
 			internal NumericFocusLostEventArgs(double value)
 			{
 				Value = value;

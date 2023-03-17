@@ -31,6 +31,30 @@
 		}
 
 		/// <summary>
+		///     Triggered when the button is pressed.
+		///     WantsOnChange will be set to true when this event is subscribed to.
+		/// </summary>
+		public event EventHandler<EventArgs> Pressed
+		{
+			add
+			{
+				OnPressed += value;
+				BlockDefinition.WantsOnChange = true;
+			}
+
+			remove
+			{
+				OnPressed -= value;
+				if (OnPressed == null || !OnPressed.GetInvocationList().Any())
+				{
+					BlockDefinition.WantsOnChange = false;
+				}
+			}
+		}
+
+		private event EventHandler<EventArgs> OnPressed;
+
+		/// <summary>
 		///     Gets or sets the text style of the label.
 		/// </summary>
 		public ButtonStyle Style
@@ -68,30 +92,6 @@
 				BlockDefinition.TooltipText = value;
 			}
 		}
-
-		/// <summary>
-		///     Triggered when the button is pressed.
-		///     WantsOnChange will be set to true when this event is subscribed to.
-		/// </summary>
-		public event EventHandler<EventArgs> Pressed
-		{
-			add
-			{
-				OnPressed += value;
-				BlockDefinition.WantsOnChange = true;
-			}
-
-			remove
-			{
-				OnPressed -= value;
-				if (OnPressed == null || !OnPressed.GetInvocationList().Any())
-				{
-					BlockDefinition.WantsOnChange = false;
-				}
-			}
-		}
-
-		private event EventHandler<EventArgs> OnPressed;
 
 		/// <summary>
 		///     Gets or sets the text displayed in the button.

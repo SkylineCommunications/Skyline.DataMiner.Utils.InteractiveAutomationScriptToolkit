@@ -58,8 +58,6 @@
 			}
 		}
 
-		private event EventHandler<TextBoxChangedEventArgs> OnChanged;
-
 		/// <summary>
 		///     Triggered when the user loses focus of the TextBox. E.g. clicking somewhere else other than the TextBox widget in the Dialog.
 		///     WantsOnFocusLost will be set to true when this event is subscribed to.
@@ -81,6 +79,8 @@
 				}
 			}
 		}
+
+		private event EventHandler<TextBoxChangedEventArgs> OnChanged;
 
 		private event EventHandler<TextBoxFocusLostEventArgs> OnFocusLost;
 
@@ -139,7 +139,7 @@
 		}
 
 		/// <summary>
-		///		Gets or sets the text that should be displayed as a placeholder.
+		/// 	Gets or sets the text that should be displayed as a placeholder.
 		/// </summary>
 		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public string PlaceHolder
@@ -156,8 +156,8 @@
 		}
 
 		/// <summary>
-		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by the client to add a visual marker on the input field.
+		/// 	Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
+		/// 	This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public UIValidationState ValidationState
@@ -174,8 +174,8 @@
 		}
 
 		/// <summary>
-		///		Gets or sets the text that is shown if the validation state is invalid.
-		///		This should be used by the client to add a visual marker on the input field.
+		/// 	Gets or sets the text that is shown if the validation state is invalid.
+		/// 	This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public string ValidationText
@@ -202,7 +202,10 @@
 				previous = Text;
 			}
 
-			if (BlockDefinition.WantsOnFocusLost) focusLost = wasOnFocusLost;
+			if (BlockDefinition.WantsOnFocusLost)
+			{
+				focusLost = wasOnFocusLost;
+			}
 
 			Text = value;
 		}
@@ -210,8 +213,15 @@
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			if (changed) OnChanged?.Invoke(this, new TextBoxChangedEventArgs(Text, previous));
-			if (focusLost) OnFocusLost?.Invoke(this, new TextBoxFocusLostEventArgs(Text));
+			if (changed)
+			{
+				OnChanged?.Invoke(this, new TextBoxChangedEventArgs(Text, previous));
+			}
+
+			if (focusLost)
+			{
+				OnFocusLost?.Invoke(this, new TextBoxFocusLostEventArgs(Text));
+			}
 
 			changed = false;
 			focusLost = false;

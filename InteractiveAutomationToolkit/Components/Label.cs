@@ -85,7 +85,6 @@
 			}
 		}
 
-
 		private static string StyleToUiString(TextStyle textStyle)
 		{
 			switch (textStyle)

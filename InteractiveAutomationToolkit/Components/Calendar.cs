@@ -59,8 +59,6 @@
 			}
 		}
 
-		private event EventHandler<CalendarChangedEventArgs> OnChanged;
-
 		/// <summary>
 		///     Triggered when the user loses focus of the Calender.
 		///     WantsOnFocusLost will be set to true when this event is subscribed to.
@@ -82,6 +80,8 @@
 				}
 			}
 		}
+
+		private event EventHandler<CalendarChangedEventArgs> OnChanged;
 
 		private event EventHandler<CalendarFocusLostEventArgs> OnFocusLost;
 
@@ -125,8 +125,8 @@
 		}
 
 		/// <summary>
-		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by the client to add a visual marker on the input field.
+		/// 	Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
+		/// 	This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner 10.0.5 onwards.</remarks>
 		public UIValidationState ValidationState
@@ -143,8 +143,8 @@
 		}
 
 		/// <summary>
-		///		Gets or sets the text that is shown if the validation state is invalid.
-		///		This should be used by the client to add a visual marker on the input field.
+		/// 	Gets or sets the text that is shown if the validation state is invalid.
+		/// 	This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner 10.0.5 onwards.</remarks>
 		public string ValidationText
@@ -172,7 +172,10 @@
 				previous = DateTime;
 			}
 
-			if (BlockDefinition.WantsOnFocusLost) focusLost = wasOnFocusLost;
+			if (BlockDefinition.WantsOnFocusLost)
+			{
+				focusLost = wasOnFocusLost;
+			}
 
 			DateTime = result;
 		}
@@ -180,8 +183,15 @@
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			if (changed && OnChanged != null) OnChanged?.Invoke(this, new CalendarChangedEventArgs(DateTime, previous));
-			if (focusLost) OnFocusLost?.Invoke(this, new CalendarFocusLostEventArgs(DateTime));
+			if (changed && OnChanged != null)
+			{
+				OnChanged?.Invoke(this, new CalendarChangedEventArgs(DateTime, previous));
+			}
+
+			if (focusLost)
+			{
+				OnFocusLost?.Invoke(this, new CalendarFocusLostEventArgs(DateTime));
+			}
 
 			changed = false;
 			focusLost = false;
@@ -192,6 +202,11 @@
 		/// </summary>
 		public class CalendarChangedEventArgs : EventArgs
 		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="CalendarChangedEventArgs"/> class.
+			/// </summary>
+			/// <param name="dateTime"></param>
+			/// <param name="previous"></param>
 			internal CalendarChangedEventArgs(DateTime dateTime, DateTime previous)
 			{
 				DateTime = dateTime;
@@ -214,6 +229,10 @@
 		/// </summary>
 		public class CalendarFocusLostEventArgs : EventArgs
 		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="CalendarFocusLostEventArgs"/> class.
+			/// </summary>
+			/// <param name="dateTime"></param>
 			internal CalendarFocusLostEventArgs(DateTime dateTime)
 			{
 				DateTime = dateTime;

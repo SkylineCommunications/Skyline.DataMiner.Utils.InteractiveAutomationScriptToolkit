@@ -13,7 +13,7 @@
 		private UIBlockDefinition blockDefinition = new UIBlockDefinition();
 
 		/// <summary>
-		/// Initializes a new instance of the Widget class.
+		/// Initializes a new instance of the <see cref="Widget"/> class.
 		/// </summary>
 		protected Widget()
 		{
@@ -177,7 +177,7 @@
 		}
 
 		/// <summary>
-		/// Margin of the widget.
+		/// Gets or sets the margin of the widget.
 		/// </summary>
 		public Margin Margin
 		{

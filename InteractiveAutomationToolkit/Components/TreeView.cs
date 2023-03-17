@@ -32,7 +32,7 @@
 		private List<TreeViewItem> collapsedItems = new List<TreeViewItem>();
 
 		/// <summary>
-		///		Initializes a new instance of the <see cref="TreeView" /> class.
+		/// 	Initializes a new instance of the <see cref="TreeView" /> class.
 		/// </summary>
 		/// <param name="treeViewItems"></param>
 		public TreeView(IEnumerable<TreeViewItem> treeViewItems)
@@ -63,8 +63,6 @@
 			}
 		}
 
-		private event EventHandler<IEnumerable<TreeViewItem>> OnChanged;
-
 		/// <summary>
 		///  Triggered whenever an item is selected.
 		///  WantsOnChange will be set to true when this event is subscribed to.
@@ -86,8 +84,6 @@
 				}
 			}
 		}
-
-		private event EventHandler<IEnumerable<TreeViewItem>> OnChecked;
 
 		/// <summary>
 		///  Triggered whenever an item is no longer selected.
@@ -111,8 +107,6 @@
 			}
 		}
 
-		private event EventHandler<IEnumerable<TreeViewItem>> OnUnchecked;
-
 		/// <summary>
 		///  Triggered whenever an item is expanded.
 		///  Can be used for lazy loading.
@@ -131,8 +125,6 @@
 			}
 		}
 
-		private event EventHandler<IEnumerable<TreeViewItem>> OnExpanded;
-
 		/// <summary>
 		///  Triggered whenever an item is collapsed.
 		///  Will be triggered whenever a node with SupportsLazyLoading set to true is collapsed.
@@ -150,7 +142,93 @@
 			}
 		}
 
+		private event EventHandler<IEnumerable<TreeViewItem>> OnChanged;
+
+		private event EventHandler<IEnumerable<TreeViewItem>> OnChecked;
+
+		private event EventHandler<IEnumerable<TreeViewItem>> OnUnchecked;
+
+		private event EventHandler<IEnumerable<TreeViewItem>> OnExpanded;
+
 		private event EventHandler<IEnumerable<TreeViewItem>> OnCollapsed;
+
+		/// <summary>
+		/// Gets or sets the top-level items in the tree view.
+		/// The TreeViewItem.ChildItems property can be used to navigate further down the tree.
+		/// </summary>
+		public IEnumerable<TreeViewItem> Items
+		{
+			get
+			{
+				return BlockDefinition.TreeViewItems;
+			}
+
+			set
+			{
+				if (value == null)
+				{
+					throw new ArgumentNullException("value");
+				}
+
+				BlockDefinition.TreeViewItems = new List<TreeViewItem>(value);
+				UpdateItemCache();
+			}
+		}
+
+		/// <summary>
+		/// Gets all items in the tree view that are selected.
+		/// </summary>
+		public IEnumerable<TreeViewItem> CheckedItems
+		{
+			get
+			{
+				return GetCheckedItems();
+			}
+		}
+
+		/// <summary>
+		/// Gets all leaves (= items without children) in the tree view that are selected.
+		/// </summary>
+		public IEnumerable<TreeViewItem> CheckedLeaves
+		{
+			get
+			{
+				return GetCheckedItems().Where(x => !x.ChildItems.Any());
+			}
+		}
+
+		/// <summary>
+		/// Gets all nodes (= items with children) in the tree view that are selected.
+		/// </summary>
+		public IEnumerable<TreeViewItem> CheckedNodes
+		{
+			get
+			{
+				return GetCheckedItems().Where(x => x.ChildItems.Any());
+			}
+		}
+
+		/// <summary>
+		///     Gets or sets the tooltip.
+		/// </summary>
+		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
+		public string Tooltip
+		{
+			get
+			{
+				return BlockDefinition.TooltipText;
+			}
+
+			set
+			{
+				if (value == null)
+				{
+					throw new ArgumentNullException("value");
+				}
+
+				BlockDefinition.TooltipText = value;
+			}
+		}
 
 		/// <summary>
 		/// Sets the IsCollapsed state for all items in the tree view to true, causing the entire tree view to be collapsed.
@@ -171,58 +249,6 @@
 			foreach(var item in GetAllItems())
 			{
 				item.IsCollapsed = false;
-			}
-		}
-
-		/// <summary>
-		/// Returns the top-level items in the tree view.
-		/// The TreeViewItem.ChildItems property can be used to navigate further down the tree.
-		/// </summary>
-		public IEnumerable<TreeViewItem> Items
-		{
-			get
-			{
-				return BlockDefinition.TreeViewItems;
-			}
-
-			set
-			{
-				if (value == null) throw new ArgumentNullException("value");
-				BlockDefinition.TreeViewItems = new List<TreeViewItem>(value);
-				UpdateItemCache();
-			}
-		}
-
-		/// <summary>
-		/// Returns all items in the tree view that are selected.
-		/// </summary>
-		public IEnumerable<TreeViewItem> CheckedItems
-		{
-			get
-			{
-				return GetCheckedItems();
-			}
-		}
-
-		/// <summary>
-		/// Returns all leaves (= items without children) in the tree view that are selected.
-		/// </summary>
-		public IEnumerable<TreeViewItem> CheckedLeaves
-		{
-			get
-			{
-				return GetCheckedItems().Where(x => !x.ChildItems.Any());
-			}
-		}
-
-		/// <summary>
-		/// Returns all nodes (= items with children) in the tree view that are selected.
-		/// </summary>
-		public IEnumerable<TreeViewItem> CheckedNodes
-		{
-			get
-			{
-				return GetCheckedItems().Where(x => x.ChildItems.Any());
 			}
 		}
 
@@ -254,7 +280,11 @@
 				try
 				{
 					checkedItemCache.Add(item.KeyValue, item.IsChecked);
-					if (item.SupportsLazyLoading) collapsedItemCache.Add(item.KeyValue, item.IsCollapsed);
+					if (item.SupportsLazyLoading)
+					{
+						collapsedItemCache.Add(item.KeyValue, item.IsCollapsed);
+					}
+
 					lookupTable.Add(item.KeyValue, item);
 				}
 				catch (Exception e)
@@ -262,15 +292,6 @@
 					throw new TreeViewDuplicateItemsException(item.KeyValue, e);
 				}
 			}
-		}
-
-		/// <summary>
-		/// Returns all items in the TreeView that are checked.
-		/// </summary>
-		/// <returns>All checked TreeViewItems in the TreeView.</returns>
-		private IEnumerable<TreeViewItem> GetCheckedItems()
-		{
-			return lookupTable.Values.Where(x => x.ItemType == TreeViewItem.TreeViewItemType.CheckBox && x.IsChecked);
 		}
 
 		/// <summary>
@@ -290,23 +311,6 @@
 		}
 
 		/// <summary>
-		/// This method is used to recursively go through all the items in the TreeView.
-		/// </summary>
-		/// <param name="children">List of TreeViewItems to be visited.</param>
-		/// <returns>Flat collection containing every item in the provided children collection and all underlying items.</returns>
-		private IEnumerable<TreeViewItem> GetAllItems(IEnumerable<TreeViewItem> children)
-		{
-			List<TreeViewItem> allItems = new List<TreeViewItem>();
-			foreach(var item in children)
-			{
-				allItems.Add(item);
-				allItems.AddRange(GetAllItems(item.ChildItems));
-			}
-
-			return allItems;
-		}
-
-		/// <summary>
 		/// Returns all items in the tree view that are located at the provided depth.
 		/// Whenever the requested depth is greater than the longest branch in the tree, an empty collection will be returned.
 		/// </summary>
@@ -315,55 +319,6 @@
 		public IEnumerable<TreeViewItem> GetItems(int depth)
 		{
 			return GetItems(Items, depth, 0);
-		}
-
-		/// <summary>
-		/// Returns all TreeViewItems in the TreeView that are located on the provided depth.
-		/// </summary>
-		/// <param name="children">Items to be checked.</param>
-		/// <param name="requestedDepth">Depth that was requested.</param>
-		/// <param name="currentDepth">Current depth in the tree.</param>
-		/// <returns>All TreeViewItems in the TreeView that are located on the provided depth.</returns>
-		private IEnumerable<TreeViewItem> GetItems(IEnumerable<TreeViewItem> children, int requestedDepth, int currentDepth)
-		{
-			List<TreeViewItem> requestedItems = new List<TreeViewItem>();
-			bool depthReached = requestedDepth == currentDepth;
-			foreach (TreeViewItem item in children)
-			{
-				if (depthReached)
-				{
-					requestedItems.Add(item);
-				}
-				else
-				{
-					int newDepth = currentDepth + 1;
-					requestedItems.AddRange(GetItems(item.ChildItems, requestedDepth, newDepth));
-				}
-			}
-
-			return requestedItems;
-		}
-
-		/// <summary>
-		///     Gets or sets the tooltip.
-		/// </summary>
-		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
-		public string Tooltip
-		{
-			get
-			{
-				return BlockDefinition.TooltipText;
-			}
-
-			set
-			{
-				if (value == null)
-				{
-					throw new ArgumentNullException("value");
-				}
-
-				BlockDefinition.TooltipText = value;
-			}
 		}
 
 		internal override void LoadResult(UIResults uiResults)
@@ -398,7 +353,7 @@
 					changedItems.Add(lookupTable[changedItemKey]);
 				}
 			}
-			
+
 			// Persist states
 			foreach (TreeViewItem item in lookupTable.Values)
 			{
@@ -407,6 +362,101 @@
 			}
 
 			UpdateItemCache();
+		}
+
+		/// <inheritdoc />
+		internal override void RaiseResultEvents()
+		{
+			// Expanded items
+			if (itemsExpanded && OnExpanded != null)
+			{
+				OnExpanded(this, expandedItems);
+			}
+
+			// Collapsed items
+			if (itemsCollapsed && OnCollapsed != null)
+			{
+				OnCollapsed(this, collapsedItems);
+			}
+
+			// Checked items
+			if (itemsChecked && OnChecked != null)
+			{
+				OnChecked(this, checkedItems);
+			}
+
+			// Unchecked items
+			if (itemsUnchecked && OnUnchecked != null)
+			{
+				OnUnchecked(this, uncheckedItems);
+			}
+
+			// Changed items
+			if (itemsChanged && OnChanged != null)
+			{
+				OnChanged(this, changedItems);
+			}
+
+			itemsExpanded = false;
+			itemsCollapsed = false;
+			itemsChecked = false;
+			itemsUnchecked = false;
+			itemsChanged = false;
+
+			UpdateItemCache();
+		}
+
+		/// <summary>
+		/// Returns all items in the TreeView that are checked.
+		/// </summary>
+		/// <returns>All checked TreeViewItems in the TreeView.</returns>
+		private IEnumerable<TreeViewItem> GetCheckedItems()
+		{
+			return lookupTable.Values.Where(x => x.ItemType == TreeViewItem.TreeViewItemType.CheckBox && x.IsChecked);
+		}
+
+		/// <summary>
+		/// This method is used to recursively go through all the items in the TreeView.
+		/// </summary>
+		/// <param name="children">List of TreeViewItems to be visited.</param>
+		/// <returns>Flat collection containing every item in the provided children collection and all underlying items.</returns>
+		private IEnumerable<TreeViewItem> GetAllItems(IEnumerable<TreeViewItem> children)
+		{
+			List<TreeViewItem> allItems = new List<TreeViewItem>();
+			foreach(var item in children)
+			{
+				allItems.Add(item);
+				allItems.AddRange(GetAllItems(item.ChildItems));
+			}
+
+			return allItems;
+		}
+
+		/// <summary>
+		/// Returns all TreeViewItems in the TreeView that are located on the provided depth.
+		/// </summary>
+		/// <param name="children">Items to be checked.</param>
+		/// <param name="requestedDepth">Depth that was requested.</param>
+		/// <param name="currentDepth">Current depth in the tree.</param>
+		/// <returns>All TreeViewItems in the TreeView that are located on the provided depth.</returns>
+		private IEnumerable<TreeViewItem> GetItems(IEnumerable<TreeViewItem> children, int requestedDepth, int currentDepth)
+		{
+			List<TreeViewItem> requestedItems = new List<TreeViewItem>();
+			bool depthReached = requestedDepth == currentDepth;
+			foreach (TreeViewItem item in children)
+			{
+				if (depthReached)
+				{
+					requestedItems.Add(item);
+				}
+				else
+				{
+					int newDepth = currentDepth + 1;
+					requestedItems.AddRange(GetItems(item.ChildItems, requestedDepth, newDepth));
+				}
+			}
+
+			return requestedItems;
 		}
 
 		private void RegisterExpandedItems(IEnumerable<string> expandedItemKeys)
@@ -471,33 +521,6 @@
 			}
 
 			return newlyUncheckedItemKeys;
-		}
-
-		/// <inheritdoc />
-		internal override void RaiseResultEvents()
-		{
-			// Expanded items
-			if (itemsExpanded && OnExpanded != null) OnExpanded(this, expandedItems);
-
-			// Collapsed items
-			if (itemsCollapsed && OnCollapsed != null) OnCollapsed(this, collapsedItems);
-
-			// Checked items
-			if (itemsChecked && OnChecked != null) OnChecked(this, checkedItems);
-
-			// Unchecked items
-			if (itemsUnchecked && OnUnchecked != null) OnUnchecked(this, uncheckedItems);
-
-			// Changed items
-			if (itemsChanged && OnChanged != null) OnChanged(this, changedItems);
-
-			itemsExpanded = false;
-			itemsCollapsed = false;
-			itemsChecked = false;
-			itemsUnchecked = false;
-			itemsChanged = false;
-
-			UpdateItemCache();
 		}
 	}
 }

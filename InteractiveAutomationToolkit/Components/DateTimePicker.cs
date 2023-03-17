@@ -62,8 +62,6 @@
 			}
 		}
 
-		private event EventHandler<DateTimePickerChangedEventArgs> OnChanged;
-
 		/// <summary>
 		///     Triggered when the user loses focus of the DateTimePicker.
 		///     WantsOnFocusLost will be set to true when this event is subscribed to.
@@ -86,10 +84,12 @@
 			}
 		}
 
+		private event EventHandler<DateTimePickerChangedEventArgs> OnChanged;
+
 		private event EventHandler<DateTimePickerFocusLostEventArgs> OnFocusLost;
 
 		/// <summary>
-		///		Gets or sets whether the displayed time is the server time or local time.
+		/// 	Gets or sets a value indicating whether gets or sets whether the displayed time is the server time or local time.
 		/// </summary>
 		public bool DisplayServerTime
 		{
@@ -199,10 +199,9 @@
 			}
 		}
 
-
 		/// <summary>
 		///     Gets or sets the display mode of the calendar inside the date-time picker control.
-		///     Default: <c>CalendarMode.Month</c>
+		///     Default: <c>CalendarMode.Month</c>.
 		/// </summary>
 		public CalendarMode CalendarDisplayMode
 		{
@@ -219,7 +218,7 @@
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the calendar control drop-down button is shown.
-		///     Default: <c>true</c>
+		///     Default: <c>true</c>.
 		/// </summary>
 		public bool HasDropDownButton
 		{
@@ -236,7 +235,7 @@
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the time picker is shown within the calender control.
-		///     Default: <c>true</c>
+		///     Default: <c>true</c>.
 		/// </summary>
 		public bool IsTimePickerVisible
 		{
@@ -253,7 +252,7 @@
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the spin box of the calender control is shown.
-		///     Default: <c>true</c>
+		///     Default: <c>true</c>.
 		/// </summary>
 		public bool HasTimePickerSpinnerButton
 		{
@@ -270,7 +269,7 @@
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the spin box of the calender is enabled.
-		///     Default: <c>true</c>
+		///     Default: <c>true</c>.
 		/// </summary>
 		public bool IsTimePickerSpinnerButtonEnabled
 		{
@@ -287,7 +286,7 @@
 
 		/// <summary>
 		///     Gets or sets the time format of the time picker.
-		///     Default: <c>DateTimeFormat.ShortTime</c>
+		///     Default: <c>DateTimeFormat.ShortTime</c>.
 		/// </summary>
 		public DateTimeFormat TimeFormat
 		{
@@ -305,7 +304,7 @@
 		/// <summary>
 		///     Gets or sets the time format string used when TimeFormat is set to <c>DateTimeFormat.Custom</c>.
 		/// </summary>
-		/// <remarks>Sets <see cref="TimeFormat" /> to <c>DateTimeFormat.Custom</c></remarks>
+		/// <remarks>Sets <see cref="TimeFormat" /> to <c>DateTimeFormat.Custom</c>.</remarks>
 		public string CustomTimeFormat
 		{
 			get
@@ -321,8 +320,8 @@
 		}
 
 		/// <summary>
-		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by the client to add a visual marker on the input field.
+		/// 	Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
+		/// 	This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner 10.0.5 onwards.</remarks>
 		public UIValidationState ValidationState
@@ -339,8 +338,8 @@
 		}
 
 		/// <summary>
-		///		Gets or sets the text that is shown if the validation state is invalid.
-		///		This should be used by the client to add a visual marker on the input field.
+		/// 	Gets or sets the text that is shown if the validation state is invalid.
+		/// 	This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner 10.0.5 onwards.</remarks>
 		public string ValidationText
@@ -370,7 +369,10 @@
 				previous = DateTime;
 			}
 
-			if (BlockDefinition.WantsOnFocusLost) focusLost = wasOnFocusLost;
+			if (BlockDefinition.WantsOnFocusLost)
+			{
+				focusLost = wasOnFocusLost;
+			}
 
 			DateTime = result;
 		}
@@ -378,8 +380,15 @@
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			if (changed) OnChanged?.Invoke(this, new DateTimePickerChangedEventArgs(DateTime, previous));
-			if (focusLost) OnFocusLost?.Invoke(this, new DateTimePickerFocusLostEventArgs(DateTime));
+			if (changed)
+			{
+				OnChanged?.Invoke(this, new DateTimePickerChangedEventArgs(DateTime, previous));
+			}
+
+			if (focusLost)
+			{
+				OnFocusLost?.Invoke(this, new DateTimePickerFocusLostEventArgs(DateTime));
+			}
 
 			changed = false;
 			focusLost = false;

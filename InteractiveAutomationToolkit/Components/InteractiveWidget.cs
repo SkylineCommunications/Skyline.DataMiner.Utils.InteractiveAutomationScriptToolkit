@@ -10,23 +10,11 @@
 	public abstract class InteractiveWidget : Widget
 	{
 		/// <summary>
-		/// Initializes a new instance of the InteractiveWidget class.
+		/// Initializes a new instance of the <see cref="InteractiveWidget"/> class.
 		/// </summary>
 		protected InteractiveWidget()
 		{
 			BlockDefinition.DestVar = Guid.NewGuid().ToString();
-		}
-
-		/// <summary>
-		///     Gets the alias that will be used to retrieve the value entered or selected by the user from the UIResults object.
-		/// </summary>
-		/// <remarks>Use methods <see cref="UiResultsExtensions" /> to retrieve the result instead.</remarks>
-		internal string DestVar
-		{
-			get
-			{
-				return BlockDefinition.DestVar;
-			}
 		}
 
 		/// <summary>
@@ -44,6 +32,18 @@
 			set
 			{
 				BlockDefinition.IsEnabled = value;
+			}
+		}
+
+		/// <summary>
+		///     Gets the alias that will be used to retrieve the value entered or selected by the user from the UIResults object.
+		/// </summary>
+		/// <remarks>Use methods <see cref="UiResultsExtensions" /> to retrieve the result instead.</remarks>
+		internal string DestVar
+		{
+			get
+			{
+				return BlockDefinition.DestVar;
 			}
 		}
 
