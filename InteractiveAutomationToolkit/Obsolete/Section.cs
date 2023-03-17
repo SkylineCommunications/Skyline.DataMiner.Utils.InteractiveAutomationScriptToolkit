@@ -16,12 +16,12 @@
 		private bool isVisible = true;
 
 		/// <summary>
-		/// 	Number of columns that are currently defined by the widgets that have been added to this section.
+		/// 	Gets the number of columns that are currently defined by the widgets that have been added to this section.
 		/// </summary>
 		public int ColumnCount { get; private set; }
 
 		/// <summary>
-		/// 	Number of rows that are currently defined by the widgets that have been added to this section.
+		/// 	Gets the number of rows that are currently defined by the widgets that have been added to this section.
 		/// </summary>
 		public int RowCount { get; private set; }
 

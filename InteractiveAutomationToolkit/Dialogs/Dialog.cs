@@ -264,31 +264,6 @@
 			RaiseResultEvents(uir);
 		}
 
-		private static void CheckIfWidgetsOverlap(WidgetLocationPair[] widgetLocationPairs)
-		{
-			var builder = new OverlappingWidgetsException.Builder();
-
-			for (var i = 0; i < widgetLocationPairs.Length; i++)
-			{
-				IWidget widget = widgetLocationPairs[i].Widget;
-				WidgetLocation location = widgetLocationPairs[i].Location;
-				for (int j = i + 1; j < widgetLocationPairs.Length; j++)
-				{
-					IWidget otherWidget = widgetLocationPairs[j].Widget;
-					WidgetLocation otherLocation = widgetLocationPairs[j].Location;
-					if (location.Overlaps(otherLocation))
-					{
-						builder.Add(widget, location, otherWidget, otherLocation);
-					}
-				}
-			}
-
-			if (builder.Count != 0)
-			{
-				throw builder.Build();
-			}
-		}
-
 		internal UIBuilder Build()
 		{
 			WidgetLocationPair[] visibleWidgetLocationPairs = Panel.GetWidgetLocationPairs()
@@ -369,6 +344,31 @@
 			foreach (InteractiveWidget intractable in intractableWidgets)
 			{
 				intractable.RaiseResultEvents();
+			}
+		}
+
+		private static void CheckIfWidgetsOverlap(WidgetLocationPair[] widgetLocationPairs)
+		{
+			var builder = new OverlappingWidgetsException.Builder();
+
+			for (var i = 0; i < widgetLocationPairs.Length; i++)
+			{
+				IWidget widget = widgetLocationPairs[i].Widget;
+				WidgetLocation location = widgetLocationPairs[i].Location;
+				for (int j = i + 1; j < widgetLocationPairs.Length; j++)
+				{
+					IWidget otherWidget = widgetLocationPairs[j].Widget;
+					WidgetLocation otherLocation = widgetLocationPairs[j].Location;
+					if (location.Overlaps(otherLocation))
+					{
+						builder.Add(widget, location, otherWidget, otherLocation);
+					}
+				}
+			}
+
+			if (builder.Count != 0)
+			{
+				throw builder.Build();
 			}
 		}
 

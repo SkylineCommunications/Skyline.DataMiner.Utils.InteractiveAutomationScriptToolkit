@@ -8,7 +8,7 @@
 
 	/// <summary>
 	///     Widget to show/edit a time duration.
-	/// 	See <see cref="System.TimeSpan"></see>
+	/// 	See <see cref="System.TimeSpan"></see>.
 	/// </summary>
 	public class TimeSpanPicker : InteractiveWidget, ITimeSpanPicker
 	{
