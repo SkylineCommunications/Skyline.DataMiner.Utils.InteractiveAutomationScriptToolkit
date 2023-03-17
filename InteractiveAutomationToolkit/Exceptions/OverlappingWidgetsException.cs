@@ -58,12 +58,26 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 		{
 		}
 
+		/// <summary>
+		/// Helps formatting an informative message about the widgets and how they overlap.
+		/// </summary>
 		internal class Builder
 		{
 			private readonly StringBuilder stringBuilder = new StringBuilder();
 
+			/// <summary>
+			/// Gets the number of widgets that overlap.
+			/// </summary>
 			public int Count { get; private set; }
 
+			/// <summary>
+			/// Adds a set of overlapping widgets with their locations.
+			/// </summary>
+			/// <param name="widget">The first widget.</param>
+			/// <param name="location">The location of the first widget.</param>
+			/// <param name="otherWidget">The second widget.</param>
+			/// <param name="otherLocation">The location of the second widget.</param>
+			/// <returns>The builder.</returns>
 			public Builder Add(
 				IWidget widget,
 				WidgetLocation location,
@@ -93,6 +107,10 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 				return this;
 			}
 
+			/// <summary>
+			/// Gets an exception object with a message detailing how the widgets are overlapping.
+			/// </summary>
+			/// <returns>An exception object with a message detailing how the widgets are overlapping.</returns>
 			public OverlappingWidgetsException Build()
 			{
 				return new OverlappingWidgetsException(stringBuilder.ToString());
