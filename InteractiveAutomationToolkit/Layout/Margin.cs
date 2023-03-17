@@ -13,7 +13,7 @@
 		private int top;
 
 		/// <summary>
-		/// Initializes a new instance of the Margin class.
+		/// Initializes a new instance of the <see cref="Margin"/> class.
 		/// </summary>
 		/// <param name="left">Amount of margin on the left-hand side of the widget in pixels.</param>
 		/// <param name="top">Amount of margin at the top of the widget in pixels.</param>
@@ -28,7 +28,7 @@
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the Margin class.
+		/// Initializes a new instance of the <see cref="Margin"/> class.
 		/// A margin is by default 3 pixels wide.
 		/// </summary>
 		public Margin() : this(3, 3, 3, 3)
@@ -36,8 +36,8 @@
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the Margin class based on a string.
-		/// This string should have the following syntax: left;top;right;bottom
+		/// Initializes a new instance of the <see cref="Margin"/> class based on a string.
+		/// This string should have the following syntax: left;top;right;bottom.
 		/// </summary>
 		/// <exception cref="ArgumentException">If the string does not match the predefined syntax, or if any of the margins is not a number.</exception>
 		/// <param name="margin">Margin in string format.</param>
@@ -53,16 +53,34 @@
 			}
 
 			string[] splitMargin = margin.Split(';');
-			if (splitMargin.Length != 4) throw new ArgumentException("Margin should have the following format: left;top;right;bottom");
+			if (splitMargin.Length != 4)
+			{
+				throw new ArgumentException("Margin should have the following format: left;top;right;bottom");
+			}
 
-			if (!Int32.TryParse(splitMargin[0], out left)) throw new ArgumentException("Left margin is not a number");
-			if (!Int32.TryParse(splitMargin[1], out top)) throw new ArgumentException("Top margin is not a number");
-			if (!Int32.TryParse(splitMargin[2], out right)) throw new ArgumentException("Right margin is not a number");
-			if (!Int32.TryParse(splitMargin[3], out bottom)) throw new ArgumentException("Bottom margin is not a number");
+			if (!Int32.TryParse(splitMargin[0], out left))
+			{
+				throw new ArgumentException("Left margin is not a number");
+			}
+
+			if (!Int32.TryParse(splitMargin[1], out top))
+			{
+				throw new ArgumentException("Top margin is not a number");
+			}
+
+			if (!Int32.TryParse(splitMargin[2], out right))
+			{
+				throw new ArgumentException("Right margin is not a number");
+			}
+
+			if (!Int32.TryParse(splitMargin[3], out bottom))
+			{
+				throw new ArgumentException("Bottom margin is not a number");
+			}
 		}
 
 		/// <summary>
-		/// Amount of margin in pixels at the bottom of the widget.
+		/// Gets or sets the amount of margin in pixels at the bottom of the widget.
 		/// </summary>
 		public int Bottom
 		{
@@ -83,7 +101,7 @@
 		}
 
 		/// <summary>
-		/// Amount of margin in pixels at the left-hand side of the widget.
+		/// Gets or sets the amount of margin in pixels at the left-hand side of the widget.
 		/// </summary>
 		public int Left
 		{
@@ -104,7 +122,7 @@
 		}
 
 		/// <summary>
-		/// Amount of margin in pixels at the right-hand side of the widget.
+		/// Gets or sets the amount of margin in pixels at the right-hand side of the widget.
 		/// </summary>
 		public int Right
 		{
@@ -125,7 +143,7 @@
 		}
 
 		/// <summary>
-		/// Amount of margin in pixels at the top of the widget.
+		/// Gets or sets the amount of margin in pixels at the top of the widget.
 		/// </summary>
 		public int Top
 		{

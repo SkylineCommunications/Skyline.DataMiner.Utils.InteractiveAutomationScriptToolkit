@@ -13,7 +13,7 @@
 		private UIBlockDefinition blockDefinition = new UIBlockDefinition();
 
 		/// <summary>
-		/// Initializes a new instance of the Widget class.
+		/// Initializes a new instance of the <see cref="Widget"/> class.
 		/// </summary>
 		protected Widget()
 		{
@@ -177,7 +177,7 @@
 		}
 
 		/// <summary>
-		/// Margin of the widget.
+		/// Gets or sets the margin of the widget.
 		/// </summary>
 		public Margin Margin
 		{
@@ -192,6 +192,12 @@
 			}
 		}
 
+		/// <summary>
+		///     Gets the internal DataMiner representation of the widget.
+		///     This object should not be used!
+		///     This library exists so you don't need to use this object.
+		/// </summary>
+		/// <remarks>A widget should implement everything, so you don't need to use this object.</remarks>
 		internal UIBlockDefinition BlockDefinition
 		{
 			get

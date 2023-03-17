@@ -21,7 +21,8 @@
 		}
 
 		/// <summary>
-		/// Default value: false
+		/// Gets or sets a value indicating whether multiple files can be selected.
+		/// Default value: false.
 		/// </summary>
 		/// <remarks>Available from DataMiner Feature Release 10.1.8 and Main Release 10.2.0 onwards.</remarks>
 		public bool AllowMultipleFiles
@@ -37,14 +38,14 @@
 			}
 		}
 
-		///// <summary>
-		///// Indicates if the script is allowed to continue without having a file uploaded.
-		///// Default value: false
-		///// </summary>
-		///// <remarks>
-		///// Available from DataMiner Feature Release 10.1.10 and Main Release 10.2.0 onwards.
-		///// This value has no effect in Cube. A file upload is always required.
-		///// </remarks>
+		/// <summary>
+		/// Gets or sets a value indicating whether the script is allowed to continue without having a file uploaded.
+		/// Default value: false.
+		/// </summary>
+		/// <remarks>
+		/// Available from DataMiner Feature Release 10.1.10 and Main Release 10.2.0 onwards.
+		/// This value has no effect in Cube. A file upload is always required.
+		/// </remarks>
 		public bool IsRequired
 		{
 			get
@@ -59,7 +60,7 @@
 		}
 
 		/// <summary>
-		/// Contains the paths to the uploaded files if any have been uploaded.
+		/// Gets the paths to the uploaded files if any have been uploaded.
 		/// </summary>
 		public string[] UploadedFilePaths { get; private set; } = new string[0];
 
@@ -86,7 +87,7 @@
 		}
 
 		/// <summary>
-		///		Gets or sets the text that should be displayed as a placeholder.
+		/// 	Gets or sets the text that should be displayed as a placeholder.
 		/// </summary>
 		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public string PlaceHolder
@@ -103,8 +104,8 @@
 		}
 
 		/// <summary>
-		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by the client to add a visual marker on the input field.
+		/// 	Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
+		/// 	This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public UIValidationState ValidationState
@@ -121,8 +122,8 @@
 		}
 
 		/// <summary>
-		///		Gets or sets the text that is shown if the validation state is invalid.
-		///		This should be used by the client to add a visual marker on the input field.
+		/// 	Gets or sets the text that is shown if the validation state is invalid.
+		/// 	This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public string ValidationText
@@ -145,10 +146,16 @@
 		/// <param name="folderPath">Path of the folder to where the uploaded files should be copied.</param>
 		public void CopyUploadedFiles(string folderPath)
 		{
-			if (String.IsNullOrWhiteSpace(folderPath)) throw new ArgumentException("folderPath");
+			if (String.IsNullOrWhiteSpace(folderPath))
+			{
+				throw new ArgumentException("folderPath");
+			}
 
 			DirectoryInfo directoryInfo = new DirectoryInfo(folderPath);
-			if (!directoryInfo.Exists) directoryInfo.Create();
+			if (!directoryInfo.Exists)
+			{
+				directoryInfo.Create();
+			}
 
 			foreach (string filePath in UploadedFilePaths)
 			{
@@ -158,11 +165,13 @@
 			}
 		}
 
+		/// <inheritdoc/>
 		internal override void LoadResult(UIResults uiResults)
 		{
 			UploadedFilePaths = uiResults.GetUploadedFilePaths(this) ?? new string[0];
 		}
 
+		/// <inheritdoc/>
 		internal override void RaiseResultEvents()
 		{
 			// Nothing to do

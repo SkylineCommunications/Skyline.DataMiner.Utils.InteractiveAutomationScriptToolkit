@@ -55,14 +55,12 @@
 			remove
 			{
 				OnChanged -= value;
-                if (OnChanged == null || !OnChanged.GetInvocationList().Any())
-                {
+				if (OnChanged == null || !OnChanged.GetInvocationList().Any())
+				{
 					BlockDefinition.WantsOnChange = false;
-                }
+				}
 			}
 		}
-
-		private event EventHandler<TimePickerChangedEventArgs> OnChanged;
 
 		/// <summary>
 		///     Triggered when the user loses focus of the TimePicker.
@@ -86,6 +84,8 @@
 			}
 		}
 
+		private event EventHandler<TimePickerChangedEventArgs> OnChanged;
+
 		private event EventHandler<TimePickerFocusLostEventArgs> OnFocusLost;
 
 		/// <summary>
@@ -108,7 +108,7 @@
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the drop-down button of the time picker control is shown.
-		///     Default: <c>true</c>
+		///     Default: <c>true</c>.
 		/// </summary>
 		public bool HasDropDownButton
 		{
@@ -177,7 +177,7 @@
 			{
 				CheckTimeOfDay(value);
 				maximum = value;
-				DateTimeUpDownOptions.Maximum = new DateTime() + value;
+				DateTimeUpDownOptions.Maximum = default(DateTime) + value;
 			}
 		}
 
@@ -195,13 +195,13 @@
 			{
 				CheckTimeOfDay(value);
 				minimum = value;
-				DateTimeUpDownOptions.Minimum = new DateTime() + value;
+				DateTimeUpDownOptions.Minimum = default(DateTime) + value;
 			}
 		}
 
 		/// <summary>
 		///     Gets or sets the earliest time listed in the time picker control.
-		///     Default: <c>TimeSpan.Zero</c>
+		///     Default: <c>TimeSpan.Zero</c>.
 		/// </summary>
 		public TimeSpan StartTime
 		{
@@ -239,7 +239,7 @@
 
 		/// <summary>
 		///     Gets or sets the time interval between two time items in the time picker control.
-		///     Default: <c>TimeSpan.FromHours(1)</c>
+		///     Default: <c>TimeSpan.FromHours(1)</c>.
 		/// </summary>
 		public TimeSpan TimeInterval
 		{
@@ -256,8 +256,8 @@
 		}
 
 		/// <summary>
-		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by the client to add a visual marker on the input field.
+		/// 	Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
+		/// 	This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public UIValidationState ValidationState
@@ -274,8 +274,8 @@
 		}
 
 		/// <summary>
-		///		Gets or sets the text that is shown if the validation state is invalid.
-		///		This should be used by the client to add a visual marker on the input field.
+		/// 	Gets or sets the text that is shown if the validation state is invalid.
+		/// 	This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public string ValidationText
@@ -322,7 +322,10 @@
 				previous = Time;
 			}
 
-			if (BlockDefinition.WantsOnFocusLost) focusLost = wasOnFocusLost;
+			if (BlockDefinition.WantsOnFocusLost)
+			{
+				focusLost = wasOnFocusLost;
+			}
 
 			Time = result;
 		}
@@ -330,8 +333,15 @@
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			if (changed) OnChanged?.Invoke(this, new TimePickerChangedEventArgs(Time, previous));
-			if (focusLost) OnFocusLost?.Invoke(this, new TimePickerFocusLostEventArgs(Time));
+			if (changed)
+			{
+				OnChanged?.Invoke(this, new TimePickerChangedEventArgs(Time, previous));
+			}
+
+			if (focusLost)
+			{
+				OnFocusLost?.Invoke(this, new TimePickerFocusLostEventArgs(Time));
+			}
 
 			changed = false;
 			focusLost = false;
@@ -350,6 +360,11 @@
 		/// </summary>
 		public class TimePickerChangedEventArgs : EventArgs
 		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="TimePickerChangedEventArgs"/> class.
+			/// </summary>
+			/// <param name="timeSpan">The new value.</param>
+			/// <param name="previous">The previous value.</param>
 			internal TimePickerChangedEventArgs(TimeSpan timeSpan, TimeSpan previous)
 			{
 				TimeSpan = timeSpan;
@@ -372,6 +387,10 @@
 		/// </summary>
 		public class TimePickerFocusLostEventArgs : EventArgs
 		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="TimePickerFocusLostEventArgs"/> class.
+			/// </summary>
+			/// <param name="timeSpan">The new value.</param>
 			internal TimePickerFocusLostEventArgs(TimeSpan timeSpan)
 			{
 				TimeSpan = timeSpan;

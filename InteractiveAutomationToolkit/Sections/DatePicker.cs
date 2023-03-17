@@ -35,43 +35,43 @@
 		private DateTime previous;
 
 		/// <summary>
-		/// Initializes a new instance of the DatePicker class.
+		/// Initializes a new instance of the <see cref="DatePicker"/> class.
 		/// </summary>
 		public DatePicker() : this(DateTime.Now)
 		{
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the DatePicker class.
+		/// Initializes a new instance of the <see cref="DatePicker"/> class.
 		/// </summary>
-		/// <param name="dateTime"></param>
+		/// <param name="dateTime">Value displayed on <see cref="DatePicker"/>.</param>
 		public DatePicker(DateTime dateTime)
 		{
 			previous = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day);
 
 			dayNumeric = new Numeric(dateTime.Day)
-			             {
-				             Decimals = 0,
-				             Minimum = 1,
-				             Maximum = DateTime.DaysInMonth(dateTime.Year, dateTime.Month),
-				             Width = 70,
-				             Margin = new Margin(3,3,3,3),
-			             };
+			{
+				Decimals = 0,
+				Minimum = 1,
+				Maximum = DateTime.DaysInMonth(dateTime.Year, dateTime.Month),
+				Width = 70,
+				Margin = new Margin(3, 3, 3, 3),
+			};
 
 			monthDropDown = new DropDown(months.Select(x => x.Value), months[dateTime.Month])
-			                {
-				                Width = 80,
-				                Margin = new Margin(3,3,3,3)
-			                };
+			{
+				Width = 80,
+				Margin = new Margin(3,3,3,3),
+			};
 
 			yearNumeric = new Numeric(dateTime.Year)
-			              {
-				              Decimals = 0,
-				              Minimum = 1800,
-				              Maximum = 9999,
-				              Width = 80,
-				              Margin = new Margin(3,3,3,3)
-			              };
+			{
+				Decimals = 0,
+				Minimum = 1800,
+				Maximum = 9999,
+				Width = 80,
+				Margin = new Margin(3, 3, 3, 3),
+			};
 
 			dayNumeric.Changed += DayNumeric_OnChanged;
 			monthDropDown.Changed += MonthDropDown_OnChanged;
@@ -101,7 +101,7 @@
 		private event EventHandler<DatePickerChangedEventArgs> OnChanged;
 
 		/// <summary>
-		/// Date that is displayed by the control.
+		/// Gets or sets the date that is displayed by the control.
 		/// </summary>
 		public DateTime Date
 		{
@@ -122,7 +122,7 @@
 		}
 
 		/// <summary>
-		/// Day that is displayed by the control.
+		/// Gets the day that is displayed by the control.
 		/// </summary>
 		public int Day
 		{
@@ -133,7 +133,7 @@
 		}
 
 		/// <summary>
-		/// Month that is displayed by the control.
+		/// Gets the month that is displayed by the control.
 		/// </summary>
 		public int Month
 		{
@@ -144,7 +144,7 @@
 		}
 
 		/// <summary>
-		/// Year that is displayed by the control.
+		/// Gets the year that is displayed by the control.
 		/// </summary>
 		public int Year
 		{
@@ -155,7 +155,7 @@
 		}
 
 		/// <summary>
-		/// Numeric widget that holds the day in this control.
+		/// Gets the numeric widget that holds the day in this control.
 		/// </summary>
 		public Numeric DayNumeric
 		{
@@ -166,7 +166,7 @@
 		}
 
 		/// <summary>
-		/// Drop down widget that holds the month in this control.
+		/// Gets the drop down widget that holds the month in this control.
 		/// </summary>
 		public DropDown MonthDropDown
 		{
@@ -177,7 +177,7 @@
 		}
 
 		/// <summary>
-		/// Numeric widget that holds the year in this control.
+		/// Gets the numeric widget that holds the year in this control.
 		/// </summary>
 		public Numeric YearNumeric
 		{
@@ -206,7 +206,10 @@
 
 		private void RaiseEventResults()
 		{
-			if (Date == previous) return;
+			if (Date == previous)
+			{
+				return;
+			}
 
 			OnChanged?.Invoke(this, new DatePickerChangedEventArgs(Date, previous));
 
@@ -218,6 +221,11 @@
 		/// </summary>
 		public class DatePickerChangedEventArgs : EventArgs
 		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="DatePickerChangedEventArgs"/> class.
+			/// </summary>
+			/// <param name="dateTime">The new value.</param>
+			/// <param name="previous">The previous value.</param>
 			internal DatePickerChangedEventArgs(DateTime dateTime, DateTime previous)
 			{
 				DateTime = dateTime;

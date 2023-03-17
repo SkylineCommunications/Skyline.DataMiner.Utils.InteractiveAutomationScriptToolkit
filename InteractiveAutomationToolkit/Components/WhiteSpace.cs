@@ -5,7 +5,7 @@
 	using Skyline.DataMiner.Automation;
 
 	/// <summary>
-	///		A whitespace.
+	/// 	A whitespace.
 	/// </summary>
 	public class WhiteSpace : Widget
 	{

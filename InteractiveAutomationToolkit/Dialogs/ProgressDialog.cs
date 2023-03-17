@@ -15,6 +15,7 @@
 		private readonly Label progressLabel = new Label();
 
 		/// <summary>
+		/// Initializes a new instance of the <see cref="ProgressDialog"/> class.
 		/// Used to instantiate a new instance of the <see cref="ProgressDialog" /> class.
 		/// </summary>
 		/// <param name="engine">Link with DataMiner.</param>
@@ -24,7 +25,7 @@
 		}
 
 		/// <summary>
-		/// Button that is displayed after the Finish method is called.
+		/// Gets the button that is displayed after the Finish method is called.
 		/// </summary>
 		public Button OkButton { get; private set; }
 
@@ -77,8 +78,15 @@
 		{
 			progressLabel.Text = progress.ToString();
 
-			if (!Widgets.Contains(progressLabel)) AddWidget(progressLabel, 0, 0);
-			if (!Widgets.Contains(OkButton)) AddWidget(OkButton, 1, 0);
+			if (!Widgets.Contains(progressLabel))
+			{
+				AddWidget(progressLabel, 0, 0);
+			}
+
+			if (!Widgets.Contains(OkButton))
+			{
+				AddWidget(OkButton, 1, 0);
+			}
 		}
 	}
 }

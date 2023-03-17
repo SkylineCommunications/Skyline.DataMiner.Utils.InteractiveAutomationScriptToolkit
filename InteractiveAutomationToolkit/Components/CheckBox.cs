@@ -110,12 +110,6 @@
 			}
 		}
 
-		private event EventHandler<CheckBoxChangedEventArgs> OnChanged;
-
-		private event EventHandler<EventArgs> OnChecked;
-
-		private event EventHandler<EventArgs> OnUnChecked;
-
 		/// <summary>
 		///     Triggered when the user loses focus of the CheckBox.
 		///     WantsOnFocusLost will be set to true when this event is subscribed to.
@@ -137,6 +131,12 @@
 				}
 			}
 		}
+
+		private event EventHandler<CheckBoxChangedEventArgs> OnChanged;
+
+		private event EventHandler<EventArgs> OnChecked;
+
+		private event EventHandler<EventArgs> OnUnChecked;
 
 		private event EventHandler<CheckBoxFocusLostEventArgs> OnFocusLost;
 
@@ -195,14 +195,21 @@
 			}
 		}
 
-
+		/// <inheritdoc/>
 		internal override void LoadResult(UIResults uiResults)
 		{
 			bool result = uiResults.GetChecked(this);
 			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);
 
-			if (BlockDefinition.WantsOnChange) changed = result != IsChecked;
-			if (BlockDefinition.WantsOnFocusLost) focusLost = wasOnFocusLost;
+			if (BlockDefinition.WantsOnChange)
+			{
+				changed = result != IsChecked;
+			}
+
+			if (BlockDefinition.WantsOnFocusLost)
+			{
+				focusLost = wasOnFocusLost;
+			}
 
 			IsChecked = result;
 		}
@@ -210,10 +217,25 @@
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			if (changed) OnChanged?.Invoke(this, new CheckBoxChangedEventArgs(IsChecked));
-			if (changed && IsChecked) OnChecked?.Invoke(this, EventArgs.Empty);
-			if (changed && !IsChecked) OnUnChecked?.Invoke(this, EventArgs.Empty);
-			if (focusLost) OnFocusLost?.Invoke(this, new CheckBoxFocusLostEventArgs(IsChecked));
+			if (changed)
+			{
+				OnChanged?.Invoke(this, new CheckBoxChangedEventArgs(IsChecked));
+			}
+
+			if (changed && IsChecked)
+			{
+				OnChecked?.Invoke(this, EventArgs.Empty);
+			}
+
+			if (changed && !IsChecked)
+			{
+				OnUnChecked?.Invoke(this, EventArgs.Empty);
+			}
+
+			if (focusLost)
+			{
+				OnFocusLost?.Invoke(this, new CheckBoxFocusLostEventArgs(IsChecked));
+			}
 
 			changed = false;
 			focusLost = false;
@@ -224,6 +246,10 @@
 		/// </summary>
 		public class CheckBoxChangedEventArgs : EventArgs
 		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="CheckBoxChangedEventArgs"/> class.
+			/// </summary>
+			/// <param name="isChecked">The new state.</param>
 			internal CheckBoxChangedEventArgs(bool isChecked)
 			{
 				IsChecked = isChecked;
@@ -240,6 +266,10 @@
 		/// </summary>
 		public class CheckBoxFocusLostEventArgs : EventArgs
 		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="CheckBoxFocusLostEventArgs"/> class.
+			/// </summary>
+			/// <param name="isChecked">The new state.</param>
 			internal CheckBoxFocusLostEventArgs(bool isChecked)
 			{
 				IsChecked = isChecked;

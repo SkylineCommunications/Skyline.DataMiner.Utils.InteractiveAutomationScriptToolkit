@@ -171,7 +171,10 @@
 		public override bool Equals(object obj)
 		{
 			WidgetLayout other = obj as WidgetLayout;
-			if (other == null) return false;
+			if (other == null)
+			{
+				return false;
+			}
 
 			bool rowMatch = Row.Equals(other.Row);
 			bool columnMatch = Column.Equals(other.Column);

@@ -15,17 +15,17 @@
 		private bool isVisible = true;
 
 		/// <summary>
-		/// Number of columns that are currently defined by the widgets that have been added to this section.
+		/// Gets the number of columns that are currently defined by the widgets that have been added to this section.
 		/// </summary>
 		public int ColumnCount { get; private set; }
 
 		/// <summary>
-		/// Number of rows that are currently defined by the widgets that have been added to this section.
+		/// Gets the number of rows that are currently defined by the widgets that have been added to this section.
 		/// </summary>
 		public int RowCount { get; private set; }
 
 		/// <summary>
-		///		Gets or sets a value indicating whether the widgets within the section are visible or not.
+		/// 	Gets or sets a value indicating whether the widgets within the section are visible or not.
 		/// </summary>
 		public bool IsVisible
 		{
@@ -45,7 +45,7 @@
 		}
 
 		/// <summary>
-		///		Gets or sets a value indicating whether the interactive widgets within the section are enabled or not.
+		/// 	Gets or sets a value indicating whether the interactive widgets within the section are enabled or not.
 		/// </summary>
 		public bool IsEnabled
 		{
@@ -221,7 +221,10 @@
 		/// <exception cref="NullReferenceException">When widgetLayout is null.</exception>
 		public void SetWidgetLayout(Widget widget, IWidgetLayout widgetLayout)
 		{
-			if (widgetLayout == null) throw new ArgumentNullException(nameof(widgetLayout));
+			if (widgetLayout == null)
+			{
+				throw new ArgumentNullException(nameof(widgetLayout));
+			}
 
 			CheckWidgetExits(widget);
 			widgetLayouts[widget] = widgetLayout;
@@ -251,7 +254,7 @@
 		}
 
 		/// <summary>
-		///		Used to update the RowCount and ColumnCount properties based on the Widgets added to the section.
+		/// 	Used to update the RowCount and ColumnCount properties based on the Widgets added to the section.
 		/// </summary>
 		private void UpdateRowAndColumnCount()
 		{

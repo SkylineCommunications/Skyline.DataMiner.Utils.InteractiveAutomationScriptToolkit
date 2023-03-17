@@ -76,7 +76,7 @@
 		}
 
 		/// <summary>
-		///     Gets all options.
+		///     Gets or sets all options.
 		/// </summary>
 		public IEnumerable<string> Options
 		{
@@ -200,11 +200,15 @@
 			}
 		}
 
+		/// <inheritdoc/>
 		internal override void LoadResult(UIResults uiResults)
 		{
 			string result = uiResults.GetString(this);
 
-			if (String.IsNullOrWhiteSpace(result)) return;
+			if (String.IsNullOrWhiteSpace(result))
+			{
+				return;
+			}
 
 			string[] checkedOptions = result.Split(';');
 			foreach (string checkedOption in checkedOptions)
@@ -222,7 +226,11 @@
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			if (changed) OnChanged?.Invoke(this, new RadioButtonChangedEventArgs(Selected, previous));
+			if (changed)
+			{
+				OnChanged?.Invoke(this, new RadioButtonChangedEventArgs(Selected, previous));
+			}
+
 			changed = false;
 		}
 
@@ -237,6 +245,11 @@
 		/// </summary>
 		public class RadioButtonChangedEventArgs : EventArgs
 		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="RadioButtonChangedEventArgs"/> class.
+			/// </summary>
+			/// <param name="selectedValue">The new value.</param>
+			/// <param name="previous">The previous value.</param>
 			internal RadioButtonChangedEventArgs(string selectedValue, string previous)
 			{
 				SelectedValue = selectedValue;

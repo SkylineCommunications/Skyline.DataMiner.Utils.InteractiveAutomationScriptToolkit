@@ -5,7 +5,7 @@
 	using Skyline.DataMiner.Automation;
 
 	/// <summary>
-	///		Dialog used to display a message.
+	/// 	Dialog used to display a message.
 	/// </summary>
 	public class MessageDialog : Dialog
 	{
@@ -34,7 +34,7 @@
 		}
 
 		/// <summary>
-		/// Message to be displayed in the dialog.
+		/// Gets or sets the message to be displayed in the dialog.
 		/// </summary>
 		public string Message
 		{
@@ -50,7 +50,7 @@
 		}
 
 		/// <summary>
-		/// Button that is displayed below the message.
+		/// Gets the button that is displayed below the message.
 		/// </summary>
 		public Button OkButton { get; private set; }
 	}

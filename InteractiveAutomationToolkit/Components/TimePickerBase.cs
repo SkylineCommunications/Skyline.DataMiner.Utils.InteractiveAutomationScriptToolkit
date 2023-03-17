@@ -12,7 +12,7 @@
 		private AutomationDateTimeUpDownOptions dateTimeUpDownOptions;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="TimePickerBase" />
+		/// Initializes a new instance of the <see cref="TimePickerBase"/> class.
 		/// </summary>
 		/// <param name="dateTimeUpDownOptions">Configuration for the new TimePickerBase instance.</param>
 		protected TimePickerBase(AutomationDateTimeUpDownOptions dateTimeUpDownOptions)
@@ -58,7 +58,7 @@
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the widget will only trigger an event when the enter key is pressed.
-		///     Default: <c>false</c>
+		///     Default: <c>false</c>.
 		/// </summary>
 		public bool UpdateOnEnter
 		{
@@ -95,7 +95,7 @@
 		///     <c>DateTimeFormat.Custom</c>.
 		///     Default: G (from DataMiner 9.5.4 onwards; previously the default value was null).
 		/// </summary>
-		/// <remarks>Sets <see cref="DateTimeFormat" /> to <c>DateTimeFormat.Custom</c></remarks>
+		/// <remarks>Sets <see cref="DateTimeFormat" /> to <c>DateTimeFormat.Custom</c>.</remarks>
 		public string CustomDateTimeFormat
 		{
 			get
@@ -112,7 +112,7 @@
 
 		/// <summary>
 		///     Gets or sets the DateTimeKind (.NET) used by the datetime up-down control.
-		///     Default: <c>DateTimeKind.Unspecified</c>
+		///     Default: <c>DateTimeKind.Unspecified</c>.
 		/// </summary>
 		public DateTimeKind Kind
 		{
@@ -129,7 +129,7 @@
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the value is clipped to the range.
-		///     Default: <c>false</c>
+		///     Default: <c>false</c>.
 		/// </summary>
 		public bool ClipValueToRange
 		{
@@ -145,7 +145,7 @@
 		}
 
 		/// <summary>
-		/// Configuration of this <see cref="TimePickerBase" /> instance.
+		/// Gets or sets the configuration of this <see cref="TimePickerBase" /> instance.
 		/// </summary>
 		protected AutomationDateTimeUpDownOptions DateTimeUpDownOptions
 		{

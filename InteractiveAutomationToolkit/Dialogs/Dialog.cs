@@ -33,7 +33,7 @@
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Dialog" /> class.
 		/// </summary>
-		/// <param name="engine"></param>
+		/// <param name="engine">Allows interaction with the DataMiner System.</param>
 		protected Dialog(IEngine engine)
 		{
 			if (engine == null)
@@ -55,13 +55,6 @@
 		}
 
 		/// <summary>
-		/// Gets or sets a value indicating whether overlapping widgets are allowed or not.
-		/// Can be used in case you want to add multiple widgets to the same cell in the dialog.
-		/// You can use the Margin property on the widgets to place them apart.
-		/// </summary>
-		public bool AllowOverlappingWidgets { get; set; }
-
-		/// <summary>
 		///     Triggered when the back button of the dialog is pressed.
 		/// </summary>
 		public event EventHandler<EventArgs> Back;
@@ -75,6 +68,13 @@
 		///     Triggered when there is any user interaction.
 		/// </summary>
 		public event EventHandler<EventArgs> Interacted;
+
+		/// <summary>
+		/// Gets or sets a value indicating whether overlapping widgets are allowed or not.
+		/// Can be used in case you want to add multiple widgets to the same cell in the dialog.
+		/// You can use the Margin property on the widgets to place them apart.
+		/// </summary>
+		public bool AllowOverlappingWidgets { get; set; }
 
 		/// <summary>
 		///     Gets the number of columns of the grid layout.
@@ -213,7 +213,7 @@
 		public int RowCount { get; private set; }
 
 		/// <summary>
-		///		Gets or sets a value indicating whether the interactive widgets within the dialog are enabled or not.
+		/// 	Gets or sets a value indicating whether the interactive widgets within the dialog are enabled or not.
 		/// </summary>
 		public bool IsEnabled
 		{
@@ -437,11 +437,24 @@
 		/// <exception cref="ArgumentOutOfRangeException">When the column width is smaller than 0.</exception>
 		public void SetColumnWidth(int column, int columnWidth)
 		{
-			if (column < 0) throw new ArgumentOutOfRangeException("column");
-			if (columnWidth < 0) throw new ArgumentOutOfRangeException("columnWidth");
+			if (column < 0)
+			{
+				throw new ArgumentOutOfRangeException("column");
+			}
 
-			if (columnDefinitions.ContainsKey(column)) columnDefinitions[column] = columnWidth.ToString();
-			else columnDefinitions.Add(column, columnWidth.ToString());
+			if (columnWidth < 0)
+			{
+				throw new ArgumentOutOfRangeException("columnWidth");
+			}
+
+			if (columnDefinitions.ContainsKey(column))
+			{
+				columnDefinitions[column] = columnWidth.ToString();
+			}
+			else
+			{
+				columnDefinitions.Add(column, columnWidth.ToString());
+			}
 		}
 
 		/// <summary>
@@ -451,10 +464,19 @@
 		/// <exception cref="ArgumentOutOfRangeException">When the column index does not exist.</exception>
 		public void SetColumnWidthAuto(int column)
 		{
-			if (column < 0) throw new ArgumentOutOfRangeException("column");
+			if (column < 0)
+			{
+				throw new ArgumentOutOfRangeException("column");
+			}
 
-			if (columnDefinitions.ContainsKey(column)) columnDefinitions[column] = Auto;
-			else columnDefinitions.Add(column, Auto);
+			if (columnDefinitions.ContainsKey(column))
+			{
+				columnDefinitions[column] = Auto;
+			}
+			else
+			{
+				columnDefinitions.Add(column, Auto);
+			}
 		}
 
 		/// <summary>
@@ -464,10 +486,19 @@
 		/// <exception cref="ArgumentOutOfRangeException">When the column index does not exist.</exception>
 		public void SetColumnWidthStretch(int column)
 		{
-			if (column < 0) throw new ArgumentOutOfRangeException("column");
+			if (column < 0)
+			{
+				throw new ArgumentOutOfRangeException("column");
+			}
 
-			if (columnDefinitions.ContainsKey(column)) columnDefinitions[column] = Stretch;
-			else columnDefinitions.Add(column, Stretch);
+			if (columnDefinitions.ContainsKey(column))
+			{
+				columnDefinitions[column] = Stretch;
+			}
+			else
+			{
+				columnDefinitions.Add(column, Stretch);
+			}
 		}
 
 		/// <summary>
@@ -479,11 +510,24 @@
 		/// <exception cref="ArgumentOutOfRangeException">When the row height is smaller than 0.</exception>
 		public void SetRowHeight(int row, int rowHeight)
 		{
-			if (row < 0) throw new ArgumentOutOfRangeException("row");
-			if (rowHeight <= 0) throw new ArgumentOutOfRangeException("rowHeight");
+			if (row < 0)
+			{
+				throw new ArgumentOutOfRangeException("row");
+			}
 
-			if (rowDefinitions.ContainsKey(row)) rowDefinitions[row] = rowHeight.ToString();
-			else rowDefinitions.Add(row, rowHeight.ToString());
+			if (rowHeight <= 0)
+			{
+				throw new ArgumentOutOfRangeException("rowHeight");
+			}
+
+			if (rowDefinitions.ContainsKey(row))
+			{
+				rowDefinitions[row] = rowHeight.ToString();
+			}
+			else
+			{
+				rowDefinitions.Add(row, rowHeight.ToString());
+			}
 		}
 
 		/// <summary>
@@ -493,10 +537,19 @@
 		/// <exception cref="ArgumentOutOfRangeException">When the row index is smaller than 0.</exception>
 		public void SetRowHeightAuto(int row)
 		{
-			if (row < 0) throw new ArgumentOutOfRangeException("row");
+			if (row < 0)
+			{
+				throw new ArgumentOutOfRangeException("row");
+			}
 
-			if (rowDefinitions.ContainsKey(row)) rowDefinitions[row] = Auto;
-			else rowDefinitions.Add(row, Auto);
+			if (rowDefinitions.ContainsKey(row))
+			{
+				rowDefinitions[row] = Auto;
+			}
+			else
+			{
+				rowDefinitions.Add(row, Auto);
+			}
 		}
 
 		/// <summary>
@@ -506,10 +559,19 @@
 		/// <exception cref="ArgumentOutOfRangeException">When the row index is smaller than 0.</exception>
 		public void SetRowHeightStretch(int row)
 		{
-			if (row < 0) throw new ArgumentOutOfRangeException("row");
+			if (row < 0)
+			{
+				throw new ArgumentOutOfRangeException("row");
+			}
 
-			if (rowDefinitions.ContainsKey(row)) rowDefinitions[row] = Stretch;
-			else rowDefinitions.Add(row, Stretch);
+			if (rowDefinitions.ContainsKey(row))
+			{
+				rowDefinitions[row] = Stretch;
+			}
+			else
+			{
+				rowDefinitions.Add(row, Stretch);
+			}
 		}
 
 		/// <summary>
@@ -601,11 +663,18 @@
 		/// <exception cref="OverlappingWidgetsException">Thrown when two visible widgets overlap with each other.</exception>
 		private void CheckIfVisibleWidgetsOverlap()
 		{
-			if (AllowOverlappingWidgets) return;
+			if (AllowOverlappingWidgets)
+			{
+				return;
+			}
 
 			foreach (Widget widget in widgetLayouts.Keys)
 			{
-				if (!widget.IsVisible) continue;
+				if (!widget.IsVisible)
+				{
+					continue;
+				}
+
 				CheckIfVisibleWidgetOverlaps(widget);
 			}
 		}
@@ -626,7 +695,10 @@
 		{
 			foreach (Widget otherWidget in widgetLayouts.Keys)
 			{
-				if (!otherWidget.IsVisible || widget.Equals(otherWidget)) continue;
+				if (!otherWidget.IsVisible || widget.Equals(otherWidget))
+				{
+					continue;
+				}
 
 				IWidgetLayout otherWidgetLayout = widgetLayouts[otherWidget];
 				if (column >= otherWidgetLayout.Column && column < otherWidgetLayout.Column + otherWidgetLayout.ColumnSpan && row >= otherWidgetLayout.Row && row < otherWidgetLayout.Row + otherWidgetLayout.RowSpan)
@@ -699,7 +771,7 @@
 				MinWidth = MinWidth,
 				RowDefs = GetRowDefinitions(rowsInUse),
 				ColumnDefs = GetColumnDefinitions(columnsInUse),
-				Title = Title
+				Title = Title,
 			};
 
 			KeyValuePair<Widget, IWidgetLayout> defaultKeyValuePair = default(KeyValuePair<Widget, IWidgetLayout>);
@@ -712,11 +784,17 @@
 				{
 					foreach (KeyValuePair<Widget, IWidgetLayout> keyValuePair in widgetLayouts.Where(x => x.Key.IsVisible && x.Key.Type != UIBlockType.Undefined && x.Value.Row.Equals(rowInUse) && x.Value.Column.Equals(columnInUse)))
 					{
-						if (keyValuePair.Equals(defaultKeyValuePair)) continue;
+						if (keyValuePair.Equals(defaultKeyValuePair))
+						{
+							continue;
+						}
 
 						// Can be removed once we retrieve all collapsed states from the UI
 						TreeView treeView = keyValuePair.Key as TreeView;
-						if (treeView != null) treeView.UpdateItemCache();
+						if (treeView != null)
+						{
+							treeView.UpdateItemCache();
+						}
 
 						UIBlockDefinition widgetBlockDefinition = keyValuePair.Key.BlockDefinition;
 						IWidgetLayout widgetLayout = keyValuePair.Value;

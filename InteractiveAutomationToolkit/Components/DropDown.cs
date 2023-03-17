@@ -32,7 +32,11 @@
 		{
 			Type = UIBlockType.DropDown;
 			SetOptions(options);
-			if (selected != null) Selected = selected;
+			if (selected != null)
+			{
+				Selected = selected;
+			}
+
 			ValidationText = "Invalid Input";
 			ValidationState = UIValidationState.NotValidated;
 		}
@@ -115,10 +119,9 @@
 			}
 		}
 
-
 		/// <summary>
-		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by the client to add a visual marker on the input field.
+		/// 	Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
+		/// 	This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner Feature Release 10.0.5 and 10.0.1.0 Main Release.</remarks>
 		public UIValidationState ValidationState
@@ -135,8 +138,8 @@
 		}
 
 		/// <summary>
-		///		Gets or sets the text that is shown if the validation state is invalid.
-		///		This should be used by the client to add a visual marker on the input field.
+		/// 	Gets or sets the text that is shown if the validation state is invalid.
+		/// 	This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public string ValidationText
@@ -257,11 +260,15 @@
 			}
 		}
 
+		/// <inheritdoc/>
 		internal override void LoadResult(UIResults uiResults)
 		{
 			string selectedValue = uiResults.GetString(this);
 
-			if (BlockDefinition.WantsOnChange) changed = selectedValue != Selected;
+			if (BlockDefinition.WantsOnChange)
+			{
+				changed = selectedValue != Selected;
+			}
 
 			previous = Selected;
 			Selected = selectedValue;
@@ -270,7 +277,11 @@
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			if (changed) OnChanged?.Invoke(this, new DropDownChangedEventArgs(Selected, previous));
+			if (changed)
+			{
+				OnChanged?.Invoke(this, new DropDownChangedEventArgs(Selected, previous));
+			}
+
 			changed = false;
 		}
 
@@ -285,6 +296,11 @@
 		/// </summary>
 		public class DropDownChangedEventArgs : EventArgs
 		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="DropDownChangedEventArgs"/> class.
+			/// </summary>
+			/// <param name="selected">The new value.</param>
+			/// <param name="previous">The previous value.</param>
 			internal DropDownChangedEventArgs(string selected, string previous)
 			{
 				Selected = selected;
