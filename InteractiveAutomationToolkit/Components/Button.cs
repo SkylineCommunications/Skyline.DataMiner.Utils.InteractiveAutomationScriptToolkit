@@ -109,6 +109,7 @@
 			}
 		}
 
+		/// <inheritdoc/>
 		internal override void LoadResult(UIResults uiResults)
 		{
 			pressed = uiResults.WasButtonPressed(this);

@@ -327,8 +327,8 @@
 			/// <summary>
 			/// Initializes a new instance of the <see cref="NumericChangedEventArgs"/> class.
 			/// </summary>
-			/// <param name="value"></param>
-			/// <param name="previous"></param>
+			/// <param name="value">The new value.</param>
+			/// <param name="previous">The previous value.</param>
 			internal NumericChangedEventArgs(double value, double previous)
 			{
 				Value = value;
@@ -354,7 +354,7 @@
 			/// <summary>
 			/// Initializes a new instance of the <see cref="NumericFocusLostEventArgs"/> class.
 			/// </summary>
-			/// <param name="value"></param>
+			/// <param name="value">The new value.</param>
 			internal NumericFocusLostEventArgs(double value)
 			{
 				Value = value;

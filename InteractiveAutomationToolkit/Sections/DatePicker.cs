@@ -44,7 +44,7 @@
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DatePicker"/> class.
 		/// </summary>
-		/// <param name="dateTime"></param>
+		/// <param name="dateTime">Value displayed on <see cref="DatePicker"/>.</param>
 		public DatePicker(DateTime dateTime)
 		{
 			previous = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day);
@@ -221,6 +221,11 @@
 		/// </summary>
 		public class DatePickerChangedEventArgs : EventArgs
 		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="DatePickerChangedEventArgs"/> class.
+			/// </summary>
+			/// <param name="dateTime">The new value.</param>
+			/// <param name="previous">The previous value.</param>
 			internal DatePickerChangedEventArgs(DateTime dateTime, DateTime previous)
 			{
 				DateTime = dateTime;

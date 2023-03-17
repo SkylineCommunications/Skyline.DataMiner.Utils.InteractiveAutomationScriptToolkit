@@ -180,11 +180,13 @@
 			IsCollapsed = false;
 		}
 
+		/// <inheritdoc/>
 		internal override void LoadResult(UIResults uiResults)
 		{
 			pressed = uiResults.WasCollapseButtonPressed(this);
 		}
 
+		/// <inheritdoc/>
 		internal override void RaiseResultEvents()
 		{
 			if (pressed)

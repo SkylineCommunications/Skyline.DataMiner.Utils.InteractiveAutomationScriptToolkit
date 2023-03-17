@@ -205,8 +205,8 @@
 			/// <summary>
 			/// Initializes a new instance of the <see cref="CalendarChangedEventArgs"/> class.
 			/// </summary>
-			/// <param name="dateTime"></param>
-			/// <param name="previous"></param>
+			/// <param name="dateTime">The new value.</param>
+			/// <param name="previous">The previous value.</param>
 			internal CalendarChangedEventArgs(DateTime dateTime, DateTime previous)
 			{
 				DateTime = dateTime;
@@ -232,7 +232,7 @@
 			/// <summary>
 			/// Initializes a new instance of the <see cref="CalendarFocusLostEventArgs"/> class.
 			/// </summary>
-			/// <param name="dateTime"></param>
+			/// <param name="dateTime">The new value.</param>
 			internal CalendarFocusLostEventArgs(DateTime dateTime)
 			{
 				DateTime = dateTime;

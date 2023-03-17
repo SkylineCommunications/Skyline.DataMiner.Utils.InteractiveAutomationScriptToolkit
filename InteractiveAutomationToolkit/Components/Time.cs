@@ -378,8 +378,8 @@
 			/// <summary>
 			/// Initializes a new instance of the <see cref="TimeChangedEventArgs"/> class.
 			/// </summary>
-			/// <param name="timeSpan"></param>
-			/// <param name="previous"></param>
+			/// <param name="timeSpan">The new value.</param>
+			/// <param name="previous">The previous value.</param>
 			internal TimeChangedEventArgs(TimeSpan timeSpan, TimeSpan previous)
 			{
 				TimeSpan = timeSpan;
@@ -405,7 +405,7 @@
 			/// <summary>
 			/// Initializes a new instance of the <see cref="TimeFocusLostEventArgs"/> class.
 			/// </summary>
-			/// <param name="timeSpan"></param>
+			/// <param name="timeSpan">The new value.</param>
 			internal TimeFocusLostEventArgs(TimeSpan timeSpan)
 			{
 				TimeSpan = timeSpan;

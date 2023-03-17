@@ -33,7 +33,7 @@
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Dialog" /> class.
 		/// </summary>
-		/// <param name="engine"></param>
+		/// <param name="engine">Allows interaction with the DataMiner System.</param>
 		protected Dialog(IEngine engine)
 		{
 			if (engine == null)

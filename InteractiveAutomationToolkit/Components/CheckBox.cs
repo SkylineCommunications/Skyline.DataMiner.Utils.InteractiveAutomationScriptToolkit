@@ -195,6 +195,7 @@
 			}
 		}
 
+		/// <inheritdoc/>
 		internal override void LoadResult(UIResults uiResults)
 		{
 			bool result = uiResults.GetChecked(this);
@@ -245,6 +246,10 @@
 		/// </summary>
 		public class CheckBoxChangedEventArgs : EventArgs
 		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="CheckBoxChangedEventArgs"/> class.
+			/// </summary>
+			/// <param name="isChecked">The new state.</param>
 			internal CheckBoxChangedEventArgs(bool isChecked)
 			{
 				IsChecked = isChecked;
@@ -261,6 +266,10 @@
 		/// </summary>
 		public class CheckBoxFocusLostEventArgs : EventArgs
 		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="CheckBoxFocusLostEventArgs"/> class.
+			/// </summary>
+			/// <param name="isChecked">The new state.</param>
 			internal CheckBoxFocusLostEventArgs(bool isChecked)
 			{
 				IsChecked = isChecked;

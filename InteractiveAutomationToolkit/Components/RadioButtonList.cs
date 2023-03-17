@@ -200,6 +200,7 @@
 			}
 		}
 
+		/// <inheritdoc/>
 		internal override void LoadResult(UIResults uiResults)
 		{
 			string result = uiResults.GetString(this);
@@ -247,8 +248,8 @@
 			/// <summary>
 			/// Initializes a new instance of the <see cref="RadioButtonChangedEventArgs"/> class.
 			/// </summary>
-			/// <param name="selectedValue"></param>
-			/// <param name="previous"></param>
+			/// <param name="selectedValue">The new value.</param>
+			/// <param name="previous">The previous value.</param>
 			internal RadioButtonChangedEventArgs(string selectedValue, string previous)
 			{
 				SelectedValue = selectedValue;

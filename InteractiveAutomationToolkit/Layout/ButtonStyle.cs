@@ -1,5 +1,8 @@
 ﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 {
+	/// <summary>
+	/// Styling options for <see cref="Button"/> widgets.
+	/// </summary>
 	public enum ButtonStyle
 	{
 		/// <summary>

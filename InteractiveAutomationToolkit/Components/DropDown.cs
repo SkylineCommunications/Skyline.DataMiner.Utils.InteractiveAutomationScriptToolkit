@@ -260,6 +260,7 @@
 			}
 		}
 
+		/// <inheritdoc/>
 		internal override void LoadResult(UIResults uiResults)
 		{
 			string selectedValue = uiResults.GetString(this);
@@ -298,8 +299,8 @@
 			/// <summary>
 			/// Initializes a new instance of the <see cref="DropDownChangedEventArgs"/> class.
 			/// </summary>
-			/// <param name="selected"></param>
-			/// <param name="previous"></param>
+			/// <param name="selected">The new value.</param>
+			/// <param name="previous">The previous value.</param>
 			internal DropDownChangedEventArgs(string selected, string previous)
 			{
 				Selected = selected;

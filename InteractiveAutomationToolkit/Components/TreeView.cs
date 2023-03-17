@@ -34,7 +34,7 @@
 		/// <summary>
 		/// 	Initializes a new instance of the <see cref="TreeView" /> class.
 		/// </summary>
-		/// <param name="treeViewItems"></param>
+		/// <param name="treeViewItems">Root nodes of the tree view.</param>
 		public TreeView(IEnumerable<TreeViewItem> treeViewItems)
 		{
 			Type = UIBlockType.TreeView;
@@ -321,6 +321,7 @@
 			return GetItems(Items, depth, 0);
 		}
 
+		/// <inheritdoc/>
 		internal override void LoadResult(UIResults uiResults)
 		{
 			var checkedItemKeys = uiResults.GetCheckedItemKeys(this); // this includes all checked items

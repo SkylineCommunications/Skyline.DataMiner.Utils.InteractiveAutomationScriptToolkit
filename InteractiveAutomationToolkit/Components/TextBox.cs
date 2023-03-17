@@ -191,6 +191,7 @@
 			}
 		}
 
+		/// <inheritdoc/>
 		internal override void LoadResult(UIResults uiResults)
 		{
 			string value = uiResults.GetString(this);
@@ -232,6 +233,11 @@
 		/// </summary>
 		public class TextBoxChangedEventArgs : EventArgs
 		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="TextBoxChangedEventArgs"/> class.
+			/// </summary>
+			/// <param name="value">The new value.</param>
+			/// <param name="previous">The previous value.</param>
 			internal TextBoxChangedEventArgs(string value, string previous)
 			{
 				Value = value;
@@ -254,6 +260,10 @@
 		/// </summary>
 		public class TextBoxFocusLostEventArgs : EventArgs
 		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="TextBoxFocusLostEventArgs"/> class.
+			/// </summary>
+			/// <param name="value">The new value.</param>
 			internal TextBoxFocusLostEventArgs(string value)
 			{
 				Value = value;

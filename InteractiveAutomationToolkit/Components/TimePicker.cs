@@ -360,6 +360,11 @@
 		/// </summary>
 		public class TimePickerChangedEventArgs : EventArgs
 		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="TimePickerChangedEventArgs"/> class.
+			/// </summary>
+			/// <param name="timeSpan">The new value.</param>
+			/// <param name="previous">The previous value.</param>
 			internal TimePickerChangedEventArgs(TimeSpan timeSpan, TimeSpan previous)
 			{
 				TimeSpan = timeSpan;
@@ -382,6 +387,10 @@
 		/// </summary>
 		public class TimePickerFocusLostEventArgs : EventArgs
 		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="TimePickerFocusLostEventArgs"/> class.
+			/// </summary>
+			/// <param name="timeSpan">The new value.</param>
 			internal TimePickerFocusLostEventArgs(TimeSpan timeSpan)
 			{
 				TimeSpan = timeSpan;

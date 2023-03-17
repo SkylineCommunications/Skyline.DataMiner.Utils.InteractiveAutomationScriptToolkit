@@ -301,6 +301,7 @@
 			BlockDefinition.InitialValue = null;
 		}
 
+		/// <inheritdoc/>
 		internal override void LoadResult(UIResults uiResults)
 		{
 			string results = uiResults.GetString(this);
@@ -357,6 +358,11 @@
 		/// </summary>
 		public class CheckBoxListChangedEventArgs : EventArgs
 		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="CheckBoxListChangedEventArgs"/> class.
+			/// </summary>
+			/// <param name="option">The option that changed state.</param>
+			/// <param name="isChecked">The new state of the option.</param>
 			internal CheckBoxListChangedEventArgs(string option, bool isChecked)
 			{
 				Option = option;

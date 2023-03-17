@@ -399,6 +399,11 @@
 		/// </summary>
 		public class DateTimePickerChangedEventArgs : EventArgs
 		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="DateTimePickerChangedEventArgs"/> class.
+			/// </summary>
+			/// <param name="dateTime">The new value.</param>
+			/// <param name="previous">The previous value.</param>
 			internal DateTimePickerChangedEventArgs(DateTime dateTime, DateTime previous)
 			{
 				DateTime = dateTime;
@@ -421,6 +426,10 @@
 		/// </summary>
 		public class DateTimePickerFocusLostEventArgs : EventArgs
 		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="DateTimePickerFocusLostEventArgs"/> class.
+			/// </summary>
+			/// <param name="dateTime">The new value.</param>
 			internal DateTimePickerFocusLostEventArgs(DateTime dateTime)
 			{
 				DateTime = dateTime;

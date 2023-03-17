@@ -38,14 +38,14 @@
 			}
 		}
 
-		///// <summary>
-		///// Indicates if the script is allowed to continue without having a file uploaded.
-		///// Default value: false
-		///// </summary>
-		///// <remarks>
-		///// Available from DataMiner Feature Release 10.1.10 and Main Release 10.2.0 onwards.
-		///// This value has no effect in Cube. A file upload is always required.
-		///// </remarks>
+		/// <summary>
+		/// Gets or sets a value indicating whether the script is allowed to continue without having a file uploaded.
+		/// Default value: false.
+		/// </summary>
+		/// <remarks>
+		/// Available from DataMiner Feature Release 10.1.10 and Main Release 10.2.0 onwards.
+		/// This value has no effect in Cube. A file upload is always required.
+		/// </remarks>
 		public bool IsRequired
 		{
 			get
@@ -165,11 +165,13 @@
 			}
 		}
 
+		/// <inheritdoc/>
 		internal override void LoadResult(UIResults uiResults)
 		{
 			UploadedFilePaths = uiResults.GetUploadedFilePaths(this) ?? new string[0];
 		}
 
+		/// <inheritdoc/>
 		internal override void RaiseResultEvents()
 		{
 			// Nothing to do
