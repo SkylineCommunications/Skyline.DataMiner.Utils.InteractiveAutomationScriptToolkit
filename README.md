@@ -1,16 +1,12 @@
-# Skyline.DataMiner.Utils.InteractiveAutomationScriptToolkit
-
-This package is an extension to
-[Skyline.DataMiner.Automation](https://docs.dataminer.services/develop/api/types/Skyline.DataMiner.Automation.html).
-
+Skyline.DataMiner.Utils.InteractiveAutomationScriptToolkit
+===
+## About
 Quickly develop interactive automation scripts for DataMiner.
+
 This package provides an API that more closely resembles other desktop graphical user interface libraries.
-
-## How do I get started?
-
-Create or import an existing DataMiner automation script in Visual Studio.
-Then add the NuGet package to the project.
-You can now create your first interactive script using the toolkit:
+It builds upon the features available in
+[Skyline.DataMiner.Automation](https://docs.dataminer.services/develop/api/types/Skyline.DataMiner.Automation.html)
+and makes them easier to use.
 
 ```csharp
 using System;
@@ -98,7 +94,7 @@ If you have questions, you can post them to
 our [DataMiner community platform](https://community.dataminer.services/questions/).
 Or have a look at the guides and video courses listed below.
 
-## Courses and guides
+### Courses and guides
 
 - [All video courses related to DataMiner Automation](https://community.dataminer.services/courses/dataminer-automation/)
 - [Getting started with the toolkit](https://community.dataminer.services/documentation/getting-started-with-the-ias-toolkit/)
@@ -106,7 +102,7 @@ Or have a look at the guides and video courses listed below.
   (The first 2 minutes can be skipped as they cover how to acquire the toolkit without NuGet)
 - [Create applications using Model View Presenter](https://community.dataminer.services/courses/dataminer-automation/lessons/model-view-presenter/)
 
-## Known Issue
+### Known Issue
 
 When you use this NuGet package, it is possible you get the following error when launching the script:
 `DataMinerException: Show UI Failed: 0x800402F5 (Interactive UI can only be used in interactive mode. )`
@@ -118,7 +114,7 @@ This method call is now handled by the NuGet package, so the string can no longe
 causing the issue.
 We are currently working on a fix which will be available in one of our upcoming DataMiner releases.
 
-### Workaround
+#### Workaround
 
 Add the following comment to your script.
 
@@ -128,6 +124,27 @@ Add the following comment to your script.
 
 Location of the comment does not matter as long as it is visible in the C# code block view of the DataMiner Automation
 Script UI.
+
+## About DataMiner
+
+DataMiner is a transformational platform that provides vendor-independent control and monitoring of devices and services. 
+Out of the box and by design, it addresses key challenges such as security, complexity, multi-cloud, and much more. 
+It has a pronounced open architecture and powerful capabilities enabling users to evolve easily and continuously.
+
+The foundation of DataMiner is its powerful and versatile data acquisition and control layer. 
+With DataMiner, there are no restrictions to what data users can access. 
+Data sources may reside on premises, in the cloud, or in a hybrid setup.
+
+A unique catalog of 7000+ connectors already exist. 
+In addition, you can leverage DataMiner Development Packages to build you own connectors (also known as "protocols" or "drivers").
+
+> **Note**
+> See also: [About DataMiner](https://aka.dataminer.services/about-dataminer).
+
+## About Skyline Communications
+
+At Skyline Communications, we deal in world-class solutions that are deployed by leading companies around the globe. 
+Check out [our proven track record](https://aka.dataminer.services/about-skyline) and see how we make our customers' lives easier by empowering them to take their operations to the next level.
 
 ## Preview Release Notes
 
