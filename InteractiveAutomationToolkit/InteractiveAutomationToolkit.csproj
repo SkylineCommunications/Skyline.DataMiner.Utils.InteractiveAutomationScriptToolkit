@@ -10,6 +10,7 @@
 		<Authors>SkylineCommunications</Authors>
 		<Company>Skyline Communications</Company>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 		<PackageTags>Skyline;DataMiner;GUI</PackageTags>
 		<PackageProjectUrl>https://skyline.be/</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/SkylineCommunications/Skyline.DataMiner.Utils.InteractiveAutomationScriptToolkit</RepositoryUrl>
