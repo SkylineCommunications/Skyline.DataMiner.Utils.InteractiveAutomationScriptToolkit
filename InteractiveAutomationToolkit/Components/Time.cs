@@ -30,7 +30,7 @@
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Time" /> class.
 		/// </summary>
-		public Time() : this(new TimeSpan())
+		public Time() : this(default)
 		{
 		}
 
@@ -60,7 +60,7 @@
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the value is clipped to the range.
-		///     Default: <c>false</c>
+		///     Default: <c>false</c>.
 		/// </summary>
 		public bool ClipValueToRange
 		{
@@ -77,7 +77,7 @@
 
 		/// <summary>
 		///     Gets or sets the number of digits to be used in order to represent the fractions of seconds.
-		///     Default: <c>0</c>
+		///     Default: <c>0</c>.
 		/// </summary>
 		public int Decimals
 		{
@@ -99,7 +99,7 @@
 
 		/// <summary>
 		///     Gets or sets a value indicating whether seconds are displayed in the time widget.
-		///     Default: <c>true</c>
+		///     Default: <c>true</c>.
 		/// </summary>
 		public bool HasSeconds
 		{
@@ -116,7 +116,7 @@
 
 		/// <summary>
 		///     Gets or sets a value indicating whether a spinner button is shown.
-		///     Default: <c>true</c>
+		///     Default: <c>true</c>.
 		/// </summary>
 		public bool HasSpinnerButton
 		{
@@ -133,7 +133,7 @@
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the spinner button is enabled.
-		///     Default: <c>true</c>
+		///     Default: <c>true</c>.
 		/// </summary>
 		public bool IsSpinnerButtonEnabled
 		{
@@ -172,7 +172,7 @@
 
 		/// <summary>
 		///     Gets or sets the maximum timespan.
-		///     Default: <c>TimeSpan.MaxValue</c>
+		///     Default: <c>TimeSpan.MaxValue</c>.
 		/// </summary>
 		/// <exception cref="ArgumentOutOfRangeException">When the maximum is smaller than the minimum.</exception>
 		public TimeSpan Maximum
@@ -195,7 +195,7 @@
 
 		/// <summary>
 		///     Gets or sets the minimum timespan.
-		///     Default: <c>TimeSpan.MinValue</c>
+		///     Default: <c>TimeSpan.MinValue</c>.
 		/// </summary>
 		/// <exception cref="ArgumentOutOfRangeException">When the minimum is larger than the maximum.</exception>
 		public TimeSpan Minimum
@@ -237,7 +237,7 @@
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the widget will only trigger an event when the enter key is pressed.
-		///     Default: <c>false</c>
+		///     Default: <c>false</c>.
 		/// </summary>
 		public bool UpdateOnEnter
 		{

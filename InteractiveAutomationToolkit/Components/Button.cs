@@ -30,28 +30,6 @@
 		}
 
 		/// <summary>
-		///     Gets or sets the tooltip.
-		/// </summary>
-		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
-		public string Tooltip
-		{
-			get
-			{
-				return BlockDefinition.TooltipText;
-			}
-
-			set
-			{
-				if (value == null)
-				{
-					throw new ArgumentNullException("value");
-				}
-
-				BlockDefinition.TooltipText = value;
-			}
-		}
-
-		/// <summary>
 		///     Triggered when the button is pressed.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
@@ -76,6 +54,28 @@
 		private event EventHandler<EventArgs> OnPressed;
 
 		/// <summary>
+		///     Gets or sets the tooltip.
+		/// </summary>
+		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
+		public string Tooltip
+		{
+			get
+			{
+				return BlockDefinition.TooltipText;
+			}
+
+			set
+			{
+				if (value == null)
+				{
+					throw new ArgumentNullException("value");
+				}
+
+				BlockDefinition.TooltipText = value;
+			}
+		}
+
+		/// <summary>
 		///     Gets or sets the text displayed in the button.
 		/// </summary>
 		public string Text
@@ -91,6 +91,7 @@
 			}
 		}
 
+		/// <inheritdoc/>
 		internal override void LoadResult(UIResults uiResults)
 		{
 			pressed = uiResults.WasButtonPressed(this);

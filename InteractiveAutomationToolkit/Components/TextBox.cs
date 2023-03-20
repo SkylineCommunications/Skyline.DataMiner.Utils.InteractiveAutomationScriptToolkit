@@ -112,7 +112,7 @@
 		}
 
 		/// <summary>
-		///		Gets or sets the text that should be displayed as a placeholder.
+		/// 	Gets or sets the text that should be displayed as a placeholder.
 		/// </summary>
 		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public string PlaceHolder
@@ -129,8 +129,8 @@
 		}
 
 		/// <summary>
-		///		Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		///		This should be used by the client to add a visual marker on the input field.
+		/// 	Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
+		/// 	This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public UIValidationState ValidationState
@@ -147,8 +147,8 @@
 		}
 
 		/// <summary>
-		///		Gets or sets the text that is shown if the validation state is invalid.
-		///		This should be used by the client to add a visual marker on the input field.
+		/// 	Gets or sets the text that is shown if the validation state is invalid.
+		/// 	This should be used by the client to add a visual marker on the input field.
 		/// </summary>
 		/// <remarks>Available from DataMiner Feature Release 10.0.5 and Main Release 10.1.0 onwards.</remarks>
 		public string ValidationText
@@ -164,6 +164,7 @@
 			}
 		}
 
+		/// <inheritdoc/>
 		internal override void LoadResult(UIResults uiResults)
 		{
 			string value = uiResults.GetString(this);
@@ -192,6 +193,11 @@
 		/// </summary>
 		public class TextBoxChangedEventArgs : EventArgs
 		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="TextBoxChangedEventArgs"/> class.
+			/// </summary>
+			/// <param name="value">The new value.</param>
+			/// <param name="previous">The previous value.</param>
 			internal TextBoxChangedEventArgs(string value, string previous)
 			{
 				Value = value;
