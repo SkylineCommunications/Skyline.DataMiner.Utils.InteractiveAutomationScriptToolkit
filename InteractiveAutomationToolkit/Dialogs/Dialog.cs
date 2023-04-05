@@ -248,6 +248,7 @@
 			uib.RequireResponse = false;
 
 			Engine.ShowUI(uib);
+			Engine.KeepAlive();
 
 			EnableWidgets(widgets);
 		}
@@ -259,6 +260,7 @@
 			uib.RequireResponse = true;
 
 			UIResults uir = Engine.ShowUI(uib);
+			Engine.KeepAlive();
 
 			LoadChanges(uir);
 			RaiseResultEvents(uir);
