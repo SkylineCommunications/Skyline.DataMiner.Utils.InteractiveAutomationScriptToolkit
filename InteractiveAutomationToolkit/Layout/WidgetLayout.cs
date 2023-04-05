@@ -2,7 +2,9 @@
 {
 	using System;
 
-	/// <inheritdoc />
+	/// <summary>
+	/// Used to define the position of a widget in a grid layout.
+	/// </summary>
 	public class WidgetLayout : IWidgetLayout
 	{
 		private int column;
@@ -100,10 +102,15 @@
 			}
 		}
 
-		/// <inheritdoc />
+		/// <summary>
+		///     Gets or sets the horizontal alignment of the widget.
+		/// </summary>
 		public HorizontalAlignment HorizontalAlignment { get; set; }
 
-		/// <inheritdoc />
+		/// <summary>
+		///     Gets or sets the margin around the widget.
+		/// </summary>
+		/// <exception cref="ArgumentNullException">When the value is null.</exception>
 		public Margin Margin
 		{
 			get
@@ -164,10 +171,14 @@
 			}
 		}
 
-		/// <inheritdoc />
+		/// <summary>
+		///     Gets or sets the vertical alignment of the widget.
+		/// </summary>
 		public VerticalAlignment VerticalAlignment { get; set; }
 
-		/// <inheritdoc />
+		/// <summary>Determines whether the specified object is equal to the current object.</summary>
+		/// <param name="obj">The object to compare with the current object. </param>
+		/// <returns>true if the specified object  is equal to the current object; otherwise, false.</returns>
 		public override bool Equals(object obj)
 		{
 			WidgetLayout other = obj as WidgetLayout;
@@ -190,7 +201,8 @@
 			return rowParamsMatch && columnParamsMatch && alignmentParamsMatch;
 		}
 
-		/// <inheritdoc />
+		/// <summary>Serves as the default hash function. </summary>
+		/// <returns>A hash code for the current object.</returns>
 		public override int GetHashCode()
 		{
 			return Row ^ Column ^ RowSpan ^ ColumnSpan ^ (int)HorizontalAlignment ^ (int)VerticalAlignment;
