@@ -35,7 +35,7 @@
 			MinHeight = 1;
 			MaxWidth = Int32.MaxValue;
 			MinWidth = 1;
-			Title = "Dialog";
+			Title = null;
 			AllowOverlappingWidgets = false;
 		}
 

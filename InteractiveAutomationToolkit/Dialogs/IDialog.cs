@@ -86,7 +86,10 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 		/// <summary>
 		///     Gets or sets the title at the top of the window.
 		/// </summary>
-		/// <remarks>Available from DataMiner 9.6.6 onwards.</remarks>
+		/// <remarks>
+		/// Is set to <c>null</c>, the name of the script will be displayed instead.<br/>
+		/// Available from DataMiner 9.6.6 onwards.
+		/// </remarks>
 		string Title { get; set; }
 
 		/// <summary>
