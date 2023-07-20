@@ -112,7 +112,6 @@
 
 		/// <summary>
 		/// 	Gets or sets a value indicating whether gets or sets whether the displayed time is the server time or local time.
-		/// 	Note: Only works when used in Cube, in web apps doesn't behave correctly.
 		/// </summary>
 		public bool DisplayServerTime
 		{
