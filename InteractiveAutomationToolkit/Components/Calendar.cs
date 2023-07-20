@@ -16,7 +16,6 @@
 
 		private DateTime dateTime;
 		private DateTime previous;
-		private bool displayServerTime = false;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Calendar" /> class.
@@ -99,31 +98,7 @@
 			set
 			{
 				dateTime = value;
-				if (DisplayServerTime)
-				{
-					BlockDefinition.InitialValue = value.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-				}
-				else
-				{
-					BlockDefinition.InitialValue = value.ToString(AutomationConfigOptions.GlobalDateTimeFormat, CultureInfo.InvariantCulture);
-				}
-			}
-		}
-
-		/// <summary>
-		/// 	Gets or sets a value indicating whether gets or sets whether the displayed time is the server time or local time.
-		/// </summary>
-		public bool DisplayServerTime
-		{
-			get
-			{
-				return displayServerTime;
-			}
-
-			set
-			{
-				displayServerTime = value;
-				DateTime = dateTime;
+				BlockDefinition.InitialValue = value.ToString(AutomationConfigOptions.GlobalDateTimeFormat, CultureInfo.InvariantCulture);
 			}
 		}
 
