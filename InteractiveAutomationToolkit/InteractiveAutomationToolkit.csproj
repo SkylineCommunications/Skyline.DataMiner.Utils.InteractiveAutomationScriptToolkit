@@ -29,10 +29,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Skyline.DataMiner.Dev.Automation" Version="10.3.1" />
+		<InternalsVisibleTo Include="$(MSBuildProjectName)Tests" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<InternalsVisibleTo Include="$(MSBuildProjectName)Tests" />
+	  <PackageReference Include="Skyline.DataMiner.Dev.Automation" Version="10.3.1.1" />
 	</ItemGroup>
 </Project>
