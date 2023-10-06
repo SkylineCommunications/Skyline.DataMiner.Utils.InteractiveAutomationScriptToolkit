@@ -6,6 +6,8 @@
 	using System.Linq;
 
 	using Skyline.DataMiner.Automation;
+	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Components;
+	using static Skyline.DataMiner.Automation.Style;
 
 	/// <summary>
 	/// Provides a set of static methods for getting the UI changes that occured for a given widget.
@@ -76,6 +78,12 @@
 		public static bool WasButtonPressed(this UIResults uiResults, Button button)
 		{
 			return uiResults.WasButtonPressed(button.DestVar);
+		}
+
+
+		public static bool HasDownloadStarted(this UIResults uiResults, DownloadButton downloadButton)
+		{
+			return uiResults.WasOnDownloadStarted(downloadButton.DestVar);
 		}
 
 		/// <summary>
