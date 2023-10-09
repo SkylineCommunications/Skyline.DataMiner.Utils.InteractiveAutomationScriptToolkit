@@ -10,8 +10,7 @@
 
 	public class DownloadButton : InteractiveWidget
 	{
-		//private AutomationDownloadButtonOptions downloadButtonOptions;
-
+		private AutomationDownloadButtonOptions downloadButtonOptions;
 		private bool downloadStarted;
 		private ButtonStyle style;
 
@@ -32,11 +31,16 @@
 			add
 			{
 				OnDownloadStarted += value;
+				DownloadButtonOptions.ReturnWhenDownloadIsStarted = true;
 			}
 
 			remove
 			{
 				OnDownloadStarted -= value;
+				if (OnDownloadStarted == null || !OnDownloadStarted.GetInvocationList().Any())
+				{
+					DownloadButtonOptions.ReturnWhenDownloadIsStarted = false;
+				}
 			}
 		}
 
@@ -83,12 +87,16 @@
 		/// link to a file that is public accessible on the web
 		/// "https://dataminer.services/install/DataMinerCube.exe" will download the latest Cube from DataMiner Services.
 		/// </summary>
-		public string SourcePath
+		public string URL
 		{
 			get => DownloadButtonOptions.Url;
 			set => DownloadButtonOptions.Url = value ?? throw new ArgumentNullException("value");
 		}
 
+		/// <summary>
+		/// The filename that will be saved. By default this is the same as the filename of the file on the remote location, but it can be overriden.
+		/// Note: overriding the filename is blocked by some browsers when the file to download is on another host (so not on the DataMiner agent). In this case the original filename will be used.
+		/// </summary>
 		public string FileName
 		{
 			get => DownloadButtonOptions.FileNameToSave;
@@ -101,21 +109,14 @@
 			set => DownloadButtonOptions.StartDownloadImmediately = value;
 		}
 
-		// Similar to WantsOnChange?
-		public bool ReturnWhenDownloadIsStarted
-		{
-			get => DownloadButtonOptions.ReturnWhenDownloadIsStarted;
-			set => DownloadButtonOptions.ReturnWhenDownloadIsStarted = value;
-		}
-
 		/// <summary>
-		/// Gets or sets the configuration of this <see cref="TimePickerBase" /> instance.
+		/// Gets or sets the configuration of this <see cref="AutomationDownloadButtonOptions" /> instance.
 		/// </summary>
 		private AutomationDownloadButtonOptions DownloadButtonOptions
 		{
 			get
 			{
-				return BlockDefinition.ConfigOptions as AutomationDownloadButtonOptions;
+				return downloadButtonOptions;
 			}
 
 			set
@@ -125,7 +126,7 @@
 					throw new ArgumentNullException("value");
 				}
 
-				//downloadButtonOptions = value;
+				downloadButtonOptions = value;
 				BlockDefinition.ConfigOptions = value;
 			}
 		}

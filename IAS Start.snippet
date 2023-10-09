@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>IAS Start</Title>
+      <Author>
+      </Author>
+      <Description>
+      </Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>
+      </Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="csharp" Delimiter="$"><![CDATA[public class Script
+{
+	private InteractiveController app;
+
+	/// <summary>
+	/// The Script entry point.
+	/// Engine.ShowUI();
+	/// </summary>
+	/// <param name="engine">Link with SLScripting process.</param>
+	public void Run(Engine engine)
+	{
+		try
+		{
+			engine.SetFlag(RunTimeFlags.NoKeyCaching);
+			engine.Timeout = TimeSpan.FromHours(10);
+			RunSafe(engine);
+		}
+		catch (ScriptAbortException)
+		{
+			throw;
+		}
+		catch (Exception e)
+		{
+			engine.Log("Run|Something went wrong: " + e);
+			ShowExceptionDialog(engine, e);
+		}
+	}
+
+	private void RunSafe(Engine engine)
+	{
+		app = new InteractiveController(engine);
+
+		// Define dialogs here
+		Dialog dialog = null;
+		app.Run(dialog);
+	}
+
+	private void ShowExceptionDialog(Engine engine, Exception exception)
+	{
+		ExceptionDialog dialog = new ExceptionDialog(engine, exception);
+		dialog.OkButton.Pressed += (sender, args) => engine.ExitFail("Something went wrong during the creation of the new event.");
+		if(app.IsRunning) app.ShowDialog(dialog); else app.Run(dialog);
+	}
+}]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

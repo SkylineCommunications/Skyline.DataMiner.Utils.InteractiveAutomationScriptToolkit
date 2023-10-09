@@ -399,7 +399,7 @@
 		/// <returns>Updated dialog.</returns>
 		public Dialog AddSection(Section section, SectionLayout layout)
 		{
-			foreach(Widget widget in section.Widgets)
+			foreach (Widget widget in section.Widgets)
 			{
 				IWidgetLayout widgetLayout = section.GetWidgetLayout(widget);
 				AddWidget(
@@ -889,11 +889,11 @@
 				return;
 			}
 
-			// ToList is necessary to prevent InvalidOperationException when adding or removing widgets from a event handler.
-			List<InteractiveWidget> intractableWidgets = Widgets.OfType<InteractiveWidget>()
-				.Where(widget => widget.BlockDefinition.WantsOnChange || widget.BlockDefinition.WantsOnFocusLost).ToList();
+			//// ToList is necessary to prevent InvalidOperationException when adding or removing widgets from a event handler.
+			//List<InteractiveWidget> intractableWidgets = Widgets.OfType<InteractiveWidget>()
+			//	.Where(widget => widget.BlockDefinition.WantsOnChange || widget.BlockDefinition.WantsOnFocusLost || widget.BlockDefinition.).ToList();
 
-			foreach (InteractiveWidget intractable in intractableWidgets)
+			foreach (InteractiveWidget intractable in Widgets.OfType<InteractiveWidget>())
 			{
 				intractable.RaiseResultEvents();
 			}
