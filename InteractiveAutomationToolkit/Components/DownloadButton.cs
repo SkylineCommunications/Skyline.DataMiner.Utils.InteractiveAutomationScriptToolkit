@@ -101,6 +101,7 @@
 			set => DownloadButtonOptions.StartDownloadImmediately = value;
 		}
 
+		// Similar to WantsOnChange?
 		public bool ReturnWhenDownloadIsStarted
 		{
 			get => DownloadButtonOptions.ReturnWhenDownloadIsStarted;
