@@ -80,29 +80,30 @@
 		}
 
 		/// <summary>
-		/// Relative:
-		/// path must start with either / or ./ or ../
-		/// "/Documents/MyElement/MyDocument.txt" will download the file hosted on URL http(s)://yourdma/Documents/MyElement/MyDocument.txt, which is the file located in C:\Skyline DataMiner\Documents\MyElement\MyDocument.txt".
-		/// Absolute:
-		/// link to a file that is public accessible on the web
-		/// "https://dataminer.services/install/DataMinerCube.exe" will download the latest Cube from DataMiner Services.
+		///		Relative: path must start with either / or ./ or ../
+		///		"/Documents/MyElement/MyDocument.txt" will download the file hosted on URL http(s)://yourdma/Documents/MyElement/MyDocument.txt, which is the file located in C:\Skyline DataMiner\Documents\MyElement\MyDocument.txt".
+		///		Absolute: link to a file that is public accessible on the web.
+		///		"https://dataminer.services/install/DataMinerCube.exe" will download the latest Cube from DataMiner Services.
 		/// </summary>
-		public string URL
+		public string RemoteFilePath
 		{
 			get => DownloadButtonOptions.Url;
 			set => DownloadButtonOptions.Url = value ?? throw new ArgumentNullException("value");
 		}
 
 		/// <summary>
-		/// The filename that will be saved. By default this is the same as the filename of the file on the remote location, but it can be overriden.
-		/// Note: overriding the filename is blocked by some browsers when the file to download is on another host (so not on the DataMiner agent). In this case the original filename will be used.
+		///		The filename that will be saved. By default this is the same as the filename of the file on the remote location, but it can be overriden.
+		///		Note: overriding the filename is blocked by some browsers when the file to download is on another host (so not on the DataMiner agent). In this case the original filename will be used.
 		/// </summary>
-		public string FileName
+		public string DownloadedFileName
 		{
 			get => DownloadButtonOptions.FileNameToSave;
 			set => DownloadButtonOptions.FileNameToSave = value ?? throw new ArgumentNullException("value");
 		}
 
+		/// <summary>
+		///		If set to true (the default is false), the download will start immediately when the component is displayed. The button stays visible and can be clicked to download the file again.
+		/// </summary>
 		public bool StartDownloadImmediately
 		{
 			get => DownloadButtonOptions.StartDownloadImmediately;
@@ -110,7 +111,7 @@
 		}
 
 		/// <summary>
-		/// Gets or sets the configuration of this <see cref="AutomationDownloadButtonOptions" /> instance.
+		///		Gets or sets the configuration of this <see cref="AutomationDownloadButtonOptions" /> instance.
 		/// </summary>
 		private AutomationDownloadButtonOptions DownloadButtonOptions
 		{
@@ -131,12 +132,12 @@
 			}
 		}
 
-		internal override void LoadResult(UIResults uiResults)
+		protected internal override void LoadResult(UIResults uiResults)
 		{
 			downloadStarted = uiResults.HasDownloadStarted(this);
 		}
 
-		internal override void RaiseResultEvents()
+		protected internal override void RaiseResultEvents()
 		{
 			if ((OnDownloadStarted != null) && downloadStarted)
 			{

@@ -889,11 +889,8 @@
 				return;
 			}
 
-			//// ToList is necessary to prevent InvalidOperationException when adding or removing widgets from a event handler.
-			//List<InteractiveWidget> intractableWidgets = Widgets.OfType<InteractiveWidget>()
-			//	.Where(widget => widget.BlockDefinition.WantsOnChange || widget.BlockDefinition.WantsOnFocusLost || widget.BlockDefinition.).ToList();
-
-			foreach (InteractiveWidget intractable in Widgets.OfType<InteractiveWidget>())
+			// ToList is necessary to prevent InvalidOperationException when adding or removing widgets from a event handler.
+			foreach (InteractiveWidget intractable in Widgets.OfType<InteractiveWidget>().ToList())
 			{
 				intractable.RaiseResultEvents();
 			}

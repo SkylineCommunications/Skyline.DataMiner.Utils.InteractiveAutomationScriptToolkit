@@ -246,7 +246,7 @@
 		/// </summary>
 		public void Expand()
 		{
-			foreach(var item in GetAllItems())
+			foreach (var item in GetAllItems())
 			{
 				item.IsCollapsed = false;
 			}
@@ -301,7 +301,7 @@
 		public IEnumerable<TreeViewItem> GetAllItems()
 		{
 			List<TreeViewItem> allItems = new List<TreeViewItem>();
-			foreach(var item in Items)
+			foreach (var item in Items)
 			{
 				allItems.Add(item);
 				allItems.AddRange(GetAllItems(item.ChildItems));
@@ -329,7 +329,7 @@
 		///     Automation script.
 		/// </param>
 		/// <remarks><see cref="InteractiveWidget.DestVar" /> should be used as key to get the changes for this widget.</remarks>
-		internal override void LoadResult(UIResults uiResults)
+		protected internal override void LoadResult(UIResults uiResults)
 		{
 			var checkedItemKeys = uiResults.GetCheckedItemKeys(this); // this includes all checked items
 			var expandedItemKeys = uiResults.GetExpandedItemKeys(this); // this includes all expanded items with LazyLoading set to true
@@ -351,7 +351,7 @@
 			List<string> changedItemKeys = new List<string>();
 			changedItemKeys.AddRange(newlyCheckedItemKeys);
 			changedItemKeys.AddRange(newlyUncheckedItemKeys);
-			if(changedItemKeys.Any() && OnChanged != null)
+			if (changedItemKeys.Any() && OnChanged != null)
 			{
 				itemsChanged = true;
 				changedItems = new List<TreeViewItem>();
@@ -377,7 +377,7 @@
 		///     This method is called after <see cref="InteractiveWidget.LoadResult" /> was called on all widgets.
 		/// </summary>
 		/// <remarks>It is up to the implementer to determine if an event must be raised.</remarks>
-		internal override void RaiseResultEvents()
+		protected internal override void RaiseResultEvents()
 		{
 			// Expanded items
 			if (itemsExpanded && OnExpanded != null)
@@ -435,7 +435,7 @@
 		private IEnumerable<TreeViewItem> GetAllItems(IEnumerable<TreeViewItem> children)
 		{
 			List<TreeViewItem> allItems = new List<TreeViewItem>();
-			foreach(var item in children)
+			foreach (var item in children)
 			{
 				allItems.Add(item);
 				allItems.AddRange(GetAllItems(item.ChildItems));

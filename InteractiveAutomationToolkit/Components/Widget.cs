@@ -198,7 +198,7 @@
 		///     This library exists so you don't need to use this object.
 		/// </summary>
 		/// <remarks>A widget should implement everything, so you don't need to use this object.</remarks>
-		internal UIBlockDefinition BlockDefinition
+		protected internal UIBlockDefinition BlockDefinition
 		{
 			get
 			{

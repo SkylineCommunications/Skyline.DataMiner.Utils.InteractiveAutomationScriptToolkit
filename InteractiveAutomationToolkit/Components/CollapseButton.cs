@@ -80,7 +80,7 @@
 			{
 				isCollapsed = value;
 				BlockDefinition.Text = value ? ExpandText : CollapseText;
-				foreach(Widget widget in GetAffectedWidgets(this, value))
+				foreach (Widget widget in GetAffectedWidgets(this, value))
 				{
 					widget.IsVisible = !value;
 				}
@@ -188,7 +188,7 @@
 		///     Automation script.
 		/// </param>
 		/// <remarks><see cref="InteractiveWidget.DestVar" /> should be used as key to get the changes for this widget.</remarks>
-		internal override void LoadResult(UIResults uiResults)
+		protected internal override void LoadResult(UIResults uiResults)
 		{
 			pressed = uiResults.WasCollapseButtonPressed(this);
 		}
@@ -198,7 +198,7 @@
 		///     This method is called after <see cref="InteractiveWidget.LoadResult" /> was called on all widgets.
 		/// </summary>
 		/// <remarks>It is up to the implementer to determine if an event must be raised.</remarks>
-		internal override void RaiseResultEvents()
+		protected internal override void RaiseResultEvents()
 		{
 			if (pressed)
 			{
