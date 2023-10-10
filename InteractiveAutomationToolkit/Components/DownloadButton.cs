@@ -14,11 +14,17 @@
 		private bool downloadStarted;
 		private ButtonStyle style;
 
+		/// <summary>
+		///     Initializes a new instance of the <see cref="DownloadButton" /> class.
+		/// </summary>
 		public DownloadButton() : this("Download")
 		{
 
 		}
 
+		/// <summary>
+		///     Initializes a new instance of the <see cref="DownloadButton" /> class.
+		/// </summary>
 		public DownloadButton(string text)
 		{
 			Type = UIBlockType.DownloadButton;
@@ -26,6 +32,9 @@
 			DownloadButtonOptions = new AutomationDownloadButtonOptions();
 		}
 
+		/// <summary>
+		///		Triggered when the file starts downloading in the browser.
+		/// </summary>
 		public event EventHandler<EventArgs> DownloadStarted
 		{
 			add
@@ -98,11 +107,11 @@
 		public string DownloadedFileName
 		{
 			get => DownloadButtonOptions.FileNameToSave;
-			set => DownloadButtonOptions.FileNameToSave = value ?? throw new ArgumentNullException("value");
+			set => DownloadButtonOptions.FileNameToSave = value;
 		}
 
 		/// <summary>
-		///		If set to true (the default is false), the download will start immediately when the component is displayed. The button stays visible and can be clicked to download the file again.
+		///		If set to true (the default is false), the download will start immediately when the widget is displayed. The button stays visible and can be clicked to download the file again.
 		/// </summary>
 		public bool StartDownloadImmediately
 		{
@@ -134,14 +143,17 @@
 
 		protected internal override void LoadResult(UIResults uiResults)
 		{
-			downloadStarted = uiResults.HasDownloadStarted(this);
+			if (DownloadButtonOptions.ReturnWhenDownloadIsStarted)
+			{
+				downloadStarted = uiResults.HasDownloadStarted(this);
+			}
 		}
 
 		protected internal override void RaiseResultEvents()
 		{
-			if ((OnDownloadStarted != null) && downloadStarted)
+			if (downloadStarted)
 			{
-				OnDownloadStarted(this, EventArgs.Empty);
+				OnDownloadStarted?.Invoke(this, EventArgs.Empty);
 			}
 
 			downloadStarted = false;
