@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippet Format="1.0.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <Header>
+        <Title>Run</Title>
+        <Author>TRE, Skyline Communications</Author>
+        <Description>Generates the default run method for Interactive Automation Scripts using the IAS Toolkit package.</Description>
+        <Shortcut>iasRun</Shortcut>
+        <SnippetTypes>
+            <SnippetType>Expansion</SnippetType>
+        </SnippetTypes>
+    </Header>
+    <Snippet>
+        <Imports>
+            <Import>
+                <Namespace>Skyline.DataMiner.Utils.InteractiveAutomationScript</Namespace>
+            </Import>
+        </Imports>
+        <Code Language="csharp">
+            <![CDATA[public class Script
+{
+private InteractiveController app;
+
+/// <summary>
+/// The Script entry point.
+/// IEngine.ShowUI();.
+/// </summary>
+/// <param name="engine">Link with SLAutomation process.</param>
+public void Run(IEngine engine)
+{
+	try
+	{
+        app = new InteractiveController(engine);
+        
+		engine.SetFlag(RunTimeFlags.NoKeyCaching);
+		engine.Timeout = TimeSpan.FromHours(10);
+        
+		RunSafe(engine);
+	}
+	catch (ScriptAbortException)
+	{
+		throw;
+	}
+	catch (ScriptForceAbortException)
+	{
+		throw;
+	}
+	catch (ScriptTimeoutException)
+	{
+		throw;
+	}
+	catch (InteractiveUserDetachedException)
+	{
+		throw;
+	}
+	catch (Exception e)
+	{
+		engine.Log("Run|Something went wrong: " + e);
+		ShowExceptionDialog(engine, e);
+	}
+}
+
+private void RunSafe(IEngine engine)
+{
+	// TODO: Define dialogs here
+	Dialog dialog = null;
+	app.Run(dialog);
+}
+
+private void ShowExceptionDialog(IEngine engine, Exception exception)
+{
+	ExceptionDialog exceptionDialog = new ExceptionDialog(engine, exception);
+	exceptionDialog.OkButton.Pressed += (sender, args) => engine.ExitFail("Something went wrong.");
+	if (app.IsRunning) app.ShowDialog(exceptionDialog); else app.Run(exceptionDialog);
+}
+}]]>
+        </Code>
+    </Snippet>
+</CodeSnippet>
