@@ -1,7 +1,9 @@
 ﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 {
 	using System;
+	using System.Collections.Generic;
 	using System.IO;
+	using System.Linq;
 
 	using Skyline.DataMiner.Automation;
 
@@ -35,6 +37,40 @@
 			set
 			{
 				BlockDefinition.AllowMultipleFiles = value;
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the allowed file name extensions (i.e. '.txt', '.csv', ...).
+		/// </summary>
+		/// <remarks>Available from DataMiner Feature Release 10.1.12 and Main Release 10.2.0 onwards.</remarks>
+		public ICollection<string> AllowedFileNameExtensions
+		{
+			get
+			{
+				return BlockDefinition.AllowedFileNameExtensions;
+			}
+
+			set
+			{
+				BlockDefinition.AllowedFileNameExtensions = value.ToList();
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the maximum allowed file size. An error will be thrown when you try to add a file that is larger than the allowed file size.
+		/// </summary>
+		/// <remarks>Available from DataMiner Feature Release 10.1.12 and Main Release 10.2.0 onwards.</remarks>
+		public long MaxFileSizeInBytes
+		{
+			get
+			{
+				return BlockDefinition.MaxFileSizeInBytes;
+			}
+
+			set
+			{
+				BlockDefinition.MaxFileSizeInBytes = value;
 			}
 		}
 
