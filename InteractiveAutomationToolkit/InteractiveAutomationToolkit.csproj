@@ -18,7 +18,7 @@
 		<Description>Quickly develop Interactive Automation Scripts in DataMiner 10.3.7 and up.</Description>
 		<PackageIcon>Icon.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<Version>7.0.1</Version>
+		<Version>7.0.2</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -33,6 +33,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Skyline.DataMiner.Dev.Automation" Version="10.3.7" />
+		<PackageReference Include="Skyline.DataMiner.Dev.Automation" Version="10.3.7" />
 	</ItemGroup>
 </Project>
