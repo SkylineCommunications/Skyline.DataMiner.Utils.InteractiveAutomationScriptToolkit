@@ -2,6 +2,7 @@ Skyline.DataMiner.Utils.InteractiveAutomationScriptToolkit
 ===
 ## About
 Quickly develop interactive automation scripts for DataMiner.
+This version is compatible with DataMiner version 10.1.10 and up.
 This package provides an API that more closely resembles other desktop graphical user interface libraries.
 It builds upon the features available in
 [Skyline.DataMiner.Automation](https://docs.dataminer.services/develop/api/types/Skyline.DataMiner.Automation.html)
