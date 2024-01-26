@@ -36,6 +36,25 @@
 		}
 
 		/// <summary>
+		///		Gets or sets a value indicating whether the control is displayed in read-only mode.
+		///		Read-only mode causes the widgets to appear read-write but the user won't be able to change their value.
+		///		This only affects interactive scripts running in a web environment.
+		/// </summary>
+		/// <remarks>Available from DataMiner 10.4.1 onwards.</remarks>
+		public bool IsReadOnly
+		{
+			get
+			{
+				return BlockDefinition.IsReadOnly;
+			}
+
+			set
+			{
+				BlockDefinition.IsReadOnly = value;
+			}
+		}
+
+		/// <summary>
 		///     Gets the alias that will be used to retrieve the value entered or selected by the user from the UIResults object.
 		/// </summary>
 		/// <remarks>Use methods <see cref="UiResultsExtensions" /> to retrieve the result instead.</remarks>
