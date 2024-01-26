@@ -4,15 +4,7 @@ name: DataMiner CICD NuGet Solution
 on:
   # Triggers the workflow on push or pull request events.
   push:
-    branches:
-      - 1.0.X
-      - 2.0.X
-      - 3.0.X
-      - 4.0.X
-      - 5.0.X
-      - 6.0.X
-      - 7.0.X
-      - Preview
+    branches: []
     tags:
       - '[0-9]+.[0-9]+.[0-9]+'
       - '[0-9]+.[0-9]+.[0-9]+-[0-9a-zA-Z]+'
