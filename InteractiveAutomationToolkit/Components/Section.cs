@@ -69,6 +69,33 @@
 		}
 
 		/// <summary>
+		/// 		Gets or sets a value indicating whether the control is displayed in read-only mode.
+		/// 		Read-only mode causes all widgets in section to appear read-write but the user won't be able to change their value.
+		/// 		This only affects interactive scripts running in a web environment.
+		/// </summary>
+		/// <remarks>Available from DataMiner 10.4.1 onwards.</remarks>
+		public bool IsReadOnly
+		{
+			get
+			{
+				return IsReadOnly;
+			}
+
+			set
+			{
+				IsReadOnly = value;
+				foreach (Widget widget in Widgets)
+				{
+					InteractiveWidget interactiveWidget = widget as InteractiveWidget;
+					if (interactiveWidget != null)
+					{
+						interactiveWidget.IsReadOnly = IsReadOnly;
+					}
+				}
+			}
+		}
+
+		/// <summary>
 		///     Gets widgets that have been added to the section.
 		/// </summary>
 		public IEnumerable<Widget> Widgets
