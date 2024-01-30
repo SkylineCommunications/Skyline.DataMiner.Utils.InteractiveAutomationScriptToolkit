@@ -84,7 +84,7 @@
 			}
 
 			IsRunning = true;
-			while (true)
+			while (IsRunning)
 			{
 				try
 				{
@@ -105,6 +105,15 @@
 					throw;
 				}
 			}
+		}
+
+		/// <summary>
+		///		Stops the application event loop.
+		///		Use the Run method in order to start it again after stopping.
+		/// </summary>
+		public void Stop()
+		{
+			IsRunning = false;
 		}
 
 		/// <summary>
