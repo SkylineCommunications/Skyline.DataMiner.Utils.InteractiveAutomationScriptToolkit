@@ -13,6 +13,7 @@
 
 		private bool isEnabled = true;
 		private bool isVisible = true;
+		private bool isReadOnly = false;
 
 		/// <summary>
 		/// Gets the number of columns that are currently defined by the widgets that have been added to this section.
@@ -27,7 +28,7 @@
 		/// <summary>
 		/// 	Gets or sets a value indicating whether the widgets within the section are visible or not.
 		/// </summary>
-		public bool IsVisible
+		public virtual bool IsVisible
 		{
 			get
 			{
@@ -47,7 +48,7 @@
 		/// <summary>
 		/// 	Gets or sets a value indicating whether the interactive widgets within the section are enabled or not.
 		/// </summary>
-		public bool IsEnabled
+		public virtual bool IsEnabled
 		{
 			get
 			{
@@ -74,23 +75,19 @@
 		/// 		This only affects interactive scripts running in a web environment.
 		/// </summary>
 		/// <remarks>Available from DataMiner 10.4.1 onwards.</remarks>
-		public bool IsReadOnly
+		public virtual bool IsReadOnly
 		{
 			get
 			{
-				return IsReadOnly;
+				return isReadOnly;
 			}
 
 			set
 			{
-				IsReadOnly = value;
+				isReadOnly = value;
 				foreach (Widget widget in Widgets)
 				{
-					InteractiveWidget interactiveWidget = widget as InteractiveWidget;
-					if (interactiveWidget != null)
-					{
-						interactiveWidget.IsReadOnly = IsReadOnly;
-					}
+					widget.BlockDefinition.IsReadOnly = isReadOnly;
 				}
 			}
 		}
@@ -285,7 +282,7 @@
 		/// </summary>
 		private void UpdateRowAndColumnCount()
 		{
-			if(widgetLayouts.Any())
+			if (widgetLayouts.Any())
 			{
 				RowCount = widgetLayouts.Values.Max(w => w.Row + w.RowSpan);
 				ColumnCount = widgetLayouts.Values.Max(w => w.Column + w.ColumnSpan);

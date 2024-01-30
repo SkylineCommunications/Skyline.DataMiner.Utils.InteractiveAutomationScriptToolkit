@@ -32,6 +32,7 @@
 			Value = value;
 			ValidationText = "Invalid Input";
 			ValidationState = UIValidationState.NotValidated;
+			IsReadOnly = false;
 		}
 
 		/// <summary>
@@ -251,6 +252,25 @@
 			set
 			{
 				BlockDefinition.ValidationText = value;
+			}
+		}
+
+		/// <summary>
+		///		Gets or sets a value indicating whether the control is displayed in read-only mode.
+		///		Read-only mode causes the widgets to appear read-write but the user won't be able to change their value.
+		///		This only affects interactive scripts running in a web environment.
+		/// </summary>
+		/// <remarks>Available from DataMiner 10.4.1 onwards.</remarks>
+		public virtual bool IsReadOnly
+		{
+			get
+			{
+				return BlockDefinition.IsReadOnly;
+			}
+
+			set
+			{
+				BlockDefinition.IsReadOnly = value;
 			}
 		}
 
