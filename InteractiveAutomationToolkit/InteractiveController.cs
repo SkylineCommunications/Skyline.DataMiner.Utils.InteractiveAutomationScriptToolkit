@@ -83,7 +83,8 @@
 			}
 
 			IsRunning = true;
-			while (true)
+
+			while (IsRunning)
 			{
 				try
 				{
@@ -143,6 +144,14 @@
 
 			CurrentDialog = nextDialog;
 			CurrentDialog.Show(false);
+		}
+
+		/// <summary>
+		/// Stops the application event loop after the current dialog.
+		/// </summary>
+		public void Stop()
+		{
+			IsRunning = false;
 		}
 
 		private void RunManualAction()
