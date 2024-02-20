@@ -19,6 +19,7 @@
 
 		private bool pressed;
 		private bool isCollapsed;
+		private ButtonStyle style;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CollapseButton"/> class.
@@ -156,6 +157,23 @@
 				{
 					BlockDefinition.Text = expandText;
 				}
+			}
+		}
+
+		/// <summary>
+		///     Gets or sets the text style of the collapse button.
+		/// </summary>
+		public ButtonStyle Style
+		{
+			get
+			{
+				return style;
+			}
+
+			set
+			{
+				style = value;
+				BlockDefinition.Style = ButtonStyleConverter.StyleToUiString(value);
 			}
 		}
 
