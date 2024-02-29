@@ -26,7 +26,7 @@
 		/// <summary>
 		///     Initializes a new instance of the <see cref="Label" /> class.
 		/// </summary>
-		public Label() : this("Label")
+		public Label() : this(String.Empty)
 		{
 		}
 
