@@ -12,9 +12,7 @@
 	public class CheckBoxList : InteractiveWidget
 	{
 		private readonly IDictionary<string, bool> options = new Dictionary<string, bool>();
-		private bool changed;
-		private string changedOption;
-		private bool changedValue;
+		private readonly List<ChangedOption> changedOptions = new List<ChangedOption>();
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="CheckBoxList" /> class.
@@ -323,12 +321,7 @@
 
 				if (hasChanged && BlockDefinition.WantsOnChange)
 				{
-					changed = true;
-					changedOption = option;
-					changedValue = isChecked;
-
-					// only a single checkbox can be toggled when WantsOnChange is true
-					break;
+					changedOptions.Add(new ChangedOption(option, isChecked));
 				}
 			}
 
@@ -338,12 +331,12 @@
 		/// <inheritdoc />
 		internal override void RaiseResultEvents()
 		{
-			if (changed)
+			foreach (var change in changedOptions)
 			{
-				OnChanged?.Invoke(this, new CheckBoxListChangedEventArgs(changedOption, changedValue));
+				OnChanged?.Invoke(this, new CheckBoxListChangedEventArgs(change.Option, change.IsChecked));
 			}
 
-			changed = false;
+			changedOptions.Clear();
 		}
 
 		private void ClearOptions()
@@ -378,6 +371,19 @@
 			///     Gets the option of which the state has changed.
 			/// </summary>
 			public string Option { get; private set; }
+		}
+
+		private sealed class ChangedOption
+		{
+			public ChangedOption(string option, bool isChecked)
+			{
+				Option = option;
+				IsChecked = isChecked;
+			}
+
+			public string Option { get; private set; }
+
+			public bool IsChecked { get; private set; }
 		}
 	}
 }
