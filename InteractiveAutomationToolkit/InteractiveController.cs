@@ -69,6 +69,7 @@
 		///     Use <see cref="RequestManualMode" /> if you want to manually control when the dialog is updated.
 		/// </summary>
 		/// <param name="startDialog">Dialog to be shown first.</param>
+		[Obsolete("No need to use this specific run method anymore to show the initial dialog. You can now always use the ShowDialog method.")]
 		public void Run(Dialog startDialog)
 		{
 			if (startDialog == null)
@@ -129,7 +130,14 @@
 				throw new ArgumentNullException("dialog");
 			}
 
-			nextDialog = dialog;
+			if (IsRunning)
+			{
+				nextDialog = dialog;
+			}
+			else
+			{
+				Run(dialog);
+			}
 		}
 
 		/// <summary>
