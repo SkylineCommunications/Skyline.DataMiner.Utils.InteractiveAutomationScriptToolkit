@@ -155,6 +155,15 @@
 			CurrentDialog.Show(false);
 		}
 
+		/// <summary>
+		/// Hides the UI. This does not block any background logic from running.
+		/// Use <see cref="ShowDialog" /> if you want to show the UI again.
+		/// </summary>
+		public void Hide()
+		{
+			Engine.HideUI();
+		}
+
 		private void RunManualAction()
 		{
 			isManualModeRequested = false;

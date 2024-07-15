@@ -608,6 +608,15 @@
 		}
 
 		/// <summary>
+		/// Hides the dialog. This does not block any background logic from running.
+		/// Use <see cref="Show"/> if you want to show the dialog again.
+		/// </summary>
+		public void Hide()
+		{
+			Engine.HideUI();
+		}
+
+		/// <summary>
 		/// Removes all widgets from the dialog.
 		/// </summary>
 		public void Clear()
