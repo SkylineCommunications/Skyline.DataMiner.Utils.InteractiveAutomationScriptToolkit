@@ -96,7 +96,15 @@
 					else
 					{
 						CurrentDialog = nextDialog;
-						CurrentDialog.Show();
+						if (CurrentDialog == null)
+						{
+							IsRunning = false;
+							IsManualMode = false;
+						}
+						else
+						{
+							CurrentDialog.Show();
+						}
 					}
 				}
 				catch (Exception)
@@ -170,6 +178,7 @@
 		public void Hide()
 		{
 			Engine.HideUI();
+			nextDialog = null;
 		}
 
 		private void RunManualAction()
