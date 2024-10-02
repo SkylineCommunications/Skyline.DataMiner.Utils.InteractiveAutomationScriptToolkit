@@ -5,6 +5,7 @@
 	using System.Linq;
 
 	using Skyline.DataMiner.Automation;
+	using Skyline.DataMiner.Net.Messages.ServiceTemplates;
 
 	/// <summary>
 	///     Widget to show/edit a datetime.
@@ -385,8 +386,18 @@
 		/// <remarks><see cref="InteractiveWidget.DestVar" /> should be used as key to get the changes for this widget.</remarks>
 		protected internal override void LoadResult(UIResults uiResults)
 		{
+			string isoString = uiResults.GetString(DestVar);
 			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);
-			DateTime result = uiResults.GetDateTime(DestVar);
+
+			DateTime result;
+			if (isoString == null)
+			{
+				result = DateTime; // Use existing date time if no string value could be retrieved
+			}
+			else
+			{
+				result = DateTime.Parse(isoString);
+			}
 
 			if (BlockDefinition.WantsOnChange && (result != DateTime))
 			{
