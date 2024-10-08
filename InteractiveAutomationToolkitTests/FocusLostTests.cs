@@ -1,11 +1,7 @@
 ﻿namespace InteractiveAutomationToolkitTests
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-    using Skyline.DataMiner.Net.AutomationUI.Objects;
     using Skyline.DataMiner.Utils.InteractiveAutomationScript;
 
     [TestClass]

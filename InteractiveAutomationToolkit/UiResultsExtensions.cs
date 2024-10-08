@@ -7,7 +7,6 @@
 
 	using Skyline.DataMiner.Automation;
 	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Components;
-	using static Skyline.DataMiner.Automation.Style;
 
 	/// <summary>
 	/// Provides a set of static methods for getting the UI changes that occured for a given widget.

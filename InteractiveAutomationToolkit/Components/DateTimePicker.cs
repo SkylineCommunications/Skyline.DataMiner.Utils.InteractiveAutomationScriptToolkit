@@ -5,7 +5,6 @@
 	using System.Linq;
 
 	using Skyline.DataMiner.Automation;
-	using Skyline.DataMiner.Net.Messages.ServiceTemplates;
 
 	/// <summary>
 	///     Widget to show/edit a datetime.
