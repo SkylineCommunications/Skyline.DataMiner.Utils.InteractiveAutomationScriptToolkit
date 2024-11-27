@@ -79,10 +79,26 @@
 			return uiResults.WasButtonPressed(button.DestVar);
 		}
 
-
+		/// <summary>
+		/// Gets whether a file linked in the given <see cref="DownloadButton"/> has started downloading.
+		/// </summary>
+		/// <param name="uiResults">Represents the information a user has entered or selected in a dialog box of an interactive Automation script.</param>
+		/// <param name="downloadButton">The download button to check.</param>
+		/// <returns>Whether the file started downloading or not.</returns>
 		public static bool HasDownloadStarted(this UIResults uiResults, DownloadButton downloadButton)
 		{
 			return uiResults.WasOnDownloadStarted(downloadButton.DestVar);
+		}
+
+		/// <summary>
+		/// Gets whether a link represented by the given <see cref="Hyperlink"/> was opened or not.
+		/// </summary>
+		/// <param name="uiResults">Represents the information a user has entered or selected in a dialog box of an interactive Automation script.</param>
+		/// <param name="hyperlink">The hyperlink to check.</param>
+		/// <returns>Whether the hyperlink was opened or not.</returns>
+		public static bool WasHyperlinkOpened(this UIResults uiResults, Hyperlink hyperlink)
+		{
+			return uiResults.WasOnDownloadStarted(hyperlink.DestVar);
 		}
 
 		/// <summary>

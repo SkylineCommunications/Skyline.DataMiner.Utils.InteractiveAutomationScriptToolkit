@@ -52,7 +52,7 @@
 		private event EventHandler<EventArgs> OnDownloadStarted;
 
 		/// <summary>
-		///     Gets or sets the text style of the DownloadButton.
+		///     Gets or sets the <see cref="ButtonStyle"/> of the <see cref="DownloadButton" />.
 		/// </summary>
 		public ButtonStyle Style
 		{
@@ -69,7 +69,7 @@
 		}
 
 		/// <summary>
-		///     Gets or sets the text displayed in the DownloadButton.
+		///     Gets or sets the text displayed in the <see cref="DownloadButton" />.
 		/// </summary>
 		public string Text
 		{
