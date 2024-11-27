@@ -69,7 +69,7 @@
 		/// <summary>
 		///     Gets or sets the possible options.
 		/// </summary>
-		public IEnumerable<string> Options
+		public virtual IEnumerable<string> Options
 		{
 			get
 			{
