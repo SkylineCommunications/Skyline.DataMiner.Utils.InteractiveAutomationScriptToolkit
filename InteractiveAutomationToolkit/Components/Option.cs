@@ -2,7 +2,7 @@
 {
 	using System;
 
-	public class Option<T> : IOption<T>
+	public class Option<T>
 	{
 		public Option(string displayedValue, T value)
 		{
