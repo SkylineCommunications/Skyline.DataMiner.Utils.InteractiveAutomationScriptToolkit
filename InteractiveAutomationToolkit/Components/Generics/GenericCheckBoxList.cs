@@ -8,15 +8,15 @@
 	/// <summary>
 	///     A list of checkboxes.
 	/// </summary>
-	public class CheckBoxList : CheckBoxListBase, ICheckBoxList
+	public class CheckBoxList<T> : CheckBoxListBase, ICheckBoxList<T>
 	{
-		private readonly IDictionary<string, bool> options = new Dictionary<string, bool>();
+		private readonly Dictionary<Option<T>, bool> checkBoxListOptions = new Dictionary<Option<T>, bool>();
 		private readonly List<ChangedOption> changedOptions = new List<ChangedOption>();
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="CheckBoxList" /> class.
 		/// </summary>
-		public CheckBoxList() : this(Enumerable.Empty<string>())
+		public CheckBoxList() : this(Enumerable.Empty<Option<T>>())
 		{
 		}
 
@@ -25,7 +25,16 @@
 		/// </summary>
 		/// <param name="options">Name of options that can be selected.</param>
 		/// <exception cref="ArgumentNullException">When options is null.</exception>
-		public CheckBoxList(IEnumerable<string> options)
+		public CheckBoxList(IEnumerable<T> options) : this(options.Select(x => new Option<T>(x.ToString(), x)).ToList())
+		{
+		}
+
+		/// <summary>
+		///     Initializes a new instance of the <see cref="CheckBoxList" /> class.
+		/// </summary>
+		/// <param name="options">Name of options that can be selected.</param>
+		/// <exception cref="ArgumentNullException">When options is null.</exception>
+		public CheckBoxList(IEnumerable<Option<T>> options)
 		{
 			SetOptions(options);
 		}
@@ -57,53 +66,56 @@
 		/// <summary>
 		///     Gets all selected options.
 		/// </summary>
-		public IEnumerable<string> Checked
+		public IEnumerable<Option<T>> CheckedOptions
 		{
 			get
 			{
-				return options.Where(option => option.Value).Select(option => option.Key);
+				return checkBoxListOptions.Where(option => option.Value).Select(option => option.Key);
 			}
 		}
 
 		/// <summary>
 		///     Gets all options.
 		/// </summary>
-		public IEnumerable<string> Options
+		public IEnumerable<Option<T>> Options
 		{
 			get
 			{
-				return options.Keys;
+				return checkBoxListOptions.Keys;
 			}
 		}
 
 		/// <summary>
 		///     Gets all options that are not selected.
 		/// </summary>
-		public IEnumerable<string> Unchecked
+		public IEnumerable<Option<T>> UncheckedOptions
 		{
 			get
 			{
-				return options.Where(option => !option.Value).Select(option => option.Key);
+				return checkBoxListOptions.Where(option => !option.Value).Select(option => option.Key);
 			}
 		}
+
+		public IEnumerable<T> Checked => CheckedOptions.Select(x => x.Value);
+
+		public IEnumerable<T> Unchecked => UncheckedOptions.Select(x => x.Value);
 
 		/// <summary>
 		///     Adds an option to the checkbox list.
 		/// </summary>
 		/// <param name="option">Option to add.</param>
 		/// <exception cref="ArgumentNullException">When options is null.</exception>
-		public void AddOption(string option)
+		public void AddOption(Option<T> option)
 		{
 			if (option == null)
 			{
 				throw new ArgumentNullException("option");
 			}
 
-			if (!options.ContainsKey(option))
-			{
-				options.Add(option, false);
-				BlockDefinition.AddCheckBoxListOption(option);
-			}
+			if (checkBoxListOptions.ContainsKey(option)) return;
+
+			checkBoxListOptions.Add(option, false);
+			BlockDefinition.AddCheckBoxListOption(option.DisplayValue);
 		}
 
 		/// <summary>
@@ -112,23 +124,29 @@
 		/// <param name="option">Option to be selected.</param>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		/// <exception cref="ArgumentException">When the option does not exist.</exception>
-		public void Check(string option)
+		public void CheckOption(Option<T> option)
 		{
 			if (option == null)
 			{
 				throw new ArgumentNullException("option");
 			}
 
-			if (!options.ContainsKey(option))
+			if (!checkBoxListOptions.ContainsKey(option))
 			{
-				throw new ArgumentException("CheckboxList does not have option: " + option, option);
+				throw new ArgumentException($"Option is not defined as a valid option");
 			}
 
-			if (!options[option])
+			if (!checkBoxListOptions[option])
 			{
-				options[option] = true;
-				BlockDefinition.InitialValue = String.Join(";", BlockDefinition.InitialValue, option);
+				checkBoxListOptions[option] = true;
+				BlockDefinition.InitialValue = string.Join(";", BlockDefinition.InitialValue, option.DisplayValue);
 			}
+		}
+
+		public void Check(T value)
+		{
+			var option = checkBoxListOptions.Keys.FirstOrDefault(x => x.Value.Equals(value)) ?? throw new ArgumentException($"Value is not defined as an option");
+			CheckOption(option);
 		}
 
 		/// <summary>
@@ -136,12 +154,12 @@
 		/// </summary>
 		public override void CheckAll()
 		{
-			foreach (string option in options.Keys.ToList())
+			foreach (var option in checkBoxListOptions.Keys.ToList())
 			{
-				options[option] = true;
+				checkBoxListOptions[option] = true;
 			}
 
-			BlockDefinition.InitialValue = String.Join(";", options.Keys);
+			BlockDefinition.InitialValue = string.Join(";", checkBoxListOptions.Keys.Select(x => x.DisplayValue));
 		}
 
 		/// <summary>
@@ -150,10 +168,10 @@
 		/// </summary>
 		/// <param name="options">Options to set.</param>
 		/// <exception cref="ArgumentNullException">When options is null.</exception>
-		public void SetOptions(IEnumerable<string> options)
+		public void SetOptions(IEnumerable<Option<T>> options)
 		{
 			ClearOptions();
-			foreach (string option in options)
+			foreach (var option in options)
 			{
 				AddOption(option);
 			}
@@ -164,19 +182,19 @@
 		/// </summary>
 		/// <param name="option">Option to remove.</param>
 		/// <exception cref="NullReferenceException">When option is null.</exception>
-		public void RemoveOption(string option)
+		public void RemoveOption(Option<T> option)
 		{
 			if (option == null)
 			{
 				throw new ArgumentNullException("option");
 			}
 
-			if (options.Remove(option))
+			if (checkBoxListOptions.Remove(option))
 			{
 				RecreateUiBlock();
-				foreach (string optionsKey in options.Keys)
+				foreach (var remainingOption in checkBoxListOptions.Keys)
 				{
-					BlockDefinition.AddCheckBoxListOption(optionsKey);
+					BlockDefinition.AddCheckBoxListOption(remainingOption.DisplayValue);
 				}
 			}
 		}
@@ -187,23 +205,29 @@
 		/// <param name="option">Option to be cleared.</param>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		/// <exception cref="ArgumentException">When the option does not exist.</exception>
-		public void Uncheck(string option)
+		public void UncheckOption(Option<T> option)
 		{
 			if (option == null)
 			{
 				throw new ArgumentNullException("option");
 			}
 
-			if (!options.ContainsKey(option))
+			if (!checkBoxListOptions.ContainsKey(option))
 			{
-				throw new ArgumentException("CheckboxList does not have option: " + option, option);
+				throw new ArgumentException("CheckboxList does not have option: " + option);
 			}
 
-			if (options[option])
+			if (checkBoxListOptions[option])
 			{
-				options[option] = false;
-				BlockDefinition.InitialValue = String.Join(";", Checked);
+				checkBoxListOptions[option] = false;
+				BlockDefinition.InitialValue = string.Join(";", CheckedOptions.Select(x => x.DisplayValue));
 			}
+		}
+
+		public void Uncheck(T value)
+		{
+			var option = checkBoxListOptions.Keys.FirstOrDefault(x => x.Value.Equals(value)) ?? throw new ArgumentException($"Value is not defined as an option");
+			UncheckOption(option);
 		}
 
 		/// <summary>
@@ -211,9 +235,9 @@
 		/// </summary>
 		public override void UncheckAll()
 		{
-			foreach (string option in options.Keys.ToList())
+			foreach (var option in checkBoxListOptions.Keys.ToList())
 			{
-				options[option] = false;
+				checkBoxListOptions[option] = false;
 			}
 
 			BlockDefinition.InitialValue = null;
@@ -234,17 +258,17 @@
 			if (results == null)
 			{
 				// results can be null if the list of options is empty
-				BlockDefinition.InitialValue = String.Empty;
+				BlockDefinition.InitialValue = string.Empty;
 				return;
 			}
 
 			var checkedOptions = new HashSet<string>(results.Split(';'));
-			foreach (string option in options.Keys.ToList())
+			foreach (var option in checkBoxListOptions.Keys.ToList())
 			{
-				bool isChecked = checkedOptions.Contains(option);
-				bool hasChanged = options[option] != isChecked;
+				bool isChecked = checkedOptions.Contains(option.DisplayValue);
+				bool hasChanged = checkBoxListOptions[option] != isChecked;
 
-				options[option] = isChecked;
+				checkBoxListOptions[option] = isChecked;
 
 				if (hasChanged && BlockDefinition.WantsOnChange)
 				{
@@ -252,7 +276,7 @@
 				}
 			}
 
-			BlockDefinition.InitialValue = String.Join(";", Checked);
+			BlockDefinition.InitialValue = string.Join(";", CheckedOptions.Select(x => x.DisplayValue));
 		}
 
 		/// <summary>
@@ -272,7 +296,7 @@
 
 		private void ClearOptions()
 		{
-			options.Clear();
+			checkBoxListOptions.Clear();
 			RecreateUiBlock();
 			BlockDefinition.InitialValue = null;
 		}
@@ -287,9 +311,10 @@
 			/// </summary>
 			/// <param name="option">The option that changed state.</param>
 			/// <param name="isChecked">The new state of the option.</param>
-			internal CheckBoxListChangedEventArgs(string option, bool isChecked)
+			internal CheckBoxListChangedEventArgs(Option<T> option, bool isChecked)
 			{
 				Option = option;
+				Value = option.Value;
 				IsChecked = isChecked;
 			}
 
@@ -301,18 +326,23 @@
 			/// <summary>
 			///     Gets the option of which the state has changed.
 			/// </summary>
-			public string Option { get; private set; }
+			public Option<T> Option { get; private set; }
+
+			/// <summary>
+			///		Gets the value of which the state has changed.
+			/// </summary>
+			public T Value { get; private set; }
 		}
 
 		private sealed class ChangedOption
 		{
-			public ChangedOption(string option, bool isChecked)
+			public ChangedOption(Option<T> option, bool isChecked)
 			{
 				Option = option;
 				IsChecked = isChecked;
 			}
 
-			public string Option { get; private set; }
+			public Option<T> Option { get; private set; }
 
 			public bool IsChecked { get; private set; }
 		}

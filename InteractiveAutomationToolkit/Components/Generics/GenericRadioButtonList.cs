@@ -3,22 +3,22 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
-
+	using Skyline.DataMiner.Analytics.GenericInterface;
 	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     A group of radio buttons.
 	/// </summary>
-	public class RadioButtonList : RadioButtonListBase, IRadioButtonList
+	public class RadioButtonList<T> : RadioButtonListBase, IRadioButtonList<T>
 	{
-		private readonly HashSet<string> options = new HashSet<string>();
+		private readonly OptionCollection<T> radioButtonListOptions = new OptionCollection<T>();
 		private bool changed;
-		private string previous;
+		private Option<T> previous;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="RadioButtonList" /> class.
 		/// </summary>
-		public RadioButtonList() : this(Enumerable.Empty<string>())
+		public RadioButtonList() : this(Enumerable.Empty<Option<T>>())
 		{
 		}
 
@@ -27,10 +27,10 @@
 		/// </summary>
 		/// <param name="options">Name of options that can be selected.</param>
 		/// <param name="selected">Selected option.</param>
-		public RadioButtonList(IEnumerable<string> options, string selected = null)
+		public RadioButtonList(IEnumerable<Option<T>> options, Option<T> selected = null)
 		{
 			SetOptions(options);
-			Selected = selected;
+			SelectedOption = selected;
 		}
 
 		/// <summary>
@@ -60,11 +60,11 @@
 		/// <summary>
 		///     Gets or sets all options.
 		/// </summary>
-		public IEnumerable<string> Options
+		public IEnumerable<Option<T>> Options
 		{
 			get
 			{
-				return options;
+				return radioButtonListOptions;
 			}
 
 			set
@@ -73,19 +73,34 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the selected option.
-		/// </summary>
-		public string Selected
+		public Option<T> SelectedOption
 		{
 			get
 			{
-				return BlockDefinition.InitialValue;
+				return radioButtonListOptions.FirstOrDefault(x => x.DisplayValue.Equals(BlockDefinition.InitialValue));
 			}
 
 			set
 			{
-				BlockDefinition.InitialValue = value;
+				if (!radioButtonListOptions.Contains(value)) throw new InvalidOperationException($"Value is not defined as an option");
+				BlockDefinition.InitialValue = value.DisplayValue;
+			}
+		}
+
+		/// <summary>
+		///     Gets or sets the selected option.
+		/// </summary>
+		public T Selected
+		{
+			get
+			{
+				return SelectedOption.Value;
+			}
+
+			set
+			{
+				var option = radioButtonListOptions.FirstOrDefault(x => x.Value.Equals(value)) ?? throw new InvalidOperationException($"No option available where the value of the option matches the given value");
+				SelectedOption = option;
 			}
 		}
 
@@ -94,17 +109,17 @@
 		/// </summary>
 		/// <param name="option">Option to add.</param>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
-		public void AddOption(string option)
+		public void AddOption(Option<T> option)
 		{
 			if (option == null)
 			{
 				throw new ArgumentNullException("option");
 			}
 
-			if (!options.Contains(option))
+			if (!radioButtonListOptions.Contains(option))
 			{
-				options.Add(option);
-				BlockDefinition.AddCheckBoxListOption(option);
+				radioButtonListOptions.Add(option);
+				BlockDefinition.AddCheckBoxListOption(option.DisplayValue);
 			}
 		}
 
@@ -113,24 +128,24 @@
 		/// </summary>
 		/// <param name="option">Option to remove.</param>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
-		public void RemoveOption(string option)
+		public void RemoveOption(Option<T> option)
 		{
 			if (option == null)
 			{
 				throw new ArgumentNullException("option");
 			}
 
-			if (options.Remove(option))
+			if (radioButtonListOptions.Remove(option))
 			{
 				RecreateUiBlock();
-				foreach (string optionToAdd in options)
+				foreach (var optionToAdd in radioButtonListOptions)
 				{
-					BlockDefinition.AddCheckBoxListOption(optionToAdd);
+					BlockDefinition.AddCheckBoxListOption(optionToAdd.DisplayValue);
 				}
 
-				if (Selected == option)
+				if (Object.Equals(SelectedOption, option))
 				{
-					Selected = options.FirstOrDefault();
+					SelectedOption = radioButtonListOptions.FirstOrDefault();
 				}
 			}
 		}
@@ -139,24 +154,24 @@
 		///     Sets the displayed options.
 		///     Replaces existing options.
 		/// </summary>
-		/// <param name="optionsToSet">Options to set.</param>
+		/// <param name="options">Options to set.</param>
 		/// <exception cref="ArgumentNullException">When optionsToSet is null.</exception>
-		public void SetOptions(IEnumerable<string> optionsToSet)
+		public void SetOptions(IEnumerable<Option<T>> options)
 		{
-			if (optionsToSet == null)
+			if (options == null)
 			{
-				throw new ArgumentNullException("optionsToSet");
+				throw new ArgumentNullException(nameof(options));
 			}
 
 			ClearOptions();
-			foreach (string option in optionsToSet)
+			foreach (var option in options)
 			{
 				AddOption(option);
 			}
 
-			if (Selected == null || !optionsToSet.Contains(Selected))
+			if (SelectedOption == null || !options.Contains(SelectedOption))
 			{
-				Selected = optionsToSet.FirstOrDefault();
+				SelectedOption = options.FirstOrDefault();
 			}
 		}
 
@@ -180,13 +195,15 @@
 			string[] checkedOptions = result.Split(';');
 			foreach (string checkedOption in checkedOptions)
 			{
-				if (!String.IsNullOrEmpty(checkedOption) && (checkedOption != Selected))
-				{
-					previous = Selected;
-					Selected = checkedOption;
-					changed = true;
-					break;
-				}
+				if (String.IsNullOrEmpty(checkedOption)) continue;
+				if (String.Equals(checkedOption, SelectedOption?.DisplayValue)) continue;
+
+				var selectedOption = radioButtonListOptions.FirstOrDefault(x => x.DisplayValue.Equals(checkedOption));
+
+				previous = SelectedOption;
+				SelectedOption = selectedOption;
+				changed = true;
+				break;
 			}
 		}
 
@@ -199,7 +216,7 @@
 		{
 			if (changed)
 			{
-				OnChanged?.Invoke(this, new RadioButtonChangedEventArgs(Selected, previous));
+				OnChanged?.Invoke(this, new RadioButtonChangedEventArgs(SelectedOption, previous));
 			}
 
 			changed = false;
@@ -207,7 +224,7 @@
 
 		private void ClearOptions()
 		{
-			options.Clear();
+			radioButtonListOptions.Clear();
 			RecreateUiBlock();
 		}
 
@@ -221,21 +238,34 @@
 			/// </summary>
 			/// <param name="selectedValue">The new value.</param>
 			/// <param name="previous">The previous value.</param>
-			internal RadioButtonChangedEventArgs(string selectedValue, string previous)
+			internal RadioButtonChangedEventArgs(Option<T> selectedValue, Option<T> previous)
 			{
-				SelectedValue = selectedValue;
-				Previous = previous;
+				SelectedOption = selectedValue;
+				PreviousOption = previous;
+
+				Selected = selectedValue.Value;
+				Previous = previous.Value;
 			}
 
 			/// <summary>
 			///     Gets the previously selected option.
 			/// </summary>
-			public string Previous { get; private set; }
+			public Option<T> PreviousOption { get; private set; }
+
+			/// <summary>
+			///     Gets the previously selected value.
+			/// </summary>
+			public T Previous { get; private set; }
 
 			/// <summary>
 			///     Gets the option that has been selected.
 			/// </summary>
-			public string SelectedValue { get; private set; }
+			public Option<T> SelectedOption { get; private set; }
+
+			/// <summary>
+			///     Gets the value that has been selected.
+			/// </summary>
+			public T Selected { get; private set; }
 		}
 	}
 }

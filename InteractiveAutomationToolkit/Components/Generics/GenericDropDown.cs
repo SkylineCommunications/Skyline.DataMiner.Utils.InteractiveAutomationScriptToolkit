@@ -9,16 +9,24 @@
 	/// <summary>
 	///     A drop-down list.
 	/// </summary>
-	public class DropDown : DropDownBase, IDropDown
+	public class DropDown<T> : DropDownBase, IDropDown<T>
 	{
-		private readonly HashSet<string> options = new HashSet<string>();
+		private readonly OptionCollection<T> dropDownOptions = new OptionCollection<T>();
 		private bool changed;
-		private string previous;
+		private Option<T> previous;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="DropDown" /> class.
 		/// </summary>
-		public DropDown() : this(Enumerable.Empty<string>())
+		public DropDown() : this(Enumerable.Empty<Option<T>>())
+		{
+		}
+
+		public DropDown(IEnumerable<T> options) : this(options, options.FirstOrDefault())
+		{
+		}
+
+		public DropDown(IEnumerable<T> options, T selected) : this(options.Select(x => new Option<T>(x.ToString(), x)), new Option<T>(selected.ToString(), selected))
 		{
 		}
 
@@ -28,12 +36,12 @@
 		/// <param name="options">Options to be displayed in the list.</param>
 		/// <param name="selected">The selected item in the list.</param>
 		/// <exception cref="ArgumentNullException">When options is null.</exception>
-		public DropDown(IEnumerable<string> options, string selected = null)
+		public DropDown(IEnumerable<Option<T>> options, Option<T> selected = null)
 		{
 			SetOptions(options);
 			if (selected != null)
 			{
-				Selected = selected;
+				SelectedOption = selected;
 			}
 		}
 
@@ -64,11 +72,11 @@
 		/// <summary>
 		///     Gets or sets the possible options.
 		/// </summary>
-		public virtual IEnumerable<string> Options
+		public virtual IEnumerable<Option<T>> Options
 		{
 			get
 			{
-				return options;
+				return dropDownOptions;
 			}
 
 			set
@@ -80,16 +88,31 @@
 		/// <summary>
 		///     Gets or sets the selected option.
 		/// </summary>
-		public string Selected
+		public Option<T> SelectedOption
 		{
 			get
 			{
-				return BlockDefinition.InitialValue;
+				return dropDownOptions.FirstOrDefault(x => x.DisplayValue.Equals(BlockDefinition.InitialValue));
 			}
 
 			set
 			{
-				BlockDefinition.InitialValue = value;
+				if (!dropDownOptions.Contains(value)) throw new InvalidOperationException($"Value is not defined as an option");
+				BlockDefinition.InitialValue = value.DisplayValue;
+			}
+		}
+
+		public T Selected
+		{
+			get
+			{
+				return SelectedOption.Value;
+			}
+
+			set
+			{
+				var option = dropDownOptions.FirstOrDefault(x => x.Value.Equals(value)) ?? throw new InvalidOperationException($"No option available where the value of the option matches the given value");
+				SelectedOption = option;
 			}
 		}
 
@@ -98,17 +121,17 @@
 		/// </summary>
 		/// <param name="option">Option to add.</param>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
-		public void AddOption(string option)
+		public void AddOption(Option<T> option)
 		{
 			if (option == null)
 			{
 				throw new ArgumentNullException("option");
 			}
 
-			if (!options.Contains(option))
+			if (!dropDownOptions.Contains(option))
 			{
-				options.Add(option);
-				BlockDefinition.AddDropDownOption(option);
+				dropDownOptions.Add(option);
+				BlockDefinition.AddDropDownOption(option.DisplayValue);
 			}
 		}
 
@@ -117,8 +140,8 @@
 		///     Replaces existing options.
 		/// </summary>
 		/// <param name="options">Options to set.</param>
-		/// <exception cref="ArgumentNullException">When options is null.</exception>
-		public void SetOptions(IEnumerable<string> options)
+		/// <exception cref="ArgumentNullException">When optionsToSet is null.</exception>
+		public void SetOptions(IEnumerable<Option<T>> options)
 		{
 			if (options == null)
 			{
@@ -126,14 +149,14 @@
 			}
 
 			ClearOptions();
-			foreach (string option in options)
+			foreach (var option in options)
 			{
 				AddOption(option);
 			}
 
-			if (Selected == null || !options.Contains(Selected))
+			if (SelectedOption == null || !options.Contains(SelectedOption))
 			{
-				Selected = options.FirstOrDefault();
+				SelectedOption = options.FirstOrDefault();
 			}
 		}
 
@@ -142,24 +165,24 @@
 		/// </summary>
 		/// <param name="option">Option to remove.</param>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
-		public void RemoveOption(string option)
+		public void RemoveOption(Option<T> option)
 		{
 			if (option == null)
 			{
 				throw new ArgumentNullException("option");
 			}
 
-			if (options.Remove(option))
+			if (dropDownOptions.Remove(option))
 			{
 				RecreateUiBlock();
-				foreach (string optionToAdd in options)
+				foreach (var optionToAdd in dropDownOptions)
 				{
-					BlockDefinition.AddDropDownOption(optionToAdd);
+					BlockDefinition.AddDropDownOption(optionToAdd.DisplayValue);
 				}
 
-				if (Selected == option)
+				if (Object.Equals(SelectedOption, option))
 				{
-					Selected = options.FirstOrDefault();
+					SelectedOption = dropDownOptions.FirstOrDefault();
 				}
 			}
 		}
@@ -174,15 +197,20 @@
 		/// <remarks><see cref="InteractiveWidget.DestVar" /> should be used as key to get the changes for this widget.</remarks>
 		protected internal override void LoadResult(UIResults uiResults)
 		{
-			string selectedValue = uiResults.GetString(this);
+			var selectedValue = dropDownOptions.FirstOrDefault(x => x.DisplayValue.Equals(uiResults.GetString(this)));
+
+			if (selectedValue == null)
+			{
+				return;
+			}
 
 			if (BlockDefinition.WantsOnChange)
 			{
-				changed = selectedValue != Selected;
+				changed = !Object.Equals(selectedValue, SelectedOption);
 			}
 
-			previous = Selected;
-			Selected = selectedValue;
+			previous = SelectedOption;
+			SelectedOption = selectedValue;
 		}
 
 		/// <summary>
@@ -194,7 +222,7 @@
 		{
 			if (changed)
 			{
-				OnChanged?.Invoke(this, new DropDownChangedEventArgs(Selected, previous));
+				OnChanged?.Invoke(this, new DropDownChangedEventArgs(SelectedOption, previous));
 			}
 
 			changed = false;
@@ -202,7 +230,7 @@
 
 		private void ClearOptions()
 		{
-			options.Clear();
+			dropDownOptions.Clear();
 			RecreateUiBlock();
 		}
 
@@ -216,21 +244,34 @@
 			/// </summary>
 			/// <param name="selected">The new value.</param>
 			/// <param name="previous">The previous value.</param>
-			internal DropDownChangedEventArgs(string selected, string previous)
+			internal DropDownChangedEventArgs(Option<T> selected, Option<T> previous)
 			{
-				Selected = selected;
-				Previous = previous;
+				SelectedOption = selected;
+				PreviousOption = previous;
+
+				Selected = selected.Value;
+				Previous = previous.Value;
 			}
 
 			/// <summary>
 			///     Gets the previously selected option.
 			/// </summary>
-			public string Previous { get; private set; }
+			public Option<T> PreviousOption { get; private set; }
+
+			/// <summary>
+			///     Gets the previously selected value.
+			/// </summary>
+			public T Previous { get; private set; }
 
 			/// <summary>
 			///     Gets the option that has been selected.
 			/// </summary>
-			public string Selected { get; private set; }
+			public Option<T> SelectedOption { get; private set; }
+
+			/// <summary>
+			///     Gets the value that has been selected.
+			/// </summary>
+			public T Selected { get; private set; }
 		}
 	}
 }
