@@ -4,6 +4,10 @@
 
 	public class Option<T>
 	{
+		public Option(T value) : this(value.ToString(), value)
+		{
+		}
+
 		public Option(string displayedValue, T value)
 		{
 			if (String.IsNullOrWhiteSpace(displayedValue)) throw new ArgumentException($"Displayed value cannot be null or whitespace");

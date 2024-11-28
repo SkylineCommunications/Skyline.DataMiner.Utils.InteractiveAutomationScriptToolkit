@@ -83,6 +83,25 @@
 			{
 				return checkBoxListOptions.Keys;
 			}
+
+			set
+			{
+				SetOptions(value);
+			}
+		}
+
+
+		public virtual IEnumerable<T> Values
+		{
+			get
+			{
+				return checkBoxListOptions.Keys.Select(x => x.Value);
+			}
+
+			set
+			{
+				SetOptions(value);
+			}
 		}
 
 		/// <summary>
@@ -116,6 +135,11 @@
 
 			checkBoxListOptions.Add(option, false);
 			BlockDefinition.AddCheckBoxListOption(option.DisplayValue);
+		}
+
+		public void AddOption(T value)
+		{
+			AddOption(new Option<T>(value));
 		}
 
 		/// <summary>
@@ -177,6 +201,12 @@
 			}
 		}
 
+		public void SetOptions(IEnumerable<T> options)
+		{
+			if (options == null) throw new ArgumentNullException(nameof(options));
+			SetOptions(options.Select(x => new Option<T>(x)));
+		}
+
 		/// <summary>
 		/// 	Removes an option from the checkbox list.
 		/// </summary>
@@ -197,6 +227,11 @@
 					BlockDefinition.AddCheckBoxListOption(remainingOption.DisplayValue);
 				}
 			}
+		}
+
+		public void RemoveOption(T value)
+		{
+			RemoveOption(new Option<T>(value));
 		}
 
 		/// <summary>

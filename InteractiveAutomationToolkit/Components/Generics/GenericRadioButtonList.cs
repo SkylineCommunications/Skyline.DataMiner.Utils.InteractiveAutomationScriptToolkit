@@ -73,6 +73,20 @@
 			}
 		}
 
+		public virtual IEnumerable<T> Values
+		{
+			get
+			{
+				return radioButtonListOptions.Select(x => x.Value);
+			}
+
+			set
+			{
+				if (value == null) throw new InvalidOperationException();
+				SetOptions(value.Select(x => new Option<T>(x)));
+			}
+		}
+
 		public Option<T> SelectedOption
 		{
 			get
@@ -123,6 +137,11 @@
 			}
 		}
 
+		public void AddOption(T value)
+		{
+			AddOption(new Option<T>(value));
+		}
+
 		/// <summary>
 		/// 	Removes an option from the radio button list.
 		/// </summary>
@@ -135,6 +154,7 @@
 				throw new ArgumentNullException("option");
 			}
 
+			var currentSelectedOption = SelectedOption;
 			if (radioButtonListOptions.Remove(option))
 			{
 				RecreateUiBlock();
@@ -143,11 +163,16 @@
 					BlockDefinition.AddCheckBoxListOption(optionToAdd.DisplayValue);
 				}
 
-				if (Object.Equals(SelectedOption, option))
+				if (Object.Equals(currentSelectedOption, option))
 				{
 					SelectedOption = radioButtonListOptions.FirstOrDefault();
 				}
 			}
+		}
+
+		public void RemoveOption(T value)
+		{
+			RemoveOption(new Option<T>(value));
 		}
 
 		/// <summary>
@@ -173,6 +198,12 @@
 			{
 				SelectedOption = options.FirstOrDefault();
 			}
+		}
+
+		public void SetOptions(IEnumerable<T> options)
+		{
+			if (options == null) throw new ArgumentNullException(nameof(options));
+			SetOptions(options.Select(x => new Option<T>(x)));
 		}
 
 		/// <summary>

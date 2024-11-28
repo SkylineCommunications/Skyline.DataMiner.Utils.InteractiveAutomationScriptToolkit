@@ -85,6 +85,19 @@
 			}
 		}
 
+		public virtual IEnumerable<T> Values
+		{
+			get
+			{
+				return dropDownOptions.Select(x => x.Value);
+			}
+
+			set
+			{
+				SetOptions(value);
+			}
+		}
+
 		/// <summary>
 		///     Gets or sets the selected option.
 		/// </summary>
@@ -97,6 +110,12 @@
 
 			set
 			{
+				if (value == null)
+				{
+					BlockDefinition.InitialValue = null;
+					return;
+				}
+
 				if (!dropDownOptions.Contains(value)) throw new InvalidOperationException($"Value is not defined as an option");
 				BlockDefinition.InitialValue = value.DisplayValue;
 			}
@@ -106,6 +125,7 @@
 		{
 			get
 			{
+				if (SelectedOption == null) return default;
 				return SelectedOption.Value;
 			}
 
@@ -135,6 +155,11 @@
 			}
 		}
 
+		public void AddOption(T value)
+		{
+			AddOption(new Option<T>(value));
+		}
+
 		/// <summary>
 		///     Sets the displayed options.
 		///     Replaces existing options.
@@ -143,10 +168,7 @@
 		/// <exception cref="ArgumentNullException">When optionsToSet is null.</exception>
 		public void SetOptions(IEnumerable<Option<T>> options)
 		{
-			if (options == null)
-			{
-				throw new ArgumentNullException(nameof(options));
-			}
+			if (options == null) throw new ArgumentNullException(nameof(options));
 
 			ClearOptions();
 			foreach (var option in options)
@@ -158,6 +180,12 @@
 			{
 				SelectedOption = options.FirstOrDefault();
 			}
+		}
+
+		public void SetOptions(IEnumerable<T> options)
+		{
+			if (options == null) throw new ArgumentNullException(nameof(options));
+			SetOptions(options.Select(x => new Option<T>(x)));
 		}
 
 		/// <summary>
@@ -172,6 +200,7 @@
 				throw new ArgumentNullException("option");
 			}
 
+			var currentSelectedOption = SelectedOption;
 			if (dropDownOptions.Remove(option))
 			{
 				RecreateUiBlock();
@@ -180,11 +209,16 @@
 					BlockDefinition.AddDropDownOption(optionToAdd.DisplayValue);
 				}
 
-				if (Object.Equals(SelectedOption, option))
+				if (Object.Equals(currentSelectedOption, option))
 				{
 					SelectedOption = dropDownOptions.FirstOrDefault();
 				}
 			}
+		}
+
+		public void RemoveOption(T value)
+		{
+			RemoveOption(new Option<T>(value));
 		}
 
 		/// <summary>
