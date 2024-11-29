@@ -4,8 +4,6 @@
 	using System.Collections.Generic;
 	using System.Linq;
 
-	using Skyline.DataMiner.Automation;
-
 	/// <summary>
 	///     A drop-down list.
 	/// </summary>
@@ -26,7 +24,7 @@
 		{
 		}
 
-		public DropDown(IEnumerable<T> options, T selected) : this(options.Select(x => new Option<T>(x.ToString(), x)), new Option<T>(selected.ToString(), selected))
+		public DropDown(IEnumerable<T> options, T selected) : this(options.Select(x => new Option<T>(x)), new Option<T>(selected))
 		{
 		}
 

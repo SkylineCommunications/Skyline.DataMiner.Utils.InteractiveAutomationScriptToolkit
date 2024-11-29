@@ -104,6 +104,12 @@
 
 			set
 			{
+				if (value == null)
+				{
+					BlockDefinition.InitialValue = null;
+					return;
+				}
+
 				if (!radioButtonListOptions.Contains(value)) throw new InvalidOperationException($"Value is not defined as an option");
 				BlockDefinition.InitialValue = value.DisplayValue;
 			}
@@ -116,6 +122,7 @@
 		{
 			get
 			{
+				if (SelectedOption == null) return default;
 				return SelectedOption.Value;
 			}
 

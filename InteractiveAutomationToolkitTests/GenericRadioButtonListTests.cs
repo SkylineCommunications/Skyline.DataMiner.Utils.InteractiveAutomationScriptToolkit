@@ -51,113 +51,113 @@ namespace InteractiveAutomationToolkitTests
         public void ValueConstructor_Test()
         {
             var options = new[] { 1, 2, 3 };
-            var dropDown = new RadioButtonList<int>(options);
+            var radioButtonList = new RadioButtonList<int>(options);
 
-            Assert.AreEqual(new Option<int>("1", 1), dropDown.SelectedOption);
-            Assert.AreEqual(1, dropDown.Selected);
+            Assert.AreEqual(null, radioButtonList.SelectedOption);
+            Assert.AreEqual(default, radioButtonList.Selected);
         }
 
         [TestMethod]
         public void ValueConstructorWithSelected_Test()
         {
             var options = new[] { 1, 2, 3 };
-            var dropDown = new RadioButtonList<int>(options, 3);
+            var radioButtonList = new RadioButtonList<int>(options, 3);
 
-            Assert.AreEqual(new Option<int>("3", 3), dropDown.SelectedOption);
-            Assert.AreEqual(3, dropDown.Selected);
+            Assert.AreEqual(new Option<int>("3", 3), radioButtonList.SelectedOption);
+            Assert.AreEqual(3, radioButtonList.Selected);
         }
 
         [TestMethod]
         public void EditOptions_Options()
         {
-            var dropdown = new RadioButtonList<int>();
+            var radioButtonList = new RadioButtonList<int>();
 
             var options = new[] { new Option<int>("1", 1), new Option<int>("2", 2) };
-            dropdown.SetOptions(options);
+            radioButtonList.SetOptions(options);
 
-            Assert.AreEqual(options[0], dropdown.SelectedOption);
-            Assert.AreEqual(1, dropdown.Selected);
+            Assert.AreEqual(options[0], radioButtonList.SelectedOption);
+            Assert.AreEqual(1, radioButtonList.Selected);
 
-            Assert.AreEqual(2, dropdown.Options.Count());
+            Assert.AreEqual(2, radioButtonList.Options.Count());
 
-            Assert.ThrowsException<InvalidOperationException>(() => dropdown.SelectedOption = new Option<int>("3", 3));
+            Assert.ThrowsException<InvalidOperationException>(() => radioButtonList.SelectedOption = new Option<int>("3", 3));
 
-            dropdown.Selected = 2;
-            Assert.AreEqual(new Option<int>("2", 2), dropdown.SelectedOption);
+            radioButtonList.Selected = 2;
+            Assert.AreEqual(new Option<int>("2", 2), radioButtonList.SelectedOption);
 
-            dropdown.RemoveOption(new Option<int>("3", 3)); // Removing invalid option does not throw exception
+            radioButtonList.RemoveOption(new Option<int>("3", 3)); // Removing invalid option does not throw exception
 
-            dropdown.RemoveOption(new Option<int>("1", 1));
+            radioButtonList.RemoveOption(new Option<int>("1", 1));
 
-            Assert.AreEqual(new Option<int>("2", 2), dropdown.SelectedOption);
+            Assert.AreEqual(new Option<int>("2", 2), radioButtonList.SelectedOption);
 
-            dropdown.AddOption(new Option<int>("1", 1));
+            radioButtonList.AddOption(new Option<int>("1", 1));
 
-            Assert.AreEqual(new Option<int>("2", 2), dropdown.SelectedOption);
+            Assert.AreEqual(new Option<int>("2", 2), radioButtonList.SelectedOption);
 
-            dropdown.RemoveOption(new Option<int>("2", 2));
+            radioButtonList.RemoveOption(new Option<int>("2", 2));
 
-            Assert.AreEqual(new Option<int>("1", 1), dropdown.SelectedOption);
+            Assert.AreEqual(new Option<int>("1", 1), radioButtonList.SelectedOption);
 
-            dropdown.RemoveOption(new Option<int>("1", 1));
+            radioButtonList.RemoveOption(new Option<int>("1", 1));
 
-            Assert.IsNull(dropdown.SelectedOption);
-            Assert.AreEqual(default, dropdown.Selected);
+            Assert.IsNull(radioButtonList.SelectedOption);
+            Assert.AreEqual(default, radioButtonList.Selected);
         }
 
         [TestMethod]
         public void EditOptions_Values()
         {
-            var dropdown = new RadioButtonList<int>();
+            var radioButtonList = new RadioButtonList<int>();
 
             var options = new[] { 1, 2 };
-            dropdown.SetOptions(options);
+            radioButtonList.SetOptions(options);
 
-            Assert.AreEqual(new Option<int>("1", 1), dropdown.SelectedOption);
-            Assert.AreEqual(1, dropdown.Selected);
+            Assert.AreEqual(new Option<int>("1", 1), radioButtonList.SelectedOption);
+            Assert.AreEqual(1, radioButtonList.Selected);
 
-            Assert.AreEqual(2, dropdown.Options.Count());
+            Assert.AreEqual(2, radioButtonList.Options.Count());
 
-            Assert.ThrowsException<InvalidOperationException>(() => dropdown.Selected = 3);
+            Assert.ThrowsException<InvalidOperationException>(() => radioButtonList.Selected = 3);
 
-            dropdown.Selected = 2;
-            Assert.AreEqual(2, dropdown.Selected);
+            radioButtonList.Selected = 2;
+            Assert.AreEqual(2, radioButtonList.Selected);
 
-            dropdown.RemoveOption(3); // Removing invalid option does not throw exception
+            radioButtonList.RemoveOption(3); // Removing invalid option does not throw exception
 
-            dropdown.RemoveOption(1);
+            radioButtonList.RemoveOption(1);
 
-            Assert.AreEqual(2, dropdown.Selected);
+            Assert.AreEqual(2, radioButtonList.Selected);
 
-            dropdown.AddOption(1);
+            radioButtonList.AddOption(1);
 
-            Assert.AreEqual(2, dropdown.Selected);
+            Assert.AreEqual(2, radioButtonList.Selected);
 
-            dropdown.RemoveOption(2);
+            radioButtonList.RemoveOption(2);
 
-            Assert.AreEqual(1, dropdown.Selected);
+            Assert.AreEqual(1, radioButtonList.Selected);
 
-            dropdown.RemoveOption(1);
+            radioButtonList.RemoveOption(1);
 
-            Assert.IsNull(dropdown.SelectedOption);
-            Assert.AreEqual(default, dropdown.Selected);
+            Assert.IsNull(radioButtonList.SelectedOption);
+            Assert.AreEqual(default, radioButtonList.Selected);
         }
 
         [TestMethod]
         public void HandleChange_Test1()
         {
-            var dropdown = new RadioButtonList<int>(new[] { 1, 2, 3 }, 1);
+            var radioButtonList = new RadioButtonList<int>(new[] { 1, 2, 3 }, 1);
 
             RadioButtonList<int>.RadioButtonChangedEventArgs changedResult = null;
-            dropdown.Changed += (s, e) => changedResult = e;
+            radioButtonList.Changed += (s, e) => changedResult = e;
 
             // User selects 2
             var mockedUiResults = new Mock<IUIResults>();
             mockedUiResults.Setup(x => x.GetString(It.IsAny<string>())).Returns("2");
 
             // Show DropDown
-            dropdown.LoadResult(mockedUiResults.Object);
-            dropdown.RaiseResultEvents();
+            radioButtonList.LoadResult(mockedUiResults.Object);
+            radioButtonList.RaiseResultEvents();
 
             Assert.IsNotNull(changedResult);
             Assert.AreEqual(1, changedResult.Previous);
@@ -165,28 +165,28 @@ namespace InteractiveAutomationToolkitTests
             Assert.AreEqual(2, changedResult.Selected);
             Assert.AreEqual(new Option<int>(2), changedResult.SelectedOption);
 
-            Assert.AreEqual(2, dropdown.Selected);
+            Assert.AreEqual(2, radioButtonList.Selected);
         }
 
         [TestMethod]
         public void HandleChange_Test2()
         {
-            var dropdown = new RadioButtonList<int>(new[] { 1, 2, 3 }, 1);
+            var radioButtonList = new RadioButtonList<int>(new[] { 1, 2, 3 }, 1);
 
             RadioButtonList<int>.RadioButtonChangedEventArgs changedResult = null;
-            dropdown.Changed += (s, e) => changedResult = e;
+            radioButtonList.Changed += (s, e) => changedResult = e;
 
             // User selects 2
             var mockedUiResults = new Mock<IUIResults>();
             mockedUiResults.Setup(x => x.GetString(It.IsAny<string>())).Returns("1");
 
             // Show DropDown
-            dropdown.LoadResult(mockedUiResults.Object);
-            dropdown.RaiseResultEvents();
+            radioButtonList.LoadResult(mockedUiResults.Object);
+            radioButtonList.RaiseResultEvents();
 
             Assert.IsNull(changedResult);
 
-            Assert.AreEqual(1, dropdown.Selected);
+            Assert.AreEqual(1, radioButtonList.Selected);
         }
     }
 }

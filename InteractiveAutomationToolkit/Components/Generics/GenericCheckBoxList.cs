@@ -25,7 +25,7 @@
 		/// </summary>
 		/// <param name="options">Name of options that can be selected.</param>
 		/// <exception cref="ArgumentNullException">When options is null.</exception>
-		public CheckBoxList(IEnumerable<T> options) : this(options.Select(x => new Option<T>(x.ToString(), x)).ToList())
+		public CheckBoxList(IEnumerable<T> options) : this(options.Select(x => new Option<T>(x)).ToList())
 		{
 		}
 
