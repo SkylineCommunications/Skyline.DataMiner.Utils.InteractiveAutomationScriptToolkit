@@ -3,7 +3,6 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
-	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     A list of checkboxes.
@@ -238,7 +237,7 @@
 				return;
 			}
 
-			var checkedOptions = new HashSet<string>(results.Split(';'));
+			var checkedOptions = new HashSet<string>(results.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries));
 			foreach (string option in options.Keys.ToList())
 			{
 				bool isChecked = checkedOptions.Contains(option);

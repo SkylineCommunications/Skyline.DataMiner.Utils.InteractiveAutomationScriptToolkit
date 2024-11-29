@@ -114,7 +114,7 @@
 					return;
 				}
 
-				if (!dropDownOptions.Contains(value)) throw new InvalidOperationException($"Value is not defined as an option");
+				if (!dropDownOptions.Contains(value)) throw new ArgumentException($"Value is not defined as an option");
 				BlockDefinition.InitialValue = value.DisplayValue;
 			}
 		}
@@ -129,7 +129,7 @@
 
 			set
 			{
-				var option = dropDownOptions.FirstOrDefault(x => x.Value.Equals(value)) ?? throw new InvalidOperationException($"No option available where the value of the option matches the given value");
+				var option = dropDownOptions.FirstOrDefault(x => x.Value.Equals(value)) ?? throw new ArgumentException($"No option available where the value of the option matches the given value");
 				SelectedOption = option;
 			}
 		}

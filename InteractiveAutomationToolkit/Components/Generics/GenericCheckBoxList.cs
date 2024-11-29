@@ -3,7 +3,6 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
-	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     A list of checkboxes.
@@ -148,7 +147,7 @@
 		/// <param name="option">Option to be selected.</param>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		/// <exception cref="ArgumentException">When the option does not exist.</exception>
-		public void CheckOption(Option<T> option)
+		public void Check(Option<T> option)
 		{
 			if (option == null)
 			{
@@ -170,7 +169,7 @@
 		public void Check(T value)
 		{
 			var option = checkBoxListOptions.Keys.FirstOrDefault(x => x.Value.Equals(value)) ?? throw new ArgumentException($"Value is not defined as an option");
-			CheckOption(option);
+			Check(option);
 		}
 
 		/// <summary>
@@ -240,7 +239,7 @@
 		/// <param name="option">Option to be cleared.</param>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		/// <exception cref="ArgumentException">When the option does not exist.</exception>
-		public void UncheckOption(Option<T> option)
+		public void Uncheck(Option<T> option)
 		{
 			if (option == null)
 			{
@@ -262,7 +261,7 @@
 		public void Uncheck(T value)
 		{
 			var option = checkBoxListOptions.Keys.FirstOrDefault(x => x.Value.Equals(value)) ?? throw new ArgumentException($"Value is not defined as an option");
-			UncheckOption(option);
+			Uncheck(option);
 		}
 
 		/// <summary>
@@ -297,7 +296,7 @@
 				return;
 			}
 
-			var checkedOptions = new HashSet<string>(results.Split(';'));
+			var checkedOptions = new HashSet<string>(results.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries));
 			foreach (var option in checkBoxListOptions.Keys.ToList())
 			{
 				bool isChecked = checkedOptions.Contains(option.DisplayValue);

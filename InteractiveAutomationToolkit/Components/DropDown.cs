@@ -4,8 +4,6 @@
 	using System.Collections.Generic;
 	using System.Linq;
 
-	using Skyline.DataMiner.Automation;
-
 	/// <summary>
 	///     A drop-down list.
 	/// </summary>

@@ -23,11 +23,11 @@
 
 		IEnumerable<T> Unchecked { get; }
 
-		void CheckOption(Option<T> option);
+		void Check(Option<T> option);
 
 		void Check(T value);
 
-		void UncheckOption(Option<T> option);
+		void Uncheck(Option<T> option);
 
 		void Uncheck(T value);
 	}

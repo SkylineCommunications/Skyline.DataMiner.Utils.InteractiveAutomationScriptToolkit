@@ -3,8 +3,6 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
-	using Skyline.DataMiner.Analytics.GenericInterface;
-	using Skyline.DataMiner.Automation;
 
 	/// <summary>
 	///     A group of radio buttons.
@@ -90,7 +88,7 @@
 
 			set
 			{
-				if (value == null) throw new InvalidOperationException();
+				if (value == null) throw new ArgumentNullException(nameof(value));
 				SetOptions(value.Select(x => new Option<T>(x)));
 			}
 		}
@@ -110,7 +108,7 @@
 					return;
 				}
 
-				if (!radioButtonListOptions.Contains(value)) throw new InvalidOperationException($"Value is not defined as an option");
+				if (!radioButtonListOptions.Contains(value)) throw new ArgumentException($"Value is not defined as an option");
 				BlockDefinition.InitialValue = value.DisplayValue;
 			}
 		}
@@ -128,7 +126,7 @@
 
 			set
 			{
-				var option = radioButtonListOptions.FirstOrDefault(x => x.Value.Equals(value)) ?? throw new InvalidOperationException($"No option available where the value of the option matches the given value");
+				var option = radioButtonListOptions.FirstOrDefault(x => x.Value.Equals(value)) ?? throw new ArgumentException($"No option available where the value of the option matches the given value");
 				SelectedOption = option;
 			}
 		}

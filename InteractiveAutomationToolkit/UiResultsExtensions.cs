@@ -4,8 +4,6 @@
 	using System.Collections.Generic;
 	using System.Globalization;
 	using System.Linq;
-
-	using Skyline.DataMiner.Automation;
 	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Components;
 
 	/// <summary>

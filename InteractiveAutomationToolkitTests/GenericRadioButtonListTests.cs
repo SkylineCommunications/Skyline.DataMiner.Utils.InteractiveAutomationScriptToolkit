@@ -80,7 +80,7 @@ namespace InteractiveAutomationToolkitTests
 
             Assert.AreEqual(2, radioButtonList.Options.Count());
 
-            Assert.ThrowsException<InvalidOperationException>(() => radioButtonList.SelectedOption = new Option<int>("3", 3));
+            Assert.ThrowsException<ArgumentException>(() => radioButtonList.SelectedOption = new Option<int>("3", 3));
 
             radioButtonList.Selected = 2;
             Assert.AreEqual(new Option<int>("2", 2), radioButtonList.SelectedOption);
@@ -118,7 +118,7 @@ namespace InteractiveAutomationToolkitTests
 
             Assert.AreEqual(2, radioButtonList.Options.Count());
 
-            Assert.ThrowsException<InvalidOperationException>(() => radioButtonList.Selected = 3);
+            Assert.ThrowsException<ArgumentException>(() => radioButtonList.Selected = 3);
 
             radioButtonList.Selected = 2;
             Assert.AreEqual(2, radioButtonList.Selected);
@@ -155,7 +155,7 @@ namespace InteractiveAutomationToolkitTests
             var mockedUiResults = new Mock<IUIResults>();
             mockedUiResults.Setup(x => x.GetString(It.IsAny<string>())).Returns("2");
 
-            // Show DropDown
+            // Show RadioButtonList
             radioButtonList.LoadResult(mockedUiResults.Object);
             radioButtonList.RaiseResultEvents();
 
@@ -180,7 +180,7 @@ namespace InteractiveAutomationToolkitTests
             var mockedUiResults = new Mock<IUIResults>();
             mockedUiResults.Setup(x => x.GetString(It.IsAny<string>())).Returns("1");
 
-            // Show DropDown
+            // Show RadioButtonList
             radioButtonList.LoadResult(mockedUiResults.Object);
             radioButtonList.RaiseResultEvents();
 

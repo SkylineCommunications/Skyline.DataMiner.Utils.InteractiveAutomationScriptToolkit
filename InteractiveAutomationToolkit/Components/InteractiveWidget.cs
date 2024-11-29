@@ -2,8 +2,6 @@
 {
 	using System;
 
-	using Skyline.DataMiner.Automation;
-
 	/// <summary>
 	/// A widget that requires user input.
 	/// </summary>

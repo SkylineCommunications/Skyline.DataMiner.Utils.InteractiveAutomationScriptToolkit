@@ -80,7 +80,7 @@ namespace InteractiveAutomationToolkitTests
 
             Assert.AreEqual(2, dropdown.Options.Count());
 
-            Assert.ThrowsException<InvalidOperationException>(() => dropdown.SelectedOption = new Option<int>("3", 3));
+            Assert.ThrowsException<ArgumentException>(() => dropdown.SelectedOption = new Option<int>("3", 3));
 
             dropdown.Selected = 2;
             Assert.AreEqual(new Option<int>("2", 2), dropdown.SelectedOption);
@@ -118,7 +118,7 @@ namespace InteractiveAutomationToolkitTests
 
             Assert.AreEqual(2, dropdown.Options.Count());
 
-            Assert.ThrowsException<InvalidOperationException>(() => dropdown.Selected = 3);
+            Assert.ThrowsException<ArgumentException>(() => dropdown.Selected = 3);
 
             dropdown.Selected = 2;
             Assert.AreEqual(2, dropdown.Selected);
