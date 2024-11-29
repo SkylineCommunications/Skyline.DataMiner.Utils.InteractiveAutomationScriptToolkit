@@ -209,7 +209,7 @@
 					BlockDefinition.AddDropDownOption(optionToAdd.DisplayValue);
 				}
 
-				if (Object.Equals(currentSelectedOption, option))
+				if (currentSelectedOption == option)
 				{
 					SelectedOption = dropDownOptions.FirstOrDefault();
 				}
@@ -229,7 +229,7 @@
 		///     Automation script.
 		/// </param>
 		/// <remarks><see cref="InteractiveWidget.DestVar" /> should be used as key to get the changes for this widget.</remarks>
-		protected internal override void LoadResult(UIResults uiResults)
+		protected internal override void LoadResult(IUIResults uiResults)
 		{
 			var selectedValue = dropDownOptions.FirstOrDefault(x => x.DisplayValue.Equals(uiResults.GetString(this)));
 
@@ -240,7 +240,7 @@
 
 			if (BlockDefinition.WantsOnChange)
 			{
-				changed = !Object.Equals(selectedValue, SelectedOption);
+				changed = selectedValue != SelectedOption;
 			}
 
 			previous = SelectedOption;

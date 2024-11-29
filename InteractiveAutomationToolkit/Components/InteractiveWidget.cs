@@ -55,7 +55,7 @@
 		///     Automation script.
 		/// </param>
 		/// <remarks><see cref="DestVar" /> should be used as key to get the changes for this widget.</remarks>
-		protected internal abstract void LoadResult(UIResults uiResults);
+		protected internal abstract void LoadResult(IUIResults uiResults);
 
 		/// <summary>
 		///     Raises zero or more events of the widget.

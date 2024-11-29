@@ -137,7 +137,7 @@
 			}
 		}
 
-		protected internal override void LoadResult(UIResults uiResults)
+		protected internal override void LoadResult(IUIResults uiResults)
 		{
 			if (DownloadButtonOptions.ReturnWhenDownloadIsStarted)
 			{

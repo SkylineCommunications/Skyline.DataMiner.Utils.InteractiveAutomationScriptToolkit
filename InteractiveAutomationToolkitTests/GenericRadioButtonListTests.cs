@@ -7,51 +7,51 @@ using System.Linq;
 namespace InteractiveAutomationToolkitTests
 {
     [TestClass]
-    public class GenericDropDownTests
+    public class GenericRadioButtonListTests
     {
         [TestMethod]
         public void EmptyConstructorStruct_Test()
         {
-            var dropdown = new DropDown<int>();
+            var radioButtonList = new RadioButtonList<int>();
 
-            Assert.IsNull(dropdown.SelectedOption);
-            Assert.AreEqual(default, dropdown.Selected);
+            Assert.IsNull(radioButtonList.SelectedOption);
+            Assert.AreEqual(default, radioButtonList.Selected);
         }
 
         [TestMethod]
         public void EmptyConstructorClass_Test()
         {
-            var dropdown = new DropDown<string>();
+            var radioButtonList = new RadioButtonList<string>();
 
-            Assert.IsNull(dropdown.SelectedOption);
-            Assert.AreEqual(default, dropdown.Selected);
+            Assert.IsNull(radioButtonList.SelectedOption);
+            Assert.AreEqual(default, radioButtonList.Selected);
         }
 
         [TestMethod]
         public void OptionConstructor_Test()
         {
             var options = new[] { new Option<int>("1", 1), new Option<int>("2", 2), new Option<int>("3", 3) };
-            var dropDown = new DropDown<int>(options);
+            var radioButtonList = new RadioButtonList<int>(options);
 
-            Assert.AreEqual(new Option<int>("1", 1), dropDown.SelectedOption);
-            Assert.AreEqual(1, dropDown.Selected);
+            Assert.AreEqual(null, radioButtonList.SelectedOption);
+            Assert.AreEqual(default, radioButtonList.Selected);
         }
 
         [TestMethod]
         public void OptionConstructorWithSelected_Test()
         {
             var options = new[] { new Option<int>("1", 1), new Option<int>("2", 2), new Option<int>("3", 3) };
-            var dropDown = new DropDown<int>(options, new Option<int>("3", 3));
+            var radioButtonList = new RadioButtonList<int>(options, new Option<int>("3", 3));
 
-            Assert.AreEqual(new Option<int>("3", 3), dropDown.SelectedOption);
-            Assert.AreEqual(3, dropDown.Selected);
+            Assert.AreEqual(new Option<int>("3", 3), radioButtonList.SelectedOption);
+            Assert.AreEqual(3, radioButtonList.Selected);
         }
 
         [TestMethod]
         public void ValueConstructor_Test()
         {
             var options = new[] { 1, 2, 3 };
-            var dropDown = new DropDown<int>(options);
+            var dropDown = new RadioButtonList<int>(options);
 
             Assert.AreEqual(new Option<int>("1", 1), dropDown.SelectedOption);
             Assert.AreEqual(1, dropDown.Selected);
@@ -61,7 +61,7 @@ namespace InteractiveAutomationToolkitTests
         public void ValueConstructorWithSelected_Test()
         {
             var options = new[] { 1, 2, 3 };
-            var dropDown = new DropDown<int>(options, 3);
+            var dropDown = new RadioButtonList<int>(options, 3);
 
             Assert.AreEqual(new Option<int>("3", 3), dropDown.SelectedOption);
             Assert.AreEqual(3, dropDown.Selected);
@@ -70,7 +70,7 @@ namespace InteractiveAutomationToolkitTests
         [TestMethod]
         public void EditOptions_Options()
         {
-            var dropdown = new DropDown<int>();
+            var dropdown = new RadioButtonList<int>();
 
             var options = new[] { new Option<int>("1", 1), new Option<int>("2", 2) };
             dropdown.SetOptions(options);
@@ -108,7 +108,7 @@ namespace InteractiveAutomationToolkitTests
         [TestMethod]
         public void EditOptions_Values()
         {
-            var dropdown = new DropDown<int>();
+            var dropdown = new RadioButtonList<int>();
 
             var options = new[] { 1, 2 };
             dropdown.SetOptions(options);
@@ -146,9 +146,9 @@ namespace InteractiveAutomationToolkitTests
         [TestMethod]
         public void HandleChange_Test1()
         {
-            var dropdown = new DropDown<int>(new[] { 1, 2, 3 }, 1);
+            var dropdown = new RadioButtonList<int>(new[] { 1, 2, 3 }, 1);
 
-            DropDown<int>.DropDownChangedEventArgs changedResult = null;
+            RadioButtonList<int>.RadioButtonChangedEventArgs changedResult = null;
             dropdown.Changed += (s, e) => changedResult = e;
 
             // User selects 2
@@ -171,9 +171,9 @@ namespace InteractiveAutomationToolkitTests
         [TestMethod]
         public void HandleChange_Test2()
         {
-            var dropdown = new DropDown<int>(new[] { 1, 2, 3 }, 1);
+            var dropdown = new RadioButtonList<int>(new[] { 1, 2, 3 }, 1);
 
-            DropDown<int>.DropDownChangedEventArgs changedResult = null;
+            RadioButtonList<int>.RadioButtonChangedEventArgs changedResult = null;
             dropdown.Changed += (s, e) => changedResult = e;
 
             // User selects 2

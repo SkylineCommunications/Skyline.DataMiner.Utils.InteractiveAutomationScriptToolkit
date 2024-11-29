@@ -22,6 +22,14 @@
 		{
 		}
 
+		public RadioButtonList(IEnumerable<T> options) : this(options.Select(x => new Option<T>(x)))
+		{
+		}
+
+		public RadioButtonList(IEnumerable<T> options, T selected) : this(options.Select(x => new Option<T>(x)), new Option<T>(selected))
+		{
+		}
+
 		/// <summary>
 		///     Initializes a new instance of the <see cref="RadioButtonList" /> class.
 		/// </summary>
@@ -163,7 +171,7 @@
 					BlockDefinition.AddCheckBoxListOption(optionToAdd.DisplayValue);
 				}
 
-				if (Object.Equals(currentSelectedOption, option))
+				if (currentSelectedOption == option)
 				{
 					SelectedOption = radioButtonListOptions.FirstOrDefault();
 				}
@@ -214,7 +222,7 @@
 		///     Automation script.
 		/// </param>
 		/// <remarks><see cref="InteractiveWidget.DestVar" /> should be used as key to get the changes for this widget.</remarks>
-		protected internal override void LoadResult(UIResults uiResults)
+		protected internal override void LoadResult(IUIResults uiResults)
 		{
 			string result = uiResults.GetString(this);
 
