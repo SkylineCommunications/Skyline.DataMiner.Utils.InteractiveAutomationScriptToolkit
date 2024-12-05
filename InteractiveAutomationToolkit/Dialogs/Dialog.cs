@@ -769,7 +769,7 @@
 			return String.Join(";", definitions);
 		}
 
-		private UIBuilder Build()
+		internal UIBuilder Build()
 		{
 			// Check rows and columns in use
 			SortedSet<int> rowsInUse;
