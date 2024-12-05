@@ -217,11 +217,4 @@
 			}
 		}
 	}
-
-	public enum ScriptAbortPopupBehavior
-	{
-		OnDialogLevel,
-		HideAlways,
-		ShowAlways
-	}
 }
