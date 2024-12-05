@@ -50,6 +50,15 @@
 		public bool IsRunning { get; private set; }
 
 		/// <summary>
+		///		Gets or sets the behavior of the popup shown whenever the script is aborted.
+		///		This popup is shown when the window in which the Dialogs are shown is closed by the user and asks for confirmation whether the script can be stopped or not.
+		///		<see cref="ScriptAbortPopupBehavior.OnDialogLevel"/> causes the <see cref="Dialog.ShowScriptAbortPopup"/> value of the currently displayed Dialog to determine whether the popup should be shown or not.
+		///		<see cref="ScriptAbortPopupBehavior.HideAlways"/> causes the popup to never be displayed, regardless of the <see cref="Dialog.ShowScriptAbortPopup"/> value of the displayed Dialog.
+		///		<see cref="ScriptAbortPopupBehavior.ShowAlways"/> causes the popup to always be displayed, regardless of the <see cref="Dialog.ShowScriptAbortPopup"/> value of the displayed Dialog.
+		/// </summary>
+		public ScriptAbortPopupBehavior ScriptAbortPopupBehavior { get; set; } = ScriptAbortPopupBehavior.OnDialogLevel;
+
+		/// <summary>
 		///     Switches the event loop to manual control.
 		///     This mode allows the dialog to be updated without user interaction using <see cref="Update" />.
 		///     The passed action method will be called when all events have been processed.
@@ -114,6 +123,8 @@
 			}
 
 			CurrentDialog = nextDialog;
+
+			SetScriptAbortPopupBehavior(CurrentDialog);
 			CurrentDialog.Show(false);
 		}
 
@@ -168,6 +179,7 @@
 						}
 						else
 						{
+							SetScriptAbortPopupBehavior(CurrentDialog);
 							CurrentDialog.Show();
 						}
 					}
@@ -188,5 +200,28 @@
 			manualAction();
 			IsManualMode = false;
 		}
+
+		private void SetScriptAbortPopupBehavior(Dialog dialog)
+		{
+			switch (ScriptAbortPopupBehavior)
+			{
+				case ScriptAbortPopupBehavior.HideAlways:
+					dialog.ShowScriptAbortPopup = true;
+					return;
+				case ScriptAbortPopupBehavior.ShowAlways:
+					dialog.ShowScriptAbortPopup = false;
+					return;
+				default:
+					// Behavior is defined on Dialog level
+					return;
+			}
+		}
+	}
+
+	public enum ScriptAbortPopupBehavior
+	{
+		OnDialogLevel,
+		HideAlways,
+		ShowAlways
 	}
 }

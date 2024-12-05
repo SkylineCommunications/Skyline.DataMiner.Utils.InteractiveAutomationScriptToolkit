@@ -243,11 +243,12 @@
 		public string Title { get; set; }
 
 		/// <summary>
-		///		Gets or sets the value indicating whether a confirmation popup should be shown whenever a user decides to abort the script.
+		///		Gets or sets the value indicating whether a confirmation popup should be shown whenever a user decides to abort the script when this Dialog is shown.
 		///		Aborting an interactive script is done by closing the window in which the dialog is displayed.
 		/// </summary>
+		/// <remarks>Setting the <see cref="InteractiveController.ScriptAbortPopupBehavior"/> to <see cref="ScriptAbortPopupBehavior.HideAlways"/> or <see cref="ScriptAbortPopupBehavior.ShowAlways"/> overrides this setting.</remarks>
 		/// <remarks>Available from DataMiner 10.4.12 onwards.</remarks>
-		public bool ShowScriptAbortConfirmationPopup { get; set; } = true;
+		public bool ShowScriptAbortPopup { get; set; } = true;
 
 		/// <summary>
 		///     Gets widgets that are added to the dialog.
@@ -788,7 +789,7 @@
 				RowDefs = GetRowDefinitions(rowsInUse),
 				ColumnDefs = GetColumnDefinitions(columnsInUse),
 				Title = Title,
-				SkipAbortConfirmation = !ShowScriptAbortConfirmationPopup
+				SkipAbortConfirmation = !ShowScriptAbortPopup
 			};
 
 			KeyValuePair<Widget, IWidgetLayout> defaultKeyValuePair = default(KeyValuePair<Widget, IWidgetLayout>);
