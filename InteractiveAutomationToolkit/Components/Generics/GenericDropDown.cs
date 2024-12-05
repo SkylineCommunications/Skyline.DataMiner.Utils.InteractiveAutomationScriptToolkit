@@ -20,10 +20,21 @@
 		{
 		}
 
+		/// <summary>
+		///		Initializes a new instance of the <see cref="DropDown" /> class.
+		/// </summary>
+		/// <param name="options">Values that can be selected, every value is visualized in the dropdown by its <see cref="Object.ToString()"/> counterpart.</param>
+		/// <exception cref="ArgumentNullException">When options is null.</exception>
 		public DropDown(IEnumerable<T> options) : this(options, options.FirstOrDefault())
 		{
 		}
 
+		/// <summary>
+		///		Initializes a new instance of the <see cref="DropDown" /> class.
+		/// </summary>
+		/// <param name="options">Values that can be selected, every value is visualized in the dropdown by its <see cref="Object.ToString()"/> counterpart.</param>
+		/// <param name="selected">Default selected value.</param>
+		/// <exception cref="ArgumentNullException">When options is null.</exception>
 		public DropDown(IEnumerable<T> options, T selected) : this(options.Select(x => new Option<T>(x)), new Option<T>(selected))
 		{
 		}
@@ -37,10 +48,7 @@
 		public DropDown(IEnumerable<Option<T>> options, Option<T> selected = null)
 		{
 			SetOptions(options);
-			if (selected != null)
-			{
-				SelectedOption = selected;
-			}
+			SelectedOption = selected;
 		}
 
 		/// <summary>
@@ -67,9 +75,7 @@
 
 		private event EventHandler<DropDownChangedEventArgs> OnChanged;
 
-		/// <summary>
-		///     Gets or sets the possible options.
-		/// </summary>
+		/// <inheritdoc/>
 		public virtual IEnumerable<Option<T>> Options
 		{
 			get
@@ -83,6 +89,7 @@
 			}
 		}
 
+		/// <inheritdoc/>
 		public virtual IEnumerable<T> Values
 		{
 			get
@@ -96,9 +103,8 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the selected option.
-		/// </summary>
+		/// <inheritdoc/>
+		/// <exception cref="ArgumentException">If the given option is not null and not defined as a possible option in the dropdown.</exception>
 		public Option<T> SelectedOption
 		{
 			get
@@ -119,6 +125,8 @@
 			}
 		}
 
+		/// <inheritdoc/>
+		/// <exception cref="ArgumentException">If no option is defined in the dropdown that represents the given value.</exception>
 		public T Selected
 		{
 			get
@@ -129,15 +137,12 @@
 
 			set
 			{
-				var option = dropDownOptions.FirstOrDefault(x => x.Value.Equals(value)) ?? throw new ArgumentException($"No option available where the value of the option matches the given value");
+				var option = dropDownOptions.FirstOrDefault(x => Object.Equals(x.Value, value)) ?? throw new ArgumentException($"No option available where the value of the option matches the given value");
 				SelectedOption = option;
 			}
 		}
 
-		/// <summary>
-		///     Adds an option to the drop-down list.
-		/// </summary>
-		/// <param name="option">Option to add.</param>
+		/// <inheritdoc/>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		public void AddOption(Option<T> option)
 		{
@@ -153,17 +158,18 @@
 			}
 		}
 
+		/// <summary>
+		///  <inheritdoc/>
+		///  This value is represented in the dropdown by its <see cref="Object.ToString()"/> counterpart.
+		/// </summary>
+		/// <param name="value">Value to be added as an option to the dropdown.</param>
 		public void AddOption(T value)
 		{
 			AddOption(new Option<T>(value));
 		}
 
-		/// <summary>
-		///     Sets the displayed options.
-		///     Replaces existing options.
-		/// </summary>
-		/// <param name="options">Options to set.</param>
-		/// <exception cref="ArgumentNullException">When optionsToSet is null.</exception>
+		/// <inheritdoc/>
+		/// <exception cref="ArgumentNullException">When options is null.</exception>
 		public void SetOptions(IEnumerable<Option<T>> options)
 		{
 			if (options == null) throw new ArgumentNullException(nameof(options));
@@ -180,16 +186,15 @@
 			}
 		}
 
+		/// <inheritdoc/>
+		/// <exception cref="ArgumentNullException">When options is null.</exception>
 		public void SetOptions(IEnumerable<T> options)
 		{
 			if (options == null) throw new ArgumentNullException(nameof(options));
 			SetOptions(options.Select(x => new Option<T>(x)));
 		}
 
-		/// <summary>
-		/// 	Removes an option from the drop-down list.
-		/// </summary>
-		/// <param name="option">Option to remove.</param>
+		/// <inheritdoc/>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		public void RemoveOption(Option<T> option)
 		{
@@ -214,9 +219,14 @@
 			}
 		}
 
+		/// <inheritdoc/>
 		public void RemoveOption(T value)
 		{
-			RemoveOption(new Option<T>(value));
+			var options = dropDownOptions.Where(x => Object.Equals(x.Value, value)).ToList();
+			foreach (var option in options)
+			{
+				RemoveOption(option);
+			}
 		}
 
 		/// <summary>

@@ -22,7 +22,7 @@
 		/// <summary>
 		///     Initializes a new instance of the <see cref="CheckBoxList" /> class.
 		/// </summary>
-		/// <param name="options">Name of options that can be selected.</param>
+		/// <param name="options">Values that can be selected, every value is visualized in the checkboxlist by its <see cref="Object.ToString()"/> counterpart.</param>
 		/// <exception cref="ArgumentNullException">When options is null.</exception>
 		public CheckBoxList(IEnumerable<T> options) : this(options.Select(x => new Option<T>(x)).ToList())
 		{
@@ -31,7 +31,7 @@
 		/// <summary>
 		///     Initializes a new instance of the <see cref="CheckBoxList" /> class.
 		/// </summary>
-		/// <param name="options">Name of options that can be selected.</param>
+		/// <param name="options">Options that can be selected.</param>
 		/// <exception cref="ArgumentNullException">When options is null.</exception>
 		public CheckBoxList(IEnumerable<Option<T>> options)
 		{
@@ -62,9 +62,7 @@
 
 		private event EventHandler<CheckBoxListChangedEventArgs> OnChanged;
 
-		/// <summary>
-		///     Gets all selected options.
-		/// </summary>
+		/// <inheritdoc/>
 		public IEnumerable<Option<T>> CheckedOptions
 		{
 			get
@@ -73,10 +71,17 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets all options.
-		/// </summary>
-		public IEnumerable<Option<T>> Options
+		/// <inheritdoc/>
+		public IEnumerable<Option<T>> UncheckedOptions
+		{
+			get
+			{
+				return checkBoxListOptions.Where(option => !option.Value).Select(option => option.Key);
+			}
+		}
+
+		/// <inheritdoc/>
+		public virtual IEnumerable<Option<T>> Options
 		{
 			get
 			{
@@ -89,7 +94,16 @@
 			}
 		}
 
+		/// <inheritdoc/>
+		public IEnumerable<T> Checked => CheckedOptions.Select(x => x.Value);
 
+		/// <inheritdoc/>
+		public IEnumerable<T> Unchecked => UncheckedOptions.Select(x => x.Value);
+
+		/// <summary>
+		///		<inheritdoc/>
+		///		Setting this property overrides all options and causes every value to be visually represented by their <see cref="Object.ToString()"/> counterpart.
+		/// </summary>
 		public virtual IEnumerable<T> Values
 		{
 			get
@@ -103,24 +117,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets all options that are not selected.
-		/// </summary>
-		public IEnumerable<Option<T>> UncheckedOptions
-		{
-			get
-			{
-				return checkBoxListOptions.Where(option => !option.Value).Select(option => option.Key);
-			}
-		}
-
-		public IEnumerable<T> Checked => CheckedOptions.Select(x => x.Value);
-
-		public IEnumerable<T> Unchecked => UncheckedOptions.Select(x => x.Value);
-
-		/// <summary>
-		///     Adds an option to the checkbox list.
-		/// </summary>
+		/// <inheritdoc/>
 		/// <param name="option">Option to add.</param>
 		/// <exception cref="ArgumentNullException">When options is null.</exception>
 		public void AddOption(Option<T> option)
@@ -136,15 +133,17 @@
 			BlockDefinition.AddCheckBoxListOption(option.DisplayValue);
 		}
 
+		/// <summary>
+		///		<inheritdoc/>
+		///		This value is represented in the checkboxlist by its <see cref="Object.ToString()"/> counterpart.
+		/// </summary>
+		/// <param name="value"></param>
 		public void AddOption(T value)
 		{
 			AddOption(new Option<T>(value));
 		}
 
-		/// <summary>
-		///     Selects an option.
-		/// </summary>
-		/// <param name="option">Option to be selected.</param>
+		/// <inheritdoc/>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		/// <exception cref="ArgumentException">When the option does not exist.</exception>
 		public void Check(Option<T> option)
@@ -166,15 +165,20 @@
 			}
 		}
 
+		/// <inheritdoc/>
+		/// <exception cref="ArgumentException">When the option does not exist.</exception>
 		public void Check(T value)
 		{
-			var option = checkBoxListOptions.Keys.FirstOrDefault(x => x.Value.Equals(value)) ?? throw new ArgumentException($"Value is not defined as an option");
-			Check(option);
+			var options = checkBoxListOptions.Keys.Where(x => Object.Equals(x.Value, value)).ToList();
+			if (!options.Any()) throw new ArgumentException($"CheckboxList does not have value: {value}");
+
+			foreach (var option in options)
+			{
+				Check(option);
+			}
 		}
 
-		/// <summary>
-		///     Selects all options.
-		/// </summary>
+		/// <inheritdoc/>
 		public override void CheckAll()
 		{
 			foreach (var option in checkBoxListOptions.Keys.ToList())
@@ -185,14 +189,12 @@
 			BlockDefinition.InitialValue = string.Join(";", checkBoxListOptions.Keys.Select(x => x.DisplayValue));
 		}
 
-		/// <summary>
-		///     Sets the displayed options.
-		///     Replaces existing options.
-		/// </summary>
-		/// <param name="options">Options to set.</param>
+		/// <inheritdoc/>
 		/// <exception cref="ArgumentNullException">When options is null.</exception>
 		public void SetOptions(IEnumerable<Option<T>> options)
 		{
+			if (options == null) throw new ArgumentNullException(nameof(options));
+
 			ClearOptions();
 			foreach (var option in options)
 			{
@@ -200,16 +202,15 @@
 			}
 		}
 
+		/// <inheritdoc/>
+		/// <exception cref="ArgumentNullException">When options is null.</exception>
 		public void SetOptions(IEnumerable<T> options)
 		{
 			if (options == null) throw new ArgumentNullException(nameof(options));
 			SetOptions(options.Select(x => new Option<T>(x)));
 		}
 
-		/// <summary>
-		/// 	Removes an option from the checkbox list.
-		/// </summary>
-		/// <param name="option">Option to remove.</param>
+		/// <inheritdoc/>
 		/// <exception cref="NullReferenceException">When option is null.</exception>
 		public void RemoveOption(Option<T> option)
 		{
@@ -228,15 +229,17 @@
 			}
 		}
 
+		/// <inheritdoc/>
 		public void RemoveOption(T value)
 		{
-			RemoveOption(new Option<T>(value));
+			var options = checkBoxListOptions.Keys.Where(x => Object.Equals(x.Value, value)).ToList();
+			foreach (var option in options)
+			{
+				RemoveOption(option);
+			}
 		}
 
-		/// <summary>
-		///     Clears an option.
-		/// </summary>
-		/// <param name="option">Option to be cleared.</param>
+		/// <inheritdoc/>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		/// <exception cref="ArgumentException">When the option does not exist.</exception>
 		public void Uncheck(Option<T> option)
@@ -258,15 +261,20 @@
 			}
 		}
 
+		/// <inheritdoc/>
+		/// <exception cref="ArgumentException">When the option does not exist.</exception>
 		public void Uncheck(T value)
 		{
-			var option = checkBoxListOptions.Keys.FirstOrDefault(x => x.Value.Equals(value)) ?? throw new ArgumentException($"Value is not defined as an option");
-			Uncheck(option);
+			var options = checkBoxListOptions.Keys.Where(x => Object.Equals(x.Value, value)).ToList();
+			if (!options.Any()) throw new ArgumentException($"CheckboxList does not have value: {value}");
+
+			foreach (var option in options)
+			{
+				Uncheck(option);
+			}
 		}
 
-		/// <summary>
-		///     Clears all options.
-		/// </summary>
+		/// <inheritdoc/>
 		public override void UncheckAll()
 		{
 			foreach (var option in checkBoxListOptions.Keys.ToList())

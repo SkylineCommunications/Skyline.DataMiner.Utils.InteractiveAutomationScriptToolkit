@@ -11,9 +11,7 @@
 			IsReadOnly = false;
 		}
 
-		/// <summary>
-		///     Gets or sets a value indicating whether the options are sorted naturally.
-		/// </summary>
+		/// <inheritdoc/>
 		/// <remarks>Available from DataMiner 9.5.6 onwards.</remarks>
 		public bool IsSorted
 		{
@@ -28,9 +26,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the tooltip.
-		/// </summary>
+		/// <inheritdoc/>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip
 		{
@@ -50,11 +46,7 @@
 			}
 		}
 
-		/// <summary>
-		///		Gets or sets a value indicating whether the control is displayed in read-only mode.
-		///		Read-only mode causes the widgets to appear read-write but the user won't be able to change their value.
-		///		This only affects interactive scripts running in a web environment.
-		/// </summary>
+		/// <inheritdoc/>
 		/// <remarks>Available from DataMiner 10.4.1 onwards.</remarks>
 		public virtual bool IsReadOnly
 		{

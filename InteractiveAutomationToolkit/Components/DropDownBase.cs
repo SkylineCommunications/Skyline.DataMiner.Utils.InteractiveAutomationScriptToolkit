@@ -13,9 +13,8 @@
 			IsReadOnly = false;
 		}
 
-		/// <summary>
 		/// <inheritdoc/>
-		/// </summary>
+		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip
 		{
 			get
@@ -34,9 +33,8 @@
 			}
 		}
 
-		/// <summary>
 		/// <inheritdoc/>
-		/// </summary>
+		/// <remarks>Available from DataMiner 10.0.5 onwards.</remarks>
 		public UIValidationState ValidationState
 		{
 			get
@@ -50,9 +48,8 @@
 			}
 		}
 
-		/// <summary>
 		/// <inheritdoc/>
-		/// </summary>
+		/// <remarks>Available from DataMiner 10.0.5 onwards.</remarks>
 		public string ValidationText
 		{
 			get
@@ -66,9 +63,8 @@
 			}
 		}
 
-		/// <summary>
 		/// <inheritdoc/>
-		/// </summary>
+		/// <remarks>Available from DataMiner 9.5.6 onwards.</remarks>
 		public bool IsDisplayFilterShown
 		{
 			get
@@ -82,9 +78,8 @@
 			}
 		}
 
-		/// <summary>
 		/// <inheritdoc/>
-		/// </summary>
+		/// <remarks>Available from DataMiner 9.5.6 onwards.</remarks>
 		public bool IsSorted
 		{
 			get
@@ -98,9 +93,8 @@
 			}
 		}
 
-		/// <summary>
 		/// <inheritdoc/>
-		/// </summary>
+		/// <remarks>Available from DataMiner 10.4.1 onwards.</remarks>
 		public virtual bool IsReadOnly
 		{
 			get

@@ -3,6 +3,7 @@
 	using System;
 	using Skyline.DataMiner.Automation;
 
+	/// <inheritdoc cref="ICheckBoxListBase"/>
 	public abstract class CheckBoxListBase : InteractiveWidget, ICheckBoxListBase
 	{
 		protected CheckBoxListBase()
@@ -13,9 +14,7 @@
 			IsReadOnly = false;
 		}
 
-		/// <summary>
-		///     Gets or sets a value indicating whether the options are sorted naturally.
-		/// </summary>
+		/// <inheritdoc/>
 		/// <remarks>Available from DataMiner 9.5.6 onwards.</remarks>
 		public bool IsSorted
 		{
@@ -30,9 +29,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the tooltip.
-		/// </summary>
+		/// <inheritdoc/>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		public string Tooltip
 		{
@@ -53,10 +50,7 @@
 		}
 
 
-		/// <summary>
-		/// 	Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		/// 	This should be used by the client to add a visual marker on the input field.
-		/// </summary>
+		/// <inheritdoc/>
 		/// <remarks>Available from DataMiner 10.0.5 onwards.</remarks>
 		public UIValidationState ValidationState
 		{
@@ -71,11 +65,7 @@
 			}
 		}
 
-		/// <summary>
-		/// 	Gets or sets the text that is shown if the validation state is invalid.
-		/// 	This should be used by the client to add a visual marker on the input field.
-		/// 	The validation text is not displayed for a checkbox list, but if this value is not explicitly set, the validation state will have no influence on the way the component is displayed.
-		/// </summary>
+		/// <inheritdoc/>
 		/// <remarks>Available from DataMiner 10.0.5 onwards.</remarks>
 		public string ValidationText
 		{
@@ -90,11 +80,7 @@
 			}
 		}
 
-		/// <summary>
-		///		Gets or sets a value indicating whether the control is displayed in read-only mode.
-		///		Read-only mode causes the widgets to appear read-write but the user won't be able to change their value.
-		///		This only affects interactive scripts running in a web environment.
-		/// </summary>
+		/// <inheritdoc/>
 		/// <remarks>Available from DataMiner 10.4.1 onwards.</remarks>
 		public virtual bool IsReadOnly
 		{
@@ -109,8 +95,10 @@
 			}
 		}
 
+		/// <inheritdoc/>
 		public abstract void CheckAll();
 
+		/// <inheritdoc/>
 		public abstract void UncheckAll();
 	}
 }

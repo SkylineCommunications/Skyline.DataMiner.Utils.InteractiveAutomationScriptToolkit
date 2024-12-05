@@ -20,10 +20,21 @@
 		{
 		}
 
+		/// <summary>
+		///		Initializes a new instance of the <see cref="RadioButtonList" /> class.
+		/// </summary>
+		/// <param name="options">Values that can be selected, every value is visualized in the radiobuttonlist by its <see cref="Object.ToString()"/> counterpart.</param>
+		/// <exception cref="ArgumentNullException">When options is null.</exception>
 		public RadioButtonList(IEnumerable<T> options) : this(options.Select(x => new Option<T>(x)))
 		{
 		}
 
+		/// <summary>
+		///		Initializes a new instance of the <see cref="RadioButtonList" /> class.
+		/// </summary>
+		/// <param name="options">Values that can be selected, every value is visualized in the radiobuttonlist by its <see cref="Object.ToString()"/> counterpart.</param>
+		/// <param name="selected">Default selected value.</param>
+		/// <exception cref="ArgumentNullException">When options is null.</exception>
 		public RadioButtonList(IEnumerable<T> options, T selected) : this(options.Select(x => new Option<T>(x)), new Option<T>(selected))
 		{
 		}
@@ -66,7 +77,7 @@
 		/// <summary>
 		///     Gets or sets all options.
 		/// </summary>
-		public IEnumerable<Option<T>> Options
+		public virtual IEnumerable<Option<T>> Options
 		{
 			get
 			{
@@ -79,6 +90,10 @@
 			}
 		}
 
+		/// <summary>
+		///		<inheritdoc/>
+		///		Setting this property overrides all options and causes every value to be visually represented by their <see cref="Object.ToString()"/> counterpart.
+		/// </summary>
 		public virtual IEnumerable<T> Values
 		{
 			get
@@ -93,6 +108,8 @@
 			}
 		}
 
+		/// <inheritdoc/>
+		/// <exception cref="ArgumentException">If the given option is not null and not defined as a possible option in the radiobuttonlist.</exception>
 		public Option<T> SelectedOption
 		{
 			get
@@ -113,9 +130,8 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the selected option.
-		/// </summary>
+		/// <inheritdoc/>
+		/// <exception cref="ArgumentException">If no option is defined in the radiobuttonlist that represents the given value.</exception>
 		public T Selected
 		{
 			get
@@ -126,15 +142,12 @@
 
 			set
 			{
-				var option = radioButtonListOptions.FirstOrDefault(x => x.Value.Equals(value)) ?? throw new ArgumentException($"No option available where the value of the option matches the given value");
+				var option = radioButtonListOptions.FirstOrDefault(x => Object.Equals(x.Value, value)) ?? throw new ArgumentException($"No option available where the value of the option matches the given value");
 				SelectedOption = option;
 			}
 		}
 
-		/// <summary>
-		///     Adds a radio button to the group.
-		/// </summary>
-		/// <param name="option">Option to add.</param>
+		/// <inheritdoc/>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		public void AddOption(Option<T> option)
 		{
@@ -150,15 +163,17 @@
 			}
 		}
 
+		/// <summary>
+		///		<inheritdoc/>
+		///		This value is represented in the radiobuttonlist by its <see cref="Object.ToString()"/> counterpart.
+		/// </summary>
+		/// <param name="value">Value to be added as an option to the radiobuttonlist.</param>
 		public void AddOption(T value)
 		{
 			AddOption(new Option<T>(value));
 		}
 
-		/// <summary>
-		/// 	Removes an option from the radio button list.
-		/// </summary>
-		/// <param name="option">Option to remove.</param>
+		/// <inheritdoc/>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		public void RemoveOption(Option<T> option)
 		{
@@ -183,17 +198,18 @@
 			}
 		}
 
+		/// <inheritdoc/>
 		public void RemoveOption(T value)
 		{
-			RemoveOption(new Option<T>(value));
+			var options = radioButtonListOptions.Where(x => Object.Equals(x.Value, value)).ToList();
+			foreach (var option in options)
+			{
+				RemoveOption(option);
+			}
 		}
 
-		/// <summary>
-		///     Sets the displayed options.
-		///     Replaces existing options.
-		/// </summary>
-		/// <param name="options">Options to set.</param>
-		/// <exception cref="ArgumentNullException">When optionsToSet is null.</exception>
+		/// <inheritdoc/>
+		/// <exception cref="ArgumentNullException">When options is null.</exception>
 		public void SetOptions(IEnumerable<Option<T>> options)
 		{
 			if (options == null)
@@ -213,6 +229,8 @@
 			}
 		}
 
+		/// <inheritdoc/>
+		/// <exception cref="ArgumentNullException">When options is null.</exception>
 		public void SetOptions(IEnumerable<T> options)
 		{
 			if (options == null) throw new ArgumentNullException(nameof(options));

@@ -4,7 +4,7 @@
 
 	public sealed class Option<T> : IEquatable<Option<T>>
 	{
-		public Option(T value) : this(value.ToString(), value)
+		public Option(T value) : this(Convert.ToString(value), value)
 		{
 		}
 
@@ -34,14 +34,12 @@
 		{
 			if (!(obj is Option<T> other)) return false;
 			if (!String.Equals(DisplayValue, other.DisplayValue)) return false;
-			if (!Equals(Value, other.Value)) return false;
 			return true;
 		}
 
 		public bool Equals(Option<T> other)
 		{
 			if (!String.Equals(DisplayValue, other.DisplayValue)) return false;
-			if (!Equals(Value, other.Value)) return false;
 			return true;
 		}
 
@@ -49,7 +47,6 @@
 		{
 			int hashCode = 11;
 			hashCode ^= 13 * DisplayValue.GetHashCode();
-			hashCode ^= 17 * Value.GetHashCode();
 			return hashCode;
 		}
 

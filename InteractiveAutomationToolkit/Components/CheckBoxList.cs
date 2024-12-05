@@ -53,9 +53,7 @@
 
 		private event EventHandler<CheckBoxListChangedEventArgs> OnChanged;
 
-		/// <summary>
-		///     Gets all selected options.
-		/// </summary>
+		/// <inheritdoc/>
 		public IEnumerable<string> Checked
 		{
 			get
@@ -64,10 +62,8 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets all options.
-		/// </summary>
-		public IEnumerable<string> Options
+		/// <inheritdoc/>
+		public virtual IEnumerable<string> Options
 		{
 			get
 			{
@@ -75,9 +71,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets all options that are not selected.
-		/// </summary>
+		/// <inheritdoc/>
 		public IEnumerable<string> Unchecked
 		{
 			get
@@ -86,10 +80,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Adds an option to the checkbox list.
-		/// </summary>
-		/// <param name="option">Option to add.</param>
+		/// <inheritdoc/>
 		/// <exception cref="ArgumentNullException">When options is null.</exception>
 		public void AddOption(string option)
 		{
@@ -105,10 +96,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Selects an option.
-		/// </summary>
-		/// <param name="option">Option to be selected.</param>
+		/// <inheritdoc/>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		/// <exception cref="ArgumentException">When the option does not exist.</exception>
 		public void Check(string option)
@@ -130,9 +118,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Selects all options.
-		/// </summary>
+		/// <inheritdoc/>
 		public override void CheckAll()
 		{
 			foreach (string option in options.Keys.ToList())
@@ -143,11 +129,7 @@
 			BlockDefinition.InitialValue = String.Join(";", options.Keys);
 		}
 
-		/// <summary>
-		///     Sets the displayed options.
-		///     Replaces existing options.
-		/// </summary>
-		/// <param name="options">Options to set.</param>
+		/// <inheritdoc/>
 		/// <exception cref="ArgumentNullException">When options is null.</exception>
 		public void SetOptions(IEnumerable<string> options)
 		{
@@ -158,10 +140,7 @@
 			}
 		}
 
-		/// <summary>
-		/// 	Removes an option from the checkbox list.
-		/// </summary>
-		/// <param name="option">Option to remove.</param>
+		/// <inheritdoc/>
 		/// <exception cref="NullReferenceException">When option is null.</exception>
 		public void RemoveOption(string option)
 		{
@@ -180,10 +159,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Clears an option.
-		/// </summary>
-		/// <param name="option">Option to be cleared.</param>
+		/// <inheritdoc/>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		/// <exception cref="ArgumentException">When the option does not exist.</exception>
 		public void Uncheck(string option)
@@ -205,9 +181,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Clears all options.
-		/// </summary>
+		/// <inheritdoc/>
 		public override void UncheckAll()
 		{
 			foreach (string option in options.Keys.ToList())

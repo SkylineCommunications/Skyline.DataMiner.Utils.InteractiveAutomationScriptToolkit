@@ -55,9 +55,7 @@
 
 		private event EventHandler<RadioButtonChangedEventArgs> OnChanged;
 
-		/// <summary>
-		///     Gets or sets all options.
-		/// </summary>
+		/// <inheritdoc/>
 		public IEnumerable<string> Options
 		{
 			get
@@ -71,9 +69,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the selected option.
-		/// </summary>
+		/// <inheritdoc/>
 		public string Selected
 		{
 			get
@@ -87,10 +83,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Adds a radio button to the group.
-		/// </summary>
-		/// <param name="option">Option to add.</param>
+		/// <inheritdoc/>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		public void AddOption(string option)
 		{
@@ -106,10 +99,7 @@
 			}
 		}
 
-		/// <summary>
-		/// 	Removes an option from the radio button list.
-		/// </summary>
-		/// <param name="option">Option to remove.</param>
+		/// <inheritdoc/>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		public void RemoveOption(string option)
 		{
@@ -133,28 +123,24 @@
 			}
 		}
 
-		/// <summary>
-		///     Sets the displayed options.
-		///     Replaces existing options.
-		/// </summary>
-		/// <param name="optionsToSet">Options to set.</param>
+		/// <inheritdoc/>
 		/// <exception cref="ArgumentNullException">When optionsToSet is null.</exception>
-		public void SetOptions(IEnumerable<string> optionsToSet)
+		public void SetOptions(IEnumerable<string> options)
 		{
-			if (optionsToSet == null)
+			if (options == null)
 			{
-				throw new ArgumentNullException("optionsToSet");
+				throw new ArgumentNullException(nameof(options));
 			}
 
 			ClearOptions();
-			foreach (string option in optionsToSet)
+			foreach (string option in options)
 			{
 				AddOption(option);
 			}
 
-			if (Selected == null || !optionsToSet.Contains(Selected))
+			if (Selected == null || !options.Contains(Selected))
 			{
-				Selected = optionsToSet.FirstOrDefault();
+				Selected = options.FirstOrDefault();
 			}
 		}
 

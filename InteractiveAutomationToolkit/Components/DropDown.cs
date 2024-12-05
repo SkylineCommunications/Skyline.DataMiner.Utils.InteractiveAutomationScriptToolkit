@@ -59,9 +59,7 @@
 
 		private event EventHandler<DropDownChangedEventArgs> OnChanged;
 
-		/// <summary>
-		///     Gets or sets the possible options.
-		/// </summary>
+		/// <inheritdoc/>
 		public virtual IEnumerable<string> Options
 		{
 			get
@@ -75,9 +73,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the selected option.
-		/// </summary>
+		/// <inheritdoc/>
 		public string Selected
 		{
 			get
@@ -91,10 +87,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Adds an option to the drop-down list.
-		/// </summary>
-		/// <param name="option">Option to add.</param>
+		/// <inheritdoc/>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		public void AddOption(string option)
 		{
@@ -110,11 +103,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Sets the displayed options.
-		///     Replaces existing options.
-		/// </summary>
-		/// <param name="options">Options to set.</param>
+		/// <inheritdoc/>
 		/// <exception cref="ArgumentNullException">When options is null.</exception>
 		public void SetOptions(IEnumerable<string> options)
 		{
@@ -135,10 +124,7 @@
 			}
 		}
 
-		/// <summary>
-		/// 	Removes an option from the drop-down list.
-		/// </summary>
-		/// <param name="option">Option to remove.</param>
+		/// <inheritdoc/>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		public void RemoveOption(string option)
 		{

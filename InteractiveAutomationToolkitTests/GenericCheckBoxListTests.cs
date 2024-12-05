@@ -328,5 +328,109 @@ namespace InteractiveAutomationToolkitTests
 
             Assert.AreEqual(0, dropdown.Checked.Count());
         }
+
+        [TestMethod]
+        public void DuplicateOptions_ValueConstructor()
+        {
+            var options = new[] { 1, 1, 1 };
+
+            var checkboxlist = new CheckBoxList<int>(options);
+
+            Assert.AreEqual(1, checkboxlist.Options.Count());
+        }
+
+        [TestMethod]
+        public void DuplicateOptions_OptionConstructor()
+        {
+            var options = new[] { new Option<int>(1), new Option<int>(1), new Option<int>(1) };
+
+            var checkboxlist = new CheckBoxList<int>(options);
+
+            Assert.AreEqual(1, checkboxlist.Options.Count());
+        }
+
+        [TestMethod]
+        public void DuplicateValues_OptionConstructor()
+        {
+            var options = new[] { new Option<int>("option 1", 1), new Option<int>("option 2", 1), new Option<int>("option 3", 1) };
+
+            var checkboxlist = new CheckBoxList<int>(options);
+
+            Assert.AreEqual(3, checkboxlist.Options.Count());
+        }
+
+        [TestMethod]
+        public void DuplicateOptions_AddValue()
+        {
+            var options = new[] { 1 };
+
+            var checkboxlist = new CheckBoxList<int>(options);
+
+            Assert.AreEqual(1, checkboxlist.Options.Count());
+
+            checkboxlist.AddOption(1);
+
+            Assert.AreEqual(1, checkboxlist.Options.Count());
+        }
+
+        [TestMethod]
+        public void DuplicateOptions_AddOption()
+        {
+            var options = new[] { new Option<int>(1) };
+
+            var checkboxlist = new CheckBoxList<int>(options);
+
+            Assert.AreEqual(1, checkboxlist.Options.Count());
+
+            checkboxlist.AddOption(new Option<int>(1));
+
+            Assert.AreEqual(1, checkboxlist.Options.Count());
+        }
+
+        [TestMethod]
+        public void DuplicateValues_AddOption()
+        {
+            var options = new[] { new Option<int>("option 1", 1) };
+
+            var checkboxlist = new CheckBoxList<int>(options);
+
+            Assert.AreEqual(1, checkboxlist.Options.Count());
+
+            checkboxlist.AddOption(new Option<int>("option 2", 1));
+
+            Assert.AreEqual(2, checkboxlist.Options.Count());
+        }
+
+        [TestMethod]
+        public void DuplicateValues_CheckOptions()
+        {
+            var options = new[] { new Option<int>("option 1", 1), new Option<int>("option 2", 1), new Option<int>("option 3", 1) };
+
+            var checkboxlist = new CheckBoxList<int>(options);
+
+            Assert.AreEqual(3, checkboxlist.Unchecked.Count());
+
+            checkboxlist.Check(1);
+
+            Assert.AreEqual(3, checkboxlist.Checked.Count());
+        }
+
+        [TestMethod]
+        public void NullValueOptions()
+        {
+            var options = new[] { new Option<string>("option 1", "1"), new Option<string>("option 2", null) };
+
+            var checkboxlist = new CheckBoxList<string>(options);
+
+            Assert.AreEqual(2, checkboxlist.Options.Count());
+
+            checkboxlist.RemoveOption((String)null);
+
+            Assert.AreEqual(1, checkboxlist.Options.Count());
+
+            checkboxlist.SetOptions(new[] { new Option<string>("option 1", "1"), new Option<string>("option 2", null) });
+
+            Assert.AreEqual(2, checkboxlist.Options.Count());
+        }
     }
 }

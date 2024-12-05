@@ -3,7 +3,6 @@
 	using System;
 	using System.Collections;
 	using System.Collections.Generic;
-	using System.Linq;
 
 	internal class OptionCollection<T> : ICollection<Option<T>>
 	{
@@ -15,10 +14,7 @@
 
 		public void Add(Option<T> item)
 		{
-			if (options.Any(x => string.Equals(x.DisplayValue, item.DisplayValue))) throw new InvalidOperationException($"The collection already contains an item with {item.DisplayValue} as displayed value");
-			if (options.Any(x => Equals(x.Value, item.Value))) throw new InvalidOperationException($"The collection already contains an item with {item.Value} as value");
-
-			options.Add(item);
+			if (!options.Add(item)) throw new InvalidOperationException($"The collection already contains an item with {item.DisplayValue} as displayed value");
 		}
 
 		public void Clear()
@@ -28,8 +24,7 @@
 
 		public bool Contains(Option<T> item)
 		{
-			if (options.Any(x => string.Equals(x.DisplayValue, item.DisplayValue))) return true;
-			if (options.Any(x => Equals(x.Value, item.Value))) return true;
+			if (options.Contains(item)) return true;
 			return false;
 		}
 
