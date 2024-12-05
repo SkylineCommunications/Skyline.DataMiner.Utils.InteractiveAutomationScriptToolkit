@@ -48,7 +48,7 @@
 		public DropDown(IEnumerable<Option<T>> options, Option<T> selected = null)
 		{
 			SetOptions(options);
-			SelectedOption = selected;
+			if (selected != null) SelectedOption = selected;
 		}
 
 		/// <summary>

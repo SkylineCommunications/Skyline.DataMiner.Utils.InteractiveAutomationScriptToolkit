@@ -68,6 +68,21 @@ namespace InteractiveAutomationToolkitTests
         }
 
         [TestMethod]
+        public void SetOptionsTest_NothingSelected()
+        {
+            var options = new[] { 1, 2, 3 };
+            var radioButtonList = new RadioButtonList<int>(options);
+
+            Assert.AreEqual(null, radioButtonList.SelectedOption);
+            Assert.AreEqual(0, radioButtonList.Selected);
+
+            radioButtonList.SetOptions(new[] { 4, 5, 6 });
+
+            Assert.AreEqual(null, radioButtonList.SelectedOption);
+            Assert.AreEqual(0, radioButtonList.Selected);
+        }
+
+        [TestMethod]
         public void EditOptions_Options()
         {
             var radioButtonList = new RadioButtonList<int>();
