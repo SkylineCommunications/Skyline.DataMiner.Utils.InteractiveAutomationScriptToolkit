@@ -63,60 +63,6 @@
 		}
 
 		/// <summary>
-		///     Starts the application event loop.
-		///     Updates the displayed dialog after each user interaction.
-		///     Only user interaction on widgets with the WantsOnChange property set to true will cause updates.
-		///     Use <see cref="RequestManualMode" /> if you want to manually control when the dialog is updated.
-		/// </summary>
-		/// <param name="startDialog">Dialog to be shown first.</param>
-		[Obsolete("No need to use this specific run method anymore to show the initial dialog. You can now always use the ShowDialog method.")]
-		public void Run(Dialog startDialog)
-		{
-			if (startDialog == null)
-			{
-				throw new ArgumentNullException("startDialog");
-			}
-
-			nextDialog = startDialog;
-
-			if (IsRunning)
-			{
-				throw new InvalidOperationException("Already running");
-			}
-
-			IsRunning = true;
-			while (IsRunning)
-			{
-				try
-				{
-					if (isManualModeRequested)
-					{
-						RunManualAction();
-					}
-					else
-					{
-						CurrentDialog = nextDialog;
-						if (CurrentDialog == null)
-						{
-							IsRunning = false;
-							IsManualMode = false;
-						}
-						else
-						{
-							CurrentDialog.Show();
-						}
-					}
-				}
-				catch (Exception)
-				{
-					IsRunning = false;
-					IsManualMode = false;
-					throw;
-				}
-			}
-		}
-
-		/// <summary>
 		///		Stops the application event loop.
 		///		Use the Run method in order to start it again after stopping.
 		/// </summary>
@@ -179,6 +125,60 @@
 		{
 			Engine.HideUI();
 			nextDialog = null;
+		}
+
+
+		/// <summary>
+		///     Starts the application event loop.
+		///     Updates the displayed dialog after each user interaction.
+		///     Only user interaction on widgets with the WantsOnChange property set to true will cause updates.
+		///     Use <see cref="RequestManualMode" /> if you want to manually control when the dialog is updated.
+		/// </summary>
+		/// <param name="startDialog">Dialog to be shown first.</param>
+		private void Run(Dialog startDialog)
+		{
+			if (startDialog == null)
+			{
+				throw new ArgumentNullException("startDialog");
+			}
+
+			nextDialog = startDialog;
+
+			if (IsRunning)
+			{
+				throw new InvalidOperationException("Already running");
+			}
+
+			IsRunning = true;
+			while (IsRunning)
+			{
+				try
+				{
+					if (isManualModeRequested)
+					{
+						RunManualAction();
+					}
+					else
+					{
+						CurrentDialog = nextDialog;
+						if (CurrentDialog == null)
+						{
+							IsRunning = false;
+							IsManualMode = false;
+						}
+						else
+						{
+							CurrentDialog.Show();
+						}
+					}
+				}
+				catch (Exception)
+				{
+					IsRunning = false;
+					IsManualMode = false;
+					throw;
+				}
+			}
 		}
 
 		private void RunManualAction()
