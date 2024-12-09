@@ -12,6 +12,7 @@
 		private bool isManualModeRequested;
 		private Action manualAction;
 		private Dialog nextDialog;
+		private bool isRunning;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="InteractiveController" /> class.
@@ -45,11 +46,6 @@
 		public bool IsManualMode { get; private set; }
 
 		/// <summary>
-		///     Gets a value indicating whether the event loop has been started.
-		/// </summary>
-		public bool IsRunning { get; private set; }
-
-		/// <summary>
 		///		Gets or sets the behavior of the popup shown whenever the script is aborted.
 		///		This popup is shown when the window in which the Dialogs are shown is closed by the user and asks for confirmation whether the script can be stopped or not.
 		///		<see cref="ScriptAbortPopupBehavior.OnDialogLevel"/> causes the <see cref="Dialog.ShowScriptAbortPopup"/> value of the currently displayed Dialog to determine whether the popup should be shown or not.
@@ -77,7 +73,7 @@
 		/// </summary>
 		public void Stop()
 		{
-			IsRunning = false;
+			isRunning = false;
 		}
 
 		/// <summary>
@@ -93,7 +89,7 @@
 				throw new ArgumentNullException("dialog");
 			}
 
-			if (IsRunning)
+			if (isRunning)
 			{
 				nextDialog = dialog;
 			}
@@ -155,13 +151,13 @@
 
 			nextDialog = startDialog;
 
-			if (IsRunning)
+			if (isRunning)
 			{
 				throw new InvalidOperationException("Already running");
 			}
 
-			IsRunning = true;
-			while (IsRunning)
+			isRunning = true;
+			while (isRunning)
 			{
 				try
 				{
@@ -174,7 +170,7 @@
 						CurrentDialog = nextDialog;
 						if (CurrentDialog == null)
 						{
-							IsRunning = false;
+							isRunning = false;
 							IsManualMode = false;
 						}
 						else
@@ -186,7 +182,7 @@
 				}
 				catch (Exception)
 				{
-					IsRunning = false;
+					isRunning = false;
 					IsManualMode = false;
 					throw;
 				}
