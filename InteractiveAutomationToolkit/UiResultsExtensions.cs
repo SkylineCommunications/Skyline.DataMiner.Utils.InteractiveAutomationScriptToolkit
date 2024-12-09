@@ -4,7 +4,6 @@
 	using System.Collections.Generic;
 	using System.Globalization;
 	using System.Linq;
-	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Components;
 
 	/// <summary>
 	/// Provides a set of static methods for getting the UI changes that occured for a given widget.
