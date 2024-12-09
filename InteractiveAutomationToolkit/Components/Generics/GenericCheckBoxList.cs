@@ -356,7 +356,7 @@
 			internal CheckBoxListChangedEventArgs(Option<T> option, bool isChecked)
 			{
 				Option = option;
-				Value = option.Value;
+				Value = option == null ? default : option.Value;
 				IsChecked = isChecked;
 			}
 

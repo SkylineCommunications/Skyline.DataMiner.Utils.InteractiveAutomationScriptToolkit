@@ -291,8 +291,8 @@
 				SelectedOption = selected;
 				PreviousOption = previous;
 
-				Selected = selected.Value;
-				Previous = previous.Value;
+				Selected = selected == null ? default : selected.Value;
+				Previous = previous == null ? default : previous.Value;
 			}
 
 			/// <summary>
