@@ -219,7 +219,7 @@
 		///     Automation script.
 		/// </param>
 		/// <remarks><see cref="InteractiveWidget.DestVar" /> should be used as key to get the changes for this widget.</remarks>
-		protected internal override void LoadResult(UIResults uiResults)
+		protected internal override void LoadResult(IUIResults uiResults)
 		{
 			string value = uiResults.GetString(this);
 			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);

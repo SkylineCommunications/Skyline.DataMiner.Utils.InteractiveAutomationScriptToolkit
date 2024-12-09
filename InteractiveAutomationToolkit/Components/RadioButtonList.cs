@@ -4,12 +4,10 @@
 	using System.Collections.Generic;
 	using System.Linq;
 
-	using Skyline.DataMiner.Automation;
-
 	/// <summary>
 	///     A group of radio buttons.
 	/// </summary>
-	public class RadioButtonList : InteractiveWidget
+	public class RadioButtonList : RadioButtonListBase, IRadioButtonList
 	{
 		private readonly HashSet<string> options = new HashSet<string>();
 		private bool changed;
@@ -29,10 +27,8 @@
 		/// <param name="selected">Selected option.</param>
 		public RadioButtonList(IEnumerable<string> options, string selected = null)
 		{
-			Type = UIBlockType.RadioButtonList;
 			SetOptions(options);
 			Selected = selected;
-			IsReadOnly = false;
 		}
 
 		/// <summary>
@@ -59,26 +55,7 @@
 
 		private event EventHandler<RadioButtonChangedEventArgs> OnChanged;
 
-		/// <summary>
-		///     Gets or sets a value indicating whether the options are sorted naturally.
-		/// </summary>
-		/// <remarks>Available from DataMiner 9.5.6 onwards.</remarks>
-		public bool IsSorted
-		{
-			get
-			{
-				return BlockDefinition.IsSorted;
-			}
-
-			set
-			{
-				BlockDefinition.IsSorted = value;
-			}
-		}
-
-		/// <summary>
-		///     Gets or sets all options.
-		/// </summary>
+		/// <inheritdoc/>
 		public IEnumerable<string> Options
 		{
 			get
@@ -92,31 +69,7 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the tooltip.
-		/// </summary>
-		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
-		public string Tooltip
-		{
-			get
-			{
-				return BlockDefinition.TooltipText;
-			}
-
-			set
-			{
-				if (value == null)
-				{
-					throw new ArgumentNullException("value");
-				}
-
-				BlockDefinition.TooltipText = value;
-			}
-		}
-
-		/// <summary>
-		///     Gets or sets the selected option.
-		/// </summary>
+		/// <inheritdoc/>
 		public string Selected
 		{
 			get
@@ -130,29 +83,7 @@
 			}
 		}
 
-		/// <summary>
-		///		Gets or sets a value indicating whether the control is displayed in read-only mode.
-		///		Read-only mode causes the widgets to appear read-write but the user won't be able to change their value.
-		///		This only affects interactive scripts running in a web environment.
-		/// </summary>
-		/// <remarks>Available from DataMiner 10.4.1 onwards.</remarks>
-		public virtual bool IsReadOnly
-		{
-			get
-			{
-				return BlockDefinition.IsReadOnly;
-			}
-
-			set
-			{
-				BlockDefinition.IsReadOnly = value;
-			}
-		}
-
-		/// <summary>
-		///     Adds a radio button to the group.
-		/// </summary>
-		/// <param name="option">Option to add.</param>
+		/// <inheritdoc/>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		public void AddOption(string option)
 		{
@@ -168,10 +99,7 @@
 			}
 		}
 
-		/// <summary>
-		/// 	Removes an option from the radio button list.
-		/// </summary>
-		/// <param name="option">Option to remove.</param>
+		/// <inheritdoc/>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		public void RemoveOption(string option)
 		{
@@ -195,28 +123,24 @@
 			}
 		}
 
-		/// <summary>
-		///     Sets the displayed options.
-		///     Replaces existing options.
-		/// </summary>
-		/// <param name="optionsToSet">Options to set.</param>
+		/// <inheritdoc/>
 		/// <exception cref="ArgumentNullException">When optionsToSet is null.</exception>
-		public void SetOptions(IEnumerable<string> optionsToSet)
+		public void SetOptions(IEnumerable<string> options)
 		{
-			if (optionsToSet == null)
+			if (options == null)
 			{
-				throw new ArgumentNullException("optionsToSet");
+				throw new ArgumentNullException(nameof(options));
 			}
 
 			ClearOptions();
-			foreach (string option in optionsToSet)
+			foreach (string option in options)
 			{
 				AddOption(option);
 			}
 
-			if (Selected == null || !optionsToSet.Contains(Selected))
+			if (Selected == null || !options.Contains(Selected))
 			{
-				Selected = optionsToSet.FirstOrDefault();
+				Selected = null;
 			}
 		}
 
@@ -228,7 +152,7 @@
 		///     Automation script.
 		/// </param>
 		/// <remarks><see cref="InteractiveWidget.DestVar" /> should be used as key to get the changes for this widget.</remarks>
-		protected internal override void LoadResult(UIResults uiResults)
+		protected internal override void LoadResult(IUIResults uiResults)
 		{
 			string result = uiResults.GetString(this);
 

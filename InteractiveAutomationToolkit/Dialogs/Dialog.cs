@@ -606,7 +606,7 @@
 			UIBuilder uib = Build();
 			uib.RequireResponse = requireResponse;
 
-			UIResults uir = Engine.ShowUI(uib);
+			IUIResults uir = new WrappedUIResults(Engine.ShowUI(uib));
 
 			if (requireResponse)
 			{
@@ -880,7 +880,7 @@
 			}
 		}
 
-		private void LoadChanges(UIResults uir)
+		private void LoadChanges(IUIResults uir)
 		{
 			foreach (InteractiveWidget interactiveWidget in Widgets.OfType<InteractiveWidget>())
 			{
@@ -891,7 +891,7 @@
 			}
 		}
 
-		private void RaiseResultEvents(UIResults uir)
+		private void RaiseResultEvents(IUIResults uir)
 		{
 			Interacted?.Invoke(this, EventArgs.Empty);
 

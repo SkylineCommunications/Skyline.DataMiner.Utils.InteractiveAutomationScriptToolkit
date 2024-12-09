@@ -1,4 +1,4 @@
-﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript.Components
+﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 {
 	using System;
 	using System.Linq;
@@ -52,7 +52,7 @@
 		private event EventHandler<EventArgs> OnDownloadStarted;
 
 		/// <summary>
-		///     Gets or sets the text style of the DownloadButton.
+		///     Gets or sets the <see cref="ButtonStyle"/> of the <see cref="DownloadButton" />.
 		/// </summary>
 		public ButtonStyle Style
 		{
@@ -69,7 +69,7 @@
 		}
 
 		/// <summary>
-		///     Gets or sets the text displayed in the DownloadButton.
+		///     Gets or sets the text displayed in the <see cref="DownloadButton" />.
 		/// </summary>
 		public string Text
 		{
@@ -137,7 +137,7 @@
 			}
 		}
 
-		protected internal override void LoadResult(UIResults uiResults)
+		protected internal override void LoadResult(IUIResults uiResults)
 		{
 			if (DownloadButtonOptions.ReturnWhenDownloadIsStarted)
 			{
