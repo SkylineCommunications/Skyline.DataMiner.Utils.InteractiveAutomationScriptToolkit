@@ -225,7 +225,7 @@
 
 			if (SelectedOption == null || !options.Contains(SelectedOption))
 			{
-				SelectedOption = options.FirstOrDefault();
+				SelectedOption = null;
 			}
 		}
 

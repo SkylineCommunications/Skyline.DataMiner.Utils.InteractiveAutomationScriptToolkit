@@ -140,7 +140,7 @@
 
 			if (Selected == null || !options.Contains(Selected))
 			{
-				Selected = options.FirstOrDefault();
+				Selected = null;
 			}
 		}
 

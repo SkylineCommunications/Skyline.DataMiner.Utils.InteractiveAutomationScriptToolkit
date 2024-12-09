@@ -68,7 +68,7 @@ namespace InteractiveAutomationToolkitTests
         }
 
         [TestMethod]
-        public void SetOptionsTest_NothingSelected()
+        public void SetValuesTest_NothingSelected()
         {
             var options = new[] { 1, 2, 3 };
             var radioButtonList = new RadioButtonList<int>(options);
@@ -83,6 +83,21 @@ namespace InteractiveAutomationToolkitTests
         }
 
         [TestMethod]
+        public void SetOptionsTest_NothingSelected()
+        {
+            var options = new[] { new Option<int>("1", 1), new Option<int>("2", 2), new Option<int>("3", 3) };
+            var radioButtonList = new RadioButtonList<int>(options);
+
+            Assert.AreEqual(null, radioButtonList.SelectedOption);
+            Assert.AreEqual(0, radioButtonList.Selected);
+
+            radioButtonList.SetOptions(new[] { new Option<int>("4", 4), new Option<int>("5", 5), new Option<int>("6", 6) });
+
+            Assert.AreEqual(null, radioButtonList.SelectedOption);
+            Assert.AreEqual(0, radioButtonList.Selected);
+        }
+
+        [TestMethod]
         public void EditOptions_Options()
         {
             var radioButtonList = new RadioButtonList<int>();
@@ -90,8 +105,8 @@ namespace InteractiveAutomationToolkitTests
             var options = new[] { new Option<int>("1", 1), new Option<int>("2", 2) };
             radioButtonList.SetOptions(options);
 
-            Assert.AreEqual(options[0], radioButtonList.SelectedOption);
-            Assert.AreEqual(1, radioButtonList.Selected);
+            Assert.AreEqual(null, radioButtonList.SelectedOption);
+            Assert.AreEqual(0, radioButtonList.Selected);
 
             Assert.AreEqual(2, radioButtonList.Options.Count());
 
@@ -128,8 +143,8 @@ namespace InteractiveAutomationToolkitTests
             var options = new[] { 1, 2 };
             radioButtonList.SetOptions(options);
 
-            Assert.AreEqual(new Option<int>("1", 1), radioButtonList.SelectedOption);
-            Assert.AreEqual(1, radioButtonList.Selected);
+            Assert.AreEqual(null, radioButtonList.SelectedOption);
+            Assert.AreEqual(0, radioButtonList.Selected);
 
             Assert.AreEqual(2, radioButtonList.Options.Count());
 
