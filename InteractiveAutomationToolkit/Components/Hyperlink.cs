@@ -9,8 +9,7 @@
 	/// </summary>
 	public class Hyperlink : InteractiveWidget
 	{
-		private readonly AutomationDownloadButtonOptions downloadButtonOptions;
-
+		private AutomationDownloadButtonOptions downloadButtonOptions;
 		private bool downloadStarted;
 		private ButtonStyle style;
 
@@ -30,9 +29,11 @@
 		public Hyperlink(string displayedText, Uri url)
 		{
 			Type = UIBlockType.DownloadButton;
-			downloadButtonOptions = new AutomationDownloadButtonOptions();
-			downloadButtonOptions.FileNameToSave = String.Empty;
-			downloadButtonOptions.StartDownloadImmediately = false;
+			DownloadButtonOptions = new AutomationDownloadButtonOptions
+			{
+				FileNameToSave = String.Empty,
+				StartDownloadImmediately = false
+			};
 
 			DisplayedText = displayedText;
 			Url = url;
@@ -46,7 +47,7 @@
 			add
 			{
 				OnLinkClicked += value;
-				downloadButtonOptions.ReturnWhenDownloadIsStarted = true;
+				DownloadButtonOptions.ReturnWhenDownloadIsStarted = true;
 			}
 
 			remove
@@ -54,7 +55,7 @@
 				OnLinkClicked -= value;
 				if (OnLinkClicked == null || !OnLinkClicked.GetInvocationList().Any())
 				{
-					downloadButtonOptions.ReturnWhenDownloadIsStarted = false;
+					DownloadButtonOptions.ReturnWhenDownloadIsStarted = false;
 				}
 			}
 		}
@@ -104,20 +105,42 @@
 		{
 			get
 			{
-				if (Uri.TryCreate(downloadButtonOptions.Url, UriKind.RelativeOrAbsolute, out Uri result)) return result;
+				if (Uri.TryCreate(DownloadButtonOptions.Url, UriKind.RelativeOrAbsolute, out Uri result)) return result;
 				return null;
 			}
 
 			set
 			{
 				if (value == null) throw new ArgumentNullException("value");
-				downloadButtonOptions.Url = value.ToString();
+				DownloadButtonOptions.Url = value.ToString();
+			}
+		}
+
+		/// <summary>
+		///		Gets or sets the configuration of this <see cref="AutomationDownloadButtonOptions" /> instance.
+		/// </summary>
+		private AutomationDownloadButtonOptions DownloadButtonOptions
+		{
+			get
+			{
+				return downloadButtonOptions;
+			}
+
+			set
+			{
+				if (value == null)
+				{
+					throw new ArgumentNullException("value");
+				}
+
+				downloadButtonOptions = value;
+				BlockDefinition.ConfigOptions = value;
 			}
 		}
 
 		protected internal override void LoadResult(IUIResults uiResults)
 		{
-			if (downloadButtonOptions.ReturnWhenDownloadIsStarted)
+			if (DownloadButtonOptions.ReturnWhenDownloadIsStarted)
 			{
 				downloadStarted = uiResults.WasHyperlinkOpened(this);
 			}
