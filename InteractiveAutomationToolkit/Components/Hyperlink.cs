@@ -30,12 +30,12 @@
 		public Hyperlink(string displayedText, Uri url)
 		{
 			Type = UIBlockType.DownloadButton;
-			DisplayedText = displayedText;
-			Url = url;
-
 			downloadButtonOptions = new AutomationDownloadButtonOptions();
 			downloadButtonOptions.FileNameToSave = String.Empty;
 			downloadButtonOptions.StartDownloadImmediately = false;
+
+			DisplayedText = displayedText;
+			Url = url;
 		}
 
 		/// <summary>
