@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Skyline.DataMiner.Automation;
+using System;
 
 namespace Skyline.DataMiner.Utils.InteractiveAutomationScript.Tests
 {
@@ -43,19 +44,121 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript.Tests
             Assert.IsTrue(uiBuilder.SkipAbortConfirmation);
         }
 
-        //[TestMethod]
-        public void ShowDialogTest()
+        [TestMethod]
+        public void ScriptPopupBehavior_Default()
         {
             var mockedEngine = new Mock<IEngine>();
-            mockedEngine.Setup(x => x.ShowUI(It.IsAny<UIBuilder>())).Returns(new UIResults());
-            mockedEngine.Setup(x => x.ShowUI(It.IsAny<string>())).Returns(new UIResults());
-            mockedEngine.Setup(x => x.ShowUI(It.IsAny<string>(), It.IsAny<bool>())).Returns(new UIResults());
+            mockedEngine.Setup(x => x.ShowUI(It.IsAny<UIBuilder>())).Throws(new InvalidOperationException());
+            mockedEngine.Setup(x => x.ShowUI(It.IsAny<string>())).Throws(new InvalidOperationException());
+            mockedEngine.Setup(x => x.ShowUI(It.IsAny<string>(), It.IsAny<bool>())).Throws(new InvalidOperationException());
 
             var dialog = new TestDialog(mockedEngine.Object);
 
             var controller = new InteractiveController(mockedEngine.Object);
 
-            controller.ShowDialog(dialog);
+            Assert.ThrowsException<InvalidOperationException>(() => controller.ShowDialog(dialog));
+
+            Assert.IsTrue(dialog.ShowScriptAbortPopup);
+        }
+
+        [TestMethod]
+        public void ScriptPopupBehavior_OnDialogLevel_Enabled()
+        {
+            var mockedEngine = new Mock<IEngine>();
+            mockedEngine.Setup(x => x.ShowUI(It.IsAny<UIBuilder>())).Throws(new InvalidOperationException());
+            mockedEngine.Setup(x => x.ShowUI(It.IsAny<string>())).Throws(new InvalidOperationException());
+            mockedEngine.Setup(x => x.ShowUI(It.IsAny<string>(), It.IsAny<bool>())).Throws(new InvalidOperationException());
+
+            var dialog = new TestDialog(mockedEngine.Object) { ShowScriptAbortPopup = true };
+
+            var controller = new InteractiveController(mockedEngine.Object) { ScriptAbortPopupBehavior = ScriptAbortPopupBehavior.OnDialogLevel };
+
+            Assert.ThrowsException<InvalidOperationException>(() => controller.ShowDialog(dialog));
+
+            Assert.IsTrue(dialog.ShowScriptAbortPopup);
+        }
+
+        [TestMethod]
+        public void ScriptPopupBehavior_OnDialogLevel_Disabled()
+        {
+            var mockedEngine = new Mock<IEngine>();
+            mockedEngine.Setup(x => x.ShowUI(It.IsAny<UIBuilder>())).Throws(new InvalidOperationException());
+            mockedEngine.Setup(x => x.ShowUI(It.IsAny<string>())).Throws(new InvalidOperationException());
+            mockedEngine.Setup(x => x.ShowUI(It.IsAny<string>(), It.IsAny<bool>())).Throws(new InvalidOperationException());
+
+            var dialog = new TestDialog(mockedEngine.Object) { ShowScriptAbortPopup = false };
+
+            var controller = new InteractiveController(mockedEngine.Object) { ScriptAbortPopupBehavior = ScriptAbortPopupBehavior.OnDialogLevel };
+
+            Assert.ThrowsException<InvalidOperationException>(() => controller.ShowDialog(dialog));
+
+            Assert.IsFalse(dialog.ShowScriptAbortPopup);
+        }
+
+        [TestMethod]
+        public void ScriptPopupBehavior_HideAlways_Enabled()
+        {
+            var mockedEngine = new Mock<IEngine>();
+            mockedEngine.Setup(x => x.ShowUI(It.IsAny<UIBuilder>())).Throws(new InvalidOperationException());
+            mockedEngine.Setup(x => x.ShowUI(It.IsAny<string>())).Throws(new InvalidOperationException());
+            mockedEngine.Setup(x => x.ShowUI(It.IsAny<string>(), It.IsAny<bool>())).Throws(new InvalidOperationException());
+
+            var dialog = new TestDialog(mockedEngine.Object) { ShowScriptAbortPopup = true };
+
+            var controller = new InteractiveController(mockedEngine.Object) { ScriptAbortPopupBehavior = ScriptAbortPopupBehavior.HideAlways };
+
+            Assert.ThrowsException<InvalidOperationException>(() => controller.ShowDialog(dialog));
+
+            Assert.IsFalse(dialog.ShowScriptAbortPopup);
+        }
+
+        [TestMethod]
+        public void ScriptPopupBehavior_HideAlways_Disabled()
+        {
+            var mockedEngine = new Mock<IEngine>();
+            mockedEngine.Setup(x => x.ShowUI(It.IsAny<UIBuilder>())).Throws(new InvalidOperationException());
+            mockedEngine.Setup(x => x.ShowUI(It.IsAny<string>())).Throws(new InvalidOperationException());
+            mockedEngine.Setup(x => x.ShowUI(It.IsAny<string>(), It.IsAny<bool>())).Throws(new InvalidOperationException());
+
+            var dialog = new TestDialog(mockedEngine.Object) { ShowScriptAbortPopup = false };
+
+            var controller = new InteractiveController(mockedEngine.Object) { ScriptAbortPopupBehavior = ScriptAbortPopupBehavior.HideAlways };
+
+            Assert.ThrowsException<InvalidOperationException>(() => controller.ShowDialog(dialog));
+
+            Assert.IsFalse(dialog.ShowScriptAbortPopup);
+        }
+
+        [TestMethod]
+        public void ScriptPopupBehavior_ShowAlways_Enabled()
+        {
+            var mockedEngine = new Mock<IEngine>();
+            mockedEngine.Setup(x => x.ShowUI(It.IsAny<UIBuilder>())).Throws(new InvalidOperationException());
+            mockedEngine.Setup(x => x.ShowUI(It.IsAny<string>())).Throws(new InvalidOperationException());
+            mockedEngine.Setup(x => x.ShowUI(It.IsAny<string>(), It.IsAny<bool>())).Throws(new InvalidOperationException());
+
+            var dialog = new TestDialog(mockedEngine.Object) { ShowScriptAbortPopup = true };
+
+            var controller = new InteractiveController(mockedEngine.Object) { ScriptAbortPopupBehavior = ScriptAbortPopupBehavior.ShowAlways };
+
+            Assert.ThrowsException<InvalidOperationException>(() => controller.ShowDialog(dialog));
+
+            Assert.IsTrue(dialog.ShowScriptAbortPopup);
+        }
+
+        [TestMethod]
+        public void ScriptPopupBehavior_ShowAlways_Disabled()
+        {
+            var mockedEngine = new Mock<IEngine>();
+            mockedEngine.Setup(x => x.ShowUI(It.IsAny<UIBuilder>())).Throws(new InvalidOperationException());
+            mockedEngine.Setup(x => x.ShowUI(It.IsAny<string>())).Throws(new InvalidOperationException());
+            mockedEngine.Setup(x => x.ShowUI(It.IsAny<string>(), It.IsAny<bool>())).Throws(new InvalidOperationException());
+
+            var dialog = new TestDialog(mockedEngine.Object) { ShowScriptAbortPopup = false };
+
+            var controller = new InteractiveController(mockedEngine.Object) { ScriptAbortPopupBehavior = ScriptAbortPopupBehavior.ShowAlways };
+
+            Assert.ThrowsException<InvalidOperationException>(() => controller.ShowDialog(dialog));
 
             Assert.IsTrue(dialog.ShowScriptAbortPopup);
         }

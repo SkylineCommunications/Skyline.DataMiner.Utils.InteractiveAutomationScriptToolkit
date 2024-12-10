@@ -202,10 +202,10 @@
 			switch (ScriptAbortPopupBehavior)
 			{
 				case ScriptAbortPopupBehavior.HideAlways:
-					dialog.ShowScriptAbortPopup = true;
+					dialog.ShowScriptAbortPopup = false;
 					return;
 				case ScriptAbortPopupBehavior.ShowAlways:
-					dialog.ShowScriptAbortPopup = false;
+					dialog.ShowScriptAbortPopup = true;
 					return;
 				default:
 					// Behavior is defined on Dialog level
