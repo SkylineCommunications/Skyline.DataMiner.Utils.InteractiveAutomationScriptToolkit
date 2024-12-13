@@ -8,7 +8,7 @@
 	/// <summary>
 	///     Widget that is used to edit and display text.
 	/// </summary>
-	public class TextBox : InteractiveWidget
+	public class TextBox : InteractiveWidget, IValidationWidget
 	{
 		private bool changed;
 		private bool focusLost;

@@ -3,7 +3,7 @@
 	using System;
 	using Skyline.DataMiner.Automation;
 
-	public interface IDropDownBase
+	public interface IDropDownBase : IValidationWidget
 	{
 		/// <summary>
 		///     Gets or sets a value indicating whether a filter box is available for the drop-down list.
@@ -27,17 +27,5 @@
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
 		string Tooltip { get; set; }
-
-		/// <summary>
-		/// 	Gets or sets the state indicating if a given input field was validated or not and if the validation was valid.
-		/// 	This should be used by the client to add a visual marker on the input field.
-		/// </summary>
-		UIValidationState ValidationState { get; set; }
-
-		/// <summary>
-		/// 	Gets or sets the text that is shown if the validation state is invalid.
-		/// 	This should be used by the client to add a visual marker on the input field.
-		/// </summary>
-		string ValidationText { get; set; }
 	}
 }

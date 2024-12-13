@@ -20,5 +20,4 @@
 		/// </summary>
 		string Tooltip { get; set; }
 	}
-
 }

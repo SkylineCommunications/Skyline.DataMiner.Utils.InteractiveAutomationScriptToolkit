@@ -9,7 +9,7 @@
 	/// <summary>
 	///     Widget to show/edit a datetime.
 	/// </summary>
-	public class Calendar : InteractiveWidget
+	public class Calendar : InteractiveWidget, IValidationWidget
 	{
 		private bool changed;
 		private bool focusLost;

@@ -9,7 +9,7 @@
 	/// <summary>
 	///     Widget to show/edit a datetime.
 	/// </summary>
-	public class DateTimePicker : TimePickerBase
+	public class DateTimePicker : TimePickerBase, IValidationWidget
 	{
 		private readonly AutomationDateTimePickerOptions dateTimePickerOptions;
 

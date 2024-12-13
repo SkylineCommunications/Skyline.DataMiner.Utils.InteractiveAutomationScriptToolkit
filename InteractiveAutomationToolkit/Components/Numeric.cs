@@ -10,7 +10,7 @@
 	///     A spinner or numeric up-down control.
 	///     Has a slider when the range is limited.
 	/// </summary>
-	public class Numeric : InteractiveWidget
+	public class Numeric : InteractiveWidget, IValidationWidget
 	{
 		private bool changed;
 		private bool focusLost;

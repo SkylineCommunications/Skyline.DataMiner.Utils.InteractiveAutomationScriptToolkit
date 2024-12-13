@@ -3,9 +3,9 @@
 	using Skyline.DataMiner.Automation;
 
 	/// <summary>
-	/// Defines the base functionality for a checkboxlist widget, including properties for state management and validation.
+	/// Defines the base functionality for a checkboxlist widget, including properties for state management.
 	/// </summary>
-	public interface ICheckBoxListBase
+	public interface ICheckBoxListBase : IValidationWidget
 	{
 		/// <summary>
 		/// Gets or sets a value indicating whether the checkboxlist is read-only.
@@ -21,16 +21,6 @@
 		/// Gets or sets the tooltip text associated with the checkboxlist.
 		/// </summary>
 		string Tooltip { get; set; }
-
-		/// <summary>
-		/// Gets or sets the validation state of the checkboxlist.
-		/// </summary>
-		UIValidationState ValidationState { get; set; }
-
-		/// <summary>
-		/// Gets or sets the validation text to display for the checkboxlist.
-		/// </summary>
-		string ValidationText { get; set; }
 
 		/// <summary>
 		/// Checks all options in the checkboxlist.
