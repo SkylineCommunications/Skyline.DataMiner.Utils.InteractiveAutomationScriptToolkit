@@ -10,7 +10,7 @@
 	/// <summary>
 	/// Widget that can be used to upload files to the DMA.
 	/// </summary>
-	public class FileSelector : InteractiveWidget
+	public class FileSelector : InteractiveWidget, IValidationWidget
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FileSelector"/> class.

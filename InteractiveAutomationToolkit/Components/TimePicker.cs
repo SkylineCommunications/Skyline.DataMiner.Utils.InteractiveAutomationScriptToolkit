@@ -9,7 +9,7 @@
 	/// <summary>
 	///     Widget to show/edit a time of day.
 	/// </summary>
-	public class TimePicker : TimePickerBase
+	public class TimePicker : TimePickerBase, IValidationWidget
 	{
 		private bool changed;
 		private bool focusLost;

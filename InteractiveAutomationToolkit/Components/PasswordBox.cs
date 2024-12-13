@@ -8,7 +8,7 @@
 	///     A text box for passwords.
 	/// </summary>
 	/// <remarks>Available from DataMiner 9.6.6 onwards.</remarks>
-	public class PasswordBox : InteractiveWidget
+	public class PasswordBox : InteractiveWidget, IValidationWidget
 	{
 		/// <summary>
 		///     Initializes a new instance of the <see cref="PasswordBox" /> class.

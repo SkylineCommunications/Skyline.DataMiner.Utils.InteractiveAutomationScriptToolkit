@@ -9,7 +9,7 @@
 	/// <summary>
 	///     Widget to show/edit a time duration.
 	/// </summary>
-	public class Time : InteractiveWidget
+	public class Time : InteractiveWidget, IValidationWidget
 	{
 		private bool changed;
 		private bool focusLost;
