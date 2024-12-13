@@ -207,6 +207,18 @@
 		}
 
 		/// <summary>
+		/// Adds the widgets from the section to the section.
+		/// </summary>
+		/// <param name="section">Section to be added to the section.</param>
+		/// <param name="row">Row of the section within the parent section.</param>
+		/// <param name="column">Column of the section within the parent section.</param>
+		/// <returns>The updated section.</returns>
+		public Section AddSection(Section section, int row, int column)
+		{
+			return AddSection(section, new SectionLayout(row, column));
+		}
+
+		/// <summary>
 		///     Gets the layout of the widget in the dialog.
 		/// </summary>
 		/// <param name="widget">A widget that is part of the dialog.</param>
