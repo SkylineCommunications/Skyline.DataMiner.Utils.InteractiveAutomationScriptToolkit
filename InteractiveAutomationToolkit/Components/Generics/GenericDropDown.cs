@@ -45,10 +45,10 @@
 		/// <param name="options">Options to be displayed in the list.</param>
 		/// <param name="selected">The selected item in the list.</param>
 		/// <exception cref="ArgumentNullException">When options is null.</exception>
-		public DropDown(IEnumerable<Option<T>> options, Option<T> selected = null)
+		public DropDown(IEnumerable<Option<T>> options, Option<T> selected = default)
 		{
 			SetOptions(options);
-			if (selected != null) SelectedOption = selected;
+			SelectedOption = selected;
 		}
 
 		/// <summary>
@@ -137,7 +137,13 @@
 
 			set
 			{
-				var option = dropDownOptions.FirstOrDefault(x => Object.Equals(x.Value, value)) ?? throw new ArgumentException($"No option available where the value of the option matches the given value");
+				var option = dropDownOptions.FirstOrDefault(x => Object.Equals(x.Value, value));
+
+				if (!Equals(option.Value, value))
+				{
+					throw new ArgumentException($"No option available where the value of the option matches the given value");
+				}
+
 				SelectedOption = option;
 			}
 		}
@@ -180,7 +186,7 @@
 				AddOption(option);
 			}
 
-			if (SelectedOption == null || !options.Contains(SelectedOption))
+			if (!options.Contains(SelectedOption))
 			{
 				SelectedOption = options.FirstOrDefault();
 			}

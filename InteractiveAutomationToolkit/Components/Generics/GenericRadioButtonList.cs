@@ -44,7 +44,7 @@
 		/// </summary>
 		/// <param name="options">Name of options that can be selected.</param>
 		/// <param name="selected">Selected option.</param>
-		public RadioButtonList(IEnumerable<Option<T>> options, Option<T> selected = null)
+		public RadioButtonList(IEnumerable<Option<T>> options, Option<T> selected = default)
 		{
 			SetOptions(options);
 			SelectedOption = selected;
@@ -142,7 +142,13 @@
 
 			set
 			{
-				var option = radioButtonListOptions.FirstOrDefault(x => Object.Equals(x.Value, value)) ?? throw new ArgumentException($"No option available where the value of the option matches the given value");
+				var option = radioButtonListOptions.FirstOrDefault(x => Object.Equals(x.Value, value));
+
+				if (!Equals(option.Value, value))
+				{
+					throw new ArgumentException($"No option available where the value of the option matches the given value");
+				}
+
 				SelectedOption = option;
 			}
 		}
@@ -223,9 +229,9 @@
 				AddOption(option);
 			}
 
-			if (SelectedOption == null || !options.Contains(SelectedOption))
+			if (!options.Contains(SelectedOption))
 			{
-				SelectedOption = null;
+				SelectedOption = options.FirstOrDefault();
 			}
 		}
 
@@ -258,7 +264,7 @@
 			foreach (string checkedOption in checkedOptions)
 			{
 				if (String.IsNullOrEmpty(checkedOption)) continue;
-				if (String.Equals(checkedOption, SelectedOption?.DisplayValue)) continue;
+				if (String.Equals(checkedOption, SelectedOption.DisplayValue)) continue;
 
 				var selectedOption = radioButtonListOptions.FirstOrDefault(x => x.DisplayValue.Equals(checkedOption));
 
