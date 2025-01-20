@@ -5,6 +5,8 @@
 
 	public abstract class DropDownBase : InteractiveWidget, IDropDownBase
 	{
+		private string placeHolder;
+
 		protected DropDownBase()
 		{
 			Type = UIBlockType.DropDown;
@@ -107,5 +109,19 @@
 				BlockDefinition.IsReadOnly = value;
 			}
 		}
+
+		public string PlaceHolder
+		{
+			get => placeHolder;
+			set
+			{
+				if (value == null) throw new ArgumentNullException(nameof(value));
+
+				placeHolder = value;
+				BlockDefinition.InitialValue = value;
+			}
+		}
+
+		protected bool IsPlaceHolderDisplayed => String.Equals(BlockDefinition.InitialValue, placeHolder);
 	}
 }

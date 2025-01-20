@@ -109,6 +109,7 @@
 		{
 			get
 			{
+				if (IsPlaceHolderDisplayed) return null;
 				return dropDownOptions.FirstOrDefault(x => x.DisplayValue.Equals(BlockDefinition.InitialValue));
 			}
 
@@ -131,7 +132,7 @@
 		{
 			get
 			{
-				if (SelectedOption == null) return default;
+				if (IsPlaceHolderDisplayed || SelectedOption == null) return default;
 				return SelectedOption.Value;
 			}
 
@@ -179,6 +180,8 @@
 			{
 				AddOption(option);
 			}
+
+			if (IsPlaceHolderDisplayed) return;
 
 			if (SelectedOption == null || !options.Contains(SelectedOption))
 			{
@@ -273,7 +276,9 @@
 		private void ClearOptions()
 		{
 			dropDownOptions.Clear();
+			bool isPlaceHolderDisplayed = IsPlaceHolderDisplayed;
 			RecreateUiBlock();
+			if (isPlaceHolderDisplayed) BlockDefinition.InitialValue = PlaceHolder;
 		}
 
 		/// <summary>

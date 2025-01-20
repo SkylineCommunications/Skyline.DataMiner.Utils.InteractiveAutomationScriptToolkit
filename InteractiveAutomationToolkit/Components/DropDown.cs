@@ -78,11 +78,13 @@
 		{
 			get
 			{
+				if (String.Equals(BlockDefinition.InitialValue, PlaceHolder)) return null;
 				return BlockDefinition.InitialValue;
 			}
 
 			set
 			{
+				if (!options.Contains(value)) throw new ArgumentException($"Value is not defined as an option");
 				BlockDefinition.InitialValue = value;
 			}
 		}
@@ -112,11 +114,18 @@
 				throw new ArgumentNullException(nameof(options));
 			}
 
+			if (options.Any(x => x == null))
+			{
+				throw new ArgumentException($"{nameof(options)} cannot contain null values");
+			}
+
 			ClearOptions();
 			foreach (string option in options)
 			{
 				AddOption(option);
 			}
+
+			if (IsPlaceHolderDisplayed) return;
 
 			if (Selected == null || !options.Contains(Selected))
 			{
@@ -158,7 +167,12 @@
 		/// <remarks><see cref="InteractiveWidget.DestVar" /> should be used as key to get the changes for this widget.</remarks>
 		protected internal override void LoadResult(IUIResults uiResults)
 		{
-			string selectedValue = uiResults.GetString(this);
+			string selectedValue = options.FirstOrDefault(x => x.Equals(uiResults.GetString(this)));
+
+			if (selectedValue == null)
+			{
+				return;
+			}
 
 			if (BlockDefinition.WantsOnChange)
 			{
@@ -187,7 +201,9 @@
 		private void ClearOptions()
 		{
 			options.Clear();
+			bool isPlaceHolderDisplayed = IsPlaceHolderDisplayed;
 			RecreateUiBlock();
+			if (isPlaceHolderDisplayed) BlockDefinition.InitialValue = PlaceHolder;
 		}
 
 		/// <summary>
