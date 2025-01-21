@@ -153,12 +153,12 @@
 				throw new ArgumentNullException("option");
 			}
 
-			if (!checkBoxListOptions.ContainsKey(option))
+			if (!checkBoxListOptions.TryGetValue(option, out var currentValue))
 			{
 				throw new ArgumentException($"Option is not defined as a valid option");
 			}
 
-			if (!checkBoxListOptions[option])
+			if (!currentValue)
 			{
 				checkBoxListOptions[option] = true;
 				BlockDefinition.InitialValue = string.Join(";", BlockDefinition.InitialValue, option.DisplayValue);
@@ -249,12 +249,12 @@
 				throw new ArgumentNullException("option");
 			}
 
-			if (!checkBoxListOptions.ContainsKey(option))
+			if (!checkBoxListOptions.TryGetValue(option, out var currentValue))
 			{
 				throw new ArgumentException("CheckboxList does not have option: " + option);
 			}
 
-			if (checkBoxListOptions[option])
+			if (currentValue)
 			{
 				checkBoxListOptions[option] = false;
 				BlockDefinition.InitialValue = string.Join(";", CheckedOptions.Select(x => x.DisplayValue));
