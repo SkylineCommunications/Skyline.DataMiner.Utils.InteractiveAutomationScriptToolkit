@@ -143,12 +143,12 @@
 		/// <exception cref="ArgumentException">When the option does not exist.</exception>
 		public void Check(Option<T> option)
 		{
-			if (!checkBoxListOptions.ContainsKey(option))
+			if (!checkBoxListOptions.TryGetValue(option, out var currentValue))
 			{
 				throw new ArgumentException($"Option is not defined as a valid option");
 			}
 
-			if (!checkBoxListOptions[option])
+			if (!currentValue)
 			{
 				checkBoxListOptions[option] = true;
 				BlockDefinition.InitialValue = string.Join(";", BlockDefinition.InitialValue, option.DisplayValue);
@@ -229,12 +229,12 @@
 		/// <exception cref="ArgumentException">When the option does not exist.</exception>
 		public void Uncheck(Option<T> option)
 		{
-			if (!checkBoxListOptions.ContainsKey(option))
+			if (!checkBoxListOptions.TryGetValue(option, out var currentValue))
 			{
 				throw new ArgumentException("CheckboxList does not have option: " + option);
 			}
 
-			if (checkBoxListOptions[option])
+			if (currentValue)
 			{
 				checkBoxListOptions[option] = false;
 				BlockDefinition.InitialValue = string.Join(";", CheckedOptions.Select(x => x.DisplayValue));
