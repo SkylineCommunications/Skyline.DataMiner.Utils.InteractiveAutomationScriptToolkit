@@ -114,7 +114,7 @@
 
 			set
 			{
-				if (value == null)
+				if (value == Option<T>.Empty)
 				{
 					BlockDefinition.InitialValue = null;
 					return;
@@ -131,7 +131,6 @@
 		{
 			get
 			{
-				if (SelectedOption == null) return default;
 				return SelectedOption.Value;
 			}
 
@@ -152,11 +151,6 @@
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		public void AddOption(Option<T> option)
 		{
-			if (option == null)
-			{
-				throw new ArgumentNullException("option");
-			}
-
 			if (!dropDownOptions.Contains(option))
 			{
 				dropDownOptions.Add(option);
@@ -204,11 +198,6 @@
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		public void RemoveOption(Option<T> option)
 		{
-			if (option == null)
-			{
-				throw new ArgumentNullException("option");
-			}
-
 			var currentSelectedOption = SelectedOption;
 			if (dropDownOptions.Remove(option))
 			{
@@ -246,11 +235,6 @@
 		protected internal override void LoadResult(IUIResults uiResults)
 		{
 			var selectedValue = dropDownOptions.FirstOrDefault(x => x.DisplayValue.Equals(uiResults.GetString(this)));
-
-			if (selectedValue == null)
-			{
-				return;
-			}
 
 			if (BlockDefinition.WantsOnChange)
 			{
@@ -297,8 +281,8 @@
 				SelectedOption = selected;
 				PreviousOption = previous;
 
-				Selected = selected == null ? default : selected.Value;
-				Previous = previous == null ? default : previous.Value;
+				Selected = selected.Value;
+				Previous = previous.Value;
 			}
 
 			/// <summary>

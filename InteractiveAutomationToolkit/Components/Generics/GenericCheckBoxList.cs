@@ -122,11 +122,6 @@
 		/// <exception cref="ArgumentNullException">When options is null.</exception>
 		public void AddOption(Option<T> option)
 		{
-			if (option == null)
-			{
-				throw new ArgumentNullException("option");
-			}
-
 			if (checkBoxListOptions.ContainsKey(option)) return;
 
 			checkBoxListOptions.Add(option, false);
@@ -148,11 +143,6 @@
 		/// <exception cref="ArgumentException">When the option does not exist.</exception>
 		public void Check(Option<T> option)
 		{
-			if (option == null)
-			{
-				throw new ArgumentNullException("option");
-			}
-
 			if (!checkBoxListOptions.ContainsKey(option))
 			{
 				throw new ArgumentException($"Option is not defined as a valid option");
@@ -214,11 +204,6 @@
 		/// <exception cref="NullReferenceException">When option is null.</exception>
 		public void RemoveOption(Option<T> option)
 		{
-			if (option == null)
-			{
-				throw new ArgumentNullException("option");
-			}
-
 			if (checkBoxListOptions.Remove(option))
 			{
 				RecreateUiBlock();
@@ -244,11 +229,6 @@
 		/// <exception cref="ArgumentException">When the option does not exist.</exception>
 		public void Uncheck(Option<T> option)
 		{
-			if (option == null)
-			{
-				throw new ArgumentNullException("option");
-			}
-
 			if (!checkBoxListOptions.ContainsKey(option))
 			{
 				throw new ArgumentException("CheckboxList does not have option: " + option);
@@ -356,7 +336,7 @@
 			internal CheckBoxListChangedEventArgs(Option<T> option, bool isChecked)
 			{
 				Option = option;
-				Value = option == null ? default : option.Value;
+				Value = option.Value;
 				IsChecked = isChecked;
 			}
 

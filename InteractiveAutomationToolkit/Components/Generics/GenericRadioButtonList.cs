@@ -119,7 +119,7 @@
 
 			set
 			{
-				if (value == null)
+				if (value == Option<T>.Empty)
 				{
 					BlockDefinition.InitialValue = null;
 					return;
@@ -136,7 +136,6 @@
 		{
 			get
 			{
-				if (SelectedOption == null) return default;
 				return SelectedOption.Value;
 			}
 
@@ -157,11 +156,6 @@
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		public void AddOption(Option<T> option)
 		{
-			if (option == null)
-			{
-				throw new ArgumentNullException("option");
-			}
-
 			if (!radioButtonListOptions.Contains(option))
 			{
 				radioButtonListOptions.Add(option);
@@ -183,11 +177,6 @@
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		public void RemoveOption(Option<T> option)
 		{
-			if (option == null)
-			{
-				throw new ArgumentNullException("option");
-			}
-
 			var currentSelectedOption = SelectedOption;
 			if (radioButtonListOptions.Remove(option))
 			{
@@ -311,8 +300,8 @@
 				SelectedOption = selectedValue;
 				PreviousOption = previous;
 
-				Selected = selectedValue == null ? default : selectedValue.Value;
-				Previous = previous == null ? default : previous.Value;
+				Selected = selectedValue.Value;
+				Previous = previous.Value;
 			}
 
 			/// <summary>
