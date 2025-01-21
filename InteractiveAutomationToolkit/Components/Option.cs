@@ -3,7 +3,7 @@
 	using System;
 	using System.Collections.Generic;
 
-	public class Option<T> : IEquatable<Option<T>>
+	public sealed class Option<T> : IEquatable<Option<T>>
 	{
 		public static readonly Option<T> Empty = new Option<T>(String.Empty, default);
 
