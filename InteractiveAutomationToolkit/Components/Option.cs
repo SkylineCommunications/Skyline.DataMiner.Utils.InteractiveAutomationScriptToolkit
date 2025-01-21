@@ -5,7 +5,7 @@
 
 	public class Option<T> : IEquatable<Option<T>>
 	{
-		public static readonly Option<T> Empty = default;
+		public static readonly Option<T> Empty = new Option<T>(String.Empty, default);
 
 		public Option(T value) : this(Convert.ToString(value), value)
 		{
@@ -43,8 +43,8 @@
 			if (ReferenceEquals(this, other)) return true;
 			if (ReferenceEquals(null, other)) return false;
 
-			var thisDisplay = String.IsNullOrEmpty(DisplayValue) ? String.Empty : DisplayValue;
-			var otherDisplay = String.IsNullOrEmpty(other.DisplayValue) ? String.Empty : other.DisplayValue;
+			var thisDisplay = NormalizeDisplayValue(DisplayValue);
+			var otherDisplay = NormalizeDisplayValue(other.DisplayValue);
 
 			return String.Equals(thisDisplay, otherDisplay) &&
 				EqualityComparer<T>.Default.Equals(Value, other.Value);
@@ -52,7 +52,7 @@
 
 		public override int GetHashCode()
 		{
-			var normalizedDisplay = String.IsNullOrEmpty(DisplayValue) ? String.Empty : DisplayValue;
+			var normalizedDisplay = NormalizeDisplayValue(DisplayValue);
 
 			int hashCode = 11;
 			hashCode ^= 13 * normalizedDisplay.GetHashCode();
@@ -63,6 +63,11 @@
 		public override string ToString()
 		{
 			return $"{DisplayValue} => {Value}";
+		}
+
+		private static string NormalizeDisplayValue(string displayValue)
+		{
+			return String.IsNullOrEmpty(displayValue) ? String.Empty : displayValue;
 		}
 	}
 

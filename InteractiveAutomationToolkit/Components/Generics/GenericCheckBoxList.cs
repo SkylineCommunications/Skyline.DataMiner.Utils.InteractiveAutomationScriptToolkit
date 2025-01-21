@@ -214,6 +214,11 @@
 		/// <exception cref="NullReferenceException">When option is null.</exception>
 		public void RemoveOption(Option<T> option)
 		{
+			if (option == null)
+			{
+				throw new ArgumentNullException("option");
+			}
+
 			if (checkBoxListOptions.Remove(option))
 			{
 				RecreateUiBlock();
