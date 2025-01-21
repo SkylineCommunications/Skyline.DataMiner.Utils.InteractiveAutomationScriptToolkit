@@ -4,6 +4,7 @@ using Skyline.DataMiner.Utils.InteractiveAutomationScript;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace InteractiveAutomationToolkitTests
 {
@@ -432,5 +433,27 @@ namespace InteractiveAutomationToolkitTests
 
             Assert.AreEqual(2, checkboxlist.Options.Count());
         }
-    }
+
+		[TestMethod]
+		public void EmptyOption_Test1()
+		{
+			var options = new[] { Option.Empty<int>() };
+			var checkboxlist = new CheckBoxList<int>(options);
+
+            checkboxlist.Check(Option<int>.Empty);
+
+			Assert.IsTrue(checkboxlist.CheckedOptions.Single().IsEmpty);
+		}
+
+		[TestMethod]
+		public void EmptyOption_Test2()
+		{
+			var options = new[] { Option.Empty<object>() };
+			var checkboxlist = new CheckBoxList<object>(options);
+
+            checkboxlist.Check(Option.Empty<object>());
+
+			Assert.IsTrue(checkboxlist.CheckedOptions.Single().IsEmpty);
+		}
+	}
 }

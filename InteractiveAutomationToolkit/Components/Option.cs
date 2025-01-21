@@ -77,5 +77,10 @@
 		{
 			return new Option<T>(displayValue, value);
 		}
+
+		public static Option<T> Empty<T>()
+		{
+			return Option<T>.Empty;
+		}
 	}
 }
