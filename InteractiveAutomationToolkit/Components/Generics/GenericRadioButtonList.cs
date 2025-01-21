@@ -223,7 +223,7 @@
 				AddOption(option);
 			}
 
-			if (SelectedOption == null || !options.Contains(SelectedOption))
+			if (SelectedOption != null && !options.Contains(SelectedOption))
 			{
 				SelectedOption = null;
 			}
