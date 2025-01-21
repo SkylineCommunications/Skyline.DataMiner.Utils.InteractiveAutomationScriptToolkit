@@ -3,7 +3,7 @@
 	using System;
 	using System.Collections.Generic;
 
-	public readonly struct Option<T> : IEquatable<Option<T>>
+	public class Option<T> : IEquatable<Option<T>>
 	{
 		public static readonly Option<T> Empty = default;
 
@@ -40,6 +40,9 @@
 
 		public bool Equals(Option<T> other)
 		{
+			if (ReferenceEquals(this, other)) return true;
+			if (ReferenceEquals(null, other)) return false;
+
 			var thisDisplay = String.IsNullOrEmpty(DisplayValue) ? String.Empty : DisplayValue;
 			var otherDisplay = String.IsNullOrEmpty(other.DisplayValue) ? String.Empty : other.DisplayValue;
 

@@ -44,7 +44,7 @@
 		/// </summary>
 		/// <param name="options">Name of options that can be selected.</param>
 		/// <param name="selected">Selected option.</param>
-		public RadioButtonList(IEnumerable<Option<T>> options, Option<T> selected = default)
+		public RadioButtonList(IEnumerable<Option<T>> options, Option<T> selected = null)
 		{
 			SetOptions(options);
 			SelectedOption = selected;
@@ -119,7 +119,7 @@
 
 			set
 			{
-				if (value == Option<T>.Empty)
+				if (value == null)
 				{
 					BlockDefinition.InitialValue = null;
 					return;
@@ -136,18 +136,13 @@
 		{
 			get
 			{
+				if (SelectedOption == null) return default;
 				return SelectedOption.Value;
 			}
 
 			set
 			{
-				var option = radioButtonListOptions.FirstOrDefault(x => Object.Equals(x.Value, value));
-
-				if (!Equals(option.Value, value))
-				{
-					throw new ArgumentException($"No option available where the value of the option matches the given value");
-				}
-
+				var option = radioButtonListOptions.FirstOrDefault(x => Object.Equals(x.Value, value)) ?? throw new ArgumentException($"No option available where the value of the option matches the given value");
 				SelectedOption = option;
 			}
 		}
@@ -156,6 +151,11 @@
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		public void AddOption(Option<T> option)
 		{
+			if (option == null)
+			{
+				throw new ArgumentNullException("option");
+			}
+
 			if (!radioButtonListOptions.Contains(option))
 			{
 				radioButtonListOptions.Add(option);
@@ -177,6 +177,11 @@
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		public void RemoveOption(Option<T> option)
 		{
+			if (option == null)
+			{
+				throw new ArgumentNullException("option");
+			}
+
 			var currentSelectedOption = SelectedOption;
 			if (radioButtonListOptions.Remove(option))
 			{
@@ -218,9 +223,9 @@
 				AddOption(option);
 			}
 
-			if (!options.Contains(SelectedOption))
+			if (SelectedOption != null && !options.Contains(SelectedOption))
 			{
-				SelectedOption = options.FirstOrDefault();
+				SelectedOption = null;
 			}
 		}
 
@@ -253,7 +258,7 @@
 			foreach (string checkedOption in checkedOptions)
 			{
 				if (String.IsNullOrEmpty(checkedOption)) continue;
-				if (String.Equals(checkedOption, SelectedOption.DisplayValue)) continue;
+				if (String.Equals(checkedOption, SelectedOption?.DisplayValue)) continue;
 
 				var selectedOption = radioButtonListOptions.FirstOrDefault(x => x.DisplayValue.Equals(checkedOption));
 
@@ -300,8 +305,8 @@
 				SelectedOption = selectedValue;
 				PreviousOption = previous;
 
-				Selected = selectedValue.Value;
-				Previous = previous.Value;
+				Selected = selectedValue == null ? default : selectedValue.Value;
+				Previous = previous == null ? default : previous.Value;
 			}
 
 			/// <summary>

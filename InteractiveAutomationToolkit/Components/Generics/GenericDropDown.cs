@@ -45,10 +45,10 @@
 		/// <param name="options">Options to be displayed in the list.</param>
 		/// <param name="selected">The selected item in the list.</param>
 		/// <exception cref="ArgumentNullException">When options is null.</exception>
-		public DropDown(IEnumerable<Option<T>> options, Option<T> selected = default)
+		public DropDown(IEnumerable<Option<T>> options, Option<T> selected = null)
 		{
 			SetOptions(options);
-			SelectedOption = selected;
+			if (selected != null) SelectedOption = selected;
 		}
 
 		/// <summary>
@@ -114,7 +114,7 @@
 
 			set
 			{
-				if (value == Option<T>.Empty)
+				if (value == null)
 				{
 					BlockDefinition.InitialValue = null;
 					return;
@@ -131,18 +131,13 @@
 		{
 			get
 			{
+				if (SelectedOption == null) return default;
 				return SelectedOption.Value;
 			}
 
 			set
 			{
-				var option = dropDownOptions.FirstOrDefault(x => Object.Equals(x.Value, value));
-
-				if (!Equals(option.Value, value))
-				{
-					throw new ArgumentException($"No option available where the value of the option matches the given value");
-				}
-
+				var option = dropDownOptions.FirstOrDefault(x => Object.Equals(x.Value, value)) ?? throw new ArgumentException($"No option available where the value of the option matches the given value");
 				SelectedOption = option;
 			}
 		}
@@ -151,6 +146,11 @@
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		public void AddOption(Option<T> option)
 		{
+			if (option == null)
+			{
+				throw new ArgumentNullException("option");
+			}
+
 			if (!dropDownOptions.Contains(option))
 			{
 				dropDownOptions.Add(option);
@@ -180,7 +180,7 @@
 				AddOption(option);
 			}
 
-			if (!options.Contains(SelectedOption))
+			if (SelectedOption == null || !options.Contains(SelectedOption))
 			{
 				SelectedOption = options.FirstOrDefault();
 			}
@@ -198,6 +198,11 @@
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		public void RemoveOption(Option<T> option)
 		{
+			if (option == null)
+			{
+				throw new ArgumentNullException("option");
+			}
+
 			var currentSelectedOption = SelectedOption;
 			if (dropDownOptions.Remove(option))
 			{
@@ -235,6 +240,11 @@
 		protected internal override void LoadResult(IUIResults uiResults)
 		{
 			var selectedValue = dropDownOptions.FirstOrDefault(x => x.DisplayValue.Equals(uiResults.GetString(this)));
+
+			if (selectedValue == null)
+			{
+				return;
+			}
 
 			if (BlockDefinition.WantsOnChange)
 			{
@@ -281,8 +291,8 @@
 				SelectedOption = selected;
 				PreviousOption = previous;
 
-				Selected = selected.Value;
-				Previous = previous.Value;
+				Selected = selected == null ? default : selected.Value;
+				Previous = previous == null ? default : previous.Value;
 			}
 
 			/// <summary>
