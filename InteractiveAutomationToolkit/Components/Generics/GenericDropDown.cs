@@ -239,20 +239,15 @@
 		/// <remarks><see cref="InteractiveWidget.DestVar" /> should be used as key to get the changes for this widget.</remarks>
 		protected internal override void LoadResult(IUIResults uiResults)
 		{
-			var selectedValue = dropDownOptions.FirstOrDefault(x => x.DisplayValue.Equals(uiResults.GetString(this)));
+			var selectedOption = dropDownOptions.FirstOrDefault(x => x.DisplayValue.Equals(uiResults.GetString(this)));
 
-			if (selectedValue == null)
-			{
-				return;
-			}
+			if (selectedOption == null) return;
+			if (selectedOption == SelectedOption) return;
 
-			if (BlockDefinition.WantsOnChange)
-			{
-				changed = selectedValue != SelectedOption;
-			}
+			changed = BlockDefinition.WantsOnChange;
 
 			previous = SelectedOption;
-			SelectedOption = selectedValue;
+			SelectedOption = selectedOption;
 		}
 
 		/// <summary>
