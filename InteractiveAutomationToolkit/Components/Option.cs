@@ -41,7 +41,7 @@
 		public bool Equals(Option<T> other)
 		{
 			if (ReferenceEquals(this, other)) return true;
-			if (other is null) return false;
+			if (ReferenceEquals(null, other)) return false;
 
 			var thisDisplay = NormalizeDisplayValue(DisplayValue);
 			var otherDisplay = NormalizeDisplayValue(other.DisplayValue);
