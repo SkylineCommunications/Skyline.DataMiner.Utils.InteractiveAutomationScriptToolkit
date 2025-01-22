@@ -594,17 +594,26 @@
 		/// <param name="requireResponse">If the dialog expects user interaction.</param>
 		/// <remarks>Should only be used when you create your own event loop.</remarks>
 		public void Show(bool requireResponse = true)
-		{
-			UIBuilder uib = Build();
-			uib.RequireResponse = requireResponse;
+		{		
+			UIBuilder uiBuilder = Build();
+			uiBuilder.RequireResponse = requireResponse;
 
-			IUIResults uir = new WrappedUIResults(Engine.ShowUI(uib));
+			IUIResults uiResults;
+
+			try
+			{
+				uiResults = new WrappedUIResults(Engine.ShowUI(uiBuilder));
+			}
+			catch (Exception e)
+			{
+				throw new InvalidOperationException($"{nameof(IEngine)}.{nameof(Engine.ShowUI)} failed with {nameof(UIBuilder)} argument {uiBuilder}", e);
+			}
 
 			if (requireResponse)
 			{
-				LoadChanges(uir);
-				RaiseResultEvents(uir);
-			}
+				LoadChanges(uiResults);
+				RaiseResultEvents(uiResults);
+			}	
 		}
 
 		/// <summary>
