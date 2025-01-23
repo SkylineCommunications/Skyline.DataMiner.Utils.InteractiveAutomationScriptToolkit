@@ -6,6 +6,7 @@
 	using System.Linq;
 
 	using Skyline.DataMiner.Automation;
+	using Skyline.DataMiner.Net.Exceptions;
 
 	/// <summary>
 	///     A dialog represents a single window that can be shown.
@@ -604,7 +605,11 @@
 			{
 				uiResults = new WrappedUIResults(Engine.ShowUI(uiBuilder));
 			}
-			catch (Exception e)
+			catch(InteractiveUserDetachedException)
+			{
+				throw;
+			}
+			catch (DataMinerException e)
 			{
 				throw new InvalidOperationException($"{nameof(IEngine)}.{nameof(Engine.ShowUI)} failed with {nameof(UIBuilder)} argument {uiBuilder}", e);
 			}
