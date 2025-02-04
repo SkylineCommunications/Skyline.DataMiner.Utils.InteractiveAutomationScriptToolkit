@@ -611,7 +611,11 @@
 			}
 			catch (DataMinerException e)
 			{
-				throw new InvalidOperationException($"{nameof(IEngine)}.{nameof(Engine.ShowUI)} failed with {nameof(UIBuilder)} argument {uiBuilder}", e);
+				var fileSelectorWidgetsUploadFilePaths = Widgets.OfType<FileSelector>().SelectMany(fileSelector => fileSelector.UploadedFilePaths).ToList();
+
+				string fileSelectorExceptionMessage = fileSelectorWidgetsUploadFilePaths.Any() ? $"with file selectors uploaded file paths {string.Join(";", fileSelectorWidgetsUploadFilePaths)}" : string.Empty;
+
+				throw new InvalidOperationException($"{nameof(IEngine)}.{nameof(Engine.ShowUI)} failed with {nameof(UIBuilder)} argument {uiBuilder} {fileSelectorExceptionMessage}", e);
 			}
 
 			if (requireResponse)
