@@ -103,6 +103,10 @@ Or have a look at the guides and video courses listed below.
 - [Create applications using Model View Presenter](https://community.dataminer.services/courses/dataminer-automation/lessons/model-view-presenter/)
 - [Working Examples using the Toolkit](https://github.com/SkylineCommunications/SLC-AS-Example_InteractiveAutomationScriptToolkit)
 
+### Documentation
+
+- [DataMiner Docs](https://docs.dataminer.services/develop/api/types/Skyline.DataMiner.Utils.InteractiveAutomationScript.html)
+
 ### Known Issue
 
 When you use this NuGet package, it is possible you get the following error when launching the script:
