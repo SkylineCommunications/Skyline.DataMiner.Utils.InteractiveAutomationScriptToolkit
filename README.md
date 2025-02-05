@@ -41,7 +41,7 @@ public class Script
 			var helloWorldDialog = new HelloWorldDialog(engine);
 
 			// Starts the event loop and shows the first dialog.
-			controller.Run(helloWorldDialog);
+			controller.ShowDialog(helloWorldDialog);
 		}
 		catch (ScriptAbortException)
 		{
