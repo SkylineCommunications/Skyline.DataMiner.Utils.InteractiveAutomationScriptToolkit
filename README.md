@@ -30,7 +30,7 @@ public class Script
 		// This is determined by a simple string search looking for "engine.ShowUI" in the source code.
 		// However, due to the NuGet package, this string can no longer be detected.
 		// This comment is here as a temporary workaround until it has been fixed.
-		//// engine.ShowUI(
+		//// engine.ShowUI();
 
 		try
 		{
