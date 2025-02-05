@@ -30,7 +30,7 @@ public class Script
 		// This is determined by a simple string search looking for "engine.ShowUI" in the source code.
 		// However, due to the NuGet package, this string can no longer be detected.
 		// This comment is here as a temporary workaround until it has been fixed.
-		//// engine.ShowUI(
+		//// engine.ShowUI();
 
 		try
 		{
@@ -120,7 +120,7 @@ We are currently working on a fix which will be available in one of our upcoming
 Add the following comment to your script.
 
 ```csharp
-// engine.ShowUI(
+// engine.ShowUI();
 ```
 
 Location of the comment does not matter as long as it is visible in the C# code block view of the DataMiner Automation
