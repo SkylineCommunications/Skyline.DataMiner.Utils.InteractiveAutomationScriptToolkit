@@ -118,7 +118,7 @@ We are currently working on a fix which will be available in one of our upcoming
 Add the following comment to your script.
 
 ```csharp
-// engine.ShowUI(
+// engine.ShowUI();
 ```
 
 Location of the comment does not matter as long as it is visible in the C# code block view of the DataMiner Automation
