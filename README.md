@@ -95,11 +95,13 @@ Or have a look at the guides and video courses listed below.
 
 ### Courses and guides
 
+- [Create a simple interactive script - #Kata 10](https://www.youtube.com/watch?v=xCsOtNsZ2tc&list=PLFb70A6JV6vi-sIPfSOrT0-TBlzdVNrTJ&index=10)
 - [All video courses related to DataMiner Automation](https://community.dataminer.services/courses/dataminer-automation/)
 - [Getting started with the toolkit](https://community.dataminer.services/documentation/getting-started-with-the-ias-toolkit/)
 - [Video course covering the toolkit basics](https://community.dataminer.services/courses/dataminer-automation/lessons/interaction-automation-toolkit/)
   (The first 2 minutes can be skipped as they cover how to acquire the toolkit without NuGet)
 - [Create applications using Model View Presenter](https://community.dataminer.services/courses/dataminer-automation/lessons/model-view-presenter/)
+- [Working Examples using the Toolkit](https://github.com/SkylineCommunications/SLC-AS-Example_InteractiveAutomationScriptToolkit)
 
 ### Known Issue
 
