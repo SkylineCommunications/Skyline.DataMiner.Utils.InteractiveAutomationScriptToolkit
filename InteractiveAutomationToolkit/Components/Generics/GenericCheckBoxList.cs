@@ -118,7 +118,6 @@
 		}
 
 		/// <inheritdoc/>
-		/// <param name="option">Option to add.</param>
 		/// <exception cref="ArgumentNullException">When options is null.</exception>
 		public void AddOption(Option<T> option)
 		{
