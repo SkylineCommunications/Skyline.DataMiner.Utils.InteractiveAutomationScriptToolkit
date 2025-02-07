@@ -158,15 +158,15 @@
 		/// <remarks><see cref="InteractiveWidget.DestVar" /> should be used as key to get the changes for this widget.</remarks>
 		protected internal override void LoadResult(IUIResults uiResults)
 		{
-			string selected = options.FirstOrDefault(x => x.Equals(uiResults.GetString(this)));
+			string selectedValue = uiResults.GetString(this);
 
-			if (selected == null) return;
-			if (selected == Selected) return;
-
-			changed = BlockDefinition.WantsOnChange;
+			if (BlockDefinition.WantsOnChange)
+			{
+				changed = selectedValue != Selected;
+			}
 
 			previous = Selected;
-			Selected = selected;
+			Selected = selectedValue;
 		}
 
 		/// <summary>
