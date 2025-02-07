@@ -2,6 +2,7 @@
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Skyline.DataMiner.Utils.InteractiveAutomationScript;
+    using System;
     using System.Linq;
 
     [TestClass]
@@ -51,6 +52,68 @@
             Assert.AreEqual(DefaultOption.None, dropDown.Selected);
             Assert.AreEqual(0, dropDown.Options.Count());
             Assert.IsNull(dropDown.SelectedOption);
+        }
+
+        [TestMethod]
+        public void ConversionConstructorTest()
+        {
+            var dropDown = new EnumDropDown<DefaultOption>(ConversionMethod);
+            Assert.AreEqual(DefaultOption.None, dropDown.Selected);
+            Assert.AreEqual(4, dropDown.Options.Count());
+
+            Assert.AreEqual("No option", dropDown.SelectedOption.DisplayValue);
+
+            dropDown.Selected = DefaultOption.Option1;
+            Assert.AreEqual("The first option", dropDown.SelectedOption.DisplayValue);
+
+            dropDown.Selected = DefaultOption.Option2;
+            Assert.AreEqual("The second option", dropDown.SelectedOption.DisplayValue);
+
+            dropDown.Selected = DefaultOption.Option3;
+            Assert.AreEqual("The last and final option", dropDown.SelectedOption.DisplayValue);
+        }
+
+        [TestMethod]
+        public void ConversionExcludedConstructorTest()
+        {
+            var dropDown = new EnumDropDown<DefaultOption>(ConversionMethod, new[] { DefaultOption.None });
+            Assert.AreEqual(DefaultOption.Option1, dropDown.Selected);
+            Assert.AreEqual(3, dropDown.Options.Count());
+        }
+
+        [TestMethod]
+        public void ConversionExcludeAllConstructorTest()
+        {
+            var dropDown = new EnumDropDown<DefaultOption>(ConversionMethod, new[] { DefaultOption.None, DefaultOption.Option1, DefaultOption.Option2, DefaultOption.Option3 });
+            Assert.AreEqual(DefaultOption.None, dropDown.Selected);
+            Assert.AreEqual(0, dropDown.Options.Count());
+            Assert.IsNull(dropDown.SelectedOption);
+        }
+
+        [TestMethod]
+        public void ConversionNullConstructorTest()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() =>
+            {
+                new EnumDropDown<DefaultOption>(null, new DefaultOption[0]);
+            });
+        }
+
+        private static string ConversionMethod(DefaultOption option)
+        {
+            switch (option)
+            {
+                case DefaultOption.None:
+                    return "No option";
+                case DefaultOption.Option1:
+                    return "The first option";
+                case DefaultOption.Option2:
+                    return "The second option";
+                case DefaultOption.Option3:
+                    return "The last and final option";
+                default:
+                    return "Unknown option";
+            }
         }
     }
 }
