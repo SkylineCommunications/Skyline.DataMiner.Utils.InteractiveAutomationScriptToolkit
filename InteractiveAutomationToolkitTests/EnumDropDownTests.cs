@@ -99,6 +99,102 @@
             });
         }
 
+        [TestMethod]
+        public void SetOptionsMethodTest1()
+        {
+            var dropdown = new EnumDropDown<DefaultOption>(ConversionMethod, new[] { DefaultOption.None, DefaultOption.Option1, DefaultOption.Option2, DefaultOption.Option3 });
+            dropdown.SetOptions(new[] { DefaultOption.Option1, DefaultOption.Option2, DefaultOption.Option3 });
+
+            var option1 = dropdown.Options.Single(x => x.Value == DefaultOption.Option1);
+            Assert.AreEqual("The first option", option1.DisplayValue);
+
+            var option2 = dropdown.Options.Single(x => x.Value == DefaultOption.Option2);
+            Assert.AreEqual("The second option", option2.DisplayValue);
+
+            var option3 = dropdown.Options.Single(x => x.Value == DefaultOption.Option3);
+            Assert.AreEqual("The last and final option", option3.DisplayValue);
+        }
+
+        [TestMethod]
+        public void SetValuesPropertyTest1()
+        {
+            var dropdown = new EnumDropDown<DefaultOption>(ConversionMethod, new[] { DefaultOption.None, DefaultOption.Option1, DefaultOption.Option2, DefaultOption.Option3 });
+            dropdown.Values = new[] { DefaultOption.Option1, DefaultOption.Option2, DefaultOption.Option3 };
+
+            var option1 = dropdown.Options.Single(x => x.Value == DefaultOption.Option1);
+            Assert.AreEqual("The first option", option1.DisplayValue);
+
+            var option2 = dropdown.Options.Single(x => x.Value == DefaultOption.Option2);
+            Assert.AreEqual("The second option", option2.DisplayValue);
+
+            var option3 = dropdown.Options.Single(x => x.Value == DefaultOption.Option3);
+            Assert.AreEqual("The last and final option", option3.DisplayValue);
+        }
+
+        [TestMethod]
+        public void SetOptionsMethodTest2()
+        {
+            var dropdown = new EnumDropDown<DefaultOption>(ConversionMethod);
+            dropdown.SetOptions(new[] { DefaultOption.Option1, DefaultOption.Option2, DefaultOption.Option3 });
+
+            var option1 = dropdown.Options.Single(x => x.Value == DefaultOption.Option1);
+            Assert.AreEqual("The first option", option1.DisplayValue);
+
+            var option2 = dropdown.Options.Single(x => x.Value == DefaultOption.Option2);
+            Assert.AreEqual("The second option", option2.DisplayValue);
+
+            var option3 = dropdown.Options.Single(x => x.Value == DefaultOption.Option3);
+            Assert.AreEqual("The last and final option", option3.DisplayValue);
+        }
+
+        [TestMethod]
+        public void SetValuesPropertyTest2()
+        {
+            var dropdown = new EnumDropDown<DefaultOption>(ConversionMethod);
+            dropdown.Values = new[] { DefaultOption.Option1, DefaultOption.Option2, DefaultOption.Option3 };
+
+            var option1 = dropdown.Options.Single(x => x.Value == DefaultOption.Option1);
+            Assert.AreEqual("The first option", option1.DisplayValue);
+
+            var option2 = dropdown.Options.Single(x => x.Value == DefaultOption.Option2);
+            Assert.AreEqual("The second option", option2.DisplayValue);
+
+            var option3 = dropdown.Options.Single(x => x.Value == DefaultOption.Option3);
+            Assert.AreEqual("The last and final option", option3.DisplayValue);
+        }
+
+        [TestMethod]
+        public void SetOptionsMethodTest3()
+        {
+            var dropdown = new EnumDropDown<DefaultOption>();
+            dropdown.SetOptions(new[] { DefaultOption.Option1, DefaultOption.Option2, DefaultOption.Option3 });
+
+            var option1 = dropdown.Options.Single(x => x.Value == DefaultOption.Option1);
+            Assert.AreEqual("Option 1", option1.DisplayValue);
+
+            var option2 = dropdown.Options.Single(x => x.Value == DefaultOption.Option2);
+            Assert.AreEqual("Option2", option2.DisplayValue);
+
+            var option3 = dropdown.Options.Single(x => x.Value == DefaultOption.Option3);
+            Assert.AreEqual("Something", option3.DisplayValue);
+        }
+
+        [TestMethod]
+        public void SetValuesPropertyTest3()
+        {
+            var dropdown = new EnumDropDown<DefaultOption>();
+            dropdown.Values = new[] { DefaultOption.Option1, DefaultOption.Option2, DefaultOption.Option3 };
+
+            var option1 = dropdown.Options.Single(x => x.Value == DefaultOption.Option1);
+            Assert.AreEqual("Option 1", option1.DisplayValue);
+
+            var option2 = dropdown.Options.Single(x => x.Value == DefaultOption.Option2);
+            Assert.AreEqual("Option2", option2.DisplayValue);
+
+            var option3 = dropdown.Options.Single(x => x.Value == DefaultOption.Option3);
+            Assert.AreEqual("Something", option3.DisplayValue);
+        }
+
         private static string ConversionMethod(DefaultOption option)
         {
             switch (option)

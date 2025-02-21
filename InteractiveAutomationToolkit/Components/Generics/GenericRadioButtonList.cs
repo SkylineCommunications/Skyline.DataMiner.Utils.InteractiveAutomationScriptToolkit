@@ -231,7 +231,7 @@
 
 		/// <inheritdoc/>
 		/// <exception cref="ArgumentNullException">When options is null.</exception>
-		public void SetOptions(IEnumerable<T> options)
+		public virtual void SetOptions(IEnumerable<T> options)
 		{
 			if (options == null) throw new ArgumentNullException(nameof(options));
 			SetOptions(options.Select(x => new Option<T>(x)));
