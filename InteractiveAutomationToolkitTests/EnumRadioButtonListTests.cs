@@ -1,6 +1,7 @@
 ﻿namespace InteractiveAutomationToolkitTests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Skyline.DataMiner.Net.Messages;
     using Skyline.DataMiner.Utils.InteractiveAutomationScript;
     using System;
     using System.Linq;
@@ -103,6 +104,102 @@
             {
                 new EnumRadioButtonList<DefaultOption>(null, new DefaultOption[0]);
             });
+        }
+
+        [TestMethod]
+        public void SetOptionsMethodTest1()
+        {
+            var radioButtonList = new EnumRadioButtonList<DefaultOption>(ConversionMethod, new[] { DefaultOption.None, DefaultOption.Option1, DefaultOption.Option2, DefaultOption.Option3 });
+            radioButtonList.SetOptions(new[] { DefaultOption.Option1, DefaultOption.Option2, DefaultOption.Option3 });
+
+            var option1 = radioButtonList.Options.Single(x => x.Value == DefaultOption.Option1);
+            Assert.AreEqual("The first option", option1.DisplayValue);
+
+            var option2 = radioButtonList.Options.Single(x => x.Value == DefaultOption.Option2);
+            Assert.AreEqual("The second option", option2.DisplayValue);
+
+            var option3 = radioButtonList.Options.Single(x => x.Value == DefaultOption.Option3);
+            Assert.AreEqual("The last and final option", option3.DisplayValue);
+        }
+
+        [TestMethod]
+        public void SetValuesPropertyTest1()
+        {
+            var radioButtonList = new EnumRadioButtonList<DefaultOption>(ConversionMethod, new[] { DefaultOption.None, DefaultOption.Option1, DefaultOption.Option2, DefaultOption.Option3 });
+            radioButtonList.Values = new[] { DefaultOption.Option1, DefaultOption.Option2, DefaultOption.Option3 };
+
+            var option1 = radioButtonList.Options.Single(x => x.Value == DefaultOption.Option1);
+            Assert.AreEqual("The first option", option1.DisplayValue);
+
+            var option2 = radioButtonList.Options.Single(x => x.Value == DefaultOption.Option2);
+            Assert.AreEqual("The second option", option2.DisplayValue);
+
+            var option3 = radioButtonList.Options.Single(x => x.Value == DefaultOption.Option3);
+            Assert.AreEqual("The last and final option", option3.DisplayValue);
+        }
+
+        [TestMethod]
+        public void SetOptionsMethodTest2()
+        {
+            var radioButtonList = new EnumRadioButtonList<DefaultOption>(ConversionMethod);
+            radioButtonList.SetOptions(new[] { DefaultOption.Option1, DefaultOption.Option2, DefaultOption.Option3 });
+
+            var option1 = radioButtonList.Options.Single(x => x.Value == DefaultOption.Option1);
+            Assert.AreEqual("The first option", option1.DisplayValue);
+
+            var option2 = radioButtonList.Options.Single(x => x.Value == DefaultOption.Option2);
+            Assert.AreEqual("The second option", option2.DisplayValue);
+
+            var option3 = radioButtonList.Options.Single(x => x.Value == DefaultOption.Option3);
+            Assert.AreEqual("The last and final option", option3.DisplayValue);
+        }
+
+        [TestMethod]
+        public void SetValuesPropertyTest2()
+        {
+            var radioButtonList = new EnumRadioButtonList<DefaultOption>(ConversionMethod);
+            radioButtonList.Values = new[] { DefaultOption.Option1, DefaultOption.Option2, DefaultOption.Option3 };
+
+            var option1 = radioButtonList.Options.Single(x => x.Value == DefaultOption.Option1);
+            Assert.AreEqual("The first option", option1.DisplayValue);
+
+            var option2 = radioButtonList.Options.Single(x => x.Value == DefaultOption.Option2);
+            Assert.AreEqual("The second option", option2.DisplayValue);
+
+            var option3 = radioButtonList.Options.Single(x => x.Value == DefaultOption.Option3);
+            Assert.AreEqual("The last and final option", option3.DisplayValue);
+        }
+
+        [TestMethod]
+        public void SetOptionsMethodTest3()
+        {
+            var radioButtonList = new EnumRadioButtonList<DefaultOption>();
+            radioButtonList.SetOptions(new[] { DefaultOption.Option1, DefaultOption.Option2, DefaultOption.Option3 });
+
+            var option1 = radioButtonList.Options.Single(x => x.Value == DefaultOption.Option1);
+            Assert.AreEqual("Option 1", option1.DisplayValue);
+
+            var option2 = radioButtonList.Options.Single(x => x.Value == DefaultOption.Option2);
+            Assert.AreEqual("Option2", option2.DisplayValue);
+
+            var option3 = radioButtonList.Options.Single(x => x.Value == DefaultOption.Option3);
+            Assert.AreEqual("Something", option3.DisplayValue);
+        }
+
+        [TestMethod]
+        public void SetValuesPropertyTest3()
+        {
+            var radioButtonList = new EnumRadioButtonList<DefaultOption>();
+            radioButtonList.Values = new[] { DefaultOption.Option1, DefaultOption.Option2, DefaultOption.Option3 };
+
+            var option1 = radioButtonList.Options.Single(x => x.Value == DefaultOption.Option1);
+            Assert.AreEqual("Option 1", option1.DisplayValue);
+
+            var option2 = radioButtonList.Options.Single(x => x.Value == DefaultOption.Option2);
+            Assert.AreEqual("Option2", option2.DisplayValue);
+
+            var option3 = radioButtonList.Options.Single(x => x.Value == DefaultOption.Option3);
+            Assert.AreEqual("Something", option3.DisplayValue);
         }
 
         private static string ConversionMethod(DefaultOption option)

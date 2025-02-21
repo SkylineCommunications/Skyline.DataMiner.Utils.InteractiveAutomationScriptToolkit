@@ -35,6 +35,8 @@
 	/// </example>
 	public class EnumRadioButtonList<T> : RadioButtonList<T> where T : struct, Enum
 	{
+		private readonly Func<T, string> convertValueToString;
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EnumRadioButtonList{T}"/>
 		/// </summary>
@@ -43,25 +45,7 @@
 		/// The display value of the enum is determined by the presence of the <see cref="DescriptionAttribute"/>.
 		/// If this attribute isn't defined, the .ToString() representation is used.
 		/// </remarks>
-		public EnumRadioButtonList(ICollection<T> exclude = null)
-		{
-			var options = new List<Option<T>>();
-
-			var type = typeof(T);
-			var values = Enum.GetValues(type).Cast<T>();
-
-			foreach (var value in values)
-			{
-				if (exclude != null && exclude.Contains(value))
-				{
-					continue;
-				}
-
-				options.Add(new Option<T>(value.GetDescription(), value));
-			}
-
-			Options = options;
-		}
+		public EnumRadioButtonList(ICollection<T> exclude = null) : this(DefaultConversion, exclude) { }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EnumRadioButtonList{T}"/>
@@ -70,10 +54,7 @@
 		/// <param name="exclude">Values of the enum to exclude as options from the radio button list.</param>
 		public EnumRadioButtonList(Func<T, string> convertValueToString, ICollection<T> exclude = null)
 		{
-			if (convertValueToString == null)
-			{
-				throw new ArgumentNullException(nameof(convertValueToString));
-			}
+			this.convertValueToString = convertValueToString ?? throw new ArgumentNullException(nameof(convertValueToString));
 
 			var options = new List<Option<T>>();
 
@@ -91,6 +72,26 @@
 			}
 
 			Options = options;
+		}
+
+		public override void SetOptions(IEnumerable<T> options)
+		{
+			base.SetOptions(options.Select(x => new Option<T>(convertValueToString(x), x)));
+		}
+
+		public override IEnumerable<T> Values
+		{
+			get => base.Values;
+			set
+			{
+				if (value == null) throw new ArgumentNullException(nameof(value));
+				SetOptions(value.Select(x => new Option<T>(convertValueToString(x), x)));
+			}
+		}
+
+		private static string DefaultConversion(T value)
+		{
+			return value.GetDescription();
 		}
 	}
 }
