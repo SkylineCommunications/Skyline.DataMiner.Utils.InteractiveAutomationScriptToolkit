@@ -3,7 +3,6 @@
 	using System;
 	using System.Globalization;
 	using System.Linq;
-
 	using Skyline.DataMiner.Automation;
 
 	/// <summary>
@@ -28,6 +27,7 @@
 			ValidationText = "Invalid Input";
 			ValidationState = UIValidationState.NotValidated;
 			IsReadOnly = false;
+			BlockDefinition.ClientTimeInfo = UIClientTimeInfo.Return;
 		}
 
 		/// <summary>
@@ -123,6 +123,18 @@
 		}
 
 		/// <summary>
+		///		Gets the datetime as displayed in the client.
+		///		If the client datetime is not available, the returned value will be <see cref="DateTimeOffset.MinValue"/>.
+		/// </summary>
+		public DateTimeOffset ClientDateTime { get; private set; } = DateTimeOffset.MinValue;
+
+		/// <summary>
+		///		Gets the time zone info of the client in which this <see cref="DateTimePicker"/> is displayed.
+		///		If the client time zone info is not available, the returned value will be null.
+		/// </summary>
+		public TimeZoneInfo ClientTimeZoneInfo { get; private set; }
+
+		/// <summary>
 		///     Gets or sets the tooltip.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
@@ -192,6 +204,17 @@
 		{
 			DateTime result = uiResults.GetDateTime(DestVar);
 			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);
+
+			ClientDateTime = uiResults.GetClientDateTime(this);
+
+			try
+			{
+				ClientTimeZoneInfo = uiResults.GetClientTimeZoneInfo(this);
+			}
+			catch (System.Runtime.Serialization.SerializationException)
+			{
+				ClientTimeZoneInfo = null;
+			}
 
 			if (BlockDefinition.WantsOnChange && (result != DateTime))
 			{

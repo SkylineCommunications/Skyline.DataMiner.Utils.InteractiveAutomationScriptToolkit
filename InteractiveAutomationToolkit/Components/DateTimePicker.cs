@@ -3,7 +3,6 @@
 	using System;
 	using System.Globalization;
 	using System.Linq;
-
 	using Skyline.DataMiner.Automation;
 
 	/// <summary>
@@ -32,6 +31,7 @@
 			ValidationText = "Invalid Input";
 			ValidationState = UIValidationState.NotValidated;
 			IsReadOnly = false;
+			BlockDefinition.ClientTimeInfo = UIClientTimeInfo.Return;
 		}
 
 		/// <summary>
@@ -129,6 +129,18 @@
 				}
 			}
 		}
+
+		/// <summary>
+		///		Gets the datetime as displayed in the client.
+		///		If the client datetime is not available, the returned value will be <see cref="DateTimeOffset.MinValue"/>.
+		/// </summary>
+		public DateTimeOffset ClientDateTime { get; private set; } = DateTimeOffset.MinValue;
+
+		/// <summary>
+		///		Gets the time zone info of the client in which this <see cref="DateTimePicker"/> is displayed.
+		///		If the client time zone info is not available, the returned value will be null.
+		/// </summary>
+		public TimeZoneInfo ClientTimeZoneInfo { get; private set; }
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the calendar pop-up will close when the user clicks a new date.
@@ -396,6 +408,17 @@
 			else
 			{
 				result = DateTime.Parse(isoString);
+			}
+
+			ClientDateTime = uiResults.GetClientDateTime(this);
+
+			try
+			{
+				ClientTimeZoneInfo = uiResults.GetClientTimeZoneInfo(this);
+			}
+			catch (System.Runtime.Serialization.SerializationException)
+			{
+				ClientTimeZoneInfo = null;
 			}
 
 			if (BlockDefinition.WantsOnChange && (result != DateTime))

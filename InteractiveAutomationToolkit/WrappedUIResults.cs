@@ -130,5 +130,21 @@
 		{
 			return results.GetExpanded(key);
 		}
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public TimeZoneInfo GetClientTimeZoneInfo(string key)
+		{
+			return results.GetClientTimeZoneInfo(key);
+		}
+
+		/// <summary>
+		/// <inheritdoc/>
+		/// </summary>
+		public DateTimeOffset GetClientDateTime(string key)
+		{
+			return results.GetClientDateTime(key);
+		}
 	}
 }

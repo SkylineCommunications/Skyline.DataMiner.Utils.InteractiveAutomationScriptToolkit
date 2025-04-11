@@ -214,5 +214,38 @@
 		//
 		//     Feature introduced in DataMiner 10.1.2 (RN 28132).
 		string[] GetExpanded(string key);
+
+		//
+		// Summary:
+		//     Will return the time zone info the client is in for the UI block with the specified destVar.
+		//
+		// Parameters:
+		//   key:
+		//     The name of the destination variable.
+		//
+		// Returns:
+		//     The time zone info for the timezone the client is in.
+		//
+		// Remarks:
+		//     The returned value will be null if the component doesn't exist, ClientTimeInfo isn't set to UIClientTimeInfo.Return or the component doesn't support the information.
+		//     When the time zone info provided by the client cannot be deserialized back into a TimeZoneInfo object, a SerializationException will be thrown.
+		//
+		//     Feature introduced in DataMiner 10.5.4 (RN 42064).
+		TimeZoneInfo GetClientTimeZoneInfo(string key);
+
+		//
+		// Summary:
+		//    Gets the date/time as displayed in the client from the UI block with the specified destVar.
+		//
+		// Parameters:
+		//   key:
+		//     The name of the destination variable.
+		//
+		// Returns:
+		//     The date/time that was selected for the specified destination variable, as displayed in the client, which is linked to a Calendar and Time item.
+		//
+		// Remarks:
+		//     Feature introduced in DataMiner 10.5.4 (RN 42064).
+		DateTimeOffset GetClientDateTime(string key);
 	}
 }

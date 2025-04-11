@@ -200,5 +200,49 @@
 
 			return result.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
 		}
+
+		/// <summary>
+		/// Gets the time zone info of the client in which the calendar is displayed.
+		/// </summary>
+		/// <param name="uiResults">Represents the information a user has entered or selected in a dialog box of an interactive Automation script.</param>
+		/// <param name="calendar">The calendar widget.</param>
+		/// <returns>The timezone of the client in which the calendar is displayed.</returns>
+		public static TimeZoneInfo GetClientTimeZoneInfo(this IUIResults uiResults, Calendar calendar)
+		{
+			return uiResults.GetClientTimeZoneInfo(calendar.DestVar);
+		}
+
+		/// <summary>
+		/// Gets the time zone info of the client in which the datetimepicker is displayed.
+		/// </summary>
+		/// <param name="uiResults">Represents the information a user has entered or selected in a dialog box of an interactive Automation script.</param>
+		/// <param name="dateTimePicker">The datetimepicker widget.</param>
+		/// <returns>The timezone of the client in which the datetimepicker is displayed.</returns>
+		public static TimeZoneInfo GetClientTimeZoneInfo(this IUIResults uiResults, DateTimePicker dateTimePicker)
+		{
+			return uiResults.GetClientTimeZoneInfo(dateTimePicker.DestVar);
+		}
+
+		/// <summary>
+		/// Gets the value of the calendar as displayed to the client.
+		/// </summary>
+		/// <param name="uiResults">Represents the information a user has entered or selected in a dialog box of an interactive Automation script.</param>
+		/// <param name="calendar">The calendar widget.</param>
+		/// <returns>The value of the calendar as displayed to the client.</returns>
+		public static DateTimeOffset GetClientDateTime(this IUIResults uiResults, Calendar calendar)
+		{
+			return uiResults.GetClientDateTime(calendar.DestVar);
+		}
+
+		/// <summary>
+		/// Gets the value of the datetimepicker as displayed to the client.
+		/// </summary>
+		/// <param name="uiResults">Represents the information a user has entered or selected in a dialog box of an interactive Automation script.</param>
+		/// <param name="dateTimePicker">The datetimepicker widget.</param>
+		/// <returns>The value of the datetimepicker as displayed to the client.</returns>
+		public static DateTimeOffset GetClientDateTime(this IUIResults uiResults, DateTimePicker dateTimePicker)
+		{
+			return uiResults.GetClientDateTime(dateTimePicker.DestVar);
+		}
 	}
 }
