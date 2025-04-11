@@ -15,10 +15,10 @@
 		<PackageProjectUrl>https://skyline.be/</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/SkylineCommunications/Skyline.DataMiner.Utils.InteractiveAutomationScriptToolkit</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<Description>Quickly develop Interactive Automation Scripts in DataMiner 10.4.12 and up.</Description>
+		<Description>Quickly develop Interactive Automation Scripts in DataMiner 10.5.4 and up.</Description>
 		<PackageIcon>Icon.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<Version>10.0.1</Version>
+		<Version>10.5.4.1</Version>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="..\README.md" Pack="true" PackagePath="" />
