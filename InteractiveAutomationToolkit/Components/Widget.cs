@@ -139,22 +139,6 @@
 		}
 
 		/// <summary>
-		///     Gets or sets the UIBlockType of the widget.
-		/// </summary>
-		public UIBlockType Type
-		{
-			get
-			{
-				return BlockDefinition.Type;
-			}
-
-			protected set
-			{
-				BlockDefinition.Type = value;
-			}
-		}
-
-		/// <summary>
 		///     Gets or sets the fixed width (in pixels) of the widget.
 		/// </summary>
 		/// <exception cref="ArgumentOutOfRangeException">When the value is smaller than 1.</exception>
@@ -206,6 +190,22 @@
 			set
 			{
 				BlockDefinition.DebugTag = value;
+			}
+		}
+
+		/// <summary>
+		///     Gets or sets the UIBlockType of the widget.
+		/// </summary>
+		internal UIBlockType Type
+		{
+			get
+			{
+				return BlockDefinition.Type;
+			}
+
+			set
+			{
+				BlockDefinition.Type = value;
 			}
 		}
 
