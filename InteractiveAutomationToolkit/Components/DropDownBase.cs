@@ -10,6 +10,7 @@
 			Type = UIBlockType.DropDown;
 			ValidationText = "Invalid Input";
 			ValidationState = UIValidationState.NotValidated;
+			IsDisplayFilterShown = true;
 			IsReadOnly = false;
 		}
 
