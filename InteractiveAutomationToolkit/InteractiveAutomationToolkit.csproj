@@ -30,6 +30,6 @@
 		<InternalsVisibleTo Include="$(MSBuildProjectName)Tests" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Skyline.DataMiner.Dev.Automation" Version="10.4.12" />
+		<PackageReference Include="Skyline.DataMiner.Dev.Automation" Version="10.5.4.2" />
 	</ItemGroup>
 </Project>
