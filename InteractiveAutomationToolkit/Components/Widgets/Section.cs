@@ -7,10 +7,9 @@
 	/// <summary>
 	/// A section is a special component that can be used to group widgets together.
 	/// </summary>
-	public class Section
+	[Obsolete("Use panels instead", false)]
+	public class Section : GridPanel
 	{
-		private readonly Dictionary<Widget, IWidgetLayout> widgetLayouts = new Dictionary<Widget, IWidgetLayout>();
-
 		private bool isEnabled = true;
 		private bool isVisible = true;
 		private bool isReadOnly = false;
@@ -18,12 +17,12 @@
 		/// <summary>
 		/// Gets the number of columns that are currently defined by the widgets that have been added to this section.
 		/// </summary>
-		public int ColumnCount { get; private set; }
+		public int ColumnCount { get => GetColumnCount(); }
 
 		/// <summary>
 		/// Gets the number of rows that are currently defined by the widgets that have been added to this section.
 		/// </summary>
-		public int RowCount { get; private set; }
+		public int RowCount { get => GetRowCount(); }
 
 		/// <summary>
 		/// 	Gets or sets a value indicating whether the widgets within the section are visible or not.
@@ -38,9 +37,13 @@
 			set
 			{
 				isVisible = value;
-				foreach (Widget widget in Widgets)
+				if (isVisible)
 				{
-					widget.IsVisible = isVisible;
+					ShowWidgets(true);
+				}
+				else
+				{
+					HideWidgets(true);
 				}
 			}
 		}
@@ -58,13 +61,13 @@
 			set
 			{
 				isEnabled = value;
-				foreach (Widget widget in Widgets)
+				if (isEnabled)
 				{
-					InteractiveWidget interactiveWidget = widget as InteractiveWidget;
-					if (interactiveWidget != null)
-					{
-						interactiveWidget.IsEnabled = isEnabled;
-					}
+					EnableWidgets(true);
+				}
+				else
+				{
+					EnableWidgets(true);
 				}
 			}
 		}
@@ -85,7 +88,7 @@
 			set
 			{
 				isReadOnly = value;
-				foreach (Widget widget in Widgets)
+				foreach (var widget in Widgets)
 				{
 					widget.BlockDefinition.IsReadOnly = isReadOnly;
 				}
@@ -95,11 +98,11 @@
 		/// <summary>
 		///     Gets widgets that have been added to the section.
 		/// </summary>
-		public IEnumerable<Widget> Widgets
+		public IEnumerable<IWidget> Widgets
 		{
 			get
 			{
-				return widgetLayouts.Keys;
+				return GetWidgetLocationPairs().Select(x => x.Widget);
 			}
 		}
 
@@ -118,13 +121,16 @@
 				throw new ArgumentNullException("widget");
 			}
 
-			if (widgetLayouts.ContainsKey(widget))
+			var existingWidget = Widgets.FirstOrDefault(w => w == widget);
+			if (existingWidget != null)
 			{
 				throw new ArgumentException("Widget is already added to the section");
 			}
 
-			widgetLayouts.Add(widget, widgetLayout);
-			UpdateRowAndColumnCount();
+			widget.HorizontalAlignment = widgetLayout.HorizontalAlignment;
+			widget.VerticalAlignment = widgetLayout.VerticalAlignment;
+			widget.Margin = widgetLayout.Margin;
+			Add(widget, new WidgetLocation(widgetLayout.Row, widgetLayout.Column, widgetLayout.RowSpan, widgetLayout.ColumnSpan));
 
 			return this;
 		}
@@ -189,19 +195,7 @@
 		/// <returns>The updated section.</returns>
 		public Section AddSection(Section section, ILayout layout)
 		{
-			foreach (Widget widget in section.Widgets)
-			{
-				IWidgetLayout widgetLayout = section.GetWidgetLayout(widget);
-				AddWidget(
-					widget,
-					new WidgetLayout(
-						widgetLayout.Row + layout.Row,
-						widgetLayout.Column + layout.Column,
-						widgetLayout.RowSpan,
-						widgetLayout.ColumnSpan,
-						widgetLayout.HorizontalAlignment,
-						widgetLayout.VerticalAlignment));
-			}
+			Add(section, new PanelLocation(layout.Row, layout.Column));
 
 			return this;
 		}
@@ -225,10 +219,12 @@
 		/// <returns>The widget layout in the dialog.</returns>
 		/// <exception cref="NullReferenceException">When the widget is null.</exception>
 		/// <exception cref="ArgumentException">When the widget is not part of the dialog.</exception>
-		public IWidgetLayout GetWidgetLayout(Widget widget)
+		public IWidgetLayout GetWidgetLayout(IWidget widget)
 		{
 			CheckWidgetExits(widget);
-			return widgetLayouts[widget];
+
+			var pair = GetWidgetLocationPairs().FirstOrDefault(w => w.Widget == widget);
+			return GetWidgetLayout(pair.Widget, pair.Location);
 		}
 
 		/// <summary>
@@ -243,8 +239,11 @@
 				throw new ArgumentNullException("widget");
 			}
 
-			widgetLayouts.Remove(widget);
-			UpdateRowAndColumnCount();
+			Remove(widget);
+			foreach (var panel in GetPanels())
+			{
+				panel.Remove(widget);
+			}
 		}
 
 		/// <summary>
@@ -263,47 +262,35 @@
 			}
 
 			CheckWidgetExits(widget);
-			widgetLayouts[widget] = widgetLayout;
+			Move(widget, widgetLayout.Row, widgetLayout.Column, widgetLayout.RowSpan, widgetLayout.ColumnSpan);
+			widget.HorizontalAlignment = widgetLayout.HorizontalAlignment;
+			widget.VerticalAlignment = widgetLayout.VerticalAlignment;
+			widget.Margin = widgetLayout.Margin;
 		}
 
-		/// <summary>
-		/// Removes all widgets from the section.
-		/// </summary>
-		public void Clear()
+		private void CheckWidgetExits(IWidget widget)
 		{
-			widgetLayouts.Clear();
-			RowCount = 0;
-			ColumnCount = 0;
-		}
-
-		private void CheckWidgetExits(Widget widget)
-		{
-			if (widget == null)
+			if (widget is null)
 			{
 				throw new ArgumentNullException("widget");
 			}
 
-			if (!widgetLayouts.ContainsKey(widget))
+			var existingWidget = Widgets.FirstOrDefault(w => w == widget);
+			if (existingWidget is null)
 			{
 				throw new ArgumentException("Widget is not part of this dialog");
 			}
 		}
 
-		/// <summary>
-		/// 	Used to update the RowCount and ColumnCount properties based on the Widgets added to the section.
-		/// </summary>
-		private void UpdateRowAndColumnCount()
+		private IWidgetLayout GetWidgetLayout(IWidget widget, WidgetLocation location)
 		{
-			if (widgetLayouts.Any())
-			{
-				RowCount = widgetLayouts.Values.Max(w => w.Row + w.RowSpan);
-				ColumnCount = widgetLayouts.Values.Max(w => w.Column + w.ColumnSpan);
-			}
-			else
-			{
-				RowCount = 0;
-				ColumnCount = 0;
-			}
+			return new WidgetLayout(
+				location.Row,
+				location.Column,
+				location.RowSpan,
+				location.ColumnSpan,
+				widget.HorizontalAlignment,
+				widget.VerticalAlignment);
 		}
 	}
 }

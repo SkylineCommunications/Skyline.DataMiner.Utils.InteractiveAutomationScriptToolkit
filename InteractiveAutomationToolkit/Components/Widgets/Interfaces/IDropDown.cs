@@ -1,5 +1,7 @@
 ﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 {
+	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Components.Widgets.Generics;
+
 	/// <summary>
 	/// Defines a dropdown widget with a single selected option.
 	/// </summary>

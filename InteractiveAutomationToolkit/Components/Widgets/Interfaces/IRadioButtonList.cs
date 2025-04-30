@@ -1,5 +1,7 @@
 ﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 {
+	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Components.Widgets.Generics;
+
 	/// <summary>
 	///		Represents a radio button list where every option is a string.
 	/// </summary>

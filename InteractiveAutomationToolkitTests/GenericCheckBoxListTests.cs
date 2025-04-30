@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Skyline.DataMiner.Utils.InteractiveAutomationScript;
+using Skyline.DataMiner.Utils.InteractiveAutomationScript.Components.Widgets.Generics;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;

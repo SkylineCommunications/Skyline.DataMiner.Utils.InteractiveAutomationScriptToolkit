@@ -1,6 +1,7 @@
 ﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 {
 	using System;
+	using System.Text;
 
 	/// <summary>
 	/// This exception is used to indicate that two widgets have overlapping positions on the same dialog.
@@ -41,6 +42,65 @@
 			System.Runtime.Serialization.SerializationInfo info,
 			System.Runtime.Serialization.StreamingContext context) : base(info, context)
 		{
+		}
+
+		/// <summary>
+		/// Helps formatting an informative message about the widgets and how they overlap.
+		/// </summary>
+		internal class Builder
+		{
+			private readonly StringBuilder stringBuilder = new StringBuilder();
+
+			/// <summary>
+			/// Gets the number of widgets that overlap.
+			/// </summary>
+			public int Count { get; private set; }
+
+			/// <summary>
+			/// Adds a set of overlapping widgets with their locations.
+			/// </summary>
+			/// <param name="widget">The first widget.</param>
+			/// <param name="location">The location of the first widget.</param>
+			/// <param name="otherWidget">The second widget.</param>
+			/// <param name="otherLocation">The location of the second widget.</param>
+			/// <returns>The builder.</returns>
+			public Builder Add(
+				IWidget widget,
+				WidgetLocation location,
+				IWidget otherWidget,
+				WidgetLocation otherLocation)
+			{
+				Count++;
+
+				if (stringBuilder.Length != 0)
+				{
+					stringBuilder.AppendLine();
+				}
+
+				stringBuilder.AppendFormat(
+					"{0} (Row {1}, Column {2}, RowSpan {3} ColumnSpan {4}) overlaps with {5} (Row {6}, Column {7}, RowSpan {8} ColumnSpan {9}).",
+					widget.GetType().Name,
+					location.Row,
+					location.Column,
+					location.RowSpan,
+					location.ColumnSpan,
+					otherWidget.GetType().Name,
+					otherLocation.Row,
+					otherLocation.Column,
+					otherLocation.RowSpan,
+					otherLocation.ColumnSpan);
+
+				return this;
+			}
+
+			/// <summary>
+			/// Gets an exception object with a message detailing how the widgets are overlapping.
+			/// </summary>
+			/// <returns>An exception object with a message detailing how the widgets are overlapping.</returns>
+			public OverlappingWidgetsException Build()
+			{
+				return new OverlappingWidgetsException(stringBuilder.ToString());
+			}
 		}
 	}
 }
