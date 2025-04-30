@@ -1,11 +1,11 @@
-﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
+﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript.Components.Widgets.Generics
 {
 	using System;
 	using System.Collections.Generic;
 
 	public sealed class Option<T> : IEquatable<Option<T>>
 	{
-		public static readonly Option<T> Empty = new Option<T>(String.Empty, default);
+		public static readonly Option<T> Empty = new Option<T>(string.Empty, default);
 
 		public Option(T value) : this(Convert.ToString(value), value)
 		{
@@ -46,7 +46,7 @@
 			var thisDisplay = NormalizeDisplayValue(DisplayValue);
 			var otherDisplay = NormalizeDisplayValue(other.DisplayValue);
 
-			return String.Equals(thisDisplay, otherDisplay) &&
+			return string.Equals(thisDisplay, otherDisplay) &&
 				EqualityComparer<T>.Default.Equals(Value, other.Value);
 		}
 
@@ -54,7 +54,7 @@
 		{
 			var normalizedDisplay = NormalizeDisplayValue(DisplayValue);
 
-			int hashCode = 11;
+			var hashCode = 11;
 			hashCode ^= 13 * normalizedDisplay.GetHashCode();
 			hashCode ^= 13 * (Value != null ? Value.GetHashCode() : 0);
 			return hashCode;
@@ -67,7 +67,7 @@
 
 		private static string NormalizeDisplayValue(string displayValue)
 		{
-			return String.IsNullOrEmpty(displayValue) ? String.Empty : displayValue;
+			return string.IsNullOrEmpty(displayValue) ? string.Empty : displayValue;
 		}
 	}
 

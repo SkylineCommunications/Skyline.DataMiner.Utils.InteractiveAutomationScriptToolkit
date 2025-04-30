@@ -2,6 +2,8 @@
 {
 	using System.Collections.Generic;
 
+	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Components.Widgets.Generics;
+
 	/// <summary>
 	/// Defines a checkbox list widget with basic operations for managing selected and unselected options.
 	/// </summary>

@@ -1,6 +1,7 @@
 ﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 {
 	using System;
+	using System.ComponentModel;
 	using System.Reflection;
 
 	using Skyline.DataMiner.Automation;
@@ -8,9 +9,11 @@
 	/// <summary>
 	///     Base class for widgets.
 	/// </summary>
-	public class Widget
+	public class Widget : Component, IWidget
 	{
 		private UIBlockDefinition blockDefinition = new UIBlockDefinition();
+		private HorizontalAlignment horizontalAlignment;
+		private VerticalAlignment verticalAlignment;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Widget"/> class.
@@ -21,6 +24,30 @@
 			IsVisible = true;
 			SetHeightAuto();
 			SetWidthAuto();
+		}
+
+		/// <inheritdoc />
+		public HorizontalAlignment HorizontalAlignment
+		{
+			get => horizontalAlignment;
+
+			set
+			{
+				horizontalAlignment = value;
+				BlockDefinition.HorizontalAlignment = AlignmentToUiString(value);
+			}
+		}
+
+		/// <inheritdoc />
+		public VerticalAlignment VerticalAlignment
+		{
+			get => verticalAlignment;
+
+			set
+			{
+				verticalAlignment = value;
+				BlockDefinition.VerticalAlignment = AlignmentToUiString(value);
+			}
 		}
 
 		/// <summary>
@@ -215,7 +242,7 @@
 		///     This library exists so you don't need to use this object.
 		/// </summary>
 		/// <remarks>A widget should implement everything, so you don't need to use this object.</remarks>
-		protected internal UIBlockDefinition BlockDefinition
+		public UIBlockDefinition BlockDefinition
 		{
 			get
 			{
@@ -260,6 +287,54 @@
 			}
 
 			blockDefinition = newUiBlockDefinition;
+		}
+
+		private static string AlignmentToUiString(HorizontalAlignment horizontalAlignment)
+		{
+			switch (horizontalAlignment)
+			{
+				case HorizontalAlignment.Center:
+					return "Center";
+
+				case HorizontalAlignment.Left:
+					return "Left";
+
+				case HorizontalAlignment.Right:
+					return "Right";
+
+				case HorizontalAlignment.Stretch:
+					return "Stretch";
+
+				default:
+					throw new InvalidEnumArgumentException(
+						nameof(horizontalAlignment),
+						(int)horizontalAlignment,
+						typeof(HorizontalAlignment));
+			}
+		}
+
+		private static string AlignmentToUiString(VerticalAlignment verticalAlignment)
+		{
+			switch (verticalAlignment)
+			{
+				case VerticalAlignment.Center:
+					return "Center";
+
+				case VerticalAlignment.Top:
+					return "Top";
+
+				case VerticalAlignment.Bottom:
+					return "Bottom";
+
+				case VerticalAlignment.Stretch:
+					return "Stretch";
+
+				default:
+					throw new InvalidEnumArgumentException(
+						nameof(verticalAlignment),
+						(int)verticalAlignment,
+						typeof(VerticalAlignment));
+			}
 		}
 	}
 }

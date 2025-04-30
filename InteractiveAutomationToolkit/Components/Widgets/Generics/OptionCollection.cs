@@ -1,4 +1,4 @@
-﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
+﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript.Components.Widgets.Generics
 {
 	using System;
 	using System.Collections;
@@ -34,7 +34,7 @@
 			if (arrayIndex < 0) throw new ArgumentOutOfRangeException("arrayIndex");
 			if (array.Length - arrayIndex < Count) throw new ArgumentException("Not enough elements after arrayIndex in the destination array.");
 
-			int destinationIndex = arrayIndex;
+			var destinationIndex = arrayIndex;
 			foreach (var option in options)
 			{
 				array[destinationIndex] = option;

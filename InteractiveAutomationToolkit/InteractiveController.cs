@@ -11,7 +11,7 @@
 	{
 		private bool isManualModeRequested;
 		private Action manualAction;
-		private Dialog nextDialog;
+		private IDialog nextDialog;
 		private bool isRunning;
 
 		/// <summary>
@@ -33,7 +33,7 @@
 		/// <summary>
 		///     Gets the dialog that is shown to the user.
 		/// </summary>
-		public Dialog CurrentDialog { get; private set; }
+		public IDialog CurrentDialog { get; private set; }
 
 		/// <summary>
 		///     Gets the link to the SLManagedAutomation process.
@@ -82,7 +82,7 @@
 		/// </summary>
 		/// <param name="dialog">The next dialog to be shown.</param>
 		/// <exception cref="ArgumentNullException">When dialog is null.</exception>
-		public void ShowDialog(Dialog dialog)
+		public void ShowDialog(IDialog dialog)
 		{
 			if (dialog == null)
 			{
@@ -121,7 +121,7 @@
 			CurrentDialog = nextDialog;
 
 			SetScriptAbortPopupBehavior(CurrentDialog);
-			CurrentDialog.Show(false);
+			CurrentDialog.ShowStatic(false);
 		}
 
 		/// <summary>
@@ -142,14 +142,9 @@
 		///     Use <see cref="RequestManualMode" /> if you want to manually control when the dialog is updated.
 		/// </summary>
 		/// <param name="startDialog">Dialog to be shown first.</param>
-		private void Run(Dialog startDialog)
+		private void Run(IDialog startDialog)
 		{
-			if (startDialog == null)
-			{
-				throw new ArgumentNullException("startDialog");
-			}
-
-			nextDialog = startDialog;
+			nextDialog = startDialog ?? throw new ArgumentNullException("startDialog");
 
 			if (isRunning)
 			{
@@ -176,7 +171,7 @@
 						else
 						{
 							SetScriptAbortPopupBehavior(CurrentDialog);
-							CurrentDialog.Show();
+							CurrentDialog.ShowInteractive();
 						}
 					}
 				}
@@ -197,7 +192,7 @@
 			IsManualMode = false;
 		}
 
-		private void SetScriptAbortPopupBehavior(Dialog dialog)
+		private void SetScriptAbortPopupBehavior(IDialog dialog)
 		{
 			switch (ScriptAbortPopupBehavior)
 			{
