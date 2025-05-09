@@ -1,10 +1,63 @@
-﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript.Sections
+﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 {
 	using System;
 
 	/// <summary>
 	/// Defines a section that allows the user to define a DateTime in a specific time zone.
 	/// </summary>
+	/// <example>
+	///	<code>
+	/// public class ScheduleAppointmentDialog : Dialog
+	/// {
+	/// 	private readonly TimeZoneDateTimePicker _timeZoneDateTimePicker = new TimeZoneDateTimePicker();
+	/// 	private readonly TextBox _whatTextBox = new TextBox();
+	/// 	private readonly TextBox _whereTextBox = new TextBox();
+	/// 
+	/// 	private readonly Label _whatLabel = new Label("What?");
+	/// 	private readonly Label _whenLabel = new Label("When?");
+	/// 	private readonly Label _whereLabel = new Label("Where?");
+	/// 
+	/// 	public ScheduleAppointmentDialog(IEngine engine) : base(engine)
+	/// 	{
+	/// 		ContinueButton.Pressed += (s, e) =>
+	/// 		{
+	/// 			Engine.GenerateInformation($"{Description} on {DateTime.ToString("O")} at {Location}");
+	/// 			Engine.ExitSuccess("Exit");
+	/// 		};
+	/// 
+	/// 		BuildUi();
+	/// 	}
+	/// 
+	/// 	public string Description => _whatTextBox.Text;
+	/// 
+	/// 	public DateTime DateTime => _timeZoneDateTimePicker.DateTime;
+	/// 
+	/// 	public string Location => _whereTextBox.Text;
+	/// 
+	/// 	public void BuildUi()
+	/// 	{
+	/// 		Clear();
+	/// 
+	/// 		int row = -1;
+	/// 
+	/// 		AddWidget(_whatLabel, ++row, 0);
+	/// 		AddWidget(_whatTextBox, row, 1, 1, 3);
+	/// 
+	/// 		AddWidget(_whenLabel, ++row, 0);
+	/// 		AddSection(_timeZoneDateTimePicker, row, 1);
+	/// 
+	/// 		AddWidget(_whereLabel, ++row, 0);
+	/// 		AddWidget(_whereTextBox, row, 1, 1, 3);
+	/// 
+	/// 		AddWidget(new WhiteSpace(), ++row, 0);
+	/// 
+	/// 		AddWidget(ContinueButton, ++row, 0, 1, 4, HorizontalAlignment.Right);
+	/// 	}
+	/// 
+	/// 	public Button ContinueButton { get; } = new Button("Continue") { Style = ButtonStyle.CallToAction };
+	/// }
+	///	</code>
+	/// </example>
 	public class TimeZoneDateTimePicker : Section
 	{
 		private readonly DateTimePicker _dateTimePicker = new DateTimePicker();
@@ -21,7 +74,7 @@
 		{
 			_showHideTimeZoneSelectionButton.Pressed += ShowHideTimeZoneSelectionButton_Pressed;
 
-			Build();
+			BuildUi();
 		}
 
 		/// <summary>
@@ -52,9 +105,14 @@
 		}
 
 		/// <summary>
+		/// Gets the selected TimeZone from the dropdown.
+		/// </summary>
+		public TimeZoneInfo TimeZone => _timeZoneDropDown.Selected;
+
+		/// <summary>
 		/// Rebuilds the section.
 		/// </summary>
-		public void Build()
+		public void BuildUi()
 		{
 			Clear();
 
