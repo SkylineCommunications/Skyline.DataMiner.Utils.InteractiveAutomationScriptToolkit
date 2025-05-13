@@ -72,10 +72,22 @@
 		/// </summary>
 		public TimeZoneDateTimePicker()
 		{
-			_showHideTimeZoneSelectionButton.Pressed += ShowHideTimeZoneSelectionButton_Pressed;
+			_showHideTimeZoneSelectionButton.Pressed += (s, e) =>
+			{
+				ShowHideTimeZoneSelectionButtonPressed();
+				Changed?.Invoke(this, new TimeZoneDateTimePickerEventArgs(DateTime, TimeZone));
+			};
+
+			_dateTimePicker.Changed += (s, e) => Changed?.Invoke(this, new TimeZoneDateTimePickerEventArgs(DateTime, TimeZone));
+			_timeZoneDropDown.Changed += (s, e) => Changed?.Invoke(this, new TimeZoneDateTimePickerEventArgs(DateTime, TimeZone));
 
 			BuildUi();
 		}
+
+		/// <summary>
+		///     Triggered when a different datetime is picked or when timezone selection changes.
+		/// </summary>
+		public event EventHandler<TimeZoneDateTimePickerEventArgs> Changed;
 
 		/// <summary>
 		/// Sets or gets the DateTime value, optionally taking the selected timezone into account.
@@ -121,7 +133,7 @@
 			AddWidget(_timeZoneDropDown, 0, 2);
 		}
 
-		private void ShowHideTimeZoneSelectionButton_Pressed(object sender, EventArgs e)
+		private void ShowHideTimeZoneSelectionButtonPressed()
 		{
 			if (!wasButtonPressed)
 			{
@@ -137,6 +149,33 @@
 			wasButtonPressed = true;
 			useSelectedTimeZone = !useSelectedTimeZone;
 			_timeZoneDropDown.IsVisible = useSelectedTimeZone;
+		}
+
+		/// <summary>
+		///     Provides data for the <see cref="Changed" /> event.
+		/// </summary>
+		public class TimeZoneDateTimePickerEventArgs : EventArgs
+		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="TimeZoneDateTimePickerEventArgs"/> class.
+			/// </summary>
+			/// <param name="dateTime">New datetime value.</param>
+			/// <param name="timeZone">New timezone value.</param>
+			internal TimeZoneDateTimePickerEventArgs(DateTime dateTime, TimeZoneInfo timeZone)
+			{
+				DateTime = dateTime;
+				TimeZone = timeZone;
+			}
+
+			/// <summary>
+			///     Gets the new datetime value.
+			/// </summary>
+			public DateTime DateTime { get; }
+
+			/// <summary>
+			///     Gets the new timezone value.
+			/// </summary>
+			public TimeZoneInfo TimeZone { get; }
 		}
 	}
 }
