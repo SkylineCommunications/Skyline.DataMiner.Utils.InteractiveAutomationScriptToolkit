@@ -1,6 +1,8 @@
 ﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 {
 	using System;
+	using System.Linq;
+	using System.Runtime.Remoting.Messaging;
 
 	/// <summary>
 	/// Defines a section that allows the user to define a DateTime in a specific time zone.
@@ -61,8 +63,8 @@
 	public class TimeZoneDateTimePicker : Section
 	{
 		private readonly DateTimePicker _dateTimePicker = new DateTimePicker();
-		private readonly Button _showHideTimeZoneSelectionButton = new Button("🌍") { Width = 44 };
-		private readonly DropDown<TimeZoneInfo> _timeZoneDropDown = new DropDown<TimeZoneInfo>(TimeZoneInfo.GetSystemTimeZones()) { IsVisible = false, IsDisplayFilterShown = true, IsSorted = true };
+		private readonly Button _showHideTimeZoneSelectionButton = new Button("🌍") { Width = 50 };
+		private readonly DropDown<TimeZoneInfo> _timeZoneDropDown = new DropDown<TimeZoneInfo>(TimeZoneInfo.GetSystemTimeZones().OrderBy(x => x.BaseUtcOffset)) { IsVisible = false, IsDisplayFilterShown = true };
 
 		private bool wasButtonPressed = false;
 		private bool useSelectedTimeZone = false;
@@ -98,28 +100,22 @@
 			{
 				if (!useSelectedTimeZone) return _dateTimePicker.DateTime;
 
-				var offset = TimeZoneInfo.Local.BaseUtcOffset - _timeZoneDropDown.Selected.BaseUtcOffset;
-				return _dateTimePicker.DateTime.Add(offset);
-			}
-
-			set
-			{
-				if (!useSelectedTimeZone)
-				{
-					_dateTimePicker.DateTime = value;
-				}
-				else
-				{
-					var offset = _timeZoneDropDown.Selected.BaseUtcOffset - TimeZoneInfo.Local.BaseUtcOffset;
-					_dateTimePicker.DateTime = value.Add(offset);
-				}
+				var dateTime = new DateTime(_dateTimePicker.ClientDateTime.Year, _dateTimePicker.ClientDateTime.Month, _dateTimePicker.ClientDateTime.Day, _dateTimePicker.ClientDateTime.Hour, _dateTimePicker.ClientDateTime.Minute, _dateTimePicker.ClientDateTime.Second, DateTimeKind.Utc);
+				return dateTime.Add(_timeZoneDropDown.Selected.BaseUtcOffset);
 			}
 		}
 
 		/// <summary>
 		/// Gets the selected TimeZone from the dropdown.
 		/// </summary>
-		public TimeZoneInfo TimeZone => _timeZoneDropDown.Selected;
+		public TimeZoneInfo TimeZone
+		{
+			get
+			{
+				if (!useSelectedTimeZone) return null;
+				return _timeZoneDropDown.Selected;
+			}
+		}
 
 		/// <summary>
 		/// Rebuilds the section.
