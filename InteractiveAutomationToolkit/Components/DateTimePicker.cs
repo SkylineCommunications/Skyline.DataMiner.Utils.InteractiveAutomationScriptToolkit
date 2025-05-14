@@ -301,6 +301,7 @@
 		///     Gets or sets the time format of the time picker.
 		///     Default: <c>DateTimeFormat.ShortTime</c>.
 		/// </summary>
+		[Obsolete("Use the DateTimeFormat property to define the format of a DateTimePicker.")]
 		public DateTimeFormat TimeFormat
 		{
 			get
@@ -318,6 +319,7 @@
 		///     Gets or sets the time format string used when TimeFormat is set to <c>DateTimeFormat.Custom</c>.
 		/// </summary>
 		/// <remarks>Sets <see cref="TimeFormat" /> to <c>DateTimeFormat.Custom</c>.</remarks>
+		[Obsolete("Use the CustomDateTimeFormat property to define a custom format.")]
 		public string CustomTimeFormat
 		{
 			get
