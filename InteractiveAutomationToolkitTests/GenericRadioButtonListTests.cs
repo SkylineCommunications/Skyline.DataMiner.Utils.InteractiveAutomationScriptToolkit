@@ -33,7 +33,7 @@ namespace InteractiveAutomationToolkitTests
             var options = new[] { new Option<int>("1", 1), new Option<int>("2", 2), new Option<int>("3", 3) };
             var radioButtonList = new RadioButtonList<int>(options);
 
-            Assert.AreEqual(null, radioButtonList.SelectedOption);
+            Assert.IsNull(radioButtonList.SelectedOption);
             Assert.AreEqual(default, radioButtonList.Selected);
         }
 
@@ -53,7 +53,7 @@ namespace InteractiveAutomationToolkitTests
             var options = new[] { 1, 2, 3 };
             var radioButtonList = new RadioButtonList<int>(options);
 
-            Assert.AreEqual(null, radioButtonList.SelectedOption);
+            Assert.IsNull(radioButtonList.SelectedOption);
             Assert.AreEqual(default, radioButtonList.Selected);
         }
 
@@ -73,12 +73,12 @@ namespace InteractiveAutomationToolkitTests
             var options = new[] { 1, 2, 3 };
             var radioButtonList = new RadioButtonList<int>(options);
 
-            Assert.AreEqual(null, radioButtonList.SelectedOption);
+            Assert.IsNull(radioButtonList.SelectedOption);
             Assert.AreEqual(0, radioButtonList.Selected);
 
             radioButtonList.SetOptions(new[] { 4, 5, 6 });
 
-            Assert.AreEqual(null, radioButtonList.SelectedOption);
+            Assert.IsNull(radioButtonList.SelectedOption);
             Assert.AreEqual(0, radioButtonList.Selected);
         }
 
@@ -88,12 +88,12 @@ namespace InteractiveAutomationToolkitTests
             var options = new[] { new Option<int>("1", 1), new Option<int>("2", 2), new Option<int>("3", 3) };
             var radioButtonList = new RadioButtonList<int>(options);
 
-            Assert.AreEqual(null, radioButtonList.SelectedOption);
+            Assert.IsNull(radioButtonList.SelectedOption);
             Assert.AreEqual(0, radioButtonList.Selected);
 
             radioButtonList.SetOptions(new[] { new Option<int>("4", 4), new Option<int>("5", 5), new Option<int>("6", 6) });
 
-            Assert.AreEqual(null, radioButtonList.SelectedOption);
+            Assert.IsNull(radioButtonList.SelectedOption);
             Assert.AreEqual(0, radioButtonList.Selected);
         }
 
@@ -105,7 +105,7 @@ namespace InteractiveAutomationToolkitTests
             var options = new[] { new Option<int>("1", 1), new Option<int>("2", 2) };
             radioButtonList.SetOptions(options);
 
-            Assert.AreEqual(null, radioButtonList.SelectedOption);
+            Assert.IsNull(radioButtonList.SelectedOption);
             Assert.AreEqual(0, radioButtonList.Selected);
 
             Assert.AreEqual(2, radioButtonList.Options.Count());
@@ -143,7 +143,7 @@ namespace InteractiveAutomationToolkitTests
             var options = new[] { 1, 2 };
             radioButtonList.SetOptions(options);
 
-            Assert.AreEqual(null, radioButtonList.SelectedOption);
+            Assert.IsNull(radioButtonList.SelectedOption);
             Assert.AreEqual(0, radioButtonList.Selected);
 
             Assert.AreEqual(2, radioButtonList.Options.Count());
@@ -237,7 +237,7 @@ namespace InteractiveAutomationToolkitTests
             var radioButtonList = new RadioButtonList<object>(options, Option<object>.Empty);
 
             Assert.AreEqual(Option<object>.Empty, radioButtonList.SelectedOption);
-            Assert.AreEqual(null, radioButtonList.Selected);
+            Assert.IsNull(radioButtonList.Selected);
             Assert.IsTrue(radioButtonList.SelectedOption.IsEmpty);
         }
     }
