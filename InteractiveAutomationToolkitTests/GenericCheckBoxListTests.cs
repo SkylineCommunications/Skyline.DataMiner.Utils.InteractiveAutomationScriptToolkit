@@ -81,8 +81,8 @@ namespace InteractiveAutomationToolkitTests
 
             Assert.AreEqual(2, checkBoxList.Options.Count());
 
-            Assert.ThrowsException<ArgumentException>(() => checkBoxList.Uncheck(new Option<int>("3", 3)));
-            Assert.ThrowsException<ArgumentException>(() => checkBoxList.Check(new Option<int>("3", 3)));
+            Assert.ThrowsExactly<ArgumentException>(() => checkBoxList.Uncheck(new Option<int>("3", 3)));
+            Assert.ThrowsExactly<ArgumentException>(() => checkBoxList.Check(new Option<int>("3", 3)));
 
             checkBoxList.Check(new Option<int>("2", 2));
 
@@ -140,8 +140,8 @@ namespace InteractiveAutomationToolkitTests
 
             Assert.AreEqual(2, checkBoxList.Values.Count());
 
-            Assert.ThrowsException<ArgumentException>(() => checkBoxList.Uncheck(3));
-            Assert.ThrowsException<ArgumentException>(() => checkBoxList.Check(3));
+            Assert.ThrowsExactly<ArgumentException>(() => checkBoxList.Uncheck(3));
+            Assert.ThrowsExactly<ArgumentException>(() => checkBoxList.Check(3));
 
             checkBoxList.Check(2);
 
@@ -433,26 +433,26 @@ namespace InteractiveAutomationToolkitTests
             Assert.AreEqual(2, checkboxlist.Options.Count());
         }
 
-		[TestMethod]
-		public void EmptyOption_Test1()
-		{
-			var options = new[] { Option.Empty<int>() };
-			var checkboxlist = new CheckBoxList<int>(options);
+        [TestMethod]
+        public void EmptyOption_Test1()
+        {
+            var options = new[] { Option.Empty<int>() };
+            var checkboxlist = new CheckBoxList<int>(options);
 
             checkboxlist.Check(Option<int>.Empty);
 
-			Assert.IsTrue(checkboxlist.CheckedOptions.Single().IsEmpty);
-		}
+            Assert.IsTrue(checkboxlist.CheckedOptions.Single().IsEmpty);
+        }
 
-		[TestMethod]
-		public void EmptyOption_Test2()
-		{
-			var options = new[] { Option.Empty<object>() };
-			var checkboxlist = new CheckBoxList<object>(options);
+        [TestMethod]
+        public void EmptyOption_Test2()
+        {
+            var options = new[] { Option.Empty<object>() };
+            var checkboxlist = new CheckBoxList<object>(options);
 
             checkboxlist.Check(Option.Empty<object>());
 
-			Assert.IsTrue(checkboxlist.CheckedOptions.Single().IsEmpty);
-		}
-	}
+            Assert.IsTrue(checkboxlist.CheckedOptions.Single().IsEmpty);
+        }
+    }
 }

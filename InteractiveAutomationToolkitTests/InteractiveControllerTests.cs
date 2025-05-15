@@ -56,7 +56,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript.Tests
 
             var controller = new InteractiveController(mockedEngine.Object);
 
-            Assert.ThrowsException<InvalidOperationException>(() => controller.ShowDialog(dialog));
+            Assert.ThrowsExactly<InvalidOperationException>(() => controller.ShowDialog(dialog));
 
             Assert.IsTrue(dialog.ShowScriptAbortPopup);
         }
@@ -73,7 +73,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript.Tests
 
             var controller = new InteractiveController(mockedEngine.Object) { ScriptAbortPopupBehavior = ScriptAbortPopupBehavior.OnDialogLevel };
 
-            Assert.ThrowsException<InvalidOperationException>(() => controller.ShowDialog(dialog));
+            Assert.ThrowsExactly<InvalidOperationException>(() => controller.ShowDialog(dialog));
 
             Assert.IsTrue(dialog.ShowScriptAbortPopup);
         }
@@ -90,7 +90,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript.Tests
 
             var controller = new InteractiveController(mockedEngine.Object) { ScriptAbortPopupBehavior = ScriptAbortPopupBehavior.OnDialogLevel };
 
-            Assert.ThrowsException<InvalidOperationException>(() => controller.ShowDialog(dialog));
+            Assert.ThrowsExactly<InvalidOperationException>(() => controller.ShowDialog(dialog));
 
             Assert.IsFalse(dialog.ShowScriptAbortPopup);
         }
@@ -107,7 +107,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript.Tests
 
             var controller = new InteractiveController(mockedEngine.Object) { ScriptAbortPopupBehavior = ScriptAbortPopupBehavior.HideAlways };
 
-            Assert.ThrowsException<InvalidOperationException>(() => controller.ShowDialog(dialog));
+            Assert.ThrowsExactly<InvalidOperationException>(() => controller.ShowDialog(dialog));
 
             Assert.IsFalse(dialog.ShowScriptAbortPopup);
         }
@@ -124,7 +124,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript.Tests
 
             var controller = new InteractiveController(mockedEngine.Object) { ScriptAbortPopupBehavior = ScriptAbortPopupBehavior.HideAlways };
 
-            Assert.ThrowsException<InvalidOperationException>(() => controller.ShowDialog(dialog));
+            Assert.ThrowsExactly<InvalidOperationException>(() => controller.ShowDialog(dialog));
 
             Assert.IsFalse(dialog.ShowScriptAbortPopup);
         }
@@ -141,7 +141,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript.Tests
 
             var controller = new InteractiveController(mockedEngine.Object) { ScriptAbortPopupBehavior = ScriptAbortPopupBehavior.ShowAlways };
 
-            Assert.ThrowsException<InvalidOperationException>(() => controller.ShowDialog(dialog));
+            Assert.ThrowsExactly<InvalidOperationException>(() => controller.ShowDialog(dialog));
 
             Assert.IsTrue(dialog.ShowScriptAbortPopup);
         }
@@ -158,7 +158,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript.Tests
 
             var controller = new InteractiveController(mockedEngine.Object) { ScriptAbortPopupBehavior = ScriptAbortPopupBehavior.ShowAlways };
 
-            Assert.ThrowsException<InvalidOperationException>(() => controller.ShowDialog(dialog));
+            Assert.ThrowsExactly<InvalidOperationException>(() => controller.ShowDialog(dialog));
 
             Assert.IsTrue(dialog.ShowScriptAbortPopup);
         }

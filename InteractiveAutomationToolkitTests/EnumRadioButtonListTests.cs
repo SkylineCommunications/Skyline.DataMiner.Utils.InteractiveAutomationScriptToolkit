@@ -100,7 +100,7 @@
         [TestMethod]
         public void ConversionNullConstructorTest()
         {
-            Assert.ThrowsException<ArgumentNullException>(() =>
+            Assert.ThrowsExactly<ArgumentNullException>(() =>
             {
                 new EnumRadioButtonList<DefaultOption>(null, new DefaultOption[0]);
             });

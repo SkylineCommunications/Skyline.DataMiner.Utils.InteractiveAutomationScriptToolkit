@@ -110,7 +110,7 @@ namespace InteractiveAutomationToolkitTests
 
             Assert.AreEqual(2, radioButtonList.Options.Count());
 
-            Assert.ThrowsException<ArgumentException>(() => radioButtonList.SelectedOption = new Option<int>("3", 3));
+            Assert.ThrowsExactly<ArgumentException>(() => radioButtonList.SelectedOption = new Option<int>("3", 3));
 
             radioButtonList.Selected = 2;
             Assert.AreEqual(new Option<int>("2", 2), radioButtonList.SelectedOption);
@@ -148,7 +148,7 @@ namespace InteractiveAutomationToolkitTests
 
             Assert.AreEqual(2, radioButtonList.Options.Count());
 
-            Assert.ThrowsException<ArgumentException>(() => radioButtonList.Selected = 3);
+            Assert.ThrowsExactly<ArgumentException>(() => radioButtonList.Selected = 3);
 
             radioButtonList.Selected = 2;
             Assert.AreEqual(2, radioButtonList.Selected);
@@ -219,26 +219,26 @@ namespace InteractiveAutomationToolkitTests
             Assert.AreEqual(1, radioButtonList.Selected);
         }
 
-		[TestMethod]
-		public void EmptyOption_Test1()
-		{
-			var options = new[] { Option.Empty<int>() };
-			var radioButtonList = new RadioButtonList<int>(options, Option<int>.Empty);
+        [TestMethod]
+        public void EmptyOption_Test1()
+        {
+            var options = new[] { Option.Empty<int>() };
+            var radioButtonList = new RadioButtonList<int>(options, Option<int>.Empty);
 
-			Assert.AreEqual(Option<int>.Empty, radioButtonList.SelectedOption);
-			Assert.AreEqual(0, radioButtonList.Selected);
-			Assert.IsTrue(radioButtonList.SelectedOption.IsEmpty);
-		}
+            Assert.AreEqual(Option<int>.Empty, radioButtonList.SelectedOption);
+            Assert.AreEqual(0, radioButtonList.Selected);
+            Assert.IsTrue(radioButtonList.SelectedOption.IsEmpty);
+        }
 
-		[TestMethod]
-		public void EmptyOption_Test2()
-		{
-			var options = new[] { Option.Empty<object>() };
-			var radioButtonList = new RadioButtonList<object>(options, Option<object>.Empty);
+        [TestMethod]
+        public void EmptyOption_Test2()
+        {
+            var options = new[] { Option.Empty<object>() };
+            var radioButtonList = new RadioButtonList<object>(options, Option<object>.Empty);
 
-			Assert.AreEqual(Option<object>.Empty, radioButtonList.SelectedOption);
-			Assert.AreEqual(null, radioButtonList.Selected);
-			Assert.IsTrue(radioButtonList.SelectedOption.IsEmpty);
-		}
-	}
+            Assert.AreEqual(Option<object>.Empty, radioButtonList.SelectedOption);
+            Assert.AreEqual(null, radioButtonList.Selected);
+            Assert.IsTrue(radioButtonList.SelectedOption.IsEmpty);
+        }
+    }
 }

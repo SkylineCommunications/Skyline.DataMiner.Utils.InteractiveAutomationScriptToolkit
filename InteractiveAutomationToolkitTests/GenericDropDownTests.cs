@@ -80,7 +80,7 @@ namespace InteractiveAutomationToolkitTests
 
             Assert.AreEqual(2, dropdown.Options.Count());
 
-            Assert.ThrowsException<ArgumentException>(() => dropdown.SelectedOption = new Option<int>("3", 3));
+            Assert.ThrowsExactly<ArgumentException>(() => dropdown.SelectedOption = new Option<int>("3", 3));
 
             dropdown.Selected = 2;
             Assert.AreEqual(new Option<int>("2", 2), dropdown.SelectedOption);
@@ -118,7 +118,7 @@ namespace InteractiveAutomationToolkitTests
 
             Assert.AreEqual(2, dropdown.Options.Count());
 
-            Assert.ThrowsException<ArgumentException>(() => dropdown.Selected = 3);
+            Assert.ThrowsExactly<ArgumentException>(() => dropdown.Selected = 3);
 
             dropdown.Selected = 2;
             Assert.AreEqual(2, dropdown.Selected);
@@ -189,26 +189,26 @@ namespace InteractiveAutomationToolkitTests
             Assert.AreEqual(1, dropdown.Selected);
         }
 
-		[TestMethod]
-		public void EmptyOption_Test1()
-		{
-			var options = new[] { Option.Empty<int>() };
-			var dropDown = new DropDown<int>(options);
+        [TestMethod]
+        public void EmptyOption_Test1()
+        {
+            var options = new[] { Option.Empty<int>() };
+            var dropDown = new DropDown<int>(options);
 
-			Assert.AreEqual(Option<int>.Empty, dropDown.SelectedOption);
-			Assert.AreEqual(0, dropDown.Selected);
-			Assert.IsTrue(dropDown.SelectedOption.IsEmpty);
-		}
+            Assert.AreEqual(Option<int>.Empty, dropDown.SelectedOption);
+            Assert.AreEqual(0, dropDown.Selected);
+            Assert.IsTrue(dropDown.SelectedOption.IsEmpty);
+        }
 
-		[TestMethod]
-		public void EmptyOption_Test2()
-		{
-			var options = new[] { Option.Empty<object>() };
-			var dropDown = new DropDown<object>(options);
+        [TestMethod]
+        public void EmptyOption_Test2()
+        {
+            var options = new[] { Option.Empty<object>() };
+            var dropDown = new DropDown<object>(options);
 
-			Assert.AreEqual(Option<object>.Empty, dropDown.SelectedOption);
-			Assert.AreEqual(null, dropDown.Selected);
-			Assert.IsTrue(dropDown.SelectedOption.IsEmpty);
-		}
-	}
+            Assert.AreEqual(Option<object>.Empty, dropDown.SelectedOption);
+            Assert.IsNull(dropDown.Selected);
+            Assert.IsTrue(dropDown.SelectedOption.IsEmpty);
+        }
+    }
 }
