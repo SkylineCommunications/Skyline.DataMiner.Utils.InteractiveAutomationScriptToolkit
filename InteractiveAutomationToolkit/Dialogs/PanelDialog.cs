@@ -5,6 +5,7 @@
 	using System.Linq;
 
 	using Skyline.DataMiner.Automation;
+	using Skyline.DataMiner.Net.Exceptions;
 
 	public class Dialog<TPanel> : IDialog<TPanel> where TPanel : IPanel, new()
 	{
@@ -246,11 +247,22 @@
 
 			DisableWidgets(widgets);
 
-			UIBuilder uib = Build();
-			uib.RequireResponse = false;
+			UIBuilder uiBuilder = Build();
+			uiBuilder.RequireResponse = false;
 
-			Engine.ShowUI(uib);
-			Engine.KeepAlive();
+			try
+			{
+				Engine.ShowUI(uiBuilder);
+				Engine.KeepAlive();
+			}
+			catch (InteractiveUserDetachedException)
+			{
+				throw;
+			}
+			catch (DataMinerException e)
+			{
+				throw new InvalidOperationException($"{nameof(IEngine)}.{nameof(Engine.ShowUI)} failed with {nameof(UIBuilder)} argument {uiBuilder}", e);
+			}
 
 			EnableWidgets(widgets);
 		}
@@ -258,14 +270,61 @@
 		/// <inheritdoc/>
 		public void ShowInteractive()
 		{
-			UIBuilder uib = Build();
-			uib.RequireResponse = true;
+			UIBuilder uiBuilder = Build();
+			uiBuilder.RequireResponse = true;
 
-			IUIResults uir = new WrappedUIResults(Engine.ShowUI(uib));
-			Engine.KeepAlive();
+			IUIResults uiResults;
 
-			LoadChanges(uir);
-			RaiseResultEvents(uir);
+			try
+			{
+				uiResults = new WrappedUIResults(Engine.ShowUI(uiBuilder));
+				Engine.KeepAlive();
+			}
+			catch (InteractiveUserDetachedException)
+			{
+				throw;
+			}
+			catch (DataMinerException e)
+			{
+				throw new InvalidOperationException($"{nameof(IEngine)}.{nameof(Engine.ShowUI)} failed with {nameof(UIBuilder)} argument {uiBuilder}", e);
+			}
+
+			LoadChanges(uiResults);
+			RaiseResultEvents(uiResults);
+		}
+
+		/// <summary>
+		///     Shows the dialog window.
+		///     Also loads changes and triggers events when <paramref name="requireResponse" /> is <c>true</c>.
+		/// </summary>
+		/// <param name="requireResponse">If the dialog expects user interaction.</param>
+		/// <remarks>Should only be used when you create your own event loop.</remarks>
+		[Obsolete("Use 'ShowInteractive' or 'ShowStatic' instead.", false)]
+		public void Show(bool requireResponse = true)
+		{
+			UIBuilder uiBuilder = Build();
+			uiBuilder.RequireResponse = requireResponse;
+
+			IUIResults uiResults;
+
+			try
+			{
+				uiResults = new WrappedUIResults(Engine.ShowUI(uiBuilder));
+			}
+			catch (InteractiveUserDetachedException)
+			{
+				throw;
+			}
+			catch (DataMinerException e)
+			{
+				throw new InvalidOperationException($"{nameof(IEngine)}.{nameof(Engine.ShowUI)} failed with {nameof(UIBuilder)} argument {uiBuilder}", e);
+			}
+
+			if (requireResponse)
+			{
+				LoadChanges(uiResults);
+				RaiseResultEvents(uiResults);
+			}
 		}
 
 		internal UIBuilder Build()
