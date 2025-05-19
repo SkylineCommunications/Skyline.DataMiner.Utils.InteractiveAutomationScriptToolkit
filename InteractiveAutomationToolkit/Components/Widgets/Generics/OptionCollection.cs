@@ -1,4 +1,4 @@
-﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript.Components.Widgets.Generics
+﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 {
 	using System;
 	using System.Collections;

@@ -4,8 +4,6 @@
 	using System.Collections.Generic;
 	using System.Linq;
 
-	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Components.Widgets.Generics;
-
 	/// <summary>
 	///     A group of radio buttons.
 	/// </summary>

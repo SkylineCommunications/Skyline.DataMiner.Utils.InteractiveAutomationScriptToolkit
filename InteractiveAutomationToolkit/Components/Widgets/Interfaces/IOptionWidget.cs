@@ -2,8 +2,6 @@
 {
 	using System.Collections.Generic;
 
-	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Components.Widgets.Generics;
-
 	/// <summary>
 	/// Defines the base functionality for a widget that manages a list of options represented as strings.
 	/// </summary>

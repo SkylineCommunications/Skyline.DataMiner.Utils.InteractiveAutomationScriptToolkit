@@ -5,8 +5,6 @@
 	using System.ComponentModel;
 	using System.Linq;
 
-	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Components.Widgets.Generics;
-
 	/// <summary>
 	/// A radio button list that allows users to select a value defined by an enum.
 	/// </summary>

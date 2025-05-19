@@ -98,11 +98,11 @@
 		/// <summary>
 		///     Gets widgets that have been added to the section.
 		/// </summary>
-		public IEnumerable<IWidget> Widgets
+		public IEnumerable<Widget> Widgets
 		{
 			get
 			{
-				return GetWidgetLocationPairs().Select(x => x.Widget);
+				return GetWidgetLocationPairs().Select(x => (Widget)x.Widget);
 			}
 		}
 

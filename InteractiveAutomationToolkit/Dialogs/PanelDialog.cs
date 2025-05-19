@@ -1,12 +1,10 @@
-﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript.Dialogs
+﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 {
 	using System;
 	using System.Collections.Generic;
-	using System.ComponentModel;
 	using System.Linq;
 
 	using Skyline.DataMiner.Automation;
-	using Skyline.DataMiner.Net.Exceptions;
 
 	public class Dialog<TPanel> : IDialog<TPanel> where TPanel : IPanel, new()
 	{

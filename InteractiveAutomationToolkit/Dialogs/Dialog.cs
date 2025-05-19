@@ -6,7 +6,6 @@
 
 	using Skyline.DataMiner.Automation;
 	using Skyline.DataMiner.Net.Exceptions;
-	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Dialogs;
 
 	/// <summary>
 	///     A dialog represents a single window that can be shown.
@@ -109,11 +108,11 @@
 		/// <summary>
 		///     Gets widgets that are added to the dialog.
 		/// </summary>
-		public IEnumerable<IWidget> Widgets
+		public IEnumerable<Widget> Widgets
 		{
 			get
 			{
-				return Panel.GetAllWidgetLocationPairs().Select(w => w.Widget);
+				return Panel.GetAllWidgetLocationPairs().Select(w => (Widget)w.Widget);
 			}
 		}
 
