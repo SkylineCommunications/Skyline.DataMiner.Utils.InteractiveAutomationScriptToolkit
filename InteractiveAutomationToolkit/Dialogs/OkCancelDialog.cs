@@ -6,7 +6,7 @@
 	/// <summary>
 	///  Dialog used to ask user confirmation.
 	/// </summary>
-	public class OkCancelDialog : Dialog
+	public class OkCancelDialog : Dialog<GridPanel>
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OkCancelDialog"/> class.
@@ -19,19 +19,18 @@
 			OkButton.Style = callToAction == CallToAction.OK ? ButtonStyle.CallToAction : ButtonStyle.None;
 			CancelButton.Style = callToAction == CallToAction.Cancel ? ButtonStyle.CallToAction : ButtonStyle.None;
 
-			AddWidget(new Label(message), 0, 0, 1, 2);
-
-			AddWidget(new WhiteSpace(), 1, 0);
+			Panel.Add(new Label(message), 0, 0, 1, 2);
+			Panel.Add(new WhiteSpace(), 1, 0);
 
 			if (callToAction == CallToAction.OK)
 			{
-				AddWidget(CancelButton, 2, 0);
-				AddWidget(OkButton, 2, 1, HorizontalAlignment.Right);
+				Panel.Add(CancelButton, 2, 0);
+				Panel.Add(OkButton, 2, 1);
 			}
 			else
 			{
-				AddWidget(OkButton, 2, 0);
-				AddWidget(CancelButton, 2, 1, HorizontalAlignment.Right);
+				Panel.Add(OkButton, 2, 0);
+				Panel.Add(CancelButton, 2, 1);
 			}
 
 			SetColumnWidth(0, 140);
@@ -41,12 +40,20 @@
 		/// <summary>
 		///	Gets the button with "OK" that is displayed below the message.
 		/// </summary>
-		public Button OkButton { get; } = new Button("OK") { Width = 130 };
+		public Button OkButton { get; } = new Button("OK")
+		{
+			Width = 130,
+			HorizontalAlignment = HorizontalAlignment.Right,
+		};
 
 		/// <summary>
 		///	Gets the button with "Cancel" that is displayed below the message.
 		/// </summary>
-		public Button CancelButton { get; } = new Button("Cancel") { Width = 130 };
+		public Button CancelButton { get; } = new Button("Cancel")
+		{
+			Width = 130,
+			HorizontalAlignment = HorizontalAlignment.Right,
+		};
 
 		/// <summary>
 		/// Shows the <see cref="OkCancelDialog"/> without passing through the <see cref="InteractiveController"/>
@@ -70,7 +77,7 @@
 			dialog.OkButton.Pressed += (s, e) => okButtonPressed = true;
 			dialog.CancelButton.Pressed += (s, e) => okButtonPressed = false;
 
-			dialog.Show(true);
+			dialog.ShowInteractive();
 
 			return okButtonPressed;
 		}

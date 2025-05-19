@@ -7,7 +7,7 @@
 	/// <summary>
 	/// 	Dialog used to display a message.
 	/// </summary>
-	public class MessageDialog : Dialog
+	public class MessageDialog : Dialog<GridPanel>
 	{
 		private readonly Label messageLabel = new Label();
 
@@ -19,8 +19,8 @@
 		{
 			OkButton = new Button("OK") { Width = 130, Style = ButtonStyle.CallToAction };
 
-			AddWidget(messageLabel, 0, 0);
-			AddWidget(OkButton, 1, 0);
+			Panel.Add(messageLabel, 0, 0);
+			Panel.Add(OkButton, 1, 0);
 		}
 
 		/// <summary>
