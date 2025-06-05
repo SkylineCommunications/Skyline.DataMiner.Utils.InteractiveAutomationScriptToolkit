@@ -7,318 +7,290 @@
 	using Skyline.DataMiner.Automation;
 	using Skyline.DataMiner.Net.Exceptions;
 
-	/// <summary>
-	///     A dialog represents a single window that can be shown.
-	///     You can show widgets in the window by adding them to the dialog.
-	///     The dialog uses a grid to determine the layout of its widgets.
-	/// </summary>
-	[Obsolete("Use Dialog<TPanel> instead", false)]
-	public class Dialog : Dialog<GridPanel>
+	public class Dialog<TPanel> : IDialog<TPanel> where TPanel : IPanel, new()
 	{
-		private bool isEnabled = true;
+		private const string Auto = "auto";
+		private const string Stretch = "*";
+
+		private readonly Dictionary<int, string> columnDefinitions = new Dictionary<int, string>();
+		private readonly Dictionary<int, string> rowDefinitions = new Dictionary<int, string>();
+
+		private int height;
+		private int maxHeight;
+		private int maxWidth;
+		private int minHeight;
+		private int minWidth;
+		private int width;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Dialog" /> class.
+		///     Initializes a new instance of the <see cref="Dialog{TPanel}" /> class.
 		/// </summary>
 		/// <param name="engine">Allows interaction with the DataMiner System.</param>
-		public Dialog(IEngine engine) : base(engine)
+		public Dialog(IEngine engine)
 		{
-			if (engine == null)
-			{
-				throw new ArgumentNullException("engine");
-			}
+			Engine = engine ?? throw new ArgumentNullException(nameof(engine));
+			width = -1;
+			height = -1;
+			MaxHeight = Int32.MaxValue;
+			MinHeight = 1;
+			MaxWidth = Int32.MaxValue;
+			MinWidth = 1;
+			Title = null;
+			AllowOverlappingWidgets = false;
 		}
 
-		/// <summary>
-		///     Gets the number of columns of the grid layout.
-		/// </summary>
-		public int ColumnCount
+		/// <inheritdoc />
+		public event EventHandler<EventArgs> Back;
+
+		/// <inheritdoc />
+		public event EventHandler<EventArgs> Forward;
+
+		/// <inheritdoc />
+		public event EventHandler<EventArgs> Interacted;
+
+		/// <inheritdoc/>
+		IPanel IDialog.Panel => Panel;
+
+		/// <inheritdoc/>
+		public TPanel Panel { get; } = new TPanel();
+
+		/// <inheritdoc />
+		public IEngine Engine { get; }
+
+		/// <inheritdoc />
+		public bool AllowOverlappingWidgets { get; set; }
+
+		/// <inheritdoc />
+		public int Height
 		{
-			get
-			{
-				var widgets = Panel.GetWidgetLocationPairs();
-				if (!widgets.Any())
-				{
-					return 0;
-				}
-
-				var columns = new bool[widgets.Max(p => p.Location.Column + p.Location.ColumnSpan)];
-				foreach (var widget in widgets)
-				{
-					for (int i = widget.Location.Column; i < widget.Location.Column + widget.Location.ColumnSpan; i++)
-					{
-						columns[i] = true;
-					}
-				}
-
-				return columns.Count(c => c);
-			}
-		}
-
-		/// <summary>
-		///     Gets the number of rows in the grid layout.
-		/// </summary>
-		public int RowCount
-		{
-			get
-			{
-				var widgets = Panel.GetWidgetLocationPairs();
-				if (!widgets.Any())
-				{
-					return 0;
-				}
-
-				var rows = new bool[widgets.Max(p => p.Location.Row + p.Location.RowSpan)];
-				foreach (var widget in widgets)
-				{
-					for (int i = widget.Location.Row; i < widget.Location.Row + widget.Location.RowSpan; i++)
-					{
-						rows[i] = true;
-					}
-				}
-
-				return rows.Count(c => c);
-			}
-		}
-
-		/// <summary>
-		/// 	Gets or sets a value indicating whether the interactive widgets within the dialog are enabled or not.
-		/// </summary>
-		public bool IsEnabled
-		{
-			get
-			{
-				return isEnabled;
-			}
+			get => height;
 
 			set
 			{
-				isEnabled = value;
-				foreach (Widget widget in Widgets)
+				if (value <= 0)
 				{
-					InteractiveWidget interactiveWidget = widget as InteractiveWidget;
-					if (interactiveWidget != null && !(interactiveWidget is CollapseButton))
-					{
-						interactiveWidget.IsEnabled = isEnabled;
-					}
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
+
+				height = value;
 			}
 		}
 
-		/// <summary>
-		///     Gets widgets that are added to the dialog.
-		/// </summary>
-		public IEnumerable<Widget> Widgets
+		/// <inheritdoc />
+		public int MinHeight
 		{
-			get
+			get => minHeight;
+
+			set
 			{
-				return Panel.GetAllWidgetLocationPairs().Select(w => (Widget)w.Widget);
-			}
-		}
-
-		/// <summary>
-		///     Adds a widget to the dialog.
-		/// </summary>
-		/// <param name="widget">Widget to add to the dialog.</param>
-		/// <param name="widgetLayout">Location of the widget on the grid layout.</param>
-		/// <returns>The dialog.</returns>
-		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
-		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
-		public Dialog AddWidget(Widget widget, IWidgetLayout widgetLayout)
-		{
-			if (widget == null)
-			{
-				throw new ArgumentNullException("widget");
-			}
-
-			var existingWidget = Widgets.FirstOrDefault(w => w == widget);
-			if (existingWidget != null)
-			{
-				throw new ArgumentException("Widget is already added to the dialog");
-			}
-
-			widget.HorizontalAlignment = widgetLayout.HorizontalAlignment;
-			widget.VerticalAlignment = widgetLayout.VerticalAlignment;
-			widget.Margin = widgetLayout.Margin;
-			Panel.Add(widget, new WidgetLocation(widgetLayout.Row, widgetLayout.Column, widgetLayout.RowSpan, widgetLayout.ColumnSpan));
-			return this;
-		}
-
-		/// <summary>
-		///     Adds a widget to the dialog.
-		/// </summary>
-		/// <param name="widget">Widget to add to the dialog.</param>
-		/// <param name="row">Row location of widget on the grid.</param>
-		/// <param name="column">Column location of the widget on the grid.</param>
-		/// <param name="horizontalAlignment">Horizontal alignment of the widget.</param>
-		/// <param name="verticalAlignment">Vertical alignment of the widget.</param>
-		/// <returns>The dialog.</returns>
-		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
-		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
-		public Dialog AddWidget(
-			Widget widget,
-			int row,
-			int column,
-			HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left,
-			VerticalAlignment verticalAlignment = VerticalAlignment.Center)
-		{
-			AddWidget(widget, new WidgetLayout(row, column, horizontalAlignment, verticalAlignment));
-			return this;
-		}
-
-		/// <summary>
-		///     Adds a widget to the dialog.
-		/// </summary>
-		/// <param name="widget">Widget to add to the dialog.</param>
-		/// <param name="fromRow">Row location of widget on the grid.</param>
-		/// <param name="fromColumn">Column location of the widget on the grid.</param>
-		/// <param name="rowSpan">Number of rows the widget will use.</param>
-		/// <param name="colSpan">Number of columns the widget will use.</param>
-		/// <param name="horizontalAlignment">Horizontal alignment of the widget.</param>
-		/// <param name="verticalAlignment">Vertical alignment of the widget.</param>
-		/// <returns>The dialog.</returns>
-		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
-		/// <exception cref="ArgumentException">When the widget has already been added to the dialog.</exception>
-		public Dialog AddWidget(
-			Widget widget,
-			int fromRow,
-			int fromColumn,
-			int rowSpan,
-			int colSpan,
-			HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left,
-			VerticalAlignment verticalAlignment = VerticalAlignment.Center)
-		{
-			AddWidget(
-				widget,
-				new WidgetLayout(fromRow, fromColumn, rowSpan, colSpan, horizontalAlignment, verticalAlignment));
-			return this;
-		}
-
-		/// <summary>
-		///     Gets the layout of the widget in the dialog.
-		/// </summary>
-		/// <param name="widget">A widget that is part of the dialog.</param>
-		/// <returns>The widget layout in the dialog.</returns>
-		/// <exception cref="NullReferenceException">When the widget is null.</exception>
-		/// <exception cref="ArgumentException">When the widget is not part of the dialog.</exception>
-		public IWidgetLayout GetWidgetLayout(Widget widget)
-		{
-			if (widget == null)
-			{
-				throw new ArgumentNullException("widget");
-			}
-
-			var existingWidget = Panel.GetWidgetLocationPairs().FirstOrDefault(w => w.Widget == widget);
-			if (existingWidget.Widget is null)
-			{
-				throw new ArgumentException("Widget is not part of this dialog");
-			}
-
-			return new WidgetLayout(
-				existingWidget.Location.Row,
-				existingWidget.Location.Column,
-				existingWidget.Location.RowSpan,
-				existingWidget.Location.ColumnSpan,
-				existingWidget.Widget.HorizontalAlignment,
-				existingWidget.Widget.VerticalAlignment);
-		}
-
-		/// <summary>
-		///     Removes a widget from the dialog.
-		/// </summary>
-		/// <param name="widget">Widget to remove.</param>
-		/// <exception cref="ArgumentNullException">When the widget is null.</exception>
-		public void RemoveWidget(Widget widget)
-		{
-			if (widget == null)
-			{
-				throw new ArgumentNullException("widget");
-			}
-
-			Panel.Remove(widget);
-			foreach (var panel in Panel.GetPanels())
-			{
-				switch (panel)
+				if (value <= 0)
 				{
-					case GridPanel gridPanel:
-						gridPanel.Remove(widget);
-						break;
-
-					case FormPanel formPanel:
-						formPanel.Remove(widget);
-						break;
-
-					case StackPanel stackPanel:
-						stackPanel.Remove(widget);
-						break;
-
-					default:
-						throw new ArgumentException("Widget is not part of this dialog");
+					throw new ArgumentOutOfRangeException(nameof(value));
 				}
+
+				minHeight = value;
 			}
 		}
 
-		/// <summary>
-		/// Adds the widgets from the section to the dialog.
-		/// </summary>
-		/// <param name="section">Section to be added to the dialog.</param>
-		/// <param name="layout">Left top position of the section within the dialog.</param>
-		/// <returns>Updated dialog.</returns>
-		public Dialog AddSection(Section section, SectionLayout layout)
+		/// <inheritdoc />
+		public int MaxHeight
 		{
-			foreach (Widget widget in section.Widgets)
-			{
-				IWidgetLayout widgetLayout = section.GetWidgetLayout(widget);
-				AddWidget(
-					widget,
-					new WidgetLayout(
-						widgetLayout.Row + layout.Row,
-						widgetLayout.Column + layout.Column,
-						widgetLayout.RowSpan,
-						widgetLayout.ColumnSpan,
-						widgetLayout.HorizontalAlignment,
-						widgetLayout.VerticalAlignment));
-			}
+			get => maxHeight;
 
-			return this;
+			set
+			{
+				if (value <= 0)
+				{
+					throw new ArgumentOutOfRangeException(nameof(value));
+				}
+
+				maxHeight = value;
+			}
 		}
 
-		/// <summary>
-		/// Adds the widgets from the section to the dialog.
-		/// </summary>
-		/// <param name="section">Section to be added to the dialog.</param>
-		/// <param name="fromRow">Row in the dialog where the section should be added.</param>
-		/// <param name="fromColumn">Column in the dialog where the section should be added.</param>
-		/// <returns>Updated dialog.</returns>
-		public Dialog AddSection(Section section, int fromRow, int fromColumn)
+		/// <inheritdoc />
+		public int Width
 		{
-			return AddSection(section, new SectionLayout(fromRow, fromColumn));
+			get => width;
+
+			set
+			{
+				if (value <= 0)
+				{
+					throw new ArgumentOutOfRangeException(nameof(value));
+				}
+
+				width = value;
+			}
 		}
 
-		/// <summary>
-		///     Sets the layout of the widget in the dialog.
-		/// </summary>
-		/// <param name="widget">A widget that is part of the dialog.</param>
-		/// <param name="widgetLayout">The layout to apply to the widget.</param>
-		/// <exception cref="NullReferenceException">When widget is null.</exception>
-		/// <exception cref="ArgumentException">When the widget is not part of the dialog.</exception>
-		public void SetWidgetLayout(Widget widget, IWidgetLayout widgetLayout)
+		/// <inheritdoc />
+		public int MinWidth
 		{
-			if (widget == null)
+			get => minWidth;
+
+			set
 			{
-				throw new ArgumentNullException("widget");
+				if (value <= 0)
+				{
+					throw new ArgumentOutOfRangeException(nameof(value));
+				}
+
+				minWidth = value;
+			}
+		}
+
+		/// <inheritdoc />
+		public int MaxWidth
+		{
+			get => maxWidth;
+
+			set
+			{
+				if (value <= 0)
+				{
+					throw new ArgumentOutOfRangeException(nameof(value));
+				}
+
+				maxWidth = value;
+			}
+		}
+
+		/// <inheritdoc />
+		public string Title { get; set; }
+
+		/// <inheritdoc />
+		public bool ShowScriptAbortPopup { get; set; } = true;
+
+		/// <inheritdoc />
+		public void SetColumnWidth(int column, int columnWidth)
+		{
+			if (column < 0)
+			{
+				throw new ArgumentOutOfRangeException(nameof(column));
 			}
 
-			var existingWidget = Widgets.FirstOrDefault(w => w == widget);
-			if (existingWidget is null)
+			if (columnWidth < 0)
 			{
-				throw new ArgumentException("Widget is not part of this dialog");
+				throw new ArgumentOutOfRangeException(nameof(columnWidth));
 			}
 
-			Panel.Move(widget, widgetLayout.Row, widgetLayout.Column, widgetLayout.RowSpan, widgetLayout.ColumnSpan);
-			existingWidget.HorizontalAlignment = widgetLayout.HorizontalAlignment;
-			existingWidget.VerticalAlignment = widgetLayout.VerticalAlignment;
-			existingWidget.Margin = widgetLayout.Margin;
+			columnDefinitions[column] = columnWidth.ToString();
+		}
+
+		/// <inheritdoc />
+		public void SetColumnWidthAuto(int column)
+		{
+			if (column < 0)
+			{
+				throw new ArgumentOutOfRangeException(nameof(column));
+			}
+
+			columnDefinitions[column] = Auto;
+		}
+
+		/// <inheritdoc />
+		public void SetColumnWidthStretch(int column)
+		{
+			if (column < 0)
+			{
+				throw new ArgumentOutOfRangeException(nameof(column));
+			}
+
+			columnDefinitions[column] = Stretch;
+		}
+
+		/// <inheritdoc />
+		public void SetRowHeight(int row, int rowHeight)
+		{
+			if (row < 0)
+			{
+				throw new ArgumentOutOfRangeException(nameof(row));
+			}
+
+			if (rowHeight < 0)
+			{
+				throw new ArgumentOutOfRangeException(nameof(rowHeight));
+			}
+
+			rowDefinitions[row] = rowHeight.ToString();
+		}
+
+		/// <inheritdoc />
+		public void SetRowHeightAuto(int row)
+		{
+			if (row < 0)
+			{
+				throw new ArgumentOutOfRangeException(nameof(row));
+			}
+
+			rowDefinitions[row] = Auto;
+		}
+
+		/// <inheritdoc />
+		public void SetRowHeightStretch(int row)
+		{
+			if (row < 0)
+			{
+				throw new ArgumentOutOfRangeException(nameof(row));
+			}
+
+			rowDefinitions[row] = Stretch;
+		}
+
+		/// <inheritdoc/>
+		public void ShowStatic(bool disabled)
+		{
+			IInteractiveWidget[] widgets = disabled
+				? GetEnabledWidgets()
+				: Array.Empty<IInteractiveWidget>();
+
+			DisableWidgets(widgets);
+
+			UIBuilder uiBuilder = Build();
+			uiBuilder.RequireResponse = false;
+
+			try
+			{
+				Engine.ShowUI(uiBuilder);
+				Engine.KeepAlive();
+			}
+			catch (InteractiveUserDetachedException)
+			{
+				throw;
+			}
+			catch (DataMinerException e)
+			{
+				throw new InvalidOperationException($"{nameof(IEngine)}.{nameof(Engine.ShowUI)} failed with {nameof(UIBuilder)} argument {uiBuilder}", e);
+			}
+
+			EnableWidgets(widgets);
+		}
+
+		/// <inheritdoc/>
+		public void ShowInteractive()
+		{
+			UIBuilder uiBuilder = Build();
+			uiBuilder.RequireResponse = true;
+
+			IUIResults uiResults;
+
+			try
+			{
+				uiResults = new WrappedUIResults(Engine.ShowUI(uiBuilder));
+				Engine.KeepAlive();
+			}
+			catch (InteractiveUserDetachedException)
+			{
+				throw;
+			}
+			catch (DataMinerException e)
+			{
+				throw new InvalidOperationException($"{nameof(IEngine)}.{nameof(Engine.ShowUI)} failed with {nameof(UIBuilder)} argument {uiBuilder}", e);
+			}
+
+			LoadChanges(uiResults);
+			RaiseResultEvents(uiResults);
 		}
 
 		/// <summary>
@@ -327,6 +299,7 @@
 		/// </summary>
 		/// <param name="requireResponse">If the dialog expects user interaction.</param>
 		/// <remarks>Should only be used when you create your own event loop.</remarks>
+		[Obsolete("Use 'ShowInteractive' or 'ShowStatic' instead.", false)]
 		public void Show(bool requireResponse = true)
 		{
 			UIBuilder uiBuilder = Build();
@@ -354,21 +327,169 @@
 			}
 		}
 
-		/// <summary>
-		/// Hides the dialog. This does not block any background logic from running.
-		/// Use <see cref="Show"/> if you want to show the dialog again.
-		/// </summary>
-		public void Hide()
+		internal UIBuilder Build()
 		{
-			Engine.HideUI();
+			WidgetLocationPair[] visibleWidgetLocationPairs = Panel.GetWidgetLocationPairs()
+				.Where(pair => pair.Widget.IsVisible)
+				.ToArray();
+
+			if (!AllowOverlappingWidgets)
+			{
+				CheckIfWidgetsOverlap(visibleWidgetLocationPairs);
+			}
+
+			// Initialize UI Builder
+			var builder = new UIBuilder
+			{
+				Height = Height,
+				MinHeight = MinHeight,
+				Width = Width,
+				MinWidth = MinWidth,
+				RowDefs = GetRowDefinitions(),
+				ColumnDefs = GetColumnDefinitions(),
+				Title = Title,
+				SkipAbortConfirmation = !ShowScriptAbortPopup,
+			};
+
+			foreach (WidgetLocationPair widgetLocationPair in visibleWidgetLocationPairs)
+			{
+				IWidget widget = widgetLocationPair.Widget;
+				WidgetLocation location = widgetLocationPair.Location;
+
+				if (widget.Type == UIBlockType.Undefined)
+				{
+					continue;
+				}
+
+				UIBlockDefinition blockDefinition = widget.BlockDefinition;
+				blockDefinition.Row = location.Row;
+				blockDefinition.RowSpan = location.RowSpan;
+				blockDefinition.Column = location.Column;
+				blockDefinition.ColumnSpan = location.ColumnSpan;
+				builder.AppendBlock(blockDefinition);
+			}
+
+			return builder;
 		}
 
-		/// <summary>
-		/// Removes all widgets from the dialog.
-		/// </summary>
-		public void Clear()
+		internal void LoadChanges(IUIResults uir)
 		{
-			Panel.Clear();
+			foreach (InteractiveWidget interactiveWidget in Panel.GetWidgets().OfType<InteractiveWidget>())
+			{
+				if (interactiveWidget.IsVisible)
+				{
+					interactiveWidget.LoadResult(uir);
+				}
+			}
+		}
+
+		internal void RaiseResultEvents(IUIResults uir)
+		{
+			Interacted?.Invoke(this, EventArgs.Empty);
+
+			if (uir.WasBack() && Back != null)
+			{
+				Back(this, EventArgs.Empty);
+				return;
+			}
+
+			if (uir.WasForward() && Forward != null)
+			{
+				Forward(this, EventArgs.Empty);
+				return;
+			}
+
+			// ToList is necessary to prevent InvalidOperationException when adding or removing widgets from a event handler.
+			List<InteractiveWidget> intractableWidgets = Panel.GetWidgets()
+				.OfType<InteractiveWidget>()
+				.Where(widget => widget.BlockDefinition.WantsOnChange)
+				.ToList();
+
+			foreach (InteractiveWidget intractable in intractableWidgets)
+			{
+				intractable.RaiseResultEvents();
+			}
+		}
+
+		private static void CheckIfWidgetsOverlap(WidgetLocationPair[] widgetLocationPairs)
+		{
+			var builder = new OverlappingWidgetsException.Builder();
+
+			for (var i = 0; i < widgetLocationPairs.Length; i++)
+			{
+				IWidget widget = widgetLocationPairs[i].Widget;
+				WidgetLocation location = widgetLocationPairs[i].Location;
+				for (int j = i + 1; j < widgetLocationPairs.Length; j++)
+				{
+					IWidget otherWidget = widgetLocationPairs[j].Widget;
+					WidgetLocation otherLocation = widgetLocationPairs[j].Location;
+					if (location.Overlaps(otherLocation))
+					{
+						builder.Add(widget, location, otherWidget, otherLocation);
+					}
+				}
+			}
+
+			if (builder.Count != 0)
+			{
+				throw builder.Build();
+			}
+		}
+
+		private static void EnableWidgets(IEnumerable<IInteractiveWidget> widgets)
+		{
+			foreach (IInteractiveWidget widget in widgets)
+			{
+				widget.IsEnabled = true;
+			}
+		}
+
+		private static void DisableWidgets(IEnumerable<IInteractiveWidget> widgets)
+		{
+			foreach (IInteractiveWidget widget in widgets)
+			{
+				widget.IsEnabled = false;
+			}
+		}
+
+		private string GetColumnDefinitions()
+		{
+			return GetDefinitions(columnDefinitions, Panel.GetColumnCount());
+		}
+
+		private string GetDefinitions(Dictionary<int, string> definitions, int amount)
+		{
+			return String.Join(";", GetDefinitionsEnumerator() ?? Array.Empty<string>());
+
+			// ReSharper disable once RedundantNameQualifier
+			// DIS code generation fails to generate this local function if the return type is not fully Qualified
+			System.Collections.Generic.IEnumerable<string> GetDefinitionsEnumerator()
+			{
+				for (var i = 0; i < amount; i++)
+				{
+					if (definitions.TryGetValue(i, out string s))
+					{
+						yield return s;
+					}
+					else
+					{
+						yield return Auto;
+					}
+				}
+			}
+		}
+
+		private string GetRowDefinitions()
+		{
+			return GetDefinitions(rowDefinitions, Panel.GetRowCount());
+		}
+
+		private IInteractiveWidget[] GetEnabledWidgets()
+		{
+			return Panel.GetWidgets(true)
+				.OfType<IInteractiveWidget>()
+				.Where(widget => widget.IsEnabled)
+				.ToArray();
 		}
 	}
 }
