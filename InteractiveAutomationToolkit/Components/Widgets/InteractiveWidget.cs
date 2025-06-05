@@ -5,7 +5,7 @@
 	/// <summary>
 	/// A widget that requires user input.
 	/// </summary>
-	public abstract class InteractiveWidget : Widget
+	public abstract class InteractiveWidget : Widget, IInteractiveWidget
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="InteractiveWidget"/> class.

@@ -7,52 +7,56 @@
 	using Skyline.DataMiner.Automation;
 
 	/// <summary>
-	///     Widget to show/edit a time of day.
+	///     Widget to show/edit a time duration.
 	/// </summary>
-	/// <remarks>
-	///		This component visually converts the provided TimeSpan to the time zone of the client.
-	///		For example, we set TimePicker.TimeSpan to TimeSpan.FromHours(12) from a server configured in UTC time zone.
-	///		A client with time zone offset UTC+02:00 will see 14:00 in the TimePicker.
-	///	</remarks>
-	public class TimePicker : TimePickerBase, IValidationWidget, IIsReadonlyWidget
+	public class Time : InteractiveWidget, IValidationWidget, IIsReadonlyWidget
 	{
 		private bool changed;
 		private bool focusLost;
-		private int maxDropDownHeight;
-		private TimeSpan maximum;
-		private TimeSpan minimum;
+
 		private TimeSpan previous;
-		private TimeSpan time;
-		private AutomationTimePickerOptions timePickerOptions;
+		private TimeSpan timeSpan;
+		private AutomationTimeUpDownOptions timeUpDownOptions;
 
 		/// <summary>
-		///     Initializes a new instance of the <see cref="TimePicker" /> class.
+		///     Initializes a new instance of the <see cref="Time" /> class.
 		/// </summary>
-		/// <param name="time">Time displayed in the time picker.</param>
-		public TimePicker(TimeSpan time) : base(new AutomationTimePickerOptions())
+		/// <param name="timeSpan">The timespan displayed in the time widget.</param>
+		public Time(TimeSpan timeSpan)
 		{
 			Type = UIBlockType.Time;
-			Time = time;
-			TimePickerOptions = (AutomationTimePickerOptions)DateTimeUpDownOptions;
-			ValidationText = "Invalid Input";
-			ValidationState = UIValidationState.NotValidated;
+			TimeUpDownOptions = new AutomationTimeUpDownOptions { UpdateValueOnEnterKey = false };
+			TimeSpan = timeSpan;
 			IsReadOnly = false;
 			Minimum = TimeSpan.Zero;
-			Maximum = TimeSpan.FromHours(24).Add(TimeSpan.FromSeconds(-1));
 		}
 
 		/// <summary>
-		///     Initializes a new instance of the <see cref="TimePicker" /> class.
+		///     Initializes a new instance of the <see cref="Time" /> class.
 		/// </summary>
-		public TimePicker() : this(DateTime.Now.TimeOfDay)
+		public Time() : this(default)
 		{
 		}
 
+		/// <inheritdoc/>
+		public virtual bool IsReadOnly
+		{
+			get
+			{
+				return BlockDefinition.IsReadOnly;
+			}
+
+			set
+			{
+				BlockDefinition.IsReadOnly = value;
+			}
+		}
+
 		/// <summary>
-		///     Triggered when a different time is picked.
+		///     Triggered when the timespan changes.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
-		public event EventHandler<TimePickerChangedEventArgs> Changed
+		public event EventHandler<TimeChangedEventArgs> Changed
 		{
 			add
 			{
@@ -71,10 +75,10 @@
 		}
 
 		/// <summary>
-		///     Triggered when the user loses focus of the TimePicker.
+		///     Triggered when the user loses focus of the Time.
 		///     WantsOnFocusLost will be set to true when this event is subscribed to.
 		/// </summary>
-		public event EventHandler<TimePickerFocusLostEventArgs> FocusLost
+		public event EventHandler<TimeFocusLostEventArgs> FocusLost
 		{
 			add
 			{
@@ -92,60 +96,97 @@
 			}
 		}
 
-		private event EventHandler<TimePickerChangedEventArgs> OnChanged;
+		private event EventHandler<TimeChangedEventArgs> OnChanged;
 
-		private event EventHandler<TimePickerFocusLostEventArgs> OnFocusLost;
+		private event EventHandler<TimeFocusLostEventArgs> OnFocusLost;
 
 		/// <summary>
-		///     Gets or sets the last time listed in the time picker control.
-		///     Default: <c>TimeSpan.FromMinutes(1439)</c> (1 day - 1 minute).
+		///     Gets or sets a value indicating whether the value is clipped to the range.
+		///     Default: <c>false</c>.
 		/// </summary>
-		public TimeSpan EndTime
+		public bool ClipValueToRange
 		{
 			get
 			{
-				return TimePickerOptions.EndTime;
+				return TimeUpDownOptions.ClipValueToMinMax;
 			}
 
 			set
 			{
-				CheckTimeOfDay(value);
-				TimePickerOptions.EndTime = value;
+				TimeUpDownOptions.ClipValueToMinMax = value;
 			}
 		}
 
 		/// <summary>
-		///     Gets or sets a value indicating whether the drop-down button of the time picker control is shown.
+		///     Gets or sets the number of digits to be used in order to represent the fractions of seconds.
+		///     Default: <c>0</c>.
+		/// </summary>
+		public int Decimals
+		{
+			get
+			{
+				return TimeUpDownOptions.FractionalSecondsDigitsCount;
+			}
+
+			set
+			{
+				if (value < 0)
+				{
+					throw new ArgumentOutOfRangeException("value");
+				}
+
+				TimeUpDownOptions.FractionalSecondsDigitsCount = value;
+			}
+		}
+
+		/// <summary>
+		///     Gets or sets a value indicating whether seconds are displayed in the time widget.
 		///     Default: <c>true</c>.
 		/// </summary>
-		public bool HasDropDownButton
+		public bool HasSeconds
 		{
 			get
 			{
-				return TimePickerOptions.ShowDropDownButton;
+				return TimeUpDownOptions.ShowSeconds;
 			}
 
 			set
 			{
-				TimePickerOptions.ShowDropDownButton = value;
+				TimeUpDownOptions.ShowSeconds = value;
 			}
 		}
 
 		/// <summary>
-		///     Gets or sets the height of the time picker control.
-		///     Default: 130.
+		///     Gets or sets a value indicating whether a spinner button is shown.
+		///     Default: <c>true</c>.
 		/// </summary>
-		public int MaxDropDownHeight
+		public bool HasSpinnerButton
 		{
 			get
 			{
-				return maxDropDownHeight;
+				return TimeUpDownOptions.ShowButtonSpinner;
 			}
 
 			set
 			{
-				maxDropDownHeight = value;
-				TimePickerOptions.MaxDropDownHeight = value;
+				TimeUpDownOptions.ShowButtonSpinner = value;
+			}
+		}
+
+		/// <summary>
+		///     Gets or sets a value indicating whether the spinner button is enabled.
+		///     Default: <c>true</c>.
+		/// </summary>
+		public bool IsSpinnerButtonEnabled
+		{
+			get
+			{
+				return TimeUpDownOptions.AllowSpin;
+			}
+
+			set
+			{
+				TimeUpDownOptions.AllowSpin = value;
 			}
 		}
 
@@ -172,94 +213,84 @@
 		}
 
 		/// <summary>
-		///     Gets or sets the maximum time of day.
+		///     Gets or sets the maximum timespan.
+		///     Default: <c>TimeSpan.MaxValue</c>.
 		/// </summary>
+		/// <exception cref="ArgumentOutOfRangeException">When the maximum is smaller than the minimum.</exception>
 		public TimeSpan Maximum
 		{
 			get
 			{
-				return maximum;
+				return TimeUpDownOptions.Maximum ?? TimeSpan.MaxValue;
 			}
 
 			set
 			{
-				CheckTimeOfDay(value);
-				maximum = value;
-				DateTimeUpDownOptions.Maximum = default(DateTime) + value;
+				if (value < Minimum)
+				{
+					throw new ArgumentOutOfRangeException("value", "Maximum can't be smaller than Minimum");
+				}
+
+				TimeUpDownOptions.Maximum = value;
 			}
 		}
 
 		/// <summary>
-		///     Gets or sets the minimum time of day.
+		///     Gets or sets the minimum timespan.
+		///     Default: <c>TimeSpan.MinValue</c>.
 		/// </summary>
+		/// <exception cref="ArgumentOutOfRangeException">When the minimum is larger than the maximum.</exception>
 		public TimeSpan Minimum
 		{
 			get
 			{
-				return minimum;
+				return TimeUpDownOptions.Minimum ?? TimeSpan.MinValue;
 			}
 
 			set
 			{
-				CheckTimeOfDay(value);
-				minimum = value;
-				DateTimeUpDownOptions.Minimum = default(DateTime) + value;
+				if (value > Maximum)
+				{
+					throw new ArgumentOutOfRangeException("value", "Minimum can't be larger than Maximum");
+				}
+
+				TimeUpDownOptions.Minimum = value;
 			}
 		}
 
 		/// <summary>
-		///     Gets or sets the earliest time listed in the time picker control.
-		///     Default: <c>TimeSpan.Zero</c>.
+		///     Gets or sets the timespan displayed in the time widget.
 		/// </summary>
-		public TimeSpan StartTime
+		public TimeSpan TimeSpan
 		{
 			get
 			{
-				return TimePickerOptions.StartTime;
+				return timeSpan;
 			}
 
 			set
 			{
-				CheckTimeOfDay(value);
-				TimePickerOptions.StartTime = value;
-			}
-		}
-
-		/// <summary>
-		///     Gets or sets the time of day displayed in the time picker.
-		/// </summary>
-		public TimeSpan Time
-		{
-			get
-			{
-				return time;
-			}
-
-			set
-			{
-				CheckTimeOfDay(value);
-				time = value;
-				BlockDefinition.InitialValue = value.ToString(
+				timeSpan = value;
+				BlockDefinition.InitialValue = timeSpan.ToString(
 					AutomationConfigOptions.GlobalTimeSpanFormat,
 					CultureInfo.InvariantCulture);
 			}
 		}
 
 		/// <summary>
-		///     Gets or sets the time interval between two time items in the time picker control.
-		///     Default: <c>TimeSpan.FromHours(1)</c>.
+		///     Gets or sets a value indicating whether the widget will only trigger an event when the enter key is pressed.
+		///     Default: <c>false</c>.
 		/// </summary>
-		public TimeSpan TimeInterval
+		public bool UpdateOnEnter
 		{
 			get
 			{
-				return TimePickerOptions.TimeInterval;
+				return TimeUpDownOptions.UpdateValueOnEnterKey;
 			}
 
 			set
 			{
-				CheckTimeOfDay(value);
-				TimePickerOptions.TimeInterval = value;
+				TimeUpDownOptions.UpdateValueOnEnterKey = value;
 			}
 		}
 
@@ -299,27 +330,11 @@
 			}
 		}
 
-		/// <summary>
-		/// <inheritdoc/>
-		/// </summary>
-		public virtual bool IsReadOnly
+		private AutomationTimeUpDownOptions TimeUpDownOptions
 		{
 			get
 			{
-				return BlockDefinition.IsReadOnly;
-			}
-
-			set
-			{
-				BlockDefinition.IsReadOnly = value;
-			}
-		}
-
-		private AutomationTimePickerOptions TimePickerOptions
-		{
-			get
-			{
-				return timePickerOptions;
+				return timeUpDownOptions;
 			}
 
 			set
@@ -329,7 +344,7 @@
 					throw new ArgumentNullException("value");
 				}
 
-				timePickerOptions = value;
+				timeUpDownOptions = value;
 				BlockDefinition.ConfigOptions = value;
 			}
 		}
@@ -347,10 +362,10 @@
 			TimeSpan result = uiResults.GetTime(this);
 			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);
 
-			if ((result != Time) && BlockDefinition.WantsOnChange)
+			if ((result != TimeSpan) && BlockDefinition.WantsOnChange)
 			{
 				changed = true;
-				previous = Time;
+				previous = TimeSpan;
 			}
 
 			if (BlockDefinition.WantsOnFocusLost)
@@ -358,7 +373,7 @@
 				focusLost = wasOnFocusLost;
 			}
 
-			Time = result;
+			TimeSpan = result;
 		}
 
 		/// <summary>
@@ -370,49 +385,41 @@
 		{
 			if (changed)
 			{
-				OnChanged?.Invoke(this, new TimePickerChangedEventArgs(Time, previous));
+				OnChanged?.Invoke(this, new TimeChangedEventArgs(TimeSpan, previous));
 			}
 
 			if (focusLost)
 			{
-				OnFocusLost?.Invoke(this, new TimePickerFocusLostEventArgs(Time));
+				OnFocusLost?.Invoke(this, new TimeFocusLostEventArgs(TimeSpan));
 			}
 
 			changed = false;
 			focusLost = false;
 		}
 
-		private static void CheckTimeOfDay(TimeSpan value)
-		{
-			if ((value.Ticks < 0) && (value.Days >= 1))
-			{
-				throw new ArgumentOutOfRangeException("value", "TimeSpan must represent time of day");
-			}
-		}
-
 		/// <summary>
 		///     Provides data for the <see cref="Changed" /> event.
 		/// </summary>
-		public class TimePickerChangedEventArgs : EventArgs
+		public class TimeChangedEventArgs : EventArgs
 		{
 			/// <summary>
-			/// Initializes a new instance of the <see cref="TimePickerChangedEventArgs"/> class.
+			/// Initializes a new instance of the <see cref="TimeChangedEventArgs"/> class.
 			/// </summary>
 			/// <param name="timeSpan">The new value.</param>
 			/// <param name="previous">The previous value.</param>
-			internal TimePickerChangedEventArgs(TimeSpan timeSpan, TimeSpan previous)
+			internal TimeChangedEventArgs(TimeSpan timeSpan, TimeSpan previous)
 			{
 				TimeSpan = timeSpan;
 				Previous = previous;
 			}
 
 			/// <summary>
-			///     Gets the previous time of day.
+			///     Gets the previous timespan.
 			/// </summary>
 			public TimeSpan Previous { get; private set; }
 
 			/// <summary>
-			///     Gets the new time of day.
+			///     Gets the new timespan.
 			/// </summary>
 			public TimeSpan TimeSpan { get; private set; }
 		}
@@ -420,19 +427,19 @@
 		/// <summary>
 		///     Provides data for the <see cref="FocusLost" /> event.
 		/// </summary>
-		public class TimePickerFocusLostEventArgs : EventArgs
+		public class TimeFocusLostEventArgs : EventArgs
 		{
 			/// <summary>
-			/// Initializes a new instance of the <see cref="TimePickerFocusLostEventArgs"/> class.
+			/// Initializes a new instance of the <see cref="TimeFocusLostEventArgs"/> class.
 			/// </summary>
 			/// <param name="timeSpan">The new value.</param>
-			internal TimePickerFocusLostEventArgs(TimeSpan timeSpan)
+			internal TimeFocusLostEventArgs(TimeSpan timeSpan)
 			{
 				TimeSpan = timeSpan;
 			}
 
 			/// <summary>
-			///     Gets the new time of day.
+			///     Gets the new timespan.
 			/// </summary>
 			public TimeSpan TimeSpan { get; private set; }
 		}

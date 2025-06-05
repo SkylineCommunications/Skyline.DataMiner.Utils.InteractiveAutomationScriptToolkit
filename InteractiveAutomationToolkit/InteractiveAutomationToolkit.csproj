@@ -20,15 +20,18 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Version>10.5.4.1</Version>
 	</PropertyGroup>
+
 	<ItemGroup>
 		<None Include="..\README.md" Pack="true" PackagePath="" />
 		<None Include="..\LICENSE.txt" Pack="true" PackagePath="" />
 		<None Include="nuget\Icon.png" Pack="true" PackagePath="" />
 		<None Include="stylecop.json" />
 	</ItemGroup>
+
 	<ItemGroup>
 		<InternalsVisibleTo Include="$(MSBuildProjectName)Tests" />
 	</ItemGroup>
+
 	<ItemGroup>
 		<PackageReference Include="Skyline.DataMiner.Dev.Automation" Version="10.5.4.2" />
 	</ItemGroup>

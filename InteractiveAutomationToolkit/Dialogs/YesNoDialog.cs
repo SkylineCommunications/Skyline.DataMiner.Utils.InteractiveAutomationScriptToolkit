@@ -5,7 +5,7 @@
 	/// <summary>
 	///  Dialog used to ask the user a yes/no question.
 	/// </summary>
-	public class YesNoDialog : Dialog
+	public class YesNoDialog : Dialog<GridPanel>
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="YesNoDialog"/> class.
@@ -18,19 +18,19 @@
 			YesButton.Style = callToAction == CallToAction.Yes ? ButtonStyle.CallToAction : ButtonStyle.None;
 			NoButton.Style = callToAction == CallToAction.No ? ButtonStyle.CallToAction : ButtonStyle.None;
 
-			AddWidget(new Label(message), 0, 0, 1, 2);
+			Panel.Add(new Label(message), 0, 0, 1, 2);
 
-			AddWidget(new WhiteSpace(), 1, 0);
+			Panel.Add(new WhiteSpace(), 1, 0);
 
 			if (callToAction == CallToAction.Yes)
 			{
-				AddWidget(NoButton, 2, 0);
-				AddWidget(YesButton, 2, 1, HorizontalAlignment.Right);
+				Panel.Add(NoButton, 2, 0);
+				Panel.Add(YesButton, 2, 1);
 			}
 			else
 			{
-				AddWidget(YesButton, 2, 0);
-				AddWidget(NoButton, 2, 1, HorizontalAlignment.Right);
+				Panel.Add(YesButton, 2, 0);
+				Panel.Add(NoButton, 2, 1);
 			}
 
 			SetColumnWidth(0, 140);
@@ -40,12 +40,20 @@
 		/// <summary>
 		///	Gets the button with "Yes" that is displayed below the message.
 		/// </summary>
-		public Button YesButton { get; } = new Button("Yes") { Width = 130 };
+		public Button YesButton { get; } = new Button("Yes")
+		{
+			Width = 130,
+			HorizontalAlignment = HorizontalAlignment.Right,
+		};
 
 		/// <summary>
 		///	Gets the button with "No" that is displayed below the message.
 		/// </summary>
-		public Button NoButton { get; } = new Button("No") { Width = 130 };
+		public Button NoButton { get; } = new Button("No")
+		{
+			Width = 130,
+			HorizontalAlignment = HorizontalAlignment.Right,
+		};
 
 		/// <summary>
 		/// Shows the <see cref="YesNoDialog"/> without passing through the <see cref="InteractiveController"/>
@@ -69,7 +77,7 @@
 			dialog.YesButton.Pressed += (s, e) => yesButtonPressed = true;
 			dialog.NoButton.Pressed += (s, e) => yesButtonPressed = false;
 
-			dialog.Show(true);
+			dialog.ShowInteractive();
 
 			return yesButtonPressed;
 		}

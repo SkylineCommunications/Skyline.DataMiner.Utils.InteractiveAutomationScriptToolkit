@@ -5,6 +5,7 @@
 	/// <summary>
 	/// Used to define the position of a widget in a grid layout.
 	/// </summary>
+	[Obsolete("Replaced by WidgetLocation.", false)]
 	public class WidgetLayout : IWidgetLayout
 	{
 		private int column;
