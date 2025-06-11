@@ -47,7 +47,6 @@
 		}
 
 		/// <inheritdoc/>
-		/// <remarks>Available from DataMiner 10.4.1 onwards.</remarks>
 		public virtual bool IsReadOnly
 		{
 			get

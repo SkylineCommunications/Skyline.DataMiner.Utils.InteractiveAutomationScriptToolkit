@@ -8,7 +8,7 @@
 	/// <summary>
 	///     Widget to show/edit a datetime.
 	/// </summary>
-	public class Calendar : InteractiveWidget, IValidationWidget
+	public class Calendar : InteractiveWidget, IValidationWidget, IIsReadonlyWidget
 	{
 		private bool changed;
 		private bool focusLost;
@@ -38,11 +38,8 @@
 		}
 
 		/// <summary>
-		///		Gets or sets a value indicating whether the control is displayed in read-only mode.
-		///		Read-only mode causes the widgets to appear read-write but the user won't be able to change their value.
-		///		This only affects interactive scripts running in a web environment.
+		/// <inheritdoc/>
 		/// </summary>
-		/// <remarks>Available from DataMiner 10.4.1 onwards.</remarks>
 		public virtual bool IsReadOnly
 		{
 			get

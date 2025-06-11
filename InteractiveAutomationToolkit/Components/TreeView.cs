@@ -10,7 +10,7 @@
 	/// <summary>
 	///  A tree view structure.
 	/// </summary>
-	public class TreeView : InteractiveWidget
+	public class TreeView : InteractiveWidget, IIsReadonlyWidget
 	{
 		private Dictionary<string, bool> checkedItemCache;
 		private Dictionary<string, bool> collapsedItemCache; // TODO: should only contain Items with LazyLoading set to true
@@ -232,11 +232,8 @@
 		}
 
 		/// <summary>
-		///		Gets or sets a value indicating whether the control is displayed in read-only mode.
-		///		Read-only mode causes the widgets to appear read-write but the user won't be able to change their value.
-		///		This only affects interactive scripts running in a web environment.
+		/// <inheritdoc/>
 		/// </summary>
-		/// <remarks>Available from DataMiner 10.4.1 onwards.</remarks>
 		public virtual bool IsReadOnly
 		{
 			get
