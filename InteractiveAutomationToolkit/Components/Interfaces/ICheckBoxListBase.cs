@@ -5,13 +5,8 @@
 	/// <summary>
 	/// Defines the base functionality for a checkboxlist widget, including properties for state management.
 	/// </summary>
-	public interface ICheckBoxListBase : IValidationWidget
+	public interface ICheckBoxListBase : IValidationWidget, IIsReadonlyWidget
 	{
-		/// <summary>
-		/// Gets or sets a value indicating whether the checkboxlist is read-only.
-		/// </summary>
-		bool IsReadOnly { get; set; }
-
 		/// <summary>
 		/// Gets or sets a value indicating whether the options in the checkboxlist are sorted.
 		/// </summary>

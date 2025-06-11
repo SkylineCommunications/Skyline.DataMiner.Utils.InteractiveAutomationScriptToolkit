@@ -3,13 +3,8 @@
 	/// <summary>
 	/// Defines the base functionality for a radio button list widget, including properties for state and appearance management.
 	/// </summary>
-	public interface IRadioButtonListBase
+	public interface IRadioButtonListBase : IIsReadonlyWidget
 	{
-		/// <summary>
-		/// Gets or sets a value indicating whether the radio button list is read-only.
-		/// </summary>
-		bool IsReadOnly { get; set; }
-
 		/// <summary>
 		/// Gets or sets a value indicating whether the options in the radio button list are sorted.
 		/// </summary>
