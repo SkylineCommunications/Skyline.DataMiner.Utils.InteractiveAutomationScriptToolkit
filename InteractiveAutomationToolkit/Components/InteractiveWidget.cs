@@ -46,6 +46,11 @@
 		}
 
 		/// <summary>
+		/// Gets a value indicating whether the block has interactivity features enabled.
+		/// </summary>
+		internal bool HasInteractivity => BlockDefinition.WantsOnChange || BlockDefinition.WantsOnFocusLost;
+
+		/// <summary>
 		///     Load any changes made through user interaction.
 		/// </summary>
 		/// <param name="uiResults">

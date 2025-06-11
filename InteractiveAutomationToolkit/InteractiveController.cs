@@ -1,6 +1,7 @@
 ﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 {
 	using System;
+	using System.Linq;
 
 	using Skyline.DataMiner.Automation;
 
@@ -176,7 +177,7 @@
 						else
 						{
 							SetScriptAbortPopupBehavior(CurrentDialog);
-							CurrentDialog.Show();
+							CurrentDialog.Show(RequiresResponse(CurrentDialog));
 						}
 					}
 				}
@@ -211,6 +212,22 @@
 					// Behavior is defined on Dialog level
 					return;
 			}
+		}
+
+		private bool RequiresResponse(Dialog dialog)
+		{
+			var interactiveWidgets = dialog.Widgets.OfType<InteractiveWidget>().ToList();
+			if (interactiveWidgets.Count == 0)
+			{
+				return false;
+			}
+
+			if (interactiveWidgets.Any(w => w.HasInteractivity))
+			{
+				return true;
+			}
+
+			return false;
 		}
 	}
 }
