@@ -4,6 +4,7 @@
 	using System.Linq;
 
 	using Skyline.DataMiner.Automation;
+	using Skyline.DataMiner.Net.Messages.SLDataGateway;
 
 	/// <summary>
 	///     Event loop of the interactive Automation script.
@@ -177,7 +178,16 @@
 						else
 						{
 							SetScriptAbortPopupBehavior(CurrentDialog);
-							CurrentDialog.Show(RequiresResponse(CurrentDialog));
+
+							if (RequiresResponse(CurrentDialog))
+							{
+								CurrentDialog.Show();
+							}
+							else
+							{
+								CurrentDialog.Show(false);
+								System.Threading.Thread.Sleep(10000); // Wait for 10 seconds before checking for new dialogs
+							}
 						}
 					}
 				}
@@ -216,15 +226,18 @@
 
 		private bool RequiresResponse(Dialog dialog)
 		{
-			var interactiveWidgets = dialog.Widgets.OfType<InteractiveWidget>().ToList();
-			if (interactiveWidgets.Count == 0)
+			foreach (var visibleWidget in dialog.Widgets.Where(w => w.IsVisible))
 			{
-				return false;
-			}
+				if (!visibleWidget.BlockDefinition.WantsOnChange
+					&& !visibleWidget.BlockDefinition.WantsOnFocusLost)
+				{
+					continue;
+				}
 
-			if (interactiveWidgets.Any(w => w.HasInteractivity && w.IsVisible))
-			{
-				return true;
+				if (!visibleWidget.BlockDefinition.IsReadOnly && visibleWidget.BlockDefinition.IsEnabled)
+				{
+					return true;
+				}
 			}
 
 			return false;
