@@ -307,6 +307,7 @@ namespace InteractiveAutomationToolkitTests
         {
             Label label1 = new Label("Label 1");
             Label label2 = new Label("Label 2") { IsVisible = false };
+
             TestDialog testDialog = new TestDialog(new Engine());
             testDialog.AddWidget(label1, 0, 0, 2, 2);
             testDialog.AddWidget(label2, 1, 1, 2, 3);
@@ -316,6 +317,141 @@ namespace InteractiveAutomationToolkitTests
             testDialog.Clear();
 
             Assert.AreEqual(0, testDialog.Widgets.Count());
+        }
+
+        [TestMethod]
+        public void RequiresResponseTest_OnlyLabels()
+        {
+            Label label1 = new Label("Label 1");
+            Label label2 = new Label("Label 2") { IsVisible = false };
+
+            TestDialog testDialog = new TestDialog(new Engine());
+            testDialog.AddWidget(label1, 0, 0, 2, 2);
+            testDialog.AddWidget(label2, 1, 1, 2, 3);
+
+            Assert.IsFalse(testDialog.RequiresResponse);
+        }
+
+        [TestMethod]
+        public void RequiresResponseTest_InvisibleInteractiveWidgetWithoutEvent()
+        {
+            Label label = new Label("Label");
+            Button button = new Button("Button") { IsVisible = false };
+
+            TestDialog testDialog = new TestDialog(new Engine());
+            testDialog.AddWidget(label, 0, 0, 2, 2);
+            testDialog.AddWidget(button, 1, 1, 2, 3);
+
+            Assert.IsFalse(testDialog.RequiresResponse);
+        }
+
+        [TestMethod]
+        public void RequiresResponseTest_VisibleInteractiveWidgetWithoutEvent()
+        {
+            Label label = new Label("Label");
+            Button button = new Button("Button");
+
+            TestDialog testDialog = new TestDialog(new Engine());
+            testDialog.AddWidget(label, 0, 0, 2, 2);
+            testDialog.AddWidget(button, 1, 1, 2, 3);
+
+            Assert.IsFalse(testDialog.RequiresResponse);
+        }
+
+        [TestMethod]
+        public void RequiresResponseTest_VisibleInteractiveWidgetWithChanged()
+        {
+            Label label = new Label("Label");
+            TextBox textBox = new TextBox();
+
+            textBox.Changed += (s, e) => { /* do nothing */ };
+
+            TestDialog testDialog = new TestDialog(new Engine());
+            testDialog.AddWidget(label, 0, 0, 2, 2);
+            testDialog.AddWidget(textBox, 1, 1, 2, 3);
+
+            Assert.IsTrue(testDialog.RequiresResponse);
+        }
+
+        [TestMethod]
+        public void RequiresResponseTest_VisibleInteractiveWidgetWithFocusLost()
+        {
+            Label label = new Label("Label");
+            TextBox textBox = new TextBox();
+
+            textBox.FocusLost += (s, e) => { /* do nothing */ };
+
+            TestDialog testDialog = new TestDialog(new Engine());
+            testDialog.AddWidget(label, 0, 0, 2, 2);
+            testDialog.AddWidget(textBox, 1, 1, 2, 3);
+
+            Assert.IsTrue(testDialog.RequiresResponse);
+        }
+
+        [TestMethod]
+        public void RequiresResponseTest_VisibleInteractiveWidgetIsReadOnly()
+        {
+            Label label = new Label("Label");
+            TextBox textBox = new TextBox { IsReadOnly = true };
+
+            TestDialog testDialog = new TestDialog(new Engine());
+            testDialog.AddWidget(label, 0, 0, 2, 2);
+            testDialog.AddWidget(textBox, 1, 1, 2, 3);
+
+            Assert.IsFalse(testDialog.RequiresResponse);
+        }
+
+        [TestMethod]
+        public void RequiresResponseTest_VisibleInteractiveWidgetIsDisabled()
+        {
+            Label label = new Label("Label");
+            TextBox textBox = new TextBox { IsEnabled = false };
+
+            TestDialog testDialog = new TestDialog(new Engine());
+            testDialog.AddWidget(label, 0, 0, 2, 2);
+            testDialog.AddWidget(textBox, 1, 1, 2, 3);
+
+            Assert.IsFalse(testDialog.RequiresResponse);
+        }
+
+        [TestMethod]
+        public void RequiresResponseTest_MultipleInteractiveWidgetsWithoutResponse()
+        {
+            Label label = new Label("Label");
+            TextBox textBox1 = new TextBox { IsEnabled = false };
+            TextBox textBox2 = new TextBox { IsReadOnly = true };
+            TextBox textBox3 = new TextBox { IsVisible = false };
+            TextBox textBox4 = new TextBox();
+
+            TestDialog testDialog = new TestDialog(new Engine());
+            testDialog.AddWidget(label, 0, 0, 2, 2);
+            testDialog.AddWidget(textBox1, 1, 1, 2, 3);
+            testDialog.AddWidget(textBox2, 2, 1, 2, 3);
+            testDialog.AddWidget(textBox3, 3, 1, 2, 3);
+            testDialog.AddWidget(textBox4, 4, 1, 2, 3);
+
+            Assert.IsFalse(testDialog.RequiresResponse);
+        }
+
+        [TestMethod]
+        public void RequiresResponseTest_MultipleInteractiveWidgetsWithResponse()
+        {
+            Label label = new Label("Label");
+            TextBox textBox1 = new TextBox { IsEnabled = false };
+            TextBox textBox2 = new TextBox { IsReadOnly = true };
+            TextBox textBox3 = new TextBox { IsVisible = false };
+            TextBox textBox4 = new TextBox();
+
+            textBox4.Changed += (s, e) => { /* do nothing */ };
+
+            TestDialog testDialog = new TestDialog(new Engine());
+            testDialog.AddWidget(label, 0, 0, 2, 2);
+            testDialog.AddWidget(textBox1, 1, 1, 2, 3);
+            testDialog.AddWidget(textBox2, 2, 1, 2, 3);
+            testDialog.AddWidget(textBox3, 3, 1, 2, 3);
+            testDialog.AddWidget(textBox4, 4, 1, 2, 3);
+
+            Assert.IsTrue(testDialog.RequiresResponse);
         }
     }
 }

@@ -289,6 +289,8 @@
 			}
 		}
 
+		internal bool RequiresResponse => Widgets.OfType<InteractiveWidget>().Any(x => x.IsVisible && x.RequiresResponse);
+
 		/// <summary>
 		///     Adds a widget to the dialog.
 		/// </summary>
@@ -603,7 +605,7 @@
 		/// <param name="requireResponse">If the dialog expects user interaction.</param>
 		/// <remarks>Should only be used when you create your own event loop.</remarks>
 		public void Show(bool requireResponse = true)
-		{		
+		{
 			UIBuilder uiBuilder = Build();
 			uiBuilder.RequireResponse = requireResponse;
 
@@ -613,7 +615,7 @@
 			{
 				uiResults = new WrappedUIResults(Engine.ShowUI(uiBuilder));
 			}
-			catch(InteractiveUserDetachedException)
+			catch (InteractiveUserDetachedException)
 			{
 				throw;
 			}
@@ -626,7 +628,7 @@
 			{
 				LoadChanges(uiResults);
 				RaiseResultEvents(uiResults);
-			}	
+			}
 		}
 
 		/// <summary>

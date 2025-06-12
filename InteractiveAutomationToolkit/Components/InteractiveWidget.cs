@@ -46,9 +46,9 @@
 		}
 
 		/// <summary>
-		/// Gets a value indicating whether the block has interactivity features enabled.
+		/// Gets a value indicating whether the widget allows interactivity.
 		/// </summary>
-		internal bool HasInteractivity => BlockDefinition.WantsOnChange || BlockDefinition.WantsOnFocusLost;
+		internal bool RequiresResponse => (BlockDefinition.WantsOnChange || BlockDefinition.WantsOnFocusLost) && !BlockDefinition.IsReadOnly && BlockDefinition.IsEnabled;
 
 		/// <summary>
 		///     Load any changes made through user interaction.

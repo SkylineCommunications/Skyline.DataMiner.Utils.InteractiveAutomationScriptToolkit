@@ -1,9 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Skyline.DataMiner.Automation;
+using Skyline.DataMiner.Utils.InteractiveAutomationScript;
 using System;
 
-namespace Skyline.DataMiner.Utils.InteractiveAutomationScript.Tests
+namespace InteractiveAutomationToolkitTests
 {
     [TestClass]
     public class InteractiveControllerTests
@@ -162,18 +163,18 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript.Tests
 
             Assert.IsTrue(dialog.ShowScriptAbortPopup);
         }
-    }
 
-    public class TestDialog : Dialog
-    {
-        public TestDialog(IEngine engine) : base(engine)
+        private class TestDialog : Dialog
         {
-            ContinueButton = new Button("Continue");
-            ContinueButton.Pressed += (s, e) => throw new System.Exception(); // Causes the InterActiveController.Run loop to be broken
+            public TestDialog(IEngine engine) : base(engine)
+            {
+                ContinueButton = new Button("Continue");
+                ContinueButton.Pressed += (s, e) => throw new System.Exception(); // Causes the InterActiveController.Run loop to be broken
 
-            AddWidget(ContinueButton, 0, 0);
+                AddWidget(ContinueButton, 0, 0);
+            }
+
+            public Button ContinueButton { get; set; }
         }
-
-        public Button ContinueButton { get; set; }
     }
 }

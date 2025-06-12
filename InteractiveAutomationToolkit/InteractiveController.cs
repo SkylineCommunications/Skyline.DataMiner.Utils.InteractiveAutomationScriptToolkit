@@ -2,8 +2,9 @@
 {
 	using System;
 	using System.Linq;
-
+	using System.Security.Cryptography;
 	using Skyline.DataMiner.Automation;
+	using Skyline.DataMiner.Net.Messages;
 	using Skyline.DataMiner.Net.Messages.SLDataGateway;
 
 	/// <summary>
@@ -136,7 +137,6 @@
 			nextDialog = null;
 		}
 
-
 		/// <summary>
 		///     Starts the application event loop.
 		///     Updates the displayed dialog after each user interaction.
@@ -163,39 +163,44 @@
 			{
 				try
 				{
-					if (isManualModeRequested)
-					{
-						RunManualAction();
-					}
-					else
-					{
-						CurrentDialog = nextDialog;
-						if (CurrentDialog == null)
-						{
-							isRunning = false;
-							IsManualMode = false;
-						}
-						else
-						{
-							SetScriptAbortPopupBehavior(CurrentDialog);
-
-							if (RequiresResponse(CurrentDialog))
-							{
-								CurrentDialog.Show();
-							}
-							else
-							{
-								CurrentDialog.Show(false);
-								System.Threading.Thread.Sleep(10000); // Wait for 10 seconds before checking for new dialogs
-							}
-						}
-					}
+					DoRun();
 				}
 				catch (Exception)
 				{
 					isRunning = false;
 					IsManualMode = false;
 					throw;
+				}
+			}
+		}
+
+		private void DoRun()
+		{
+			if (isManualModeRequested)
+			{
+				RunManualAction();
+			}
+			else
+			{
+				CurrentDialog = nextDialog;
+				if (CurrentDialog == null)
+				{
+					isRunning = false;
+					IsManualMode = false;
+				}
+				else
+				{
+					SetScriptAbortPopupBehavior(CurrentDialog);
+
+					if (CurrentDialog.RequiresResponse)
+					{
+						CurrentDialog.Show();
+					}
+					else
+					{
+						CurrentDialog.Show(false);
+						System.Threading.Thread.Sleep(10000); // Wait for 10 seconds before checking for new dialogs
+					}
 				}
 			}
 		}
@@ -222,25 +227,6 @@
 					// Behavior is defined on Dialog level
 					return;
 			}
-		}
-
-		private bool RequiresResponse(Dialog dialog)
-		{
-			foreach (var visibleWidget in dialog.Widgets.Where(w => w.IsVisible))
-			{
-				if (!visibleWidget.BlockDefinition.WantsOnChange
-					&& !visibleWidget.BlockDefinition.WantsOnFocusLost)
-				{
-					continue;
-				}
-
-				if (!visibleWidget.BlockDefinition.IsReadOnly && visibleWidget.BlockDefinition.IsEnabled)
-				{
-					return true;
-				}
-			}
-
-			return false;
 		}
 	}
 }
