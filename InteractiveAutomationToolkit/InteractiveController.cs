@@ -222,7 +222,7 @@
 				return false;
 			}
 
-			if (interactiveWidgets.Any(w => w.HasInteractivity))
+			if (interactiveWidgets.Any(w => w.HasInteractivity && w.IsVisible))
 			{
 				return true;
 			}
