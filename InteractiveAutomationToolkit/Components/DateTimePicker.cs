@@ -8,6 +8,11 @@
 	/// <summary>
 	///     Widget to show/edit a datetime.
 	/// </summary>
+	/// <remarks>
+	///		This component visually converts the provided DateTime to the time zone of the client.
+	///		For example, we set DateTimePicker.DateTime to 10/01/2025 23:00:00 local time from a server configured in UTC time zone.
+	///		A client with time zone offset UTC+02:00 will see 11/01/2025 01:00:00 in the TimePicker.
+	///	</remarks>
 	public class DateTimePicker : TimePickerBase, IValidationWidget, IIsReadonlyWidget
 	{
 		private readonly AutomationDateTimePickerOptions dateTimePickerOptions;

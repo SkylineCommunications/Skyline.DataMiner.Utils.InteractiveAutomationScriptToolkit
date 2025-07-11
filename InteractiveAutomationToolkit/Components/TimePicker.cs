@@ -9,6 +9,11 @@
 	/// <summary>
 	///     Widget to show/edit a time of day.
 	/// </summary>
+	/// <remarks>
+	///		This component visually converts the provided TimeSpan to the time zone of the client.
+	///		For example, we set TimePicker.TimeSpan to TimeSpan.FromHours(12) from a server configured in UTC time zone.
+	///		A client with time zone offset UTC+02:00 will see 14:00 in the TimePicker.
+	///	</remarks>
 	public class TimePicker : TimePickerBase, IValidationWidget, IIsReadonlyWidget
 	{
 		private bool changed;
