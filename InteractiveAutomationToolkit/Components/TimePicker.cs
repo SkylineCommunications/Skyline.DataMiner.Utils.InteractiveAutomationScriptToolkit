@@ -32,6 +32,8 @@
 			ValidationText = "Invalid Input";
 			ValidationState = UIValidationState.NotValidated;
 			IsReadOnly = false;
+			Minimum = TimeSpan.Zero;
+			Maximum = TimeSpan.FromHours(24).Add(TimeSpan.FromSeconds(-1));
 		}
 
 		/// <summary>

@@ -28,6 +28,7 @@
 			TimeUpDownOptions = new AutomationTimeUpDownOptions { UpdateValueOnEnterKey = false };
 			TimeSpan = timeSpan;
 			IsReadOnly = false;
+			Minimum = TimeSpan.Zero;
 		}
 
 		/// <summary>
