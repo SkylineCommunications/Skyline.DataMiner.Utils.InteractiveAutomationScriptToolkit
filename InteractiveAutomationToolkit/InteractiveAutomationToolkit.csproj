@@ -35,4 +35,11 @@
 	<ItemGroup>
 		<PackageReference Include="Skyline.DataMiner.Dev.Automation" Version="10.5.4.2" />
 	</ItemGroup>
+
+	<!-- Can be used to set the location of your local nuget store to copy to -->
+	<Import Project="../Directory.Build.props.user" Condition="Exists('../Directory.Build.props.user')" />
+
+	<Target Name="CopyNuGetPackage" AfterTargets="Pack" Condition="'$(NuGetStorePath)' != '' and '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<Copy SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(NuGetStorePath)\$(PackageId)" />
+	</Target>
 </Project>
