@@ -231,9 +231,7 @@
 			}
 		}
 
-		/// <summary>
 		/// <inheritdoc/>
-		/// </summary>
 		public virtual bool IsReadOnly
 		{
 			get

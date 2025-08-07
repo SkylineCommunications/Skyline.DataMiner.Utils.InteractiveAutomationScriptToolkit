@@ -8,7 +8,7 @@
 	///     A label is used to display text.
 	///     Text can have different styles.
 	/// </summary>
-	public class Label : Widget
+	public class Label : Widget, ILabel
 	{
 		private TextStyle style;
 
