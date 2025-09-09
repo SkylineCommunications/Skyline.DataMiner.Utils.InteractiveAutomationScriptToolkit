@@ -15,6 +15,7 @@
 		private bool changed;
 		private bool focusLost;
 
+		private string previousStringValue = String.Empty;
 		private double previous;
 		private double value;
 
@@ -288,9 +289,11 @@
 				focusLost = wasOnFocusLost;
 			}
 
+			string currentStringValue = uiResults.GetString(this);
+
 			double result;
 			if (!Double.TryParse(
-				uiResults.GetString(this),
+				currentStringValue,
 				NumberStyles.Float,
 				CultureInfo.InvariantCulture,
 				out result))
@@ -298,11 +301,12 @@
 				return;
 			}
 
-			bool isNotEqual = !IsEqualWithinDecimalMargin(result, value);
+			bool isNotEqual = !String.Equals(previousStringValue, currentStringValue);
 			if (isNotEqual && BlockDefinition.WantsOnChange)
 			{
 				changed = true;
 				previous = result;
+				previousStringValue = currentStringValue;
 			}
 
 			Value = result;
@@ -341,11 +345,6 @@
 			{
 				throw new ArgumentException("Infinity is not allowed", "value");
 			}
-		}
-
-		private bool IsEqualWithinDecimalMargin(double a, double b)
-		{
-			return Math.Abs(a - b) < Math.Pow(10, -Decimals);
 		}
 
 		/// <summary>
