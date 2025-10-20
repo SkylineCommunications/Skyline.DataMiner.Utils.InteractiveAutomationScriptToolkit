@@ -17,8 +17,8 @@ namespace InteractiveAutomationToolkitTests
 
             var uiBuilder = dialog.Build();
 
-            Assert.IsTrue(dialog.ShowScriptAbortPopup);
-            Assert.IsFalse(uiBuilder.SkipAbortConfirmation);
+            Assert.IsFalse(dialog.ShowScriptAbortPopup);
+            Assert.IsTrue(uiBuilder.SkipAbortConfirmation);
         }
 
         [TestMethod]
@@ -59,7 +59,7 @@ namespace InteractiveAutomationToolkitTests
 
             Assert.ThrowsExactly<InvalidOperationException>(() => controller.ShowDialog(dialog));
 
-            Assert.IsTrue(dialog.ShowScriptAbortPopup);
+            Assert.IsFalse(dialog.ShowScriptAbortPopup);
         }
 
         [TestMethod]

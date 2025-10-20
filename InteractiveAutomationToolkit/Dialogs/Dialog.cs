@@ -249,7 +249,7 @@
 		/// </summary>
 		/// <remarks>Setting the <see cref="InteractiveController.ScriptAbortPopupBehavior"/> to <see cref="ScriptAbortPopupBehavior.HideAlways"/> or <see cref="ScriptAbortPopupBehavior.ShowAlways"/> overrides this setting.</remarks>
 		/// <remarks>Available from DataMiner 10.4.12 onwards.</remarks>
-		public bool ShowScriptAbortPopup { get; set; } = true;
+		public bool ShowScriptAbortPopup { get; set; } = false;
 
 		/// <summary>
 		///     Gets widgets that are added to the dialog.
