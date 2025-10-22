@@ -34,6 +34,13 @@
 		/// <summary>
 		/// 	Initializes a new instance of the <see cref="TreeView" /> class.
 		/// </summary>
+		public TreeView() : this(Enumerable.Empty<TreeViewItem>())
+		{
+		}
+
+		/// <summary>
+		/// 	Initializes a new instance of the <see cref="TreeView" /> class.
+		/// </summary>
 		/// <param name="treeViewItems">Root nodes of the tree view.</param>
 		public TreeView(IEnumerable<TreeViewItem> treeViewItems)
 		{
