@@ -132,7 +132,7 @@
 				throw new ArgumentNullException(nameof(options));
 			}
 
-			ClearOptions();
+			Clear();
 			foreach (string option in options)
 			{
 				AddOption(option);
@@ -142,6 +142,14 @@
 			{
 				Selected = null;
 			}
+		}
+
+		/// <inheritdoc/>
+		public void Clear()
+		{
+			options.Clear();
+			RecreateUiBlock();
+			Selected = null;
 		}
 
 		/// <summary>
@@ -187,12 +195,6 @@
 			}
 
 			changed = false;
-		}
-
-		private void ClearOptions()
-		{
-			options.Clear();
-			RecreateUiBlock();
 		}
 
 		/// <summary>

@@ -133,7 +133,7 @@
 		/// <exception cref="ArgumentNullException">When options is null.</exception>
 		public void SetOptions(IEnumerable<string> options)
 		{
-			ClearOptions();
+			Clear();
 			foreach (string option in options)
 			{
 				AddOption(option);
@@ -192,6 +192,14 @@
 			BlockDefinition.InitialValue = null;
 		}
 
+		/// <inheritdoc/>
+		public void Clear()
+		{
+			options.Clear();
+			RecreateUiBlock();
+			BlockDefinition.InitialValue = null;
+		}
+
 		/// <summary>
 		///     Load any changes made through user interaction.
 		/// </summary>
@@ -241,13 +249,6 @@
 			}
 
 			changedOptions.Clear();
-		}
-
-		private void ClearOptions()
-		{
-			options.Clear();
-			RecreateUiBlock();
-			BlockDefinition.InitialValue = null;
 		}
 
 		/// <summary>

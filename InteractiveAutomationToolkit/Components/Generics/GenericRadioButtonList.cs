@@ -217,7 +217,7 @@
 				throw new ArgumentNullException(nameof(options));
 			}
 
-			ClearOptions();
+			Clear();
 			foreach (var option in options)
 			{
 				AddOption(option);
@@ -235,6 +235,14 @@
 		{
 			if (options == null) throw new ArgumentNullException(nameof(options));
 			SetOptions(options.Select(x => new Option<T>(x)));
+		}
+
+		/// <inheritdoc/>
+		public void Clear()
+		{
+			radioButtonListOptions.Clear();
+			RecreateUiBlock();
+			SelectedOption = null;
 		}
 
 		/// <summary>
@@ -282,12 +290,6 @@
 			}
 
 			changed = false;
-		}
-
-		private void ClearOptions()
-		{
-			radioButtonListOptions.Clear();
-			RecreateUiBlock();
 		}
 
 		/// <summary>

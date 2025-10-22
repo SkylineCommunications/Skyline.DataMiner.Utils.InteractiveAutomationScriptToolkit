@@ -194,7 +194,7 @@
 		{
 			if (options == null) throw new ArgumentNullException(nameof(options));
 
-			ClearOptions();
+			Clear();
 			foreach (var option in options)
 			{
 				AddOption(option);
@@ -236,6 +236,14 @@
 			{
 				RemoveOption(option);
 			}
+		}
+
+		/// <inheritdoc/>
+		public void Clear()
+		{
+			checkBoxListOptions.Clear();
+			RecreateUiBlock();
+			BlockDefinition.InitialValue = null;
 		}
 
 		/// <inheritdoc/>
@@ -333,13 +341,6 @@
 			}
 
 			changedOptions.Clear();
-		}
-
-		private void ClearOptions()
-		{
-			checkBoxListOptions.Clear();
-			RecreateUiBlock();
-			BlockDefinition.InitialValue = null;
 		}
 
 		/// <summary>

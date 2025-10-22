@@ -174,7 +174,7 @@
 		{
 			if (options == null) throw new ArgumentNullException(nameof(options));
 
-			ClearOptions();
+			Clear();
 			foreach (var option in options)
 			{
 				AddOption(option);
@@ -229,6 +229,14 @@
 			}
 		}
 
+		/// <inheritdoc/>
+		public void Clear()
+		{
+			dropDownOptions.Clear();
+			RecreateUiBlock();
+			SelectedOption = null;
+		}
+
 		/// <summary>
 		///     Load any changes made through user interaction.
 		/// </summary>
@@ -268,12 +276,6 @@
 			}
 
 			changed = false;
-		}
-
-		private void ClearOptions()
-		{
-			dropDownOptions.Clear();
-			RecreateUiBlock();
 		}
 
 		/// <summary>

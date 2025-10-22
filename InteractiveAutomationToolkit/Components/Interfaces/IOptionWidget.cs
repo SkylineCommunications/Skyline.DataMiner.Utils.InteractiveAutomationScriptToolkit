@@ -29,6 +29,11 @@
 		/// </summary>
 		/// <param name="option">The option to remove.</param>
 		void RemoveOption(string option);
+
+		/// <summary>
+		/// Clears all options from the list.
+		/// </summary>
+		void Clear();
 	}
 
 	/// <summary>
@@ -82,6 +87,11 @@
 		/// </summary>
 		/// <param name="value">The value to remove.</param>
 		void RemoveOption(T value);
+
+		/// <summary>
+		/// Clears all options from the list.
+		/// </summary>
+		void Clear();
 	}
 
 }
