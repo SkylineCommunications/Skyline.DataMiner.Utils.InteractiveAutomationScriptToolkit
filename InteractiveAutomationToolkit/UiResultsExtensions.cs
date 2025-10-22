@@ -202,6 +202,42 @@
 		}
 
 		/// <summary>
+		/// Gets the names of the tree view items that are expanded according to the UI results.
+		/// </summary>
+		/// <param name="uiResults">Represents the information a user has entered or selected in a dialog box of an interactive Automation script.</param>
+		/// <param name="treeView">The generic tree view widget.</param>
+		/// <typeparam name="T">The type of the value associated with each tree view item.</typeparam>
+		/// <returns>The names of tree view items that are expanded.</returns>
+		public static IEnumerable<string> GetExpandedItemKeys<T>(this IUIResults uiResults, TreeView<T> treeView)
+		{
+			string[] expandedItems = uiResults.GetExpanded(treeView.DestVar);
+			if (expandedItems == null)
+			{
+				return Array.Empty<string>();
+			}
+
+			return expandedItems.Where(x => !String.IsNullOrWhiteSpace(x)).ToList();
+		}
+
+		/// <summary>
+		/// Gets the names of the tree view items that are checked according to the UI results.
+		/// </summary>
+		/// <param name="uiResults">Represents the information a user has entered or selected in a dialog box of an interactive Automation script.</param>
+		/// <param name="treeView">The generic tree view widget.</param>
+		/// <typeparam name="T">The type of the value associated with each tree view item.</typeparam>
+		/// <returns>The names of tree view items that are checked.</returns>
+		public static IEnumerable<string> GetCheckedItemKeys<T>(this IUIResults uiResults, TreeView<T> treeView)
+		{
+			string result = uiResults.GetString(treeView.DestVar);
+			if (String.IsNullOrEmpty(result))
+			{
+				return Array.Empty<string>();
+			}
+
+			return result.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+		}
+
+		/// <summary>
 		/// Gets the time zone info of the client in which the calendar is displayed.
 		/// </summary>
 		/// <param name="uiResults">Represents the information a user has entered or selected in a dialog box of an interactive Automation script.</param>
