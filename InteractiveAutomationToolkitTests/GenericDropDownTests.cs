@@ -210,5 +210,35 @@ namespace InteractiveAutomationToolkitTests
             Assert.IsNull(dropDown.Selected);
             Assert.IsTrue(dropDown.SelectedOption.IsEmpty);
         }
+
+        [TestMethod]
+        public void Clear_Test()
+        {
+            var options = new[] { 1, 2, 3 };
+            var dropDown = new DropDown<int>(options, 2);
+
+            Assert.AreEqual(2, dropDown.Selected);
+            Assert.AreEqual(3, dropDown.Options.Count());
+
+            dropDown.Clear();
+
+            Assert.IsNull(dropDown.SelectedOption);
+            Assert.AreEqual(0, dropDown.Selected);
+            Assert.AreEqual(0, dropDown.Options.Count());
+        }
+
+        [TestMethod]
+        public void Clear_EmptyDropDown_Test()
+        {
+            var dropDown = new DropDown<int>();
+
+            Assert.IsNull(dropDown.SelectedOption);
+            Assert.AreEqual(0, dropDown.Options.Count());
+
+            dropDown.Clear(); // Should not throw
+
+            Assert.IsNull(dropDown.SelectedOption);
+            Assert.AreEqual(0, dropDown.Options.Count());
+        }
     }
 }
