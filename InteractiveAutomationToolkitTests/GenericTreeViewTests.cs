@@ -227,5 +227,37 @@ namespace InteractiveAutomationToolkitTests
 			Assert.AreEqual(1, checkedLeafValues.Count);
 			Assert.AreEqual(10, checkedLeafValues[0]);
 		}
+
+		[TestMethod]
+		public void EmptyConstructor_Test()
+		{
+			var treeView = new TreeView<string>(System.Linq.Enumerable.Empty<TreeViewItemOption<string>>());
+
+			Assert.IsNotNull(treeView);
+			Assert.AreEqual(0, treeView.Items.Count());
+			Assert.AreEqual(0, treeView.GetAllItems().Count());
+		}
+
+		[TestMethod]
+		public void NullValue_Test()
+		{
+			// Test that null values are handled correctly
+			var item = new TreeViewItemOption<string>("key", "display", null);
+
+			Assert.IsNull(item.Value);
+			Assert.AreEqual("key", item.KeyValue);
+			Assert.AreEqual("display", item.DisplayValue);
+		}
+
+		[TestMethod]
+		public void ComplexType_Test()
+		{
+			// Test with a complex custom type
+			var customData = new { Id = 123, Name = "Test", Active = true };
+			var item = new TreeViewItemOption<object>("key", "display", customData);
+
+			Assert.IsNotNull(item.Value);
+			Assert.AreEqual(customData, item.Value);
+		}
 	}
 }
