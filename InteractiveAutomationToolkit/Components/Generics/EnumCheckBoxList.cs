@@ -17,12 +17,17 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 	///		None = 0,
 	///		[Description("Monday")]
 	///		Monday = 1,
+	///		[Description("Tuesday")]
 	///		Tuesday = 2,
+	///		[Description("Wednesday")]
 	///		Wednesday = 4,
 	///		[Description("Thursday")]
 	///		Thursday = 8,
+	///		[Description("Friday")]
 	///		Friday = 16,
+	///		[Description("Saturday")]
 	///		Saturday = 32,
+	///		[Description("Sunday")]
 	///		Sunday = 64
 	/// }
 	///
