@@ -171,6 +171,34 @@
             List<TreeViewItem> itemsOnDepth3 = new List<TreeViewItem>(treeView.GetItems(3));
             Assert.AreEqual(0, itemsOnDepth3.Count);
         }
+
+        [TestMethod]
+        public void TreeViewParameterlessConstructor()
+        {
+            // Create TreeView without items
+            TreeView treeView = new TreeView();
+            Assert.IsNotNull(treeView);
+            Assert.IsNotNull(treeView.Items);
+            Assert.AreEqual(0, treeView.Items.Count());
+
+            // Verify items can be set later
+            treeView.Items = new[] {
+                new TreeViewItem("item1", "key1"),
+                new TreeViewItem("item2", "key2")
+            };
+
+            Assert.AreEqual(2, treeView.Items.Count());
+            
+            TreeViewItem item1;
+            bool item1Found = treeView.TryFindTreeViewItem("key1", out item1);
+            Assert.IsTrue(item1Found);
+            Assert.IsNotNull(item1);
+
+            TreeViewItem item2;
+            bool item2Found = treeView.TryFindTreeViewItem("key2", out item2);
+            Assert.IsTrue(item2Found);
+            Assert.IsNotNull(item2);
+        }
     }
 
     public class TestSection : Section
