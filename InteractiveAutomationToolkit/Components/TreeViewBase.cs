@@ -25,7 +25,7 @@
 			{
 				if (value == null)
 				{
-					throw new ArgumentNullException("value");
+					throw new ArgumentNullException(nameof(value));
 				}
 
 				BlockDefinition.TooltipText = value;
