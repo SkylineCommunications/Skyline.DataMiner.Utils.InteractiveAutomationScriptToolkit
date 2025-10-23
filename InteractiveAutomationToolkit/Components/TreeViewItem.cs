@@ -11,22 +11,22 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 	///     This allows attaching custom metadata to tree view items.
 	/// </summary>
 	/// <typeparam name="T">The type of the value associated with this tree view item.</typeparam>
-	public sealed class TreeViewItemOption<T> : IEquatable<TreeViewItemOption<T>>
+	public sealed class TreeViewItem<T> : IEquatable<TreeViewItem<T>>
 	{
 		/// <summary>
-		///     Initializes a new instance of the <see cref="TreeViewItemOption{T}"/> class.
+		///     Initializes a new instance of the <see cref="TreeViewItem{T}"/> class.
 		/// </summary>
 		/// <param name="item">The underlying TreeViewItem.</param>
 		/// <param name="value">The value to associate with this tree view item.</param>
 		/// <exception cref="ArgumentNullException">When item is null.</exception>
-		public TreeViewItemOption(TreeViewItem item, T value)
+		public TreeViewItem(TreeViewItem item, T value)
 		{
 			Item = item ?? throw new ArgumentNullException(nameof(item));
 			Value = value;
 		}
 
 		/// <summary>
-		///     Initializes a new instance of the <see cref="TreeViewItemOption{T}"/> class.
+		///     Initializes a new instance of the <see cref="TreeViewItem{T}"/> class.
 		///     Creates a TreeViewItem with the specified parameters.
 		/// </summary>
 		/// <param name="keyValue">The unique key for the tree view item.</param>
@@ -35,12 +35,12 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 		/// <param name="itemType">The type of the tree view item.</param>
 		/// <param name="childItems">The child items of this tree view item.</param>
 		/// <exception cref="ArgumentNullException">When keyValue or displayValue is null.</exception>
-		public TreeViewItemOption(
+		public TreeViewItem(
 			string keyValue,
 			string displayValue,
 			T value,
 			TreeViewItem.TreeViewItemType itemType = TreeViewItem.TreeViewItemType.CheckBox,
-			IEnumerable<TreeViewItemOption<T>> childItems = null)
+			IEnumerable<TreeViewItem<T>> childItems = null)
 		{
 			if (keyValue == null)
 			{
@@ -136,7 +136,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 		/// <returns>true if the specified object is equal to the current object; otherwise, false.</returns>
 		public override bool Equals(object obj)
 		{
-			return obj is TreeViewItemOption<T> option && Equals(option);
+			return obj is TreeViewItem<T> option && Equals(option);
 		}
 
 		/// <summary>
@@ -144,7 +144,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 		/// </summary>
 		/// <param name="other">The TreeViewItemOption to compare with the current TreeViewItemOption.</param>
 		/// <returns>true if the specified TreeViewItemOption is equal to the current TreeViewItemOption; otherwise, false.</returns>
-		public bool Equals(TreeViewItemOption<T> other)
+		public bool Equals(TreeViewItem<T> other)
 		{
 			if (ReferenceEquals(this, other)) return true;
 			if (ReferenceEquals(null, other)) return false;
@@ -180,7 +180,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 		/// <param name="left">The first object to compare.</param>
 		/// <param name="right">The second object to compare.</param>
 		/// <returns>true if the objects are equal; otherwise, false.</returns>
-		public static bool operator ==(TreeViewItemOption<T> left, TreeViewItemOption<T> right)
+		public static bool operator ==(TreeViewItem<T> left, TreeViewItem<T> right)
 		{
 			return Equals(left, right);
 		}
@@ -191,7 +191,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 		/// <param name="left">The first object to compare.</param>
 		/// <param name="right">The second object to compare.</param>
 		/// <returns>true if the objects are not equal; otherwise, false.</returns>
-		public static bool operator !=(TreeViewItemOption<T> left, TreeViewItemOption<T> right)
+		public static bool operator !=(TreeViewItem<T> left, TreeViewItem<T> right)
 		{
 			return !Equals(left, right);
 		}

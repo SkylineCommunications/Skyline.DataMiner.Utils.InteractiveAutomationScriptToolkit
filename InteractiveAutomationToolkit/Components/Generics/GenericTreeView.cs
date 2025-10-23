@@ -11,31 +11,31 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 	///     A generic tree view structure that allows attaching custom metadata to each item.
 	/// </summary>
 	/// <typeparam name="T">The type of the value associated with each tree view item.</typeparam>
-	public class TreeView<T> : InteractiveWidget, IIsReadonlyWidget
+	public class TreeView<T> : TreeViewBase, ITreeView<T>
 	{
 		private Dictionary<string, bool> checkedItemCache;
 		private Dictionary<string, bool> collapsedItemCache;
-		private Dictionary<string, TreeViewItemOption<T>> lookupTable;
+		private Dictionary<string, TreeViewItem<T>> lookupTable;
 
 		private bool itemsChanged = false;
-		private List<TreeViewItemOption<T>> changedItems = new List<TreeViewItemOption<T>>();
+		private List<TreeViewItem<T>> changedItems = new List<TreeViewItem<T>>();
 
 		private bool itemsChecked = false;
-		private List<TreeViewItemOption<T>> checkedItems = new List<TreeViewItemOption<T>>();
+		private List<TreeViewItem<T>> checkedItems = new List<TreeViewItem<T>>();
 
 		private bool itemsUnchecked = false;
-		private List<TreeViewItemOption<T>> uncheckedItems = new List<TreeViewItemOption<T>>();
+		private List<TreeViewItem<T>> uncheckedItems = new List<TreeViewItem<T>>();
 
 		private bool itemsExpanded = false;
-		private List<TreeViewItemOption<T>> expandedItems = new List<TreeViewItemOption<T>>();
+		private List<TreeViewItem<T>> expandedItems = new List<TreeViewItem<T>>();
 
 		private bool itemsCollapsed = false;
-		private List<TreeViewItemOption<T>> collapsedItems = new List<TreeViewItemOption<T>>();
+		private List<TreeViewItem<T>> collapsedItems = new List<TreeViewItem<T>>();
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="TreeView{T}" /> class.
 		/// </summary>
-		public TreeView() : this(Enumerable.Empty<TreeViewItemOption<T>>())
+		public TreeView() : this(Enumerable.Empty<TreeViewItem<T>>())
 		{
 		}
 
@@ -43,7 +43,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 		///     Initializes a new instance of the <see cref="TreeView{T}" /> class.
 		/// </summary>
 		/// <param name="treeViewItems">Root nodes of the tree view.</param>
-		public TreeView(IEnumerable<TreeViewItemOption<T>> treeViewItems)
+		public TreeView(IEnumerable<TreeViewItem<T>> treeViewItems)
 		{
 			Type = UIBlockType.TreeView;
 			Items = treeViewItems;
@@ -54,7 +54,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 		///     Triggered when a different item is selected or no longer selected.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
-		public event EventHandler<IEnumerable<TreeViewItemOption<T>>> Changed
+		public event EventHandler<IEnumerable<TreeViewItem<T>>> Changed
 		{
 			add
 			{
@@ -76,7 +76,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 		///     Triggered whenever an item is selected.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
-		public event EventHandler<IEnumerable<TreeViewItemOption<T>>> Checked
+		public event EventHandler<IEnumerable<TreeViewItem<T>>> Checked
 		{
 			add
 			{
@@ -98,7 +98,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 		///     Triggered whenever an item is no longer selected.
 		///     WantsOnChange will be set to true when this event is subscribed to.
 		/// </summary>
-		public event EventHandler<IEnumerable<TreeViewItemOption<T>>> Unchecked
+		public event EventHandler<IEnumerable<TreeViewItem<T>>> Unchecked
 		{
 			add
 			{
@@ -121,7 +121,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 		///     Can be used for lazy loading.
 		///     Will be triggered whenever a node with SupportsLazyLoading set to true is expanded.
 		/// </summary>
-		public event EventHandler<IEnumerable<TreeViewItemOption<T>>> Expanded
+		public event EventHandler<IEnumerable<TreeViewItem<T>>> Expanded
 		{
 			add
 			{
@@ -138,7 +138,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 		///     Triggered whenever an item is collapsed.
 		///     Will be triggered whenever a node with SupportsLazyLoading set to true is collapsed.
 		/// </summary>
-		public event EventHandler<IEnumerable<TreeViewItemOption<T>>> Collapsed
+		public event EventHandler<IEnumerable<TreeViewItem<T>>> Collapsed
 		{
 			add
 			{
@@ -151,21 +151,21 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 			}
 		}
 
-		private event EventHandler<IEnumerable<TreeViewItemOption<T>>> OnChanged;
+		private event EventHandler<IEnumerable<TreeViewItem<T>>> OnChanged;
 
-		private event EventHandler<IEnumerable<TreeViewItemOption<T>>> OnChecked;
+		private event EventHandler<IEnumerable<TreeViewItem<T>>> OnChecked;
 
-		private event EventHandler<IEnumerable<TreeViewItemOption<T>>> OnUnchecked;
+		private event EventHandler<IEnumerable<TreeViewItem<T>>> OnUnchecked;
 
-		private event EventHandler<IEnumerable<TreeViewItemOption<T>>> OnExpanded;
+		private event EventHandler<IEnumerable<TreeViewItem<T>>> OnExpanded;
 
-		private event EventHandler<IEnumerable<TreeViewItemOption<T>>> OnCollapsed;
+		private event EventHandler<IEnumerable<TreeViewItem<T>>> OnCollapsed;
 
 		/// <summary>
 		///     Gets or sets the top-level items in the tree view.
 		///     The TreeViewItemOption.Item.ChildItems property can be used to navigate further down the tree.
 		/// </summary>
-		public IEnumerable<TreeViewItemOption<T>> Items
+		public IEnumerable<TreeViewItem<T>> Items
 		{
 			get
 			{
@@ -189,7 +189,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 		/// <summary>
 		///     Gets all items in the tree view that are selected.
 		/// </summary>
-		public IEnumerable<TreeViewItemOption<T>> CheckedItems
+		public IEnumerable<TreeViewItem<T>> CheckedItems
 		{
 			get
 			{
@@ -200,7 +200,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 		/// <summary>
 		///     Gets all leaves (= items without children) in the tree view that are selected.
 		/// </summary>
-		public IEnumerable<TreeViewItemOption<T>> CheckedLeaves
+		public IEnumerable<TreeViewItem<T>> CheckedLeaves
 		{
 			get
 			{
@@ -211,7 +211,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 		/// <summary>
 		///     Gets all nodes (= items with children) in the tree view that are selected.
 		/// </summary>
-		public IEnumerable<TreeViewItemOption<T>> CheckedNodes
+		public IEnumerable<TreeViewItem<T>> CheckedNodes
 		{
 			get
 			{
@@ -252,46 +252,8 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the tooltip.
-		/// </summary>
-		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
-		public string Tooltip
-		{
-			get
-			{
-				return BlockDefinition.TooltipText;
-			}
-
-			set
-			{
-				if (value == null)
-				{
-					throw new ArgumentNullException(nameof(value));
-				}
-
-				BlockDefinition.TooltipText = value;
-			}
-		}
-
 		/// <inheritdoc/>
-		public virtual bool IsReadOnly
-		{
-			get
-			{
-				return BlockDefinition.IsReadOnly;
-			}
-
-			set
-			{
-				BlockDefinition.IsReadOnly = value;
-			}
-		}
-
-		/// <summary>
-		///     Sets the IsCollapsed state for all items in the tree view to true, causing the entire tree view to be collapsed.
-		/// </summary>
-		public void Collapse()
+		public override void Collapse()
 		{
 			foreach (var item in GetAllItems())
 			{
@@ -299,10 +261,8 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 			}
 		}
 
-		/// <summary>
-		///     Sets the IsCollapsed state for all items in the tree view to false, causing the entire tree view to be expanded.
-		/// </summary>
-		public void Expand()
+		/// <inheritdoc/>
+		public override void Expand()
 		{
 			foreach (var item in GetAllItems())
 			{
@@ -316,7 +276,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 		/// <param name="key">Key used to search for the item.</param>
 		/// <param name="item">Item in the tree that matches the provided key.</param>
 		/// <returns>True if the item was found, otherwise false.</returns>
-		public bool TryFindTreeViewItem(string key, out TreeViewItemOption<T> item)
+		public bool TryFindTreeViewItem(string key, out TreeViewItem<T> item)
 		{
 			return lookupTable.TryGetValue(key, out item);
 		}
@@ -326,16 +286,45 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 		///     This is done after loading the results from the UI Block, after handling the Events or when setting the Items.
 		///     This method should only be called from outside the TreeView if you are checking or collapsing items from outside of the TreeView and need to access the CheckedItems or CollapsedItems.
 		/// </summary>
-		public void UpdateItemCache()
+		public override void UpdateItemCache()
 		{
-			UpdateItemCache(Items);
+			// Don't pass Items here as it would cause recursion - just update the existing cache
+			var newCheckedItemCache = new Dictionary<string, bool>();
+			var newCollapsedItemCache = new Dictionary<string, bool>();
+			
+			// Ensure lookupTable exists
+			if (lookupTable == null)
+			{
+				lookupTable = new Dictionary<string, TreeViewItem<T>>();
+			}
+
+			// Update caches based on current lookup table
+			foreach (var item in lookupTable.Values)
+			{
+				try
+				{
+					newCheckedItemCache.Add(item.KeyValue, item.IsChecked);
+					if (item.SupportsLazyLoading)
+					{
+						newCollapsedItemCache.Add(item.KeyValue, item.IsCollapsed);
+					}
+				}
+				catch (Exception e)
+				{
+					throw new TreeViewDuplicateItemsException(item.KeyValue, e);
+				}
+			}
+
+			// Replace caches atomically
+			checkedItemCache = newCheckedItemCache;
+			collapsedItemCache = newCollapsedItemCache;
 		}
 
 		/// <summary>
 		///     Iterates over all items in the tree and returns them in a flat collection.
 		/// </summary>
 		/// <returns>A flat collection containing all items in the tree view.</returns>
-		public IEnumerable<TreeViewItemOption<T>> GetAllItems()
+		public IEnumerable<TreeViewItem<T>> GetAllItems()
 		{
 			return lookupTable.Values;
 		}
@@ -346,7 +335,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 		/// </summary>
 		/// <param name="depth">Depth of the requested items.</param>
 		/// <returns>All items in the tree view that are located at the provided depth.</returns>
-		public IEnumerable<TreeViewItemOption<T>> GetItems(int depth)
+		public IEnumerable<TreeViewItem<T>> GetItems(int depth)
 		{
 			return GetItems(Items, depth, 0);
 		}
@@ -384,7 +373,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 			if (changedItemKeys.Any() && OnChanged != null)
 			{
 				itemsChanged = true;
-				changedItems = new List<TreeViewItemOption<T>>();
+				changedItems = new List<TreeViewItem<T>>();
 
 				foreach (string changedItemKey in changedItemKeys)
 				{
@@ -396,7 +385,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 			}
 
 			// Persist states
-			foreach (TreeViewItemOption<T> item in lookupTable.Values)
+			foreach (TreeViewItem<T> item in lookupTable.Values)
 			{
 				item.Item.IsChecked = checkedItemKeys.Contains(item.KeyValue);
 				item.Item.IsCollapsed = !expandedItemKeys.Contains(item.KeyValue);
@@ -455,7 +444,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 		///     Returns all items in the TreeView that are checked.
 		/// </summary>
 		/// <returns>All checked TreeViewItems in the TreeView.</returns>
-		private IEnumerable<TreeViewItemOption<T>> GetCheckedItems()
+		private IEnumerable<TreeViewItem<T>> GetCheckedItems()
 		{
 			return lookupTable.Values.Where(x => x.ItemType == TreeViewItem.TreeViewItemType.CheckBox && x.IsChecked);
 		}
@@ -466,9 +455,9 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 		/// <param name="children">List of TreeViewItems to be visited.</param>
 		/// <param name="parentOptions">Parent TreeViewItemOption wrappers.</param>
 		/// <returns>Flat collection containing every item in the provided children collection and all underlying items.</returns>
-		private IEnumerable<TreeViewItemOption<T>> GetAllItemsRecursive(IEnumerable<TreeViewItem> children, IEnumerable<TreeViewItemOption<T>> parentOptions)
+		private IEnumerable<TreeViewItem<T>> GetAllItemsRecursive(IEnumerable<TreeViewItem> children, IEnumerable<TreeViewItem<T>> parentOptions)
 		{
-			List<TreeViewItemOption<T>> allItems = new List<TreeViewItemOption<T>>();
+			List<TreeViewItem<T>> allItems = new List<TreeViewItem<T>>();
 			foreach (var item in children)
 			{
 				var option = parentOptions.FirstOrDefault(x => x.Item == item);
@@ -491,11 +480,11 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 		/// <param name="requestedDepth">Depth that was requested.</param>
 		/// <param name="currentDepth">Current depth in the tree.</param>
 		/// <returns>All TreeViewItems in the TreeView that are located on the provided depth.</returns>
-		private IEnumerable<TreeViewItemOption<T>> GetItems(IEnumerable<TreeViewItemOption<T>> children, int requestedDepth, int currentDepth)
+		private IEnumerable<TreeViewItem<T>> GetItems(IEnumerable<TreeViewItem<T>> children, int requestedDepth, int currentDepth)
 		{
-			List<TreeViewItemOption<T>> requestedItems = new List<TreeViewItemOption<T>>();
+			List<TreeViewItem<T>> requestedItems = new List<TreeViewItem<T>>();
 			bool depthReached = requestedDepth == currentDepth;
-			foreach (TreeViewItemOption<T> item in children)
+			foreach (TreeViewItem<T> item in children)
 			{
 				if (depthReached)
 				{
@@ -518,7 +507,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 			if (newlyExpandedItems.Any() && OnExpanded != null)
 			{
 				itemsExpanded = true;
-				expandedItems = new List<TreeViewItemOption<T>>();
+				expandedItems = new List<TreeViewItem<T>>();
 
 				foreach (string newlyExpandedItemKey in newlyExpandedItems)
 				{
@@ -536,7 +525,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 			if (newlyCollapsedItems.Any() && OnCollapsed != null)
 			{
 				itemsCollapsed = true;
-				collapsedItems = new List<TreeViewItemOption<T>>();
+				collapsedItems = new List<TreeViewItem<T>>();
 
 				foreach (string newlyCollapsedItemKey in newlyCollapsedItems)
 				{
@@ -554,7 +543,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 			if (newlyCheckedItemKeys.Any() && OnChecked != null)
 			{
 				itemsChecked = true;
-				checkedItems = new List<TreeViewItemOption<T>>();
+				checkedItems = new List<TreeViewItem<T>>();
 
 				foreach (string newlyCheckedItemKey in newlyCheckedItemKeys)
 				{
@@ -574,7 +563,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 			if (newlyUncheckedItemKeys.Any() && OnUnchecked != null)
 			{
 				itemsUnchecked = true;
-				uncheckedItems = new List<TreeViewItemOption<T>>();
+				uncheckedItems = new List<TreeViewItem<T>>();
 
 				foreach (string newlyUncheckedItemKey in newlyUncheckedItemKeys)
 				{
@@ -588,22 +577,33 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 			return newlyUncheckedItemKeys;
 		}
 
-		private void UpdateItemCache(IEnumerable<TreeViewItemOption<T>> items)
+		private void UpdateItemCache(IEnumerable<TreeViewItem<T>> items)
 		{
-			checkedItemCache = new Dictionary<string, bool>();
-			collapsedItemCache = new Dictionary<string, bool>();
-			lookupTable = new Dictionary<string, TreeViewItemOption<T>>();
+			// Initialize new caches but preserve the existing lookup table if items is null or empty
+			var newCheckedItemCache = new Dictionary<string, bool>();
+			var newCollapsedItemCache = new Dictionary<string, bool>();
+			
+			// Only rebuild lookup table if we have new items to process
+			if (items != null && items.Any())
+			{
+				lookupTable = new Dictionary<string, TreeViewItem<T>>();
+				BuildLookupTable(items);
+			}
+			else if (lookupTable == null)
+			{
+				// Initialize empty lookup table only if it doesn't exist
+				lookupTable = new Dictionary<string, TreeViewItem<T>>();
+			}
 
-			BuildLookupTable(items);
-
+			// Update caches based on current lookup table
 			foreach (var item in lookupTable.Values)
 			{
 				try
 				{
-					checkedItemCache.Add(item.KeyValue, item.IsChecked);
+					newCheckedItemCache.Add(item.KeyValue, item.IsChecked);
 					if (item.SupportsLazyLoading)
 					{
-						collapsedItemCache.Add(item.KeyValue, item.IsCollapsed);
+						newCollapsedItemCache.Add(item.KeyValue, item.IsCollapsed);
 					}
 				}
 				catch (Exception e)
@@ -611,9 +611,13 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 					throw new TreeViewDuplicateItemsException(item.KeyValue, e);
 				}
 			}
+
+			// Replace caches atomically
+			checkedItemCache = newCheckedItemCache;
+			collapsedItemCache = newCollapsedItemCache;
 		}
 
-		private void BuildLookupTable(IEnumerable<TreeViewItemOption<T>> items)
+		private void BuildLookupTable(IEnumerable<TreeViewItem<T>> items)
 		{
 			foreach (var item in items)
 			{
@@ -643,7 +647,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 				if (!lookupTable.ContainsKey(item.KeyValue))
 				{
 					// Create a wrapper with default value for items without explicit metadata
-					var wrapper = new TreeViewItemOption<T>(item, default(T));
+					var wrapper = new TreeViewItem<T>(item, default(T));
 					lookupTable[item.KeyValue] = wrapper;
 				}
 

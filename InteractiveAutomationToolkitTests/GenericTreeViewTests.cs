@@ -12,8 +12,8 @@ namespace InteractiveAutomationToolkitTests
 		{
 			var rootItems = new[]
 			{
-				new TreeViewItemOption<int>("root1", "Root Item 1", 1),
-				new TreeViewItemOption<int>("root2", "Root Item 2", 2)
+				new TreeViewItem<int>("root1", "Root Item 1", 1),
+				new TreeViewItem<int>("root2", "Root Item 2", 2)
 			};
 
 			var treeView = new TreeView<int>(rootItems);
@@ -28,11 +28,11 @@ namespace InteractiveAutomationToolkitTests
 		{
 			var childItems = new[]
 			{
-				new TreeViewItemOption<string>("child1", "Child Item 1", "child1data"),
-				new TreeViewItemOption<string>("child2", "Child Item 2", "child2data")
+				new TreeViewItem<string>("child1", "Child Item 1", "child1data"),
+				new TreeViewItem<string>("child2", "Child Item 2", "child2data")
 			};
 
-			var rootItem = new TreeViewItemOption<string>("root", "Root Item", "rootdata", childItems: childItems);
+			var rootItem = new TreeViewItem<string>("root", "Root Item", "rootdata", childItems: childItems);
 			var treeView = new TreeView<string>(new[] { rootItem });
 
 			Assert.IsNotNull(treeView);
@@ -45,8 +45,8 @@ namespace InteractiveAutomationToolkitTests
 		{
 			var rootItems = new[]
 			{
-				new TreeViewItemOption<int>("root1", "Root Item 1", 100),
-				new TreeViewItemOption<int>("root2", "Root Item 2", 200)
+				new TreeViewItem<int>("root1", "Root Item 1", 100),
+				new TreeViewItem<int>("root2", "Root Item 2", 200)
 			};
 
 			var treeView = new TreeView<int>(rootItems);
@@ -66,7 +66,7 @@ namespace InteractiveAutomationToolkitTests
 		{
 			var rootItems = new[]
 			{
-				new TreeViewItemOption<int>("root1", "Root Item 1", 100)
+				new TreeViewItem<int>("root1", "Root Item 1", 100)
 			};
 
 			var treeView = new TreeView<int>(rootItems);
@@ -81,9 +81,9 @@ namespace InteractiveAutomationToolkitTests
 		[TestMethod]
 		public void GetAllItems_Test()
 		{
-			var child1 = new TreeViewItemOption<int>("child1", "Child 1", 10);
-			var child2 = new TreeViewItemOption<int>("child2", "Child 2", 20);
-			var rootItem = new TreeViewItemOption<int>("root", "Root", 1, childItems: new[] { child1, child2 });
+			var child1 = new TreeViewItem<int>("child1", "Child 1", 10);
+			var child2 = new TreeViewItem<int>("child2", "Child 2", 20);
+			var rootItem = new TreeViewItem<int>("root", "Root", 1, childItems: new[] { child1, child2 });
 
 			var treeView = new TreeView<int>(new[] { rootItem });
 			treeView.UpdateItemCache();
@@ -99,8 +99,8 @@ namespace InteractiveAutomationToolkitTests
 		[TestMethod]
 		public void GetItems_Depth0_Test()
 		{
-			var child = new TreeViewItemOption<int>("child", "Child", 10);
-			var root = new TreeViewItemOption<int>("root", "Root", 1, childItems: new[] { child });
+			var child = new TreeViewItem<int>("child", "Child", 10);
+			var root = new TreeViewItem<int>("root", "Root", 1, childItems: new[] { child });
 
 			var treeView = new TreeView<int>(new[] { root });
 			treeView.UpdateItemCache();
@@ -114,8 +114,8 @@ namespace InteractiveAutomationToolkitTests
 		[TestMethod]
 		public void GetItems_Depth1_Test()
 		{
-			var child = new TreeViewItemOption<int>("child", "Child", 10);
-			var root = new TreeViewItemOption<int>("root", "Root", 1, childItems: new[] { child });
+			var child = new TreeViewItem<int>("child", "Child", 10);
+			var root = new TreeViewItem<int>("root", "Root", 1, childItems: new[] { child });
 
 			var treeView = new TreeView<int>(new[] { root });
 			treeView.UpdateItemCache();
@@ -129,9 +129,9 @@ namespace InteractiveAutomationToolkitTests
 		[TestMethod]
 		public void CheckedValues_Test()
 		{
-			var item1 = new TreeViewItemOption<int>("item1", "Item 1", 100);
-			var item2 = new TreeViewItemOption<int>("item2", "Item 2", 200);
-			var item3 = new TreeViewItemOption<int>("item3", "Item 3", 300);
+			var item1 = new TreeViewItem<int>("item1", "Item 1", 100);
+			var item2 = new TreeViewItem<int>("item2", "Item 2", 200);
+			var item3 = new TreeViewItem<int>("item3", "Item 3", 300);
 
 			var treeView = new TreeView<int>(new[] { item1, item2, item3 });
 			treeView.UpdateItemCache();
@@ -152,8 +152,8 @@ namespace InteractiveAutomationToolkitTests
 		[TestMethod]
 		public void CollapseAndExpand_Test()
 		{
-			var child = new TreeViewItemOption<int>("child", "Child", 10);
-			var root = new TreeViewItemOption<int>("root", "Root", 1, childItems: new[] { child });
+			var child = new TreeViewItem<int>("child", "Child", 10);
+			var root = new TreeViewItem<int>("root", "Root", 1, childItems: new[] { child });
 
 			var treeView = new TreeView<int>(new[] { root });
 			treeView.UpdateItemCache();
@@ -172,9 +172,9 @@ namespace InteractiveAutomationToolkitTests
 		[TestMethod]
 		public void TreeViewItemOption_Equals_Test()
 		{
-			var item1 = new TreeViewItemOption<int>("key1", "Display 1", 100);
-			var item2 = new TreeViewItemOption<int>("key1", "Display 1", 100);
-			var item3 = new TreeViewItemOption<int>("key2", "Display 2", 200);
+			var item1 = new TreeViewItem<int>("key1", "Display 1", 100);
+			var item2 = new TreeViewItem<int>("key1", "Display 1", 100);
+			var item3 = new TreeViewItem<int>("key2", "Display 2", 200);
 
 			Assert.AreEqual(item1, item2);
 			Assert.AreNotEqual(item1, item3);
@@ -183,7 +183,7 @@ namespace InteractiveAutomationToolkitTests
 		[TestMethod]
 		public void TreeViewItemOption_Properties_Test()
 		{
-			var item = new TreeViewItemOption<string>("key", "display", "value");
+			var item = new TreeViewItem<string>("key", "display", "value");
 
 			Assert.AreEqual("key", item.KeyValue);
 			Assert.AreEqual("display", item.DisplayValue);
@@ -200,9 +200,9 @@ namespace InteractiveAutomationToolkitTests
 		[TestMethod]
 		public void CheckedLeaves_And_CheckedNodes_Test()
 		{
-			var leaf1 = new TreeViewItemOption<int>("leaf1", "Leaf 1", 10);
-			var leaf2 = new TreeViewItemOption<int>("leaf2", "Leaf 2", 20);
-			var node = new TreeViewItemOption<int>("node", "Node", 100, childItems: new[] { leaf1, leaf2 });
+			var leaf1 = new TreeViewItem<int>("leaf1", "Leaf 1", 10);
+			var leaf2 = new TreeViewItem<int>("leaf2", "Leaf 2", 20);
+			var node = new TreeViewItem<int>("node", "Node", 100, childItems: new[] { leaf1, leaf2 });
 
 			var treeView = new TreeView<int>(new[] { node });
 			treeView.UpdateItemCache();
@@ -231,7 +231,7 @@ namespace InteractiveAutomationToolkitTests
 		[TestMethod]
 		public void EmptyConstructor_Test()
 		{
-			var treeView = new TreeView<string>(System.Linq.Enumerable.Empty<TreeViewItemOption<string>>());
+			var treeView = new TreeView<string>(System.Linq.Enumerable.Empty<TreeViewItem<string>>());
 
 			Assert.IsNotNull(treeView);
 			Assert.AreEqual(0, treeView.Items.Count());
@@ -253,7 +253,7 @@ namespace InteractiveAutomationToolkitTests
 		public void NullValue_Test()
 		{
 			// Test that null values are handled correctly
-			var item = new TreeViewItemOption<string>("key", "display", null);
+			var item = new TreeViewItem<string>("key", "display", null);
 
 			Assert.IsNull(item.Value);
 			Assert.AreEqual("key", item.KeyValue);
@@ -265,7 +265,7 @@ namespace InteractiveAutomationToolkitTests
 		{
 			// Test with a complex custom type
 			var customData = new { Id = 123, Name = "Test", Active = true };
-			var item = new TreeViewItemOption<object>("key", "display", customData);
+			var item = new TreeViewItem<object>("key", "display", customData);
 
 			Assert.IsNotNull(item.Value);
 			Assert.AreEqual(customData, item.Value);
