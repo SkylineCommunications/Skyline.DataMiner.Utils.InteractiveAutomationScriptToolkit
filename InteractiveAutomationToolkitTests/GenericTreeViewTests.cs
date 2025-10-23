@@ -2,6 +2,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skyline.DataMiner.Utils.InteractiveAutomationScript;
 using System.Linq;
 
+using static Skyline.DataMiner.Net.AutomationUI.Objects.TreeViewItem;
+
 namespace InteractiveAutomationToolkitTests
 {
 	[TestClass]
@@ -129,9 +131,9 @@ namespace InteractiveAutomationToolkitTests
 		[TestMethod]
 		public void CheckedValues_Test()
 		{
-			var item1 = new TreeViewItem<int>("item1", "Item 1", 100);
-			var item2 = new TreeViewItem<int>("item2", "Item 2", 200);
-			var item3 = new TreeViewItem<int>("item3", "Item 3", 300);
+			var item1 = new TreeViewItem<int>("item1", "Item 1", 100) { ItemType = TreeViewItemType.CheckBox };
+			var item2 = new TreeViewItem<int>("item2", "Item 2", 200) { ItemType = TreeViewItemType.CheckBox };
+			var item3 = new TreeViewItem<int>("item3", "Item 3", 300) { ItemType = TreeViewItemType.CheckBox };
 
 			var treeView = new TreeView<int>(new[] { item1, item2, item3 });
 			treeView.UpdateItemCache();
@@ -170,7 +172,7 @@ namespace InteractiveAutomationToolkitTests
 		}
 
 		[TestMethod]
-		public void TreeViewItemOption_Equals_Test()
+		public void TreeViewItem_Equals_Test()
 		{
 			var item1 = new TreeViewItem<int>("key1", "Display 1", 100);
 			var item2 = new TreeViewItem<int>("key1", "Display 1", 100);
@@ -181,7 +183,7 @@ namespace InteractiveAutomationToolkitTests
 		}
 
 		[TestMethod]
-		public void TreeViewItemOption_Properties_Test()
+		public void TreeViewItem_Properties_Test()
 		{
 			var item = new TreeViewItem<string>("key", "display", "value");
 
@@ -200,9 +202,9 @@ namespace InteractiveAutomationToolkitTests
 		[TestMethod]
 		public void CheckedLeaves_And_CheckedNodes_Test()
 		{
-			var leaf1 = new TreeViewItem<int>("leaf1", "Leaf 1", 10);
-			var leaf2 = new TreeViewItem<int>("leaf2", "Leaf 2", 20);
-			var node = new TreeViewItem<int>("node", "Node", 100, childItems: new[] { leaf1, leaf2 });
+			var leaf1 = new TreeViewItem<int>("leaf1", "Leaf 1", 10) { ItemType = TreeViewItemType.CheckBox };
+			var leaf2 = new TreeViewItem<int>("leaf2", "Leaf 2", 20) { ItemType = TreeViewItemType.CheckBox };
+			var node = new TreeViewItem<int>("node", "Node", 100, childItems: new[] { leaf1, leaf2 }) { ItemType = TreeViewItemType.CheckBox };
 
 			var treeView = new TreeView<int>(new[] { node });
 			treeView.UpdateItemCache();
