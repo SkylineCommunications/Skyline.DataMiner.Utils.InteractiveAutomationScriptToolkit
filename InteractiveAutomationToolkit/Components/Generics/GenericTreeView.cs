@@ -179,7 +179,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 				rootItems.Clear();
 				rootItems.AddRange(value);
 
-				BlockDefinition.TreeViewItems = new List<TreeViewItem>(value.Select(x => x.Item));
+				BlockDefinition.TreeViewItems = new List<TreeViewItem>(rootItems.Select(x => x.Item));
 
 				UpdateItemCache();
 			}
