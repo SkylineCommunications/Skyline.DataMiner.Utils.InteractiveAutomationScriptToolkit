@@ -35,13 +35,6 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 		/// <summary>
 		///     Initializes a new instance of the <see cref="TreeView{T}" /> class.
 		/// </summary>
-		public TreeView() : this(Enumerable.Empty<TreeViewItemOption<T>>())
-		{
-		}
-
-		/// <summary>
-		///     Initializes a new instance of the <see cref="TreeView{T}" /> class.
-		/// </summary>
 		/// <param name="treeViewItems">Root nodes of the tree view.</param>
 		public TreeView(IEnumerable<TreeViewItemOption<T>> treeViewItems)
 		{

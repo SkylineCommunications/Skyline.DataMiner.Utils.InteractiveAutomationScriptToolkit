@@ -239,17 +239,6 @@ namespace InteractiveAutomationToolkitTests
 		}
 
 		[TestMethod]
-		public void ParameterlessConstructor_Test()
-		{
-			var treeView = new TreeView<int>();
-
-			Assert.IsNotNull(treeView);
-			Assert.AreEqual(0, treeView.Items.Count());
-			Assert.AreEqual(0, treeView.GetAllItems().Count());
-			Assert.IsFalse(treeView.IsReadOnly);
-		}
-
-		[TestMethod]
 		public void NullValue_Test()
 		{
 			// Test that null values are handled correctly
