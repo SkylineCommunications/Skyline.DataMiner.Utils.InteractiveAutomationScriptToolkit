@@ -81,6 +81,21 @@
 		IEnumerable<TreeViewItem<T>> CheckedNodes { get; }
 
 		/// <summary>
+		///     Gets the values of all items in the tree view that are selected.
+		/// </summary>
+		IEnumerable<T> CheckedValues { get; }
+
+		/// <summary>
+		///     Gets the values of all leaves in the tree view that are selected.
+		/// </summary>
+		IEnumerable<T> CheckedLeafValues { get; }
+
+		/// <summary>
+		///     Gets the values of all nodes in the tree view that are selected.
+		/// </summary>
+		IEnumerable<T> CheckedNodeValues { get; }
+
+		/// <summary>
 		/// Iterates over all items in the tree and returns them in a flat collection.
 		/// </summary>
 		/// <returns>A flat collection containing all items in the tree view.</returns>

@@ -12,6 +12,7 @@
 	/// </summary>
 	public class TreeView : TreeViewBase, ITreeView
 	{
+		private readonly List<TreeViewItem> rootItems = new List<TreeViewItem>();
 		private Dictionary<string, bool> checkedItemCache;
 		private Dictionary<string, bool> collapsedItemCache; // TODO: should only contain Items with LazyLoading set to true
 		private Dictionary<string, TreeViewItem> lookupTable;
@@ -44,9 +45,7 @@
 		/// <param name="treeViewItems">Root nodes of the tree view.</param>
 		public TreeView(IEnumerable<TreeViewItem> treeViewItems)
 		{
-			Type = UIBlockType.TreeView;
 			Items = treeViewItems;
-			IsReadOnly = false;
 		}
 
 		/// <summary>
@@ -165,17 +164,21 @@
 		{
 			get
 			{
-				return BlockDefinition.TreeViewItems;
+				return rootItems;
 			}
 
 			set
 			{
 				if (value == null)
 				{
-					throw new ArgumentNullException("value");
+					throw new ArgumentNullException(nameof(value));
 				}
 
-				BlockDefinition.TreeViewItems = new List<TreeViewItem>(value);
+				rootItems.Clear();
+				rootItems.AddRange(value);
+
+				BlockDefinition.TreeViewItems = rootItems;
+
 				UpdateItemCache();
 			}
 		}
@@ -228,8 +231,7 @@
 		/// <inheritdoc/>
 		public bool TryFindTreeViewItem(string key, out TreeViewItem item)
 		{
-			item = GetAllItems().FirstOrDefault(x => x.KeyValue.Equals(key));
-			return item != null;
+			return lookupTable.TryGetValue(key, out item);
 		}
 
 		/// <inheritdoc/>
@@ -239,7 +241,7 @@
 			collapsedItemCache = new Dictionary<string, bool>();
 			lookupTable = new Dictionary<string, TreeViewItem>();
 
-			foreach (var item in GetAllItems())
+			foreach (var item in GetAllItems(rootItems))
 			{
 				try
 				{
@@ -261,14 +263,7 @@
 		/// <inheritdoc/>
 		public IEnumerable<TreeViewItem> GetAllItems()
 		{
-			List<TreeViewItem> allItems = new List<TreeViewItem>();
-			foreach (var item in Items)
-			{
-				allItems.Add(item);
-				allItems.AddRange(GetAllItems(item.ChildItems));
-			}
-
-			return allItems;
+			return lookupTable.Values;
 		}
 
 		/// <inheritdoc/>
@@ -277,14 +272,7 @@
 			return GetItems(Items, depth, 0);
 		}
 
-		/// <summary>
-		///     Load any changes made through user interaction.
-		/// </summary>
-		/// <param name="uiResults">
-		///     Represents the information a user has entered or selected in a dialog box of an interactive
-		///     Automation script.
-		/// </param>
-		/// <remarks><see cref="InteractiveWidget.DestVar" /> should be used as key to get the changes for this widget.</remarks>
+		/// <inheritdoc/>
 		protected internal override void LoadResult(IUIResults uiResults)
 		{
 			var checkedItemKeys = uiResults.GetCheckedItemKeys(this); // this includes all checked items
@@ -328,11 +316,7 @@
 			UpdateItemCache();
 		}
 
-		/// <summary>
-		///     Raises zero or more events of the widget.
-		///     This method is called after <see cref="InteractiveWidget.LoadResult" /> was called on all widgets.
-		/// </summary>
-		/// <remarks>It is up to the implementer to determine if an event must be raised.</remarks>
+		/// <inheritdoc/>
 		protected internal override void RaiseResultEvents()
 		{
 			// Expanded items
@@ -390,14 +374,21 @@
 		/// <returns>Flat collection containing every item in the provided children collection and all underlying items.</returns>
 		private IEnumerable<TreeViewItem> GetAllItems(IEnumerable<TreeViewItem> children)
 		{
-			List<TreeViewItem> allItems = new List<TreeViewItem>();
-			foreach (var item in children)
-			{
-				allItems.Add(item);
-				allItems.AddRange(GetAllItems(item.ChildItems));
-			}
+			if (children == null)
+				yield break;
 
-			return allItems;
+			var queue = new Queue<TreeViewItem>(children);
+
+			while (queue.Count > 0)
+			{
+				var item = queue.Dequeue();
+				yield return item;
+
+				foreach (var child in item.ChildItems)
+				{
+					queue.Enqueue(child);
+				}
+			}
 		}
 
 		/// <summary>
@@ -450,9 +441,9 @@
 				itemsCollapsed = true;
 				collapsedItems = new List<TreeViewItem>();
 
-				foreach (string newyCollapsedItemKey in newlyCollapsedItems)
+				foreach (string newlyCollapsedItemKey in newlyCollapsedItems)
 				{
-					collapsedItems.Add(lookupTable[newyCollapsedItemKey]);
+					collapsedItems.Add(lookupTable[newlyCollapsedItemKey]);
 				}
 			}
 		}
