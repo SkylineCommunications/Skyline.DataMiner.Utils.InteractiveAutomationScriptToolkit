@@ -10,7 +10,7 @@
 	/// <summary>
 	///  A tree view structure.
 	/// </summary>
-	public class TreeView : InteractiveWidget, IIsReadonlyWidget
+	public class TreeView : TreeViewBase, ITreeView
 	{
 		private Dictionary<string, bool> checkedItemCache;
 		private Dictionary<string, bool> collapsedItemCache; // TODO: should only contain Items with LazyLoading set to true
@@ -160,10 +160,7 @@
 
 		private event EventHandler<IEnumerable<TreeViewItem>> OnCollapsed;
 
-		/// <summary>
-		/// Gets or sets the top-level items in the tree view.
-		/// The TreeViewItem.ChildItems property can be used to navigate further down the tree.
-		/// </summary>
+		/// <inheritdoc/>
 		public IEnumerable<TreeViewItem> Items
 		{
 			get
@@ -183,9 +180,7 @@
 			}
 		}
 
-		/// <summary>
-		/// Gets all items in the tree view that are selected.
-		/// </summary>
+		/// <inheritdoc/>
 		public IEnumerable<TreeViewItem> CheckedItems
 		{
 			get
@@ -194,9 +189,7 @@
 			}
 		}
 
-		/// <summary>
-		/// Gets all leaves (= items without children) in the tree view that are selected.
-		/// </summary>
+		/// <inheritdoc/>
 		public IEnumerable<TreeViewItem> CheckedLeaves
 		{
 			get
@@ -205,9 +198,7 @@
 			}
 		}
 
-		/// <summary>
-		/// Gets all nodes (= items with children) in the tree view that are selected.
-		/// </summary>
+		/// <inheritdoc/>
 		public IEnumerable<TreeViewItem> CheckedNodes
 		{
 			get
@@ -216,48 +207,8 @@
 			}
 		}
 
-		/// <summary>
-		///     Gets or sets the tooltip.
-		/// </summary>
-		/// <exception cref="ArgumentNullException">When the value is <c>null</c>.</exception>
-		public string Tooltip
-		{
-			get
-			{
-				return BlockDefinition.TooltipText;
-			}
-
-			set
-			{
-				if (value == null)
-				{
-					throw new ArgumentNullException("value");
-				}
-
-				BlockDefinition.TooltipText = value;
-			}
-		}
-
-		/// <summary>
 		/// <inheritdoc/>
-		/// </summary>
-		public virtual bool IsReadOnly
-		{
-			get
-			{
-				return BlockDefinition.IsReadOnly;
-			}
-
-			set
-			{
-				BlockDefinition.IsReadOnly = value;
-			}
-		}
-
-		/// <summary>
-		/// Sets the IsCollapsed state for all items in the tree view to true, causing the entire tree view to be collapsed.
-		/// </summary>
-		public void Collapse()
+		public override void Collapse()
 		{
 			foreach (var item in GetAllItems())
 			{
@@ -265,10 +216,8 @@
 			}
 		}
 
-		/// <summary>
-		/// Sets the IsCollapsed state for all items in the tree view to false, causing the entire tree view to be expanded.
-		/// </summary>
-		public void Expand()
+		/// <inheritdoc/>
+		public override void Expand()
 		{
 			foreach (var item in GetAllItems())
 			{
@@ -276,24 +225,15 @@
 			}
 		}
 
-		/// <summary>
-		/// Can be used to retrieve an item from the tree view based on its key value.
-		/// </summary>
-		/// <param name="key">Key used to search for the item.</param>
-		/// <param name="item">Item in the tree that matches the provided key.</param>
-		/// <returns>True if the item was found, otherwise false.</returns>
+		/// <inheritdoc/>
 		public bool TryFindTreeViewItem(string key, out TreeViewItem item)
 		{
 			item = GetAllItems().FirstOrDefault(x => x.KeyValue.Equals(key));
 			return item != null;
 		}
 
-		/// <summary>
-		/// This method is used to update the cached TreeViewItems and lookup table.
-		/// This is done after loading the results from the UI Block, after handling the Events or when setting the Items.
-		/// This method should only be called from outside the TreeView if you are checking or collapsing items from outside of the TreeView and need to access the CheckedItems or CollapsedItems.
-		/// </summary>
-		public void UpdateItemCache()
+		/// <inheritdoc/>
+		public override void UpdateItemCache()
 		{
 			checkedItemCache = new Dictionary<string, bool>();
 			collapsedItemCache = new Dictionary<string, bool>();
@@ -318,10 +258,7 @@
 			}
 		}
 
-		/// <summary>
-		/// Iterates over all items in the tree and returns them in a flat collection.
-		/// </summary>
-		/// <returns>A flat collection containing all items in the tree view.</returns>
+		/// <inheritdoc/>
 		public IEnumerable<TreeViewItem> GetAllItems()
 		{
 			List<TreeViewItem> allItems = new List<TreeViewItem>();
@@ -334,12 +271,7 @@
 			return allItems;
 		}
 
-		/// <summary>
-		/// Returns all items in the tree view that are located at the provided depth.
-		/// Whenever the requested depth is greater than the longest branch in the tree, an empty collection will be returned.
-		/// </summary>
-		/// <param name="depth">Depth of the requested items.</param>
-		/// <returns>All items in the tree view that are located at the provided depth.</returns>
+		/// <inheritdoc/>
 		public IEnumerable<TreeViewItem> GetItems(int depth)
 		{
 			return GetItems(Items, depth, 0);
