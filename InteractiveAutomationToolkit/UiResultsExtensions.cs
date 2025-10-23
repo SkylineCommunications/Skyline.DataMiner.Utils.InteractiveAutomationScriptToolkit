@@ -173,7 +173,7 @@
 		/// <param name="uiResults">Represents the information a user has entered or selected in a dialog box of an interactive Automation script.</param>
 		/// <param name="treeView">The tree view widget.</param>
 		/// <returns>The names of tree view items that are expanded.</returns>
-		public static IEnumerable<string> GetExpandedItemKeys(this IUIResults uiResults, TreeView treeView)
+		public static IEnumerable<string> GetExpandedItemKeys(this IUIResults uiResults, TreeViewBase treeView)
 		{
 			string[] expandedItems = uiResults.GetExpanded(treeView.DestVar);
 			if (expandedItems == null)
@@ -190,7 +190,7 @@
 		/// <param name="uiResults">Represents the information a user has entered or selected in a dialog box of an interactive Automation script.</param>
 		/// <param name="treeView">The tree view widget.</param>
 		/// <returns>The names of tree view items that are checked.</returns>
-		public static IEnumerable<string> GetCheckedItemKeys(this IUIResults uiResults, TreeView treeView)
+		public static IEnumerable<string> GetCheckedItemKeys(this IUIResults uiResults, TreeViewBase treeView)
 		{
 			string result = uiResults.GetString(treeView.DestVar);
 			if (String.IsNullOrEmpty(result))
