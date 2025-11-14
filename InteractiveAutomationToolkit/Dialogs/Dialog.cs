@@ -932,6 +932,7 @@
 			// ToList is necessary to prevent InvalidOperationException when adding or removing widgets from a event handler.
 			foreach (InteractiveWidget intractable in Widgets.OfType<InteractiveWidget>().ToList())
 			{
+				logger?.Debug(nameof(Dialog), nameof(LoadChanges), $"Raising events for widget with ID [{intractable.DestVar}]");
 				intractable.RaiseResultEvents(logger);
 			}
 		}

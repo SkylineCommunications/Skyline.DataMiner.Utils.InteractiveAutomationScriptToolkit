@@ -218,6 +218,7 @@
 			{
 				this.value = value;
 				BlockDefinition.InitialValue = value.ToString(CultureInfo.InvariantCulture);
+				if (String.IsNullOrEmpty(previousStringValue)) previousStringValue = BlockDefinition.InitialValue;
 			}
 		}
 
