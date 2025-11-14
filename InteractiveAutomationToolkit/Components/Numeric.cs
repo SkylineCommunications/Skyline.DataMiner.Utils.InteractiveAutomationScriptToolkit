@@ -285,7 +285,7 @@
 
 			string currentStringValue = uiResults.GetString(this);
 
-			logger?.Information(nameof(Numeric), nameof(LoadResult), currentStringValue);
+			logger?.Debug(nameof(Numeric), nameof(LoadResult), currentStringValue);
 
 			double result;
 			if (!Double.TryParse(
@@ -301,24 +301,29 @@
 			bool isNotEqual = !String.Equals(previousStringValue, currentStringValue);
 			if (isNotEqual && BlockDefinition.WantsOnChange)
 			{
+				logger?.Debug(nameof(Numeric), nameof(LoadResult), $"Numeric Value changed from {previousStringValue} to {currentStringValue}");
+
 				changed = true;
 				previous = result;
 				previousStringValue = currentStringValue;
 			}
 
+			logger?.Debug(nameof(Numeric), nameof(LoadResult), $"Setting Value to {result}");
 			Value = result;
 		}
 
 		/// <inheritdoc	/>
-		protected internal override void RaiseResultEvents()
+		protected internal override void RaiseResultEvents(ILogger logger = null)
 		{
 			if (changed)
 			{
+				logger?.Debug(nameof(Numeric), nameof(RaiseResultEvents), $"OnChange; Numeric Value changed from {previous} to {Value}");
 				OnChanged?.Invoke(this, new NumericChangedEventArgs(Value, previous));
 			}
 
 			if (focusLost)
 			{
+				logger?.Debug(nameof(Numeric), nameof(RaiseResultEvents), $"OnFocusLost; Numeric Value is {Value}");
 				OnFocusLost?.Invoke(this, new NumericFocusLostEventArgs(Value));
 			}
 

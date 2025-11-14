@@ -632,7 +632,7 @@
 			if (requireResponse)
 			{
 				LoadChanges(uiResults, logger);
-				RaiseResultEvents(uiResults);
+				RaiseResultEvents(uiResults, logger);
 			}
 		}
 
@@ -907,13 +907,13 @@
 			{
 				if (interactiveWidget.IsVisible)
 				{
-					logger?.Information(nameof(Dialog), nameof(LoadChanges), $"Loading results for {interactiveWidget.GetType()} [{interactiveWidget.DestVar}]");
+					logger?.Debug(nameof(Dialog), nameof(LoadChanges), $"Loading results for widget with ID [{interactiveWidget.DestVar}]");
 					interactiveWidget.LoadResult(uir, logger);
 				}
 			}
 		}
 
-		private void RaiseResultEvents(IUIResults uir)
+		private void RaiseResultEvents(IUIResults uir, ILogger logger = null)
 		{
 			Interacted?.Invoke(this, EventArgs.Empty);
 
@@ -932,7 +932,7 @@
 			// ToList is necessary to prevent InvalidOperationException when adding or removing widgets from a event handler.
 			foreach (InteractiveWidget intractable in Widgets.OfType<InteractiveWidget>().ToList())
 			{
-				intractable.RaiseResultEvents();
+				intractable.RaiseResultEvents(logger);
 			}
 		}
 	}

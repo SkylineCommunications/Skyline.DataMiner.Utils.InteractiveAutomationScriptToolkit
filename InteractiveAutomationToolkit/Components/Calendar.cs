@@ -195,7 +195,7 @@
 		protected internal override void LoadResult(IUIResults uiResults, ILogger logger = null)
 		{
 			DateTime result = uiResults.GetDateTime(DestVar);
-			logger?.Information(nameof(Calendar), nameof(LoadResult), result.ToString("O"));
+			logger?.Debug(nameof(Calendar), nameof(LoadResult), result.ToString("O"));
 
 			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);
 
@@ -225,7 +225,7 @@
 		}
 
 		/// <inheritdoc	/>
-		protected internal override void RaiseResultEvents()
+		protected internal override void RaiseResultEvents(ILogger logger = null)
 		{
 			if (changed && OnChanged != null)
 			{

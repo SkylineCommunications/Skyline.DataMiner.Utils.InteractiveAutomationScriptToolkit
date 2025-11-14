@@ -236,7 +236,7 @@
 		{
 			var rawSelectedValue = uiResults.GetString(this);
 
-			logger?.Information(nameof(DropDown), nameof(LoadResult), $"Selected value: {rawSelectedValue}");
+			logger?.Debug(nameof(DropDown), nameof(LoadResult), $"Selected value: {rawSelectedValue}");
 
 			var selectedValue = dropDownOptions.FirstOrDefault(x => x.DisplayValue.Equals(rawSelectedValue));
 
@@ -255,7 +255,7 @@
 		}
 
 		/// <inheritdoc	/>
-		protected internal override void RaiseResultEvents()
+		protected internal override void RaiseResultEvents(ILogger logger = null)
 		{
 			if (changed)
 			{

@@ -67,6 +67,6 @@
 		///     This method is called after <see cref="LoadResult" /> was called on all widgets.
 		/// </summary>
 		/// <remarks>It is up to the implementer to determine if an event must be raised.</remarks>
-		protected internal abstract void RaiseResultEvents();
+		protected internal abstract void RaiseResultEvents(ILogger logger = null);
 	}
 }

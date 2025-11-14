@@ -148,7 +148,7 @@
 		}
 
 		/// <inheritdoc	/>
-		protected internal override void RaiseResultEvents()
+		protected internal override void RaiseResultEvents(ILogger logger = null)
 		{
 			if (downloadStarted)
 			{

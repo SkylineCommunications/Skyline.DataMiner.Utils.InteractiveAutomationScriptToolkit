@@ -340,7 +340,7 @@
 		{
 			TimeSpan result = uiResults.GetTime(this);
 
-			logger?.Information(nameof(TimePicker), nameof(LoadResult), result.ToString());
+			logger?.Debug(nameof(TimePicker), nameof(LoadResult), result.ToString());
 
 			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);
 
@@ -359,7 +359,7 @@
 		}
 
 		/// <inheritdoc	/>
-		protected internal override void RaiseResultEvents()
+		protected internal override void RaiseResultEvents(ILogger logger = null)
 		{
 			if (changed)
 			{

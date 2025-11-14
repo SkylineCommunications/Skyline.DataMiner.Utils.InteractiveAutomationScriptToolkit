@@ -398,7 +398,7 @@
 		{
 			string isoString = uiResults.GetString(DestVar);
 
-			logger?.Information(nameof(DateTimePicker), nameof(LoadResult), isoString);
+			logger?.Debug(nameof(DateTimePicker), nameof(LoadResult), isoString);
 
 			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);
 
@@ -438,7 +438,7 @@
 		}
 
 		/// <inheritdoc	/>
-		protected internal override void RaiseResultEvents()
+		protected internal override void RaiseResultEvents(ILogger logger = null)
 		{
 			if (changed)
 			{

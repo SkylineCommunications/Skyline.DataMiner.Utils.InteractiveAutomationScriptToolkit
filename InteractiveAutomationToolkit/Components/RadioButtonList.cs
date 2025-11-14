@@ -151,7 +151,7 @@
 		{
 			string result = uiResults.GetString(this);
 
-			logger?.Information(nameof(RadioButtonList), nameof(LoadResult), result);
+			logger?.Debug(nameof(RadioButtonList), nameof(LoadResult), result);
 
 			if (String.IsNullOrWhiteSpace(result))
 			{
@@ -172,7 +172,7 @@
 		}
 
 		/// <inheritdoc	/>
-		protected internal override void RaiseResultEvents()
+		protected internal override void RaiseResultEvents(ILogger logger = null)
 		{
 			if (changed)
 			{

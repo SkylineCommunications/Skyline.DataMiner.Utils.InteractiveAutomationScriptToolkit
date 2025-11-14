@@ -155,7 +155,7 @@
 		{
 			string selectedValue = uiResults.GetString(this);
 
-			logger?.Information(nameof(DropDown), nameof(LoadResult), $"Selected value: {selectedValue}");
+			logger?.Debug(nameof(DropDown), nameof(LoadResult), $"Selected value: {selectedValue}");
 
 			if (BlockDefinition.WantsOnChange)
 			{
@@ -167,7 +167,7 @@
 		}
 
 		/// <inheritdoc	/>
-		protected internal override void RaiseResultEvents()
+		protected internal override void RaiseResultEvents(ILogger logger = null)
 		{
 			if (changed)
 			{

@@ -198,7 +198,7 @@
 		protected internal override void LoadResult(IUIResults uiResults, ILogger logger = null)
 		{
 			string results = uiResults.GetString(this);
-			logger?.Information(nameof(CheckBoxList), nameof(LoadResult), $"Checked Items: {results}");
+			logger?.Debug(nameof(CheckBoxList), nameof(LoadResult), $"Checked Items: {results}");
 
 			if (results == null)
 			{
@@ -225,7 +225,7 @@
 		}
 
 		/// <inheritdoc	/>
-		protected internal override void RaiseResultEvents()
+		protected internal override void RaiseResultEvents(ILogger logger = null)
 		{
 			foreach (var change in changedOptions)
 			{

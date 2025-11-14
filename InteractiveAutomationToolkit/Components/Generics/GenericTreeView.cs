@@ -304,8 +304,8 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 			var checkedItemKeys = uiResults.GetCheckedItemKeys(this).ToHashSet(); // this includes all checked items
 			var expandedItemKeys = uiResults.GetExpandedItemKeys(this).ToHashSet(); // this includes all expanded items with LazyLoading set to true
 
-			logger?.Information(nameof(TreeView), nameof(LoadResult), $"Checked items: {String.Join(";", checkedItemKeys)}");
-			logger?.Information(nameof(TreeView), nameof(LoadResult), $"Expanded items: {String.Join(";", checkedItemKeys)}");
+			logger?.Debug(nameof(TreeView), nameof(LoadResult), $"Checked items: {String.Join(";", checkedItemKeys)}");
+			logger?.Debug(nameof(TreeView), nameof(LoadResult), $"Expanded items: {String.Join(";", checkedItemKeys)}");
 
 			// Check for changes
 			// Expanded Items
@@ -331,7 +331,7 @@ namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 		}
 
 		/// <inheritdoc/>
-		protected internal override void RaiseResultEvents()
+		protected internal override void RaiseResultEvents(ILogger logger = null)
 		{
 			var changedItems = new List<TreeViewItem<T>>();
 

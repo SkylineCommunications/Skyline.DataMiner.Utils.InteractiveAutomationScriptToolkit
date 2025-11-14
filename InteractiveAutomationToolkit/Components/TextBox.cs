@@ -213,7 +213,7 @@
 		protected internal override void LoadResult(IUIResults uiResults, ILogger logger = null)
 		{
 			string value = uiResults.GetString(this);
-			logger?.Information(nameof(TextBox), nameof(LoadResult), value);
+			logger?.Debug(nameof(TextBox), nameof(LoadResult), value);
 
 			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);
 
@@ -232,7 +232,7 @@
 		}
 
 		/// <inheritdoc	/>
-		protected internal override void RaiseResultEvents()
+		protected internal override void RaiseResultEvents(ILogger logger = null)
 		{
 			if (changed)
 			{

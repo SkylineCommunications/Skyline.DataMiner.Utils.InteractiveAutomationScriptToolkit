@@ -217,7 +217,7 @@
 		protected internal override void LoadResult(IUIResults uiResults, ILogger logger = null)
 		{
 			bool result = uiResults.GetChecked(this);
-			logger?.Information(nameof(CheckBox), nameof(LoadResult), $"Is checked: {result}");
+			logger?.Debug(nameof(CheckBox), nameof(LoadResult), $"Is checked: {result}");
 
 			bool wasOnFocusLost = uiResults.WasOnFocusLost(this);
 
@@ -235,7 +235,7 @@
 		}
 
 		/// <inheritdoc	/>
-		protected internal override void RaiseResultEvents()
+		protected internal override void RaiseResultEvents(ILogger logger = null)
 		{
 			if (changed)
 			{

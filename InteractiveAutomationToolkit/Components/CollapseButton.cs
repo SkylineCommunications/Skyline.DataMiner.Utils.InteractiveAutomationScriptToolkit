@@ -203,11 +203,11 @@
 		protected internal override void LoadResult(IUIResults uiResults, ILogger logger = null)
 		{
 			pressed = uiResults.WasCollapseButtonPressed(this);
-			logger?.Information(nameof(CollapseButton), nameof(LoadResult), $"Is pressed: {pressed}");
+			logger?.Debug(nameof(CollapseButton), nameof(LoadResult), $"Is pressed: {pressed}");
 		}
 
 		/// <inheritdoc	/>
-		protected internal override void RaiseResultEvents()
+		protected internal override void RaiseResultEvents(ILogger logger = null)
 		{
 			if (pressed)
 			{
