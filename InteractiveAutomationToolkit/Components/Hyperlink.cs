@@ -4,6 +4,7 @@
 	using System.Linq;
 	using Microsoft.Extensions.Logging;
 	using Skyline.DataMiner.Automation;
+	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Extensions;
 
 	/// <summary>
 	///		Represents a button that when clicked forwards the user to a web site.
@@ -153,6 +154,7 @@
 		{
 			if (downloadStarted)
 			{
+				logger?.Debug(nameof(Hyperlink), nameof(RaiseResultEvents), $"OnLinkClicked");
 				OnLinkClicked?.Invoke(this, EventArgs.Empty);
 			}
 

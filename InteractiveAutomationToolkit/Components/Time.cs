@@ -380,11 +380,13 @@
 		{
 			if (changed)
 			{
+				logger?.Debug(nameof(TimeSpan), nameof(RaiseResultEvents), $"OnChanged; changed from {previous} to {TimeSpan}");
 				OnChanged?.Invoke(this, new TimeChangedEventArgs(TimeSpan, previous));
 			}
 
 			if (focusLost)
 			{
+				logger?.Debug(nameof(TimeSpan), nameof(RaiseResultEvents), $"OnFocusLost; focus lost with value {TimeSpan}");
 				OnFocusLost?.Invoke(this, new TimeFocusLostEventArgs(TimeSpan));
 			}
 

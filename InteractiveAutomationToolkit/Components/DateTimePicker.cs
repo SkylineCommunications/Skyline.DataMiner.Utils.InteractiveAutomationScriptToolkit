@@ -442,11 +442,13 @@
 		{
 			if (changed)
 			{
+				logger?.Debug(nameof(DateTimePicker), nameof(RaiseResultEvents), $"OnChange; Value changed from {previous.ToString("O")} to {DateTime.ToString("O")}");
 				OnChanged?.Invoke(this, new DateTimePickerChangedEventArgs(DateTime, previous));
 			}
 
 			if (focusLost)
 			{
+				logger?.Debug(nameof(DateTimePicker), nameof(RaiseResultEvents), $"OnFocusLost; Lost focus with value {DateTime.ToString("O")}");
 				OnFocusLost?.Invoke(this, new DateTimePickerFocusLostEventArgs(DateTime));
 			}
 

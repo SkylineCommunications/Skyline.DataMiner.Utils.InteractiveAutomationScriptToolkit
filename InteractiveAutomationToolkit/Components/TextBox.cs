@@ -236,11 +236,13 @@
 		{
 			if (changed)
 			{
+				logger?.Debug(nameof(TextBox), nameof(RaiseResultEvents), $"OnChanged; text changed from {previous} to {Text}");
 				OnChanged?.Invoke(this, new TextBoxChangedEventArgs(Text, previous));
 			}
 
 			if (focusLost)
 			{
+				logger?.Debug(nameof(TextBox), nameof(RaiseResultEvents), $"OnFocusLost; focus lost with value {Text}");
 				OnFocusLost?.Invoke(this, new TextBoxFocusLostEventArgs(Text));
 			}
 

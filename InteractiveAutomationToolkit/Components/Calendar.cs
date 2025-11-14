@@ -229,11 +229,13 @@
 		{
 			if (changed && OnChanged != null)
 			{
+				logger?.Debug(nameof(Calendar), nameof(RaiseResultEvents), $"OnChange; Value changed from {previous.ToString("O")} to {DateTime.ToString("O")}");
 				OnChanged?.Invoke(this, new CalendarChangedEventArgs(DateTime, previous));
 			}
 
 			if (focusLost)
 			{
+				logger?.Debug(nameof(Calendar), nameof(RaiseResultEvents), $"OnFocusLost; Lost focus with value {DateTime.ToString("O")}");
 				OnFocusLost?.Invoke(this, new CalendarFocusLostEventArgs(DateTime));
 			}
 

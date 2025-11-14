@@ -4,6 +4,7 @@
 	using System.Linq;
 	using Microsoft.Extensions.Logging;
 	using Skyline.DataMiner.Automation;
+	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Extensions;
 
 	public class DownloadButton : InteractiveWidget
 	{
@@ -152,6 +153,7 @@
 		{
 			if (downloadStarted)
 			{
+				logger?.Debug(nameof(DownloadButton), nameof(RaiseResultEvents), $"OnDownloadStarted");
 				OnDownloadStarted?.Invoke(this, EventArgs.Empty);
 			}
 

@@ -211,6 +211,7 @@
 		{
 			if (pressed)
 			{
+				logger?.Debug(nameof(Button), nameof(RaiseResultEvents), $"OnChange; CollapseButton was pressed");
 				IsCollapsed = !IsCollapsed;
 				OnPressed?.Invoke(this, EventArgs.Empty);
 			}

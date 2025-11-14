@@ -309,18 +309,21 @@
 			// Expanded items
 			if (itemsExpanded && OnExpanded != null)
 			{
+				logger?.Debug(nameof(TreeView), nameof(RaiseResultEvents), $"OnExpanded; Items got expanded {String.Join(", ", expandedItems.Select(x => x.DisplayValue))}");
 				OnExpanded(this, expandedItems);
 			}
 
 			// Collapsed items
 			if (itemsCollapsed && OnCollapsed != null)
 			{
+				logger?.Debug(nameof(TreeView), nameof(RaiseResultEvents), $"OnCollapsed; Items got collapsed {String.Join(", ", collapsedItems.Select(x => x.DisplayValue))}");
 				OnCollapsed(this, collapsedItems);
 			}
 
 			// Checked items
 			if (itemsChecked && OnChecked != null)
 			{
+				logger?.Debug(nameof(TreeView), nameof(RaiseResultEvents), $"OnChecked; Items got checked {String.Join(", ", checkedItems.Select(x => x.DisplayValue))}");
 				changedItems.AddRange(checkedItems);
 				OnChecked(this, checkedItems);
 			}
@@ -328,6 +331,7 @@
 			// Unchecked items
 			if (itemsUnchecked && OnUnchecked != null)
 			{
+				logger?.Debug(nameof(TreeView), nameof(RaiseResultEvents), $"OnUnchecked; Items got unchecked {String.Join(", ", uncheckedItems.Select(x => x.DisplayValue))}");
 				changedItems.AddRange(uncheckedItems);
 				OnUnchecked(this, uncheckedItems);
 			}
@@ -335,6 +339,7 @@
 			// Changed items
 			if (changedItems.Any() && OnChanged != null)
 			{
+				logger?.Debug(nameof(TreeView), nameof(RaiseResultEvents), $"OnChanged; Items got changed {String.Join(", ", changedItems.Select(x => x.DisplayValue))}");
 				OnChanged(this, changedItems);
 			}
 

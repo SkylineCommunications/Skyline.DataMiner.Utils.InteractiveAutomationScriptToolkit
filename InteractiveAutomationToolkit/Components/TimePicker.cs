@@ -363,11 +363,13 @@
 		{
 			if (changed)
 			{
+				logger?.Debug(nameof(TimePicker), nameof(RaiseResultEvents), $"OnChanged; changed from {previous} to {Time}");
 				OnChanged?.Invoke(this, new TimePickerChangedEventArgs(Time, previous));
 			}
 
 			if (focusLost)
 			{
+				logger?.Debug(nameof(TimePicker), nameof(RaiseResultEvents), $"OnFocusLost; focus lost with value {Time}");
 				OnFocusLost?.Invoke(this, new TimePickerFocusLostEventArgs(Time));
 			}
 

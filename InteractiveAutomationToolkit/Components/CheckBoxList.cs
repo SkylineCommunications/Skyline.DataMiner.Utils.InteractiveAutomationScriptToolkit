@@ -229,6 +229,7 @@
 		{
 			foreach (var change in changedOptions)
 			{
+				logger?.Debug(nameof(CheckBoxList), nameof(RaiseResultEvents), $"OnChanged; option: {change.Option}, IsChecked: {change.IsChecked}");
 				OnChanged?.Invoke(this, new CheckBoxListChangedEventArgs(change.Option, change.IsChecked));
 			}
 

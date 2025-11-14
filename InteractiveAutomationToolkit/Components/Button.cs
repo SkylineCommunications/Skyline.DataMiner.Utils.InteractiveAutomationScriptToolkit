@@ -4,6 +4,7 @@
 	using System.Linq;
 	using Microsoft.Extensions.Logging;
 	using Skyline.DataMiner.Automation;
+	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Extensions;
 
 	/// <summary>
 	///     A button that can be pressed.
@@ -121,6 +122,7 @@
 		{
 			if ((OnPressed != null) && pressed)
 			{
+				logger?.Debug(nameof(Button), nameof(RaiseResultEvents), $"OnChange; Button was pressed");
 				OnPressed(this, EventArgs.Empty);
 			}
 

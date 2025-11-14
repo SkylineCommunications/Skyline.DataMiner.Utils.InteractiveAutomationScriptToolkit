@@ -176,6 +176,7 @@
 		{
 			if (changed)
 			{
+				logger?.Debug(nameof(RadioButtonList), nameof(RaiseResultEvents), $"OnChanged; Selected option changed from {previous} to {Selected}");
 				OnChanged?.Invoke(this, new RadioButtonChangedEventArgs(Selected, previous));
 			}
 

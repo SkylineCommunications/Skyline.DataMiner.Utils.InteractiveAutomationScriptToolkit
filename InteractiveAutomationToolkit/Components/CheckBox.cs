@@ -239,21 +239,25 @@
 		{
 			if (changed)
 			{
+				logger?.Debug(nameof(CheckBox), nameof(RaiseResultEvents), $"OnChange; CheckBox Value changed to {IsChecked}");
 				OnChanged?.Invoke(this, new CheckBoxChangedEventArgs(IsChecked));
 			}
 
 			if (changed && IsChecked)
 			{
+				logger?.Debug(nameof(CheckBox), nameof(RaiseResultEvents), $"OnChecked; CheckBox was checked");
 				OnChecked?.Invoke(this, EventArgs.Empty);
 			}
 
 			if (changed && !IsChecked)
 			{
+				logger?.Debug(nameof(CheckBox), nameof(RaiseResultEvents), $"OnUnChecked; CheckBox was unchecked");
 				OnUnChecked?.Invoke(this, EventArgs.Empty);
 			}
 
 			if (focusLost)
 			{
+				logger?.Debug(nameof(CheckBox), nameof(RaiseResultEvents), $"OnFocusLost; CheckBox lost focus with value {IsChecked}");
 				OnFocusLost?.Invoke(this, new CheckBoxFocusLostEventArgs(IsChecked));
 			}
 

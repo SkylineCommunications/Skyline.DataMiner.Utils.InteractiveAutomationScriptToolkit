@@ -171,6 +171,7 @@
 		{
 			if (changed)
 			{
+				logger?.Debug(nameof(DropDown), nameof(RaiseResultEvents), $"OnChange; Selected changed from {previous} to {Selected}");
 				OnChanged?.Invoke(this, new DropDownChangedEventArgs(Selected, previous));
 			}
 
