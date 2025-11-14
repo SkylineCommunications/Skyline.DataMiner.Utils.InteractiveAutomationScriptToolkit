@@ -4,9 +4,10 @@
 	using System.Collections.Generic;
 	using System.ComponentModel;
 	using System.Linq;
-
+	using Microsoft.Extensions.Logging;
 	using Skyline.DataMiner.Automation;
 	using Skyline.DataMiner.Net.Exceptions;
+	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Extensions;
 
 	/// <summary>
 	///     A dialog represents a single window that can be shown.
@@ -603,10 +604,14 @@
 		///     Also loads changes and triggers events when <paramref name="requireResponse" /> is <c>true</c>.
 		/// </summary>
 		/// <param name="requireResponse">If the dialog expects user interaction.</param>
+		/// <param name="logger">Optional logger to log events and errors.</param>
 		/// <remarks>Should only be used when you create your own event loop.</remarks>
-		public void Show(bool requireResponse = true)
+		public void Show(bool requireResponse = true, ILogger logger = null)
 		{
 			UIBuilder uiBuilder = Build();
+
+			logger?.Debug(nameof(Dialog), nameof(Show), $"Showing dialog: {uiBuilder}");
+
 			uiBuilder.RequireResponse = requireResponse;
 
 			IUIResults uiResults;
@@ -626,7 +631,7 @@
 
 			if (requireResponse)
 			{
-				LoadChanges(uiResults);
+				LoadChanges(uiResults, logger);
 				RaiseResultEvents(uiResults);
 			}
 		}
@@ -896,13 +901,14 @@
 			}
 		}
 
-		private void LoadChanges(IUIResults uir)
+		private void LoadChanges(IUIResults uir, ILogger logger = null)
 		{
 			foreach (InteractiveWidget interactiveWidget in Widgets.OfType<InteractiveWidget>())
 			{
 				if (interactiveWidget.IsVisible)
 				{
-					interactiveWidget.LoadResult(uir);
+					logger?.Information(nameof(Dialog), nameof(LoadChanges), $"Loading results for {interactiveWidget.GetType()} [{interactiveWidget.DestVar}]");
+					interactiveWidget.LoadResult(uir, logger);
 				}
 			}
 		}

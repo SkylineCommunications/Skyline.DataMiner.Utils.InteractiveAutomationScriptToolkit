@@ -1,11 +1,10 @@
 ﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 {
 	using System;
-	using System.Linq;
-	using System.Security.Cryptography;
+	using System.Xml.Serialization;
+	using Microsoft.Extensions.Logging;
 	using Skyline.DataMiner.Automation;
-	using Skyline.DataMiner.Net.Messages;
-	using Skyline.DataMiner.Net.Messages.SLDataGateway;
+	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Extensions;
 
 	/// <summary>
 	///     Event loop of the interactive Automation script.
@@ -22,8 +21,9 @@
 		///     This object will manage the event loop of the interactive Automation script.
 		/// </summary>
 		/// <param name="engine">Link with the SLAutomation process.</param>
+		/// <param name="logger">Optional logger to log events and errors.</param>
 		/// <exception cref="ArgumentNullException">When engine is null.</exception>
-		public InteractiveController(IEngine engine)
+		public InteractiveController(IEngine engine, ILogger logger = null)
 		{
 			if (engine == null)
 			{
@@ -31,6 +31,7 @@
 			}
 
 			Engine = engine;
+			Logger = logger;
 		}
 
 		/// <summary>
@@ -56,6 +57,11 @@
 		///		<see cref="ScriptAbortPopupBehavior.ShowAlways"/> causes the popup to always be displayed, regardless of the <see cref="Dialog.ShowScriptAbortPopup"/> value of the displayed Dialog.
 		/// </summary>
 		public ScriptAbortPopupBehavior ScriptAbortPopupBehavior { get; set; } = ScriptAbortPopupBehavior.OnDialogLevel;
+
+		/// <summary>
+		/// Gets or sets the logger used to record diagnostic and operational messages for the interactive controller.
+		/// </summary>
+		internal ILogger Logger { get; set; }
 
 		/// <summary>
 		///     Switches the event loop to manual control.
@@ -92,6 +98,8 @@
 				throw new ArgumentNullException("dialog");
 			}
 
+			Logger?.Debug(nameof(InteractiveController), nameof(ShowDialog), $"Showing dialog: {dialog.Title}");
+
 			if (isRunning)
 			{
 				nextDialog = dialog;
@@ -124,7 +132,7 @@
 			CurrentDialog = nextDialog;
 
 			SetScriptAbortPopupBehavior(CurrentDialog);
-			CurrentDialog.Show(false);
+			CurrentDialog.Show(false, Logger);
 		}
 
 		/// <summary>
@@ -192,13 +200,15 @@
 				{
 					SetScriptAbortPopupBehavior(CurrentDialog);
 
+					Logger?.Debug(nameof(InteractiveController), nameof(ShowDialog), $"Dialog.RequiresResponse: {CurrentDialog.RequiresResponse}");
+
 					if (CurrentDialog.RequiresResponse)
 					{
-						CurrentDialog.Show();
+						CurrentDialog.Show(true, Logger);
 					}
 					else
 					{
-						CurrentDialog.Show(false);
+						CurrentDialog.Show(false, Logger);
 						System.Threading.Thread.Sleep(10000); // Wait for 10 seconds before checking for new dialogs
 					}
 				}

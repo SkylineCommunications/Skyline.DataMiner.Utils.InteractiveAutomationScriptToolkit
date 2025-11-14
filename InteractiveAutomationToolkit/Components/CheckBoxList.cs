@@ -3,6 +3,8 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using Microsoft.Extensions.Logging;
+	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Extensions;
 
 	/// <summary>
 	///     A list of checkboxes.
@@ -192,17 +194,11 @@
 			BlockDefinition.InitialValue = null;
 		}
 
-		/// <summary>
-		///     Load any changes made through user interaction.
-		/// </summary>
-		/// <param name="uiResults">
-		///     Represents the information a user has entered or selected in a dialog box of an interactive
-		///     Automation script.
-		/// </param>
-		/// <remarks><see cref="InteractiveWidget.DestVar" /> should be used as key to get the changes for this widget.</remarks>
-		protected internal override void LoadResult(IUIResults uiResults)
+		/// <inheritdoc	/>
+		protected internal override void LoadResult(IUIResults uiResults, ILogger logger = null)
 		{
 			string results = uiResults.GetString(this);
+			logger?.Information(nameof(CheckBoxList), nameof(LoadResult), $"Checked Items: {results}");
 
 			if (results == null)
 			{
@@ -228,11 +224,7 @@
 			BlockDefinition.InitialValue = String.Join(";", Checked);
 		}
 
-		/// <summary>
-		///     Raises zero or more events of the widget.
-		///     This method is called after <see cref="InteractiveWidget.LoadResult" /> was called on all widgets.
-		/// </summary>
-		/// <remarks>It is up to the implementer to determine if an event must be raised.</remarks>
+		/// <inheritdoc	/>
 		protected internal override void RaiseResultEvents()
 		{
 			foreach (var change in changedOptions)

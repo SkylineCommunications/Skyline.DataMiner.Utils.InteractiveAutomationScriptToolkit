@@ -1,6 +1,7 @@
 ﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 {
 	using System;
+	using Microsoft.Extensions.Logging;
 
 	/// <summary>
 	/// A widget that requires user input.
@@ -57,8 +58,9 @@
 		///     Represents the information a user has entered or selected in a dialog box of an interactive
 		///     Automation script.
 		/// </param>
+		/// <param name="logger">Optional logger for logging information.</param>
 		/// <remarks><see cref="DestVar" /> should be used as key to get the changes for this widget.</remarks>
-		protected internal abstract void LoadResult(IUIResults uiResults);
+		protected internal abstract void LoadResult(IUIResults uiResults, ILogger logger = null);
 
 		/// <summary>
 		///     Raises zero or more events of the widget.

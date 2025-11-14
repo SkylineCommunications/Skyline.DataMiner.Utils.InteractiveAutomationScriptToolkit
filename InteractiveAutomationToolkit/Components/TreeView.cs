@@ -3,8 +3,9 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
-
+	using Microsoft.Extensions.Logging;
 	using Skyline.DataMiner.Net.AutomationUI.Objects;
+	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Extensions;
 
 	/// <summary>
 	///  A tree view structure.
@@ -269,10 +270,13 @@
 		}
 
 		/// <inheritdoc/>
-		protected internal override void LoadResult(IUIResults uiResults)
+		protected internal override void LoadResult(IUIResults uiResults, ILogger logger)
 		{
 			var checkedItemKeys = uiResults.GetCheckedItemKeys(this).ToHashSet(); // this includes all checked items
 			var expandedItemKeys = uiResults.GetExpandedItemKeys(this).ToHashSet(); // this includes all expanded items with LazyLoading set to true
+
+			logger?.Information(nameof(TreeView), nameof(LoadResult), $"Checked items: {String.Join(";", checkedItemKeys)}");
+			logger?.Information(nameof(TreeView), nameof(LoadResult), $"Expanded items: {String.Join(";", checkedItemKeys)}");
 
 			// Check for changes
 			// Expanded Items

@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Linq;
+	using Microsoft.Extensions.Logging;
 	using Skyline.DataMiner.Automation;
 
 	public class DownloadButton : InteractiveWidget
@@ -137,7 +138,8 @@
 			}
 		}
 
-		protected internal override void LoadResult(IUIResults uiResults)
+		/// <inheritdoc	/>
+		protected internal override void LoadResult(IUIResults uiResults, ILogger logger = null)
 		{
 			if (DownloadButtonOptions.ReturnWhenDownloadIsStarted)
 			{
@@ -145,6 +147,7 @@
 			}
 		}
 
+		/// <inheritdoc	/>
 		protected internal override void RaiseResultEvents()
 		{
 			if (downloadStarted)
