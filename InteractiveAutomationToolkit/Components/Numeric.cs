@@ -16,7 +16,6 @@
 		private bool changed;
 		private bool focusLost;
 
-		private string previousStringValue = String.Empty;
 		private double previous;
 		private double value;
 
@@ -218,7 +217,6 @@
 			{
 				this.value = value;
 				BlockDefinition.InitialValue = value.ToString(CultureInfo.InvariantCulture);
-				if (String.IsNullOrEmpty(previousStringValue)) previousStringValue = BlockDefinition.InitialValue;
 			}
 		}
 
@@ -299,14 +297,13 @@
 				return;
 			}
 
-			bool isNotEqual = !String.Equals(previousStringValue, currentStringValue);
+			bool isNotEqual = !IsEqualWithinMargin(result, value);
 			if (isNotEqual && BlockDefinition.WantsOnChange)
 			{
-				logger?.Debug(nameof(Numeric), nameof(LoadResult), $"Numeric Value changed from {previousStringValue} to {currentStringValue}");
+				logger?.Debug(nameof(Numeric), nameof(LoadResult), $"Numeric Value changed from {Value} to {result}");
 
 				changed = true;
 				previous = result;
-				previousStringValue = currentStringValue;
 			}
 
 			logger?.Debug(nameof(Numeric), nameof(LoadResult), $"Setting Value to {result}");
@@ -330,6 +327,11 @@
 
 			changed = false;
 			focusLost = false;
+		}
+
+		private bool IsEqualWithinMargin(double a, double b)
+		{
+			return Math.Abs(a - b) < Math.Pow(10, -12);
 		}
 
 		// ReSharper disable once ParameterOnlyUsedForPreconditionCheck.Local
