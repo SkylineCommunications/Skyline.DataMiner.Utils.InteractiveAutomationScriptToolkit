@@ -15,7 +15,6 @@
 		private bool changed;
 		private bool focusLost;
 
-		private string previousStringValue = String.Empty;
 		private double previous;
 		private double value;
 
@@ -303,12 +302,11 @@
 				return;
 			}
 
-			bool isNotEqual = !String.Equals(previousStringValue, currentStringValue);
+			bool isNotEqual = !IsEqualWithinMargin(result, value);
 			if (isNotEqual && BlockDefinition.WantsOnChange)
 			{
 				changed = true;
 				previous = result;
-				previousStringValue = currentStringValue;
 			}
 
 			Value = result;
@@ -333,6 +331,11 @@
 
 			changed = false;
 			focusLost = false;
+		}
+
+		private bool IsEqualWithinMargin(double a, double b)
+		{
+			return Math.Abs(a - b) < Math.Pow(10, -12);
 		}
 
 		// ReSharper disable once ParameterOnlyUsedForPreconditionCheck.Local
