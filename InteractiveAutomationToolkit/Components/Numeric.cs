@@ -12,6 +12,8 @@
 	/// </summary>
 	public class Numeric : InteractiveWidget, IValidationWidget, IIsReadonlyWidget
 	{
+		private static readonly double epsilon = Math.Pow(10, -12);
+
 		private bool changed;
 		private bool focusLost;
 
@@ -333,7 +335,7 @@
 
 		private bool IsEqualWithinMargin(double a, double b)
 		{
-			return Math.Abs(a - b) < Math.Pow(10, -12);
+			return Math.Abs(a - b) < epsilon;
 		}
 
 		// ReSharper disable once ParameterOnlyUsedForPreconditionCheck.Local
