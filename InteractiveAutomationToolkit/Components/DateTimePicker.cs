@@ -425,6 +425,7 @@
 
 			if (BlockDefinition.WantsOnChange && (result != DateTime))
 			{
+				logger?.Debug(nameof(DateTimePicker), nameof(LoadResult), $"OnChange; Value changed from {DateTime.ToString("O")} to {result.ToString("O")}");
 				changed = true;
 				previous = DateTime;
 			}

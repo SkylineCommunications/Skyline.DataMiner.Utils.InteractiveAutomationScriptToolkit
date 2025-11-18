@@ -5,6 +5,14 @@
 
 	internal static class ILoggerExtensions
 	{
+		public static void Trace(this ILogger logger, string className, string methodName, string message)
+		{
+			if (logger == null)
+				return;
+
+			logger.LogTrace("{0}.{1}|{2}", className, methodName, message);
+		}
+
 		public static void Debug(this ILogger logger, string className, string methodName, string message)
 		{
 			if (logger == null)

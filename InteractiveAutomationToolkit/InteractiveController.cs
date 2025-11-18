@@ -200,7 +200,7 @@
 				{
 					SetScriptAbortPopupBehavior(CurrentDialog);
 
-					Logger?.Debug(nameof(InteractiveController), nameof(ShowDialog), $"Dialog.RequiresResponse: {CurrentDialog.RequiresResponse}");
+					Logger?.Debug(nameof(InteractiveController), nameof(DoRun), $"Dialog.RequiresResponse: {CurrentDialog.RequiresResponse}");
 
 					if (CurrentDialog.RequiresResponse)
 					{

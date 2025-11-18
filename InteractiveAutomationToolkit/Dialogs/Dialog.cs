@@ -610,7 +610,7 @@
 		{
 			UIBuilder uiBuilder = Build();
 
-			logger?.LogTrace(nameof(Dialog), nameof(Show), $"Showing dialog: {uiBuilder}");
+			logger?.Trace(nameof(Dialog), nameof(Show), $"Showing dialog: {uiBuilder}");
 
 			uiBuilder.RequireResponse = requireResponse;
 
