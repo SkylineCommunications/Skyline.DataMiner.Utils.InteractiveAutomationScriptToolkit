@@ -41,6 +41,8 @@
 			numeric.RaiseResultEvents();
 
 			Assert.AreEqual(1, changedResults.Count);
+			Assert.AreEqual(10, changedResults[0].Previous);
+			Assert.AreEqual(10.01, changedResults[0].Value);
 		}
 
 		[TestMethod]
@@ -61,6 +63,8 @@
 			numeric.RaiseResultEvents();
 
 			Assert.AreEqual(1, changedResults.Count);
+			Assert.AreEqual(10, changedResults[0].Previous);
+			Assert.AreEqual(10.01, changedResults[0].Value);
 		}
 
 		[TestMethod]
@@ -81,6 +85,8 @@
 			numeric.RaiseResultEvents();
 
 			Assert.AreEqual(1, changedResults.Count);
+			Assert.AreEqual(10, changedResults[0].Previous);
+			Assert.AreEqual(10.01, changedResults[0].Value);
 		}
 
 		[TestMethod]
