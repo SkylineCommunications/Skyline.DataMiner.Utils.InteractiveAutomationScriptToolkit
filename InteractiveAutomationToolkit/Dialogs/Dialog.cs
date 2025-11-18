@@ -610,7 +610,7 @@
 		{
 			UIBuilder uiBuilder = Build();
 
-			logger?.Debug(nameof(Dialog), nameof(Show), $"Showing dialog: {uiBuilder}");
+			logger?.LogTrace(nameof(Dialog), nameof(Show), $"Showing dialog: {uiBuilder}");
 
 			uiBuilder.RequireResponse = requireResponse;
 
@@ -901,7 +901,7 @@
 			}
 		}
 
-		private void LoadChanges(IUIResults uir, ILogger logger = null)
+		internal void LoadChanges(IUIResults uir, ILogger logger = null)
 		{
 			foreach (InteractiveWidget interactiveWidget in Widgets.OfType<InteractiveWidget>())
 			{
@@ -913,7 +913,7 @@
 			}
 		}
 
-		private void RaiseResultEvents(IUIResults uir, ILogger logger = null)
+		internal void RaiseResultEvents(IUIResults uir, ILogger logger = null)
 		{
 			Interacted?.Invoke(this, EventArgs.Empty);
 
@@ -932,7 +932,7 @@
 			// ToList is necessary to prevent InvalidOperationException when adding or removing widgets from a event handler.
 			foreach (InteractiveWidget intractable in Widgets.OfType<InteractiveWidget>().ToList())
 			{
-				logger?.Debug(nameof(Dialog), nameof(LoadChanges), $"Raising events for widget with ID [{intractable.DestVar}]");
+				logger?.Debug(nameof(Dialog), nameof(RaiseResultEvents), $"Raising events for widget with ID [{intractable.DestVar}]");
 				intractable.RaiseResultEvents(logger);
 			}
 		}

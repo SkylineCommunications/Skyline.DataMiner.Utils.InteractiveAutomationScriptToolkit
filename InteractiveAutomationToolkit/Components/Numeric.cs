@@ -299,13 +299,13 @@
 				return;
 			}
 
-			bool isNotEqual = !IsEqualWithinMargin(result, value);
+			bool isNotEqual = !IsEqualWithinMargin(result, Value);
 			if (isNotEqual && BlockDefinition.WantsOnChange)
 			{
 				logger?.Debug(nameof(Numeric), nameof(LoadResult), $"Numeric Value changed from {Value} to {result}");
 
 				changed = true;
-				previous = result;
+				previous = Value;
 			}
 
 			logger?.Debug(nameof(Numeric), nameof(LoadResult), $"Setting Value to {result}");
