@@ -1,26 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<TargetFramework>net48</TargetFramework>
-		<CodeAnalysisRuleSet>InteractiveAutomationToolkitTests.ruleset</CodeAnalysisRuleSet>
-		<IsPackable>false</IsPackable>
-		<PlatformTarget>x86</PlatformTarget>
-	</PropertyGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\InteractiveAutomationToolkit\InteractiveAutomationToolkit.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-		<None Include="stylecop.json" />
-	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="coverlet.collector" Version="6.0.4">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="FluentAssertions" Version="8.2.0" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
-		<PackageReference Include="Moq" Version="4.20.72" />
-		<PackageReference Include="MSTest.TestAdapter" Version="3.8.3" />
-		<PackageReference Include="MSTest.TestFramework" Version="3.8.3" />
-		<PackageReference Include="Skyline.DataMiner.Dev.Automation" Version="10.5.5.2" />
-	</ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net48</TargetFramework>
+        <CodeAnalysisRuleSet>InteractiveAutomationToolkitTests.ruleset</CodeAnalysisRuleSet>
+        <IsPackable>false</IsPackable>
+        <PlatformTarget>x86</PlatformTarget>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\InteractiveAutomationToolkit\InteractiveAutomationToolkit.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="stylecop.json" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="coverlet.collector" Version="6.0.4">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="FluentAssertions" Version="8.2.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+        <PackageReference Include="Moq" Version="4.20.72" />
+        <PackageReference Include="MSTest.TestAdapter" Version="3.8.3" />
+        <PackageReference Include="MSTest.TestFramework" Version="3.8.3" />
+        <PackageReference Include="Skyline.DataMiner.Dev.Automation" Version="10.5.5.2" />
+    </ItemGroup>
 </Project>
