@@ -288,7 +288,7 @@
 			if (isNotEqual && BlockDefinition.WantsOnChange)
 			{
 				changed = true;
-				previous = result;
+				previous = value;
 			}
 
 			Value = result;
