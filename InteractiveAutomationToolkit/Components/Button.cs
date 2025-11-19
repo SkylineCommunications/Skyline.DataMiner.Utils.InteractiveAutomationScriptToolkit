@@ -114,7 +114,7 @@
 		protected internal override void LoadResult(IUIResults uiResults, ILogger logger = null)
 		{
 			pressed = uiResults.WasButtonPressed(this);
-			logger.LogInformation(nameof(Button), nameof(LoadResult), $"was pressed: {pressed}");
+			logger?.LogInformation(nameof(Button), nameof(LoadResult), $"was pressed: {pressed}");
 		}
 
 		/// <inheritdoc	/>
