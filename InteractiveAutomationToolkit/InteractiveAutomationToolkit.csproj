@@ -18,7 +18,7 @@
 		<Description>Quickly develop Interactive Automation Scripts in DataMiner 10.5.5 and up.</Description>
 		<PackageIcon>Icon.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<Version>10.5.5.3</Version>
+		<Version>10.5.5.4</Version>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="..\README.md" Pack="true" PackagePath="" />
