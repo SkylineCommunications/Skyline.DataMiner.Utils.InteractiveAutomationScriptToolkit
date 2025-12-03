@@ -1,6 +1,7 @@
 ﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 {
 	using System;
+	using System.Runtime.InteropServices;
 
 	public interface IUIResults
 	{
@@ -149,6 +150,24 @@
 
 		//
 		// Summary:
+		//     Returns true if a filter value was entered for a specific dialog box item.
+		//
+		// Parameters:
+		//   key:
+		//     The destination variable that is linked to the specific dialog box item.
+		//
+		// Returns:
+		//     true if the user entered a filter value; otherwise, false.
+		//
+		// Remarks:
+		//		Applicable only in case Type is set to DropDown.
+		//		Available from DataMiner 10.5.8/10.6.0 onwards, in Automation scripts launched from web apps and specifying the useNewIASInputComponents=true URL parameter.
+		//		For WasOnFilter(string) to work, WantsOnFilter has to be set to true. Use GetFilterString(string) to get the filter value. See example.
+		//		When the options are filtered, the currently selected option (if still relevant) needs to be inserted as an option, regardless of whether the filter matches. Otherwise, the dropdown will consider that value incorrect, and the dropdown will be cleared.
+		bool WasOnFilter(string key);
+
+		//
+		// Summary:
 		//     Gets a value indicating whether the specified destination variable that is linked
 		//     to a checkbox was selected.
 		//
@@ -247,5 +266,22 @@
 		// Remarks:
 		//     Feature introduced in DataMiner 10.5.4 (RN 42064).
 		DateTimeOffset GetClientDateTime(string key);
+
+		//
+		// Summary:
+		//    Gets the filter value from the specified destination variable that is linked to a dialog box item.
+		//
+		// Parameters:
+		//   key:
+		//     The name of the destination variable.
+		//
+		// Returns:
+		//     The filter value from the specified destination variable that is linked to a dialog box item.
+		//
+		// Remarks:
+		//		Applicable only in case Type is set to DropDown.
+		//		Available from DataMiner 10.5.8/10.6.0 onwards, in Automation scripts launched from web apps and specifying the useNewIASInputComponents=true URL parameter.
+		//		When the options are filtered, the currently selected option (if still relevant) needs to be inserted as an option, regardless of whether the filter matches. Otherwise, the dropdown will consider that value incorrect, and the dropdown will be cleared.
+		string GetFilterString(string key);
 	}
 }

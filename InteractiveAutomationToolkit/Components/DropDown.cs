@@ -153,6 +153,8 @@
 		/// <inheritdoc	/>
 		protected internal override void LoadResult(IUIResults uiResults, ILogger logger = null)
 		{
+			base.LoadResult(uiResults, logger);
+
 			string selectedValue = uiResults.GetString(this);
 
 			logger?.Debug(nameof(DropDown), nameof(LoadResult), $"Selected value: {selectedValue}");
@@ -169,6 +171,8 @@
 		/// <inheritdoc	/>
 		protected internal override void RaiseResultEvents(ILogger logger = null)
 		{
+			base.RaiseResultEvents(logger);
+
 			if (changed)
 			{
 				logger?.Debug(nameof(DropDown), nameof(RaiseResultEvents), $"OnChange; Selected changed from {previous} to {Selected}");
