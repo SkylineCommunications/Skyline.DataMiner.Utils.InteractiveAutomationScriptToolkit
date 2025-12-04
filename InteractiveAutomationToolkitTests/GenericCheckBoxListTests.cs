@@ -194,9 +194,11 @@ namespace InteractiveAutomationToolkitTests
             List<CheckBoxList<int>.CheckBoxListChangedEventArgs> changedResults = new List<CheckBoxList<int>.CheckBoxListChangedEventArgs>();
             checkBoxList.Changed += (s, e) => changedResults.Add(e);
 
-            // User checks 2
-            var mockedUiResults = new Mock<IUIResults>();
-            mockedUiResults.Setup(x => x.GetString(It.IsAny<string>())).Returns("2");
+			// User checks 2
+			var option2 = checkBoxList.Options.Single(x => x.Value == 2);
+
+			var mockedUiResults = new Mock<IUIResults>();
+            mockedUiResults.Setup(x => x.GetString(It.IsAny<string>())).Returns(checkBoxList.GetRawValue(option2));
 
             // Show CheckBoxList
             checkBoxList.LoadResult(mockedUiResults.Object);
@@ -221,9 +223,13 @@ namespace InteractiveAutomationToolkitTests
             List<CheckBoxList<int>.CheckBoxListChangedEventArgs> changedResults = new List<CheckBoxList<int>.CheckBoxListChangedEventArgs>();
             checkBoxList.Changed += (s, e) => changedResults.Add(e);
 
-            // User checks 2 and 3
-            var mockedUiResults = new Mock<IUIResults>();
-            mockedUiResults.Setup(x => x.GetString(It.IsAny<string>())).Returns("2;3");
+			// User checks 2 and 3
+			var option2 = checkBoxList.Options.Single(x => x.Value == 2);
+			var option3 = checkBoxList.Options.Single(x => x.Value == 3);
+
+			var mockedUiResults = new Mock<IUIResults>();
+            mockedUiResults.Setup(x => x.GetString(It.IsAny<string>()))
+                .Returns($"{checkBoxList.GetRawValue(option2)};{checkBoxList.GetRawValue(option3)}");
 
             // Show CheckBoxList
             checkBoxList.LoadResult(mockedUiResults.Object);
@@ -283,9 +289,11 @@ namespace InteractiveAutomationToolkitTests
             List<CheckBoxList<int>.CheckBoxListChangedEventArgs> changedResults = new List<CheckBoxList<int>.CheckBoxListChangedEventArgs>();
             checkBoxList.Changed += (s, e) => changedResults.Add(e);
 
-            // User unchecks 2 and checks 3
-            var mockedUiResults = new Mock<IUIResults>();
-            mockedUiResults.Setup(x => x.GetString(It.IsAny<string>())).Returns("3");
+			// User unchecks 2 and checks 3
+			var option3 = checkBoxList.Options.Single(x => x.Value == 3);
+
+			var mockedUiResults = new Mock<IUIResults>();
+            mockedUiResults.Setup(x => x.GetString(It.IsAny<string>())).Returns(checkBoxList.GetRawValue(option3));
 
             // Show CheckBoxList
             checkBoxList.LoadResult(mockedUiResults.Object);
