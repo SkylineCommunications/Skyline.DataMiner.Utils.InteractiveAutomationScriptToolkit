@@ -120,6 +120,11 @@
 		///     Triggered when the filter value changes.
 		///     WantsOnFilter will be set to true when this event is subscribed to.
 		/// </summary>
+		/// <remarks>
+		///		This requires the use of WebUI Components V2 (default from 10.6.1).
+		///		Add useNewIASInputComponents=true to the LCA URL (available from DM 10.4.0).
+		///		Set IEngine.WebUIVersion = WebUIVersion.V2 (available from DM 10.5.12).
+		/// </remarks>
 		public event EventHandler<DropDownFilterChangedEventArgs> FilterChanged
 		{
 			add
