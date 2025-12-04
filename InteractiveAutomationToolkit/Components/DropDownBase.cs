@@ -144,7 +144,7 @@
 		/// <inheritdoc	/>
 		protected internal override void LoadResult(IUIResults uiResults, ILogger logger = null)
 		{
-			string newFilterValue = uiResults.GetFilterString(this);
+			string newFilterValue = uiResults.GetFilterString(this) ?? String.Empty;
 
 			logger?.Debug(nameof(DropDown), nameof(LoadResult), $"Filter value: {newFilterValue}");
 
