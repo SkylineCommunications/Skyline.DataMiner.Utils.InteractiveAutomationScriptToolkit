@@ -170,6 +170,8 @@
 				return;
 			}
 
+			logger?.Debug(nameof(DropDown), nameof(LoadResult), $"Selected value: {selectedValue}");
+
 			if (BlockDefinition.WantsOnChange)
 			{
 				changed = selectedValue != Selected;
