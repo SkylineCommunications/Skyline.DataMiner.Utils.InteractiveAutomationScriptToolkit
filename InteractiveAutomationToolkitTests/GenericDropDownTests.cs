@@ -153,7 +153,8 @@ namespace InteractiveAutomationToolkitTests
 
             // User selects 2
             var mockedUiResults = new Mock<IUIResults>();
-            mockedUiResults.Setup(x => x.GetString(It.IsAny<string>())).Returns("2");
+            mockedUiResults.Setup(x => x.GetString(It.IsAny<string>()))
+                .Returns(dropdown.Options.FirstOrDefault(x => x.Value == 2).ID);
 
             // Show DropDown
             dropdown.LoadResult(mockedUiResults.Object);
@@ -178,10 +179,11 @@ namespace InteractiveAutomationToolkitTests
 
             // User selects 2
             var mockedUiResults = new Mock<IUIResults>();
-            mockedUiResults.Setup(x => x.GetString(It.IsAny<string>())).Returns("1");
+			mockedUiResults.Setup(x => x.GetString(It.IsAny<string>()))
+				.Returns(dropdown.Options.FirstOrDefault(x => x.Value == 1).ID);
 
-            // Show DropDown
-            dropdown.LoadResult(mockedUiResults.Object);
+			// Show DropDown
+			dropdown.LoadResult(mockedUiResults.Object);
             dropdown.RaiseResultEvents();
 
             Assert.IsNull(changedResult);

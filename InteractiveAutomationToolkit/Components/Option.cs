@@ -13,9 +13,12 @@
 
 		public Option(string displayedValue, T value)
 		{
+			ID = Guid.NewGuid().ToString();
 			DisplayValue = displayedValue;
 			Value = value;
 		}
+
+		internal string ID { get; }
 
 		public string DisplayValue { get; }
 
