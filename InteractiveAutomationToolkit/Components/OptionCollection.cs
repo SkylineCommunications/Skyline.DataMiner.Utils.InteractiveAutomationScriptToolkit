@@ -7,6 +7,7 @@
 	internal class OptionCollection<T> : ICollection<Option<T>>
 	{
 		private readonly HashSet<Option<T>> options = new HashSet<Option<T>>();
+		private readonly RawValueMapping<Option<T>> rawValueMapping = new RawValueMapping<Option<T>>();
 
 		public int Count => options.Count;
 
@@ -15,17 +16,40 @@
 		public void Add(Option<T> item)
 		{
 			if (!options.Add(item)) throw new InvalidOperationException($"The collection already contains an item with {item.DisplayValue} as displayed value");
+
+			rawValueMapping.Add(item);
+		}
+
+		public bool Remove(Option<T> item)
+		{
+			if (options.Remove(item))
+			{
+				rawValueMapping.Remove(item);
+				return true;
+			}
+
+			return false;
 		}
 
 		public void Clear()
 		{
 			options.Clear();
+			rawValueMapping.Clear();
 		}
 
 		public bool Contains(Option<T> item)
 		{
-			if (options.Contains(item)) return true;
-			return false;
+			return options.Contains(item);
+		}
+
+		public bool TryGetByRawValue(string rawValue, out Option<T> option)
+		{
+			return rawValueMapping.TryGetByRawValue(rawValue, out option);
+		}
+
+		public string GetRawValue(Option<T> option)
+		{
+			return rawValueMapping.GetRawValue(option);
 		}
 
 		public void CopyTo(Option<T>[] array, int arrayIndex)
@@ -45,11 +69,6 @@
 		public IEnumerator<Option<T>> GetEnumerator()
 		{
 			return options.GetEnumerator();
-		}
-
-		public bool Remove(Option<T> item)
-		{
-			return options.Remove(item);
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()

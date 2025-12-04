@@ -11,7 +11,8 @@
 	/// </summary>
 	public class CheckBoxList<T> : CheckBoxListBase, ICheckBoxList<T>
 	{
-		private readonly Dictionary<Option<T>, bool> checkBoxListOptions = new Dictionary<Option<T>, bool>();
+		private readonly OptionCollection<T> checkBoxListOptions = new OptionCollection<T>();
+		private readonly Dictionary<Option<T>, bool> checkedState = new Dictionary<Option<T>, bool>();
 		private readonly List<ChangedOption> changedOptions = new List<ChangedOption>();
 
 		/// <summary>
@@ -69,7 +70,7 @@
 		{
 			get
 			{
-				return checkBoxListOptions.Where(option => option.Value).Select(option => option.Key);
+				return checkedState.Where(kvp => kvp.Value).Select(kvp => kvp.Key);
 			}
 		}
 
@@ -78,7 +79,7 @@
 		{
 			get
 			{
-				return checkBoxListOptions.Where(option => !option.Value).Select(option => option.Key);
+				return checkedState.Where(kvp => !kvp.Value).Select(kvp => kvp.Key);
 			}
 		}
 
@@ -87,7 +88,7 @@
 		{
 			get
 			{
-				return checkBoxListOptions.Keys;
+				return checkBoxListOptions;
 			}
 
 			set
@@ -110,7 +111,7 @@
 		{
 			get
 			{
-				return checkBoxListOptions.Keys.Select(x => x.Value);
+				return checkBoxListOptions.Select(x => x.Value);
 			}
 
 			set
@@ -128,10 +129,11 @@
 				throw new ArgumentNullException("option");
 			}
 
-			if (checkBoxListOptions.ContainsKey(option)) return;
+			if (checkBoxListOptions.Contains(option)) return;
 
-			checkBoxListOptions.Add(option, false);
-			BlockDefinition.AddCheckBoxListOption(option.DisplayValue);
+			checkBoxListOptions.Add(option);
+			checkedState.Add(option, false);
+			BlockDefinition.AddCheckBoxListOption(checkBoxListOptions.GetRawValue(option), option.DisplayValue);
 		}
 
 		/// <summary>
@@ -154,15 +156,15 @@
 				throw new ArgumentNullException("option");
 			}
 
-			if (!checkBoxListOptions.TryGetValue(option, out var currentValue))
+			if (!checkedState.TryGetValue(option, out var currentValue))
 			{
 				throw new ArgumentException($"Option is not defined as a valid option");
 			}
 
 			if (!currentValue)
 			{
-				checkBoxListOptions[option] = true;
-				BlockDefinition.InitialValue = string.Join(";", BlockDefinition.InitialValue, option.DisplayValue);
+				checkedState[option] = true;
+				BlockDefinition.InitialValue = string.Join(";", CheckedOptions.Select(x => checkBoxListOptions.GetRawValue(x)));
 			}
 		}
 
@@ -170,7 +172,7 @@
 		/// <exception cref="ArgumentException">When the option does not exist.</exception>
 		public void Check(T value)
 		{
-			var options = checkBoxListOptions.Keys.Where(x => Object.Equals(x.Value, value)).ToList();
+			var options = checkBoxListOptions.Where(x => Object.Equals(x.Value, value)).ToList();
 			if (!options.Any()) throw new ArgumentException($"CheckboxList does not have value: {value}");
 
 			foreach (var option in options)
@@ -182,12 +184,12 @@
 		/// <inheritdoc/>
 		public override void CheckAll()
 		{
-			foreach (var option in checkBoxListOptions.Keys.ToList())
+			foreach (var option in checkBoxListOptions.ToList())
 			{
-				checkBoxListOptions[option] = true;
+				checkedState[option] = true;
 			}
 
-			BlockDefinition.InitialValue = string.Join(";", checkBoxListOptions.Keys.Select(x => x.DisplayValue));
+			BlockDefinition.InitialValue = string.Join(";", checkBoxListOptions.Select(x => checkBoxListOptions.GetRawValue(x)));
 		}
 
 		/// <inheritdoc/>
@@ -222,18 +224,22 @@
 
 			if (checkBoxListOptions.Remove(option))
 			{
+				checkedState.Remove(option);
 				RecreateUiBlock();
-				foreach (var remainingOption in checkBoxListOptions.Keys)
+				foreach (var remainingOption in checkBoxListOptions)
 				{
-					BlockDefinition.AddCheckBoxListOption(remainingOption.DisplayValue);
+					BlockDefinition.AddCheckBoxListOption(checkBoxListOptions.GetRawValue(remainingOption), remainingOption.DisplayValue);
 				}
+
+				// Update InitialValue to reflect current checked state
+				BlockDefinition.InitialValue = string.Join(";", CheckedOptions.Select(x => checkBoxListOptions.GetRawValue(x)));
 			}
 		}
 
 		/// <inheritdoc/>
 		public void RemoveOption(T value)
 		{
-			var options = checkBoxListOptions.Keys.Where(x => Object.Equals(x.Value, value)).ToList();
+			var options = checkBoxListOptions.Where(x => Object.Equals(x.Value, value)).ToList();
 			foreach (var option in options)
 			{
 				RemoveOption(option);
@@ -250,15 +256,15 @@
 				throw new ArgumentNullException("option");
 			}
 
-			if (!checkBoxListOptions.TryGetValue(option, out var currentValue))
+			if (!checkedState.TryGetValue(option, out var currentValue))
 			{
 				throw new ArgumentException("CheckboxList does not have option: " + option);
 			}
 
 			if (currentValue)
 			{
-				checkBoxListOptions[option] = false;
-				BlockDefinition.InitialValue = string.Join(";", CheckedOptions.Select(x => x.DisplayValue));
+				checkedState[option] = false;
+				BlockDefinition.InitialValue = string.Join(";", CheckedOptions.Select(x => checkBoxListOptions.GetRawValue(x)));
 			}
 		}
 
@@ -266,7 +272,7 @@
 		/// <exception cref="ArgumentException">When the option does not exist.</exception>
 		public void Uncheck(T value)
 		{
-			var options = checkBoxListOptions.Keys.Where(x => Object.Equals(x.Value, value)).ToList();
+			var options = checkBoxListOptions.Where(x => Object.Equals(x.Value, value)).ToList();
 			if (!options.Any()) throw new ArgumentException($"CheckboxList does not have value: {value}");
 
 			foreach (var option in options)
@@ -278,12 +284,17 @@
 		/// <inheritdoc/>
 		public override void UncheckAll()
 		{
-			foreach (var option in checkBoxListOptions.Keys.ToList())
+			foreach (var option in checkBoxListOptions.ToList())
 			{
-				checkBoxListOptions[option] = false;
+				checkedState[option] = false;
 			}
 
 			BlockDefinition.InitialValue = null;
+		}
+
+		internal string GetRawValue(Option<T> option)
+		{
+			return checkBoxListOptions.GetRawValue(option);
 		}
 
 		/// <inheritdoc	/>
@@ -300,13 +311,14 @@
 				return;
 			}
 
-			var checkedOptions = new HashSet<string>(results.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries));
-			foreach (var option in checkBoxListOptions.Keys.ToList())
+			var rawCheckedOptions = new HashSet<string>(results.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries));
+			foreach (var option in checkBoxListOptions.ToList())
 			{
-				bool isChecked = checkedOptions.Contains(option.DisplayValue);
-				bool hasChanged = checkBoxListOptions[option] != isChecked;
+				var rawValue = checkBoxListOptions.GetRawValue(option);
+				bool isChecked = rawCheckedOptions.Contains(rawValue);
+				bool hasChanged = checkedState[option] != isChecked;
 
-				checkBoxListOptions[option] = isChecked;
+				checkedState[option] = isChecked;
 
 				if (hasChanged && BlockDefinition.WantsOnChange)
 				{
@@ -314,7 +326,7 @@
 				}
 			}
 
-			BlockDefinition.InitialValue = string.Join(";", CheckedOptions.Select(x => x.DisplayValue));
+			BlockDefinition.InitialValue = string.Join(";", CheckedOptions.Select(x => checkBoxListOptions.GetRawValue(x)));
 		}
 
 		/// <inheritdoc	/>
@@ -332,6 +344,7 @@
 		private void ClearOptions()
 		{
 			checkBoxListOptions.Clear();
+			checkedState.Clear();
 			RecreateUiBlock();
 			BlockDefinition.InitialValue = null;
 		}

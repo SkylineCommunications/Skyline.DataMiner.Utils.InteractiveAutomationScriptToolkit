@@ -37,7 +37,8 @@
 		/// <param name="options">Values that can be selected, every value is visualized in the dropdown by its <see cref="Object.ToString()"/> counterpart.</param>
 		/// <param name="selected">Default selected value.</param>
 		/// <exception cref="ArgumentNullException">When options is null.</exception>
-		public DropDown(IEnumerable<T> options, T selected) : this(options.Select(x => new Option<T>(x)), new Option<T>(selected))
+		public DropDown(IEnumerable<T> options, T selected)
+			: this(options.Select(x => new Option<T>(x)), selected != null ? new Option<T>(selected) : null)
 		{
 		}
 
@@ -156,7 +157,7 @@
 			if (!dropDownOptions.Contains(option))
 			{
 				dropDownOptions.Add(option);
-				BlockDefinition.AddDropDownOption(option.DisplayValue);
+				BlockDefinition.AddDropDownOption(dropDownOptions.GetRawValue(option), option.DisplayValue);
 			}
 		}
 
@@ -211,7 +212,7 @@
 				RecreateUiBlock();
 				foreach (var optionToAdd in dropDownOptions)
 				{
-					BlockDefinition.AddDropDownOption(optionToAdd.DisplayValue);
+					BlockDefinition.AddDropDownOption(dropDownOptions.GetRawValue(optionToAdd), optionToAdd.DisplayValue);
 				}
 
 				if (currentSelectedOption == option)
@@ -231,19 +232,23 @@
 			}
 		}
 
+		internal string GetRawValue(Option<T> option)
+		{
+			return dropDownOptions.GetRawValue(option);
+		}
+
 		/// <inheritdoc	/>
 		protected internal override void LoadResult(IUIResults uiResults, ILogger logger = null)
 		{
 			var rawSelectedValue = uiResults.GetString(this);
+			logger?.Debug(nameof(DropDown), nameof(LoadResult), $"Raw selected value: {rawSelectedValue}");
 
-			logger?.Debug(nameof(DropDown), nameof(LoadResult), $"Selected value: {rawSelectedValue}");
-
-			var selectedValue = dropDownOptions.FirstOrDefault(x => x.DisplayValue.Equals(rawSelectedValue));
-
-			if (selectedValue == null)
+			if (!dropDownOptions.TryGetByRawValue(rawSelectedValue, out var selectedValue))
 			{
 				return;
 			}
+
+			logger?.Debug(nameof(DropDown), nameof(LoadResult), $"Selected value: {selectedValue}");
 
 			if (BlockDefinition.WantsOnChange)
 			{

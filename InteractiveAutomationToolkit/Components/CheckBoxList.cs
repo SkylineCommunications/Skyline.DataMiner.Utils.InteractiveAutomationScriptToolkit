@@ -11,7 +11,9 @@
 	/// </summary>
 	public class CheckBoxList : CheckBoxListBase, ICheckBoxList
 	{
-		private readonly IDictionary<string, bool> options = new Dictionary<string, bool>();
+		private readonly HashSet<string> options = new HashSet<string>();
+		private readonly RawValueMapping<string> rawValueMapping = new RawValueMapping<string>();
+		private readonly Dictionary<string, bool> checkedState = new Dictionary<string, bool>();
 		private readonly List<ChangedOption> changedOptions = new List<ChangedOption>();
 
 		/// <summary>
@@ -60,7 +62,7 @@
 		{
 			get
 			{
-				return options.Where(option => option.Value).Select(option => option.Key);
+				return checkedState.Where(kvp => kvp.Value).Select(kvp => kvp.Key);
 			}
 		}
 
@@ -69,7 +71,7 @@
 		{
 			get
 			{
-				return options.Keys;
+				return options;
 			}
 		}
 
@@ -78,7 +80,7 @@
 		{
 			get
 			{
-				return options.Where(option => !option.Value).Select(option => option.Key);
+				return checkedState.Where(kvp => !kvp.Value).Select(kvp => kvp.Key);
 			}
 		}
 
@@ -91,10 +93,12 @@
 				throw new ArgumentNullException("option");
 			}
 
-			if (!options.ContainsKey(option))
+			if (!options.Contains(option))
 			{
-				options.Add(option, false);
-				BlockDefinition.AddCheckBoxListOption(option);
+				options.Add(option);
+				rawValueMapping.Add(option);
+				checkedState.Add(option, false);
+				BlockDefinition.AddCheckBoxListOption(rawValueMapping.GetRawValue(option), option);
 			}
 		}
 
@@ -108,27 +112,27 @@
 				throw new ArgumentNullException("option");
 			}
 
-			if (!options.ContainsKey(option))
+			if (!options.Contains(option))
 			{
 				throw new ArgumentException("CheckboxList does not have option: " + option, option);
 			}
 
-			if (!options[option])
+			if (!checkedState[option])
 			{
-				options[option] = true;
-				BlockDefinition.InitialValue = String.Join(";", BlockDefinition.InitialValue, option);
+				checkedState[option] = true;
+				BlockDefinition.InitialValue = String.Join(";", Checked.Select(x => rawValueMapping.GetRawValue(x)));
 			}
 		}
 
 		/// <inheritdoc/>
 		public override void CheckAll()
 		{
-			foreach (string option in options.Keys.ToList())
+			foreach (string option in options.ToList())
 			{
-				options[option] = true;
+				checkedState[option] = true;
 			}
 
-			BlockDefinition.InitialValue = String.Join(";", options.Keys);
+			BlockDefinition.InitialValue = String.Join(";", options.Select(x => rawValueMapping.GetRawValue(x)));
 		}
 
 		/// <inheritdoc/>
@@ -153,11 +157,17 @@
 
 			if (options.Remove(option))
 			{
+				rawValueMapping.Remove(option);
+				checkedState.Remove(option);
+				
 				RecreateUiBlock();
-				foreach (string optionsKey in options.Keys)
+				foreach (string optionToAdd in options)
 				{
-					BlockDefinition.AddCheckBoxListOption(optionsKey);
+					BlockDefinition.AddCheckBoxListOption(rawValueMapping.GetRawValue(optionToAdd), optionToAdd);
 				}
+
+				// Update InitialValue to reflect current checked state
+				BlockDefinition.InitialValue = String.Join(";", Checked.Select(x => rawValueMapping.GetRawValue(x)));
 			}
 		}
 
@@ -171,24 +181,24 @@
 				throw new ArgumentNullException("option");
 			}
 
-			if (!options.ContainsKey(option))
+			if (!options.Contains(option))
 			{
 				throw new ArgumentException("CheckboxList does not have option: " + option, option);
 			}
 
-			if (options[option])
+			if (checkedState[option])
 			{
-				options[option] = false;
-				BlockDefinition.InitialValue = String.Join(";", Checked);
+				checkedState[option] = false;
+				BlockDefinition.InitialValue = String.Join(";", Checked.Select(x => rawValueMapping.GetRawValue(x)));
 			}
 		}
 
 		/// <inheritdoc/>
 		public override void UncheckAll()
 		{
-			foreach (string option in options.Keys.ToList())
+			foreach (string option in options.ToList())
 			{
-				options[option] = false;
+				checkedState[option] = false;
 			}
 
 			BlockDefinition.InitialValue = null;
@@ -207,13 +217,14 @@
 				return;
 			}
 
-			var checkedOptions = new HashSet<string>(results.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries));
-			foreach (string option in options.Keys.ToList())
+			var rawCheckedOptions = new HashSet<string>(results.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries));
+			foreach (string option in options.ToList())
 			{
-				bool isChecked = checkedOptions.Contains(option);
-				bool hasChanged = options[option] != isChecked;
+				var rawValue = rawValueMapping.GetRawValue(option);
+				bool isChecked = rawCheckedOptions.Contains(rawValue);
+				bool hasChanged = checkedState[option] != isChecked;
 
-				options[option] = isChecked;
+				checkedState[option] = isChecked;
 
 				if (hasChanged && BlockDefinition.WantsOnChange)
 				{
@@ -221,7 +232,7 @@
 				}
 			}
 
-			BlockDefinition.InitialValue = String.Join(";", Checked);
+			BlockDefinition.InitialValue = String.Join(";", Checked.Select(x => rawValueMapping.GetRawValue(x)));
 		}
 
 		/// <inheritdoc	/>
@@ -239,6 +250,8 @@
 		private void ClearOptions()
 		{
 			options.Clear();
+			rawValueMapping.Clear();
+			checkedState.Clear();
 			RecreateUiBlock();
 			BlockDefinition.InitialValue = null;
 		}
