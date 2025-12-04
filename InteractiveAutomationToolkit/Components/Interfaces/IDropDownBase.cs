@@ -1,7 +1,6 @@
 ﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 {
 	using System;
-	using Skyline.DataMiner.Automation;
 
 	public interface IDropDownBase : IValidationWidget, IIsReadonlyWidget
 	{

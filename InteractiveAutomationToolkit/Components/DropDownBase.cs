@@ -5,7 +5,6 @@
 	using Microsoft.Extensions.Logging;
 	using Skyline.DataMiner.Automation;
 	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Extensions;
-	using static Skyline.DataMiner.Utils.InteractiveAutomationScript.DropDown;
 
 	public abstract class DropDownBase : InteractiveWidget, IDropDownBase
 	{

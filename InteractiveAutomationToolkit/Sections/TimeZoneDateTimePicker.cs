@@ -2,7 +2,6 @@
 {
 	using System;
 	using System.Linq;
-	using System.Runtime.Remoting.Messaging;
 
 	/// <summary>
 	/// Defines a section that allows the user to define a DateTime in a specific time zone.

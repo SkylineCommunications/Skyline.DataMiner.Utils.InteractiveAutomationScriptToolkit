@@ -1,7 +1,6 @@
 ﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 {
 	using System;
-	using System.Runtime.InteropServices;
 
 	public interface IUIResults
 	{

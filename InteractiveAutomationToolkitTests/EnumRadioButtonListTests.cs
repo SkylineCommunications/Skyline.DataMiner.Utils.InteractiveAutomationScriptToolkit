@@ -1,12 +1,11 @@
 ﻿namespace InteractiveAutomationToolkitTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Skyline.DataMiner.Net.Messages;
-    using Skyline.DataMiner.Utils.InteractiveAutomationScript;
-    using System;
-    using System.Linq;
+	using Microsoft.VisualStudio.TestTools.UnitTesting;
+	using Skyline.DataMiner.Utils.InteractiveAutomationScript;
+	using System;
+	using System.Linq;
 
-    [TestClass]
+	[TestClass]
     public class EnumRadioButtonListTests
     {
         public enum DefaultOption
