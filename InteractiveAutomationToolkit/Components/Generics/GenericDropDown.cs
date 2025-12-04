@@ -157,7 +157,7 @@
 			if (!dropDownOptions.Contains(option))
 			{
 				dropDownOptions.Add(option);
-				BlockDefinition.AddDropDownOption(option.ID);
+				BlockDefinition.AddDropDownOption(dropDownOptions.GetRawValue(option), option.DisplayValue);
 			}
 		}
 
@@ -212,7 +212,7 @@
 				RecreateUiBlock();
 				foreach (var optionToAdd in dropDownOptions)
 				{
-					BlockDefinition.AddDropDownOption(optionToAdd.ID);
+					BlockDefinition.AddDropDownOption(dropDownOptions.GetRawValue(optionToAdd), optionToAdd.DisplayValue);
 				}
 
 				if (currentSelectedOption == option)
@@ -232,19 +232,23 @@
 			}
 		}
 
+		internal string GetRawValue(Option<T> option)
+		{
+			return dropDownOptions.GetRawValue(option);
+		}
+
 		/// <inheritdoc	/>
 		protected internal override void LoadResult(IUIResults uiResults, ILogger logger = null)
 		{
 			var rawSelectedValue = uiResults.GetString(this);
-			var selectedValue = dropDownOptions.FirstOrDefault(x => String.Equals(x.ID, rawSelectedValue));
+			logger?.Debug(nameof(DropDown), nameof(LoadResult), $"Raw selected value: {rawSelectedValue}");
 
-			logger?.Debug(nameof(DropDown), nameof(LoadResult), $"Raw Selected value: {rawSelectedValue}");
-			logger?.Debug(nameof(DropDown), nameof(LoadResult), $"Selected value: {selectedValue}");
-
-			if (selectedValue == null)
+			if (!dropDownOptions.TryGetByRawValue(rawSelectedValue, out var selectedValue))
 			{
 				return;
 			}
+
+			logger?.Debug(nameof(DropDown), nameof(LoadResult), $"Selected value: {selectedValue}");
 
 			if (BlockDefinition.WantsOnChange)
 			{
