@@ -162,7 +162,7 @@
 		{
 			if (filterValueChanged)
 			{
-				logger?.Debug(nameof(DropDown), nameof(RaiseResultEvents), $"OnChange; Filter Value changed from {previousFilterValue} to {filterValue}");
+				logger?.Debug(nameof(DropDown), nameof(RaiseResultEvents), $"OnFilterChange; Filter Value changed from {previousFilterValue} to {filterValue}");
 				OnFilterChanged?.Invoke(this, new DropDownFilterChangedEventArgs(filterValue, previousFilterValue));
 			}
 
