@@ -97,7 +97,7 @@
 			if (!options.Contains(option))
 			{
 				options.Add(option);
-				BlockDefinition.AddCheckBoxListOption(option);
+				BlockDefinition.AddRadioButtonListOption(option);
 			}
 		}
 
@@ -115,7 +115,7 @@
 				RecreateUiBlock();
 				foreach (string optionToAdd in options)
 				{
-					BlockDefinition.AddCheckBoxListOption(optionToAdd);
+					BlockDefinition.AddRadioButtonListOption(optionToAdd);
 				}
 
 				if (Selected == option)

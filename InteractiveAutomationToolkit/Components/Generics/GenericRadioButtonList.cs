@@ -161,7 +161,7 @@
 			if (!radioButtonListOptions.Contains(option))
 			{
 				radioButtonListOptions.Add(option);
-				BlockDefinition.AddCheckBoxListOption(option.DisplayValue);
+				BlockDefinition.AddRadioButtonListOption(option.DisplayValue);
 			}
 		}
 
@@ -190,7 +190,7 @@
 				RecreateUiBlock();
 				foreach (var optionToAdd in radioButtonListOptions)
 				{
-					BlockDefinition.AddCheckBoxListOption(optionToAdd.DisplayValue);
+					BlockDefinition.AddRadioButtonListOption(optionToAdd.DisplayValue);
 				}
 
 				if (currentSelectedOption == option)
