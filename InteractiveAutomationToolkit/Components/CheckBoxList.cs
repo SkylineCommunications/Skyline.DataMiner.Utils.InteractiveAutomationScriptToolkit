@@ -96,7 +96,7 @@
 			if (!options.Contains(option))
 			{
 				options.Add(option);
-				rawValueMapping.Add(option);
+				rawValueMapping.Add(option, option);
 				checkedState.Add(option, false);
 				BlockDefinition.AddCheckBoxListOption(rawValueMapping.GetRawValue(option), option);
 			}

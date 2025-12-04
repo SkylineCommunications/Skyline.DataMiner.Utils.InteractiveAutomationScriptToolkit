@@ -99,7 +99,7 @@
 			if (!options.Contains(option))
 			{
 				options.Add(option);
-				rawValueMapping.Add(option);
+				rawValueMapping.Add(option, option);
 
 				BlockDefinition.AddRadioButtonListOption(rawValueMapping.GetRawValue(option), option);
 			}
