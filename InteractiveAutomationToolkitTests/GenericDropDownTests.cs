@@ -178,7 +178,7 @@ namespace InteractiveAutomationToolkitTests
 			DropDown<int>.DropDownChangedEventArgs changedResult = null;
 			dropdown.Changed += (s, e) => changedResult = e;
 
-			// User selects 1
+			// User selects 1 (which is already selected)
 			var option1 = dropdown.Options.Single(x => x.Value == 1);
 
 			var mockedUiResults = new Mock<IUIResults>();
