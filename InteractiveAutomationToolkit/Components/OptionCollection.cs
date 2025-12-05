@@ -17,7 +17,7 @@
 		{
 			if (!options.Add(item)) throw new InvalidOperationException($"The collection already contains an item with {item.DisplayValue} as displayed value");
 
-			rawValueMapping.Add(item);
+			rawValueMapping.Add(item, item.DisplayValue);
 		}
 
 		public bool Remove(Option<T> item)
@@ -74,6 +74,11 @@
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return options.GetEnumerator();
+		}
+
+		public override string ToString()
+		{
+			return $"OptionCollection<{typeof(T).Name}> (Count = {options.Count})";
 		}
 	}
 }
