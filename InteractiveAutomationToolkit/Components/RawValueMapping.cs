@@ -2,11 +2,13 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Text;
 
 	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Tools;
 
 	internal class RawValueMapping<T>
 	{
+		private readonly object lockObject = new object();
 		private readonly OneToOneMapping<string, T> mapping = new OneToOneMapping<string, T>();
 
 		public bool TryGetByRawValue(string rawValue, out T value)
@@ -17,29 +19,39 @@
 				return false;
 			}
 
-			return mapping.TryGetForward(rawValue, out value);
+			lock (lockObject)
+			{
+				return mapping.TryGetForward(rawValue, out value);
+			}
 		}
 
 		public string GetRawValue(T value)
 		{
-			if (!mapping.TryGetReverse(value, out var rawValue))
+			lock (lockObject)
 			{
-				throw new KeyNotFoundException("The specified value was not found in the collection.");
+				if (!mapping.TryGetReverse(value, out var rawValue))
+				{
+					throw new KeyNotFoundException("The specified value was not found in the collection.");
+				}
+
+				return rawValue;
 			}
-			return rawValue;
 		}
 
-		public void Add(T value)
+		public void Add(T value, string displayValue)
 		{
 			if (value == null)
 			{
 				throw new ArgumentNullException(nameof(value));
 			}
 
-			if (!mapping.ContainsReverse(value))
+			lock (lockObject)
 			{
-				var rawValue = Guid.NewGuid().ToString();
-				mapping.Add(rawValue, value);
+				if (!mapping.ContainsReverse(value))
+				{
+					string rawValue = GenerateUniqueRawValue(displayValue);
+					mapping.Add(rawValue, value);
+				}
 			}
 		}
 
@@ -50,12 +62,73 @@
 				throw new ArgumentNullException(nameof(value));
 			}
 
-			return mapping.TryRemoveReverse(value);
+			lock (lockObject)
+			{
+				return mapping.TryRemoveReverse(value);
+			}
 		}
 
 		public void Clear()
 		{
-			mapping.Clear();
+			lock (lockObject)
+			{
+				mapping.Clear();
+			}
+		}
+
+		public override string ToString()
+		{
+			return $"RawValueMapping<{typeof(T).Name}> (Count = {mapping.Count})";
+		}
+
+		private string GenerateUniqueRawValue(string displayValue)
+		{
+			var cleanDisplayValue = CleanDisplayValue(displayValue);
+
+			// Already unique
+			if (!mapping.ContainsForward(cleanDisplayValue))
+			{
+				return cleanDisplayValue;
+			}
+
+			// Add -1, -2, -3...
+			int counter = 1;
+			string candidate;
+
+			do
+			{
+				candidate = $"{cleanDisplayValue}-{counter++}";
+			}
+			while (mapping.ContainsForward(candidate));
+
+			return candidate;
+		}
+
+		private static string CleanDisplayValue(string displayValue)
+		{
+			if (String.IsNullOrEmpty(displayValue))
+			{
+				return "empty";
+			}
+
+			var sb = new StringBuilder();
+			bool lastWasDash = false;
+
+			foreach (char c in displayValue)
+			{
+				if (Char.IsLetterOrDigit(c))
+				{
+					sb.Append(c);
+					lastWasDash = false;
+				}
+				else if (!lastWasDash)
+				{
+					sb.Append('-');
+					lastWasDash = true;
+				}
+			}
+
+			return sb.ToString().Trim('-');
 		}
 	}
 }

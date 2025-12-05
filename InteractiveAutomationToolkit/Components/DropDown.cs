@@ -105,7 +105,7 @@
 			if (!options.Contains(option))
 			{
 				options.Add(option);
-				rawValueMapping.Add(option);
+				rawValueMapping.Add(option, option);
 
 				BlockDefinition.AddDropDownOption(rawValueMapping.GetRawValue(option), option);
 			}
