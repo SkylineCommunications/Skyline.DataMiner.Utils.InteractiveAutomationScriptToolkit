@@ -167,17 +167,21 @@
 		{
 			if (filterValueChanged)
 			{
+				CacheSelectedValue(logger);
+
 				logger?.Debug(nameof(DropDown), nameof(RaiseResultEvents), $"OnFilterChange; Filter Value changed from {previousFilterValue} to {filterValue}");
 				OnFilterChanged?.Invoke(this, new DropDownFilterChangedEventArgs(filterValue, previousFilterValue));
 
 				// Add the selected items again to the options in case the user updated the options based on the provided filter.
-				AddSelectedToOptions();
+				RestoreCachedSelectedValue(logger);
 			}
 
 			filterValueChanged = false;
 		}
 
-		protected internal abstract void AddSelectedToOptions();
+		protected internal abstract void CacheSelectedValue(ILogger logger = null);
+
+		protected internal abstract void RestoreCachedSelectedValue(ILogger logger = null);
 
 		/// <summary>
 		///     Provides data for the <see cref="FilterChanged" /> event.
