@@ -188,6 +188,14 @@
 			RecreateUiBlock();
 		}
 
+		protected internal override void AddSelectedToOptions()
+		{
+			if (Selected == null)
+				return;
+
+			AddOption(Selected);
+		}
+
 		/// <summary>
 		///     Provides data for the <see cref="Changed" /> event.
 		/// </summary>
