@@ -121,6 +121,7 @@
 		///     WantsOnFilter will be set to true when this event is subscribed to.
 		/// </summary>
 		/// <remarks>
+		///		Don't update the <see cref="DropDown.Selected"/> property from this event, this event should only be used to filter the available options.
 		///		This requires the use of WebUI Components V2 (default from 10.6.1).
 		///		Add useNewIASInputComponents=true to the LCA URL (available from DM 10.4.0).
 		///		Set IEngine.WebUIVersion = WebUIVersion.V2 (available from DM 10.5.12).
@@ -166,12 +167,21 @@
 		{
 			if (filterValueChanged)
 			{
+				CacheSelectedValue(logger);
+
 				logger?.Debug(nameof(DropDown), nameof(RaiseResultEvents), $"OnFilterChange; Filter Value changed from {previousFilterValue} to {filterValue}");
 				OnFilterChanged?.Invoke(this, new DropDownFilterChangedEventArgs(filterValue, previousFilterValue));
+
+				// Add the selected items again to the options in case the user updated the options based on the provided filter.
+				RestoreCachedSelectedValue(logger);
 			}
 
 			filterValueChanged = false;
 		}
+
+		protected internal abstract void CacheSelectedValue(ILogger logger = null);
+
+		protected internal abstract void RestoreCachedSelectedValue(ILogger logger = null);
 
 		/// <summary>
 		///     Provides data for the <see cref="FilterChanged" /> event.
