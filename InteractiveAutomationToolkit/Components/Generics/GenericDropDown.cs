@@ -288,7 +288,7 @@
 			if (cachedSelectedOption == null)
 				return;
 
-			logger?.Debug(nameof(DropDown), nameof(RestoreCachedSelectedValue), $"Restoring cached selected option '{SelectedOption}'.");
+			logger?.Debug(nameof(DropDown), nameof(RestoreCachedSelectedValue), $"Restoring cached selected option '{cachedSelectedOption}'.");
 
 			AddOption(cachedSelectedOption);
 			SelectedOption = cachedSelectedOption;
