@@ -117,7 +117,15 @@
 		{
 			get
 			{
-				return radioButtonListOptions.FirstOrDefault(x => x.DisplayValue.Equals(BlockDefinition.InitialValue));
+				var rawValue = BlockDefinition.InitialValue;
+
+				if (String.IsNullOrEmpty(rawValue) ||
+					!radioButtonListOptions.TryGetByRawValue(rawValue, out var value))
+				{
+					return null;
+				}
+
+				return value;
 			}
 
 			set
@@ -129,7 +137,7 @@
 				}
 
 				if (!radioButtonListOptions.Contains(value)) throw new ArgumentException($"Value is not defined as an option");
-				BlockDefinition.InitialValue = value.DisplayValue;
+				BlockDefinition.InitialValue = radioButtonListOptions.GetRawValue(value);
 			}
 		}
 

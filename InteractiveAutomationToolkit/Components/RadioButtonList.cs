@@ -78,12 +78,22 @@
 		{
 			get
 			{
-				return BlockDefinition.InitialValue;
+				var rawValue = BlockDefinition.InitialValue;
+
+				if (String.IsNullOrEmpty(rawValue) ||
+					!rawValueMapping.TryGetByRawValue(rawValue, out var value))
+				{
+					return null;
+				}
+
+				return value;
 			}
 
 			set
 			{
-				BlockDefinition.InitialValue = value;
+				BlockDefinition.InitialValue = !String.IsNullOrEmpty(value)
+					? rawValueMapping.GetRawValue(value)
+					: null;
 			}
 		}
 
@@ -114,6 +124,8 @@
 				throw new ArgumentNullException("option");
 			}
 
+			bool wasSelected = Selected == option;
+
 			if (options.Remove(option))
 			{
 				rawValueMapping.Remove(option);
@@ -124,7 +136,7 @@
 					BlockDefinition.AddRadioButtonListOption(rawValueMapping.GetRawValue(optionToAdd), optionToAdd);
 				}
 
-				if (Selected == option)
+				if (wasSelected)
 				{
 					Selected = options.FirstOrDefault();
 				}
