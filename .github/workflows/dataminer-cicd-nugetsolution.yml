@@ -25,14 +25,6 @@ jobs:
   CICD:
     uses: SkylineCommunications/_ReusableWorkflows/.github/workflows/NuGet Solution Master Workflow.yml@main
     with:
-      referenceName: ${{ github.ref_name }}
-      runNumber: ${{ github.run_number }}
-      referenceType: ${{ github.ref_type }}
-      repository: ${{ github.repository }}
-      owner: ${{ github.repository_owner }}
       sonarCloudProjectName: SkylineCommunications_Skyline.DataMiner.Utils.InteractiveAutomationScriptToolkit
     secrets:
-      sonarCloudToken: ${{ secrets.SONAR_TOKEN }}
-      pfx: ${{ secrets.PFX }}
-      pfxPassword: ${{ secrets.PFXPASSWORD }}
       nugetApiKey: ${{ secrets.NUGETAPIKEY }}
