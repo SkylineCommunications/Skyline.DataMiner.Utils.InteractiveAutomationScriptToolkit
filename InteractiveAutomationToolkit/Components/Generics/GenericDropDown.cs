@@ -14,6 +14,7 @@
 		private readonly OptionCollection<T> dropDownOptions = new OptionCollection<T>();
 		private bool changed;
 		private Option<T> previous;
+		private Option<T> cachedSelectedOption;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="DropDown" /> class.
@@ -234,6 +235,8 @@
 		/// <inheritdoc	/>
 		protected internal override void LoadResult(IUIResults uiResults, ILogger logger = null)
 		{
+			base.LoadResult(uiResults, logger);
+
 			var rawSelectedValue = uiResults.GetString(this);
 
 			logger?.Debug(nameof(DropDown), nameof(LoadResult), $"Selected value: {rawSelectedValue}");
@@ -257,6 +260,8 @@
 		/// <inheritdoc	/>
 		protected internal override void RaiseResultEvents(ILogger logger = null)
 		{
+			base.RaiseResultEvents(logger);
+
 			if (changed)
 			{
 				logger?.Debug(nameof(DropDown), nameof(RaiseResultEvents), $"OnChange; Selected changed from {previous?.DisplayValue} to {SelectedOption.DisplayValue}");
@@ -270,6 +275,25 @@
 		{
 			dropDownOptions.Clear();
 			RecreateUiBlock();
+		}
+
+		protected internal override void CacheSelectedValue(ILogger logger = null)
+		{
+			logger?.Debug(nameof(DropDown), nameof(CacheSelectedValue), $"Caching selected option '{SelectedOption}'.");
+			cachedSelectedOption = SelectedOption;
+		}
+
+		protected internal override void RestoreCachedSelectedValue(ILogger logger = null)
+		{
+			if (cachedSelectedOption == null)
+				return;
+
+			logger?.Debug(nameof(DropDown), nameof(RestoreCachedSelectedValue), $"Restoring cached selected option '{cachedSelectedOption}'.");
+
+			AddOption(cachedSelectedOption);
+			SelectedOption = cachedSelectedOption;
+
+			cachedSelectedOption = null;
 		}
 
 		/// <summary>
