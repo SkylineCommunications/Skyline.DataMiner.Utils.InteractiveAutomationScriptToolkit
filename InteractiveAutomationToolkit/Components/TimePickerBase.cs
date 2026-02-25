@@ -56,6 +56,23 @@
 		}
 
 		/// <summary>
+		///     Gets or sets a value indicating whether seconds are displayed in the time widget.
+		///     Default: <c>true</c>.
+		/// </summary>
+		public bool HasSeconds
+		{
+			get
+			{
+				return DateTimeUpDownOptions.ShowSeconds;
+			}
+
+			set
+			{
+				DateTimeUpDownOptions.ShowSeconds = value;
+			}
+		}
+
+		/// <summary>
 		///     Gets or sets a value indicating whether the widget will only trigger an event when the enter key is pressed.
 		///     Default: <c>false</c>.
 		/// </summary>
