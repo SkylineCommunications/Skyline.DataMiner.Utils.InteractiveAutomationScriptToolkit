@@ -1,6 +1,7 @@
 ﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 {
 	using System;
+
 	using Microsoft.Extensions.Logging;
 
 	/// <summary>
@@ -19,6 +20,7 @@
 		/// <summary>
 		///     Gets or sets a value indicating whether the control is enabled in the UI.
 		///     Disabling causes the widgets to be grayed out and disables user interaction.
+		///     Default: <c>true</c>.
 		/// </summary>
 		/// <remarks>Available from DataMiner 9.5.3 onwards.</remarks>
 		public virtual bool IsEnabled

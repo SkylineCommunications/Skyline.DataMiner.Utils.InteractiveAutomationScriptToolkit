@@ -40,7 +40,7 @@
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the widget has a spinner button.
-		///     Default <c>true</c>.
+		///     Default: <c>true</c>.
 		/// </summary>
 		public bool HasSpinnerButton
 		{
@@ -57,9 +57,10 @@
 
 		/// <summary>
 		///     Gets or sets a value indicating whether seconds are displayed in the time widget.
-		///     Default: <c>true</c>.
+		///     Default: <c>false</c>.
 		/// </summary>
-		public bool HasSeconds
+		/// <remarks>Only applicable when running automation scripts from the web environment and using <see href="https://docs.dataminer.services/develop/devguide/Automation/UIBlockTypesOverview.html#ui-versions">UI version V2</see></remarks>
+		public bool ShowSeconds
 		{
 			get
 			{
