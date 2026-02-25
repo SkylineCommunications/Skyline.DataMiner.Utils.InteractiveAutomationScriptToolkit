@@ -6,3 +6,4 @@ packages/*
 _git2_*
 **/StyleCop.Cache
 *.DotSettings.user
+*.nupkg

@@ -98,6 +98,7 @@
 
 		/// <summary>
 		/// 	Gets or sets a value indicating whether gets or sets whether the displayed time is the server time or local time.
+		/// 	Default: <c>false</c> (local time).
 		/// </summary>
 		public bool DisplayServerTime
 		{
@@ -151,6 +152,7 @@
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the calendar pop-up will close when the user clicks a new date.
+		///     Default: <c>false</c>.
 		/// </summary>
 		public bool AutoCloseCalendar
 		{
@@ -167,6 +169,7 @@
 
 		/// <summary>
 		///     Gets or sets the maximum timestamp.
+		///     Default: <c>DateTime.MaxValue</c>.
 		/// </summary>
 		public DateTime Maximum
 		{
@@ -183,6 +186,7 @@
 
 		/// <summary>
 		///     Gets or sets the minimum timestamp.
+		///     Default: <c>DateTime.MinValue</c>.
 		/// </summary>
 		public DateTime Minimum
 		{
@@ -301,43 +305,6 @@
 			set
 			{
 				dateTimePickerOptions.TimePickerAllowSpin = value;
-			}
-		}
-
-		/// <summary>
-		///     Gets or sets the time format of the time picker.
-		///     Default: <c>DateTimeFormat.ShortTime</c>.
-		/// </summary>
-		[Obsolete("Use the DateTimeFormat property to define the format of a DateTimePicker.")]
-		public DateTimeFormat TimeFormat
-		{
-			get
-			{
-				return dateTimePickerOptions.TimeFormat;
-			}
-
-			set
-			{
-				dateTimePickerOptions.TimeFormat = value;
-			}
-		}
-
-		/// <summary>
-		///     Gets or sets the time format string used when TimeFormat is set to <c>DateTimeFormat.Custom</c>.
-		/// </summary>
-		/// <remarks>Sets <see cref="TimeFormat" /> to <c>DateTimeFormat.Custom</c>.</remarks>
-		[Obsolete("Use the CustomDateTimeFormat property to define a custom format.")]
-		public string CustomTimeFormat
-		{
-			get
-			{
-				return dateTimePickerOptions.TimeFormatString;
-			}
-
-			set
-			{
-				TimeFormat = DateTimeFormat.Custom;
-				dateTimePickerOptions.TimeFormatString = value;
 			}
 		}
 

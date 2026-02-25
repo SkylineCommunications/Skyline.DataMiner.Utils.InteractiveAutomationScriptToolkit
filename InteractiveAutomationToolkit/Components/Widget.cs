@@ -25,6 +25,7 @@
 
 		/// <summary>
 		///     Gets or sets the fixed height (in pixels) of the widget.
+		///     Default: -1 (auto height based on content). Setting a fixed height will disable the auto height.
 		/// </summary>
 		/// <exception cref="ArgumentOutOfRangeException">When the value is smaller than 1.</exception>
 		public int Height
@@ -47,6 +48,7 @@
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the widget is visible in the dialog.
+		///     Default: <c>true</c>.
 		/// </summary>
 		public virtual bool IsVisible { get; set; }
 
@@ -140,6 +142,7 @@
 
 		/// <summary>
 		///     Gets or sets the fixed width (in pixels) of the widget.
+		///     Default: -1 (auto width based on content). Setting a fixed width will disable the auto width.
 		/// </summary>
 		/// <exception cref="ArgumentOutOfRangeException">When the value is smaller than 1.</exception>
 		public int Width

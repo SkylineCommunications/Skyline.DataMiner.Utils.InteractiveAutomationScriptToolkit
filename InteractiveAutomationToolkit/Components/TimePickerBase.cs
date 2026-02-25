@@ -40,7 +40,7 @@
 
 		/// <summary>
 		///     Gets or sets a value indicating whether the widget has a spinner button.
-		///     Default <c>true</c>.
+		///     Default: <c>true</c>.
 		/// </summary>
 		public bool HasSpinnerButton
 		{
@@ -52,6 +52,24 @@
 			set
 			{
 				DateTimeUpDownOptions.ShowButtonSpinner = value;
+			}
+		}
+
+		/// <summary>
+		///     Gets or sets a value indicating whether seconds are displayed in the time widget.
+		///     Default: <c>false</c>.
+		/// </summary>
+		/// <remarks>Only applicable when running automation scripts from the web environment and using <see href="https://docs.dataminer.services/develop/devguide/Automation/UIBlockTypesOverview.html#ui-versions">UI version V2</see></remarks>
+		public bool ShowSeconds
+		{
+			get
+			{
+				return DateTimeUpDownOptions.ShowSeconds;
+			}
+
+			set
+			{
+				DateTimeUpDownOptions.ShowSeconds = value;
 			}
 		}
 
