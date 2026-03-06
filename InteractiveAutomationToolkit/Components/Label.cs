@@ -86,7 +86,7 @@
 		}
 
 		/// <summary>
-		///     Gets or sets a value indicating whether users are able to enter multiple lines of text.
+		///     Gets or sets a value indicating whether this label is multiline, meaning that it can display multiple lines of text.
 		/// </summary>
 		public bool IsMultiline
 		{
