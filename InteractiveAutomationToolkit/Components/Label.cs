@@ -85,6 +85,22 @@
 			}
 		}
 
+		/// <summary>
+		///     Gets or sets a value indicating whether this label is multiline, meaning that it can display multiple lines of text.
+		/// </summary>
+		public bool IsMultiline
+		{
+			get
+			{
+				return BlockDefinition.IsMultiline;
+			}
+
+			set
+			{
+				BlockDefinition.IsMultiline = value;
+			}
+		}
+
 		private static string StyleToUiString(TextStyle textStyle)
 		{
 			switch (textStyle)
