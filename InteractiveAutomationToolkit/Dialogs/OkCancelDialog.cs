@@ -19,7 +19,7 @@
 			OkButton.Style = callToAction == CallToAction.OK ? ButtonStyle.CallToAction : ButtonStyle.None;
 			CancelButton.Style = callToAction == CallToAction.Cancel ? ButtonStyle.CallToAction : ButtonStyle.None;
 
-			AddWidget(new Label(message), 0, 0, 1, 2);
+			AddWidget(new Label(message) { IsMultiline = true }, 0, 0, 1, 2);
 
 			AddWidget(new WhiteSpace(), 1, 0);
 
