@@ -12,7 +12,7 @@
 	public class ProgressDialog : Dialog
 	{
 		private readonly StringBuilder progress = new StringBuilder();
-		private readonly Label progressLabel = new Label();
+		private readonly Label progressLabel = new Label() { IsMultiline = true };
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ProgressDialog"/> class.
