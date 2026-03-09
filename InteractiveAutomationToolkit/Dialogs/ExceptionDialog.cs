@@ -9,7 +9,7 @@
 	/// </summary>
 	public class ExceptionDialog : Dialog
 	{
-		private readonly Label exceptionLabel = new Label();
+		private readonly Label exceptionLabel = new Label() { IsMultiline = true };
 		private Exception exception;
 
 		/// <summary>
