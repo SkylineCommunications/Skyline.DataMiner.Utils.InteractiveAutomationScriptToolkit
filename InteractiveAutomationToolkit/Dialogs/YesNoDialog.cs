@@ -18,7 +18,7 @@
 			YesButton.Style = callToAction == CallToAction.Yes ? ButtonStyle.CallToAction : ButtonStyle.None;
 			NoButton.Style = callToAction == CallToAction.No ? ButtonStyle.CallToAction : ButtonStyle.None;
 
-			AddWidget(new Label(message), 0, 0, 1, 2);
+			AddWidget(new Label(message) { IsMultiline = true }, 0, 0, 1, 2);
 
 			AddWidget(new WhiteSpace(), 1, 0);
 
