@@ -239,6 +239,64 @@
 			SetOptions(options.Select(x => new Option<T>(x)));
 		}
 
+		/// <inheritdoc/>
+		public bool ContainsOption(Option<T> option)
+		{
+			if (option == null)
+			{
+				throw new ArgumentNullException(nameof(option));
+			}
+
+			return radioButtonListOptions.Contains(option);
+		}
+
+		/// <inheritdoc/>
+		public bool ContainsOption(T value)
+		{
+			if (value == null)
+			{
+				throw new ArgumentNullException(nameof(value));
+			}
+
+			return radioButtonListOptions.Any(x => Object.Equals(x.Value, value));
+		}
+
+		/// <inheritdoc/>
+		/// <exception cref="ArgumentNullException">When value is null.</exception>
+		public bool TrySelectOption(T value)
+		{
+			if (value == null)
+			{
+				throw new ArgumentNullException(nameof(value));
+			}
+
+			if (ContainsOption(value))
+			{
+				Selected = value;
+				return true;
+			}
+
+			return false;
+		}
+
+		/// <inheritdoc/>
+		/// <exception cref="ArgumentNullException">When option is null.</exception>
+		public bool TrySelectOption(Option<T> option)
+		{
+			if (option == null)
+			{
+				throw new ArgumentNullException(nameof(option));
+			}
+
+			if (ContainsOption(option))
+			{
+				SelectedOption = option;
+				return true;
+			}
+
+			return false;
+		}
+
 		/// <inheritdoc	/>
 		protected internal override void LoadResult(IUIResults uiResults, ILogger logger = null)
 		{

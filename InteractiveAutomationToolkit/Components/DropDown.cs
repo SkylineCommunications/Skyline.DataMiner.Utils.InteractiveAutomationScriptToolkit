@@ -151,6 +151,36 @@
 			}
 		}
 
+		/// <inheritdoc/>
+		/// <exception cref="ArgumentNullException">When option is null.</exception>
+		public bool ContainsOption(string option)
+		{
+			if (option == null)
+			{
+				throw new ArgumentNullException(nameof(option));
+			}
+
+			return options.Contains(option);
+		}
+
+		/// <inheritdoc/>
+		/// <exception cref="ArgumentNullException">When option is null.</exception>
+		public bool TrySelectOption(string option)
+		{
+			if (option == null)
+			{
+				throw new ArgumentNullException(nameof(option));
+			}
+
+			if (ContainsOption(option))
+			{
+				Selected = option;
+				return true;
+			}
+
+			return false;
+		}
+
 		/// <inheritdoc	/>
 		protected internal override void LoadResult(IUIResults uiResults, ILogger logger = null)
 		{

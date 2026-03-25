@@ -29,6 +29,13 @@
 		/// </summary>
 		/// <param name="option">The option to remove.</param>
 		void RemoveOption(string option);
+
+		/// <summary>
+		/// Determines whether the specified option exists in the collection.
+		/// </summary>
+		/// <param name="option">The name of the option to locate. Cannot be null.</param>
+		/// <returns>true if the option exists in the collection; otherwise, false.</returns>
+		bool ContainsOption(string option);
 	}
 
 	/// <summary>
@@ -82,6 +89,20 @@
 		/// </summary>
 		/// <param name="value">The value to remove.</param>
 		void RemoveOption(T value);
+
+		/// <summary>
+		/// Determines whether the specified option is present in the collection.
+		/// </summary>
+		/// <param name="option">The option to locate in the collection. Cannot be null.</param>
+		/// <returns>true if the specified option exists in the collection; otherwise, false.</returns>
+		bool ContainsOption(Option<T> option);
+
+		/// <summary>
+		/// Determines whether the specified option exists in the collection.
+		/// </summary>
+		/// <param name="value">The option value to locate in the collection.</param>
+		/// <returns>true if the specified option is found; otherwise, false.</returns>
+		bool ContainsOption(T value);
 	}
 
 }

@@ -163,6 +163,18 @@
 
 		/// <inheritdoc/>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
+		public bool ContainsOption(string option)
+		{
+			if (option == null)
+			{
+				throw new ArgumentNullException(nameof(option));
+			}
+
+			return options.ContainsKey(option);
+		}
+
+		/// <inheritdoc/>
+		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		/// <exception cref="ArgumentException">When the option does not exist.</exception>
 		public void Uncheck(string option)
 		{

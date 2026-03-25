@@ -9,6 +9,11 @@
 		/// Gets or sets the currently selected option as a string.
 		/// </summary>
 		string Selected { get; set; }
+
+		/// <summary>
+		/// Attempts to select the specified option. If the option does not exist in the collection, the selection remains unchanged.
+		/// </summary>
+		bool TrySelectOption(string option);
 	}
 
 	/// <summary>
@@ -26,6 +31,16 @@
 		/// Gets or sets the value of the currently selected option.
 		/// </summary>
 		T Selected { get; set; }
+
+		/// <summary>
+		/// Attempts to select the specified option. If the option does not exist in the collection, the selection remains unchanged.
+		/// </summary>
+		bool TrySelectOption(T value);
+
+		/// <summary>
+		/// Attempts to select the specified option. If the option does not exist in the collection, the selection remains unchanged.
+		/// </summary>
+		bool TrySelectOption(Option<T> option);
 	}
 
 }

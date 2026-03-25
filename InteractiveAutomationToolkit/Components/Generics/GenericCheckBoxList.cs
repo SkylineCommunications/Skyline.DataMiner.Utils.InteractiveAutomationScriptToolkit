@@ -145,6 +145,28 @@
 		}
 
 		/// <inheritdoc/>
+		public bool ContainsOption(Option<T> option)
+		{
+			if (option == null)
+			{
+				throw new ArgumentNullException(nameof(option));
+			}
+
+			return checkBoxListOptions.ContainsKey(option);
+		}
+
+		/// <inheritdoc/>
+		public bool ContainsOption(T value)
+		{
+			if (value == null)
+			{
+				throw new ArgumentNullException(nameof(value));
+			}
+
+			return checkBoxListOptions.Keys.Any(x => Object.Equals(x.Value, value));
+		}
+
+		/// <inheritdoc/>
 		/// <exception cref="ArgumentNullException">When option is null.</exception>
 		/// <exception cref="ArgumentException">When the option does not exist.</exception>
 		public void Check(Option<T> option)
