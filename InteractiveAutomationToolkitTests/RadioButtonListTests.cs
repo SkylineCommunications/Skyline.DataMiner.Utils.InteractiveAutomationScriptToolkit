@@ -50,5 +50,43 @@ namespace InteractiveAutomationToolkitTests
 
             Assert.IsNull(radioButtonList.Selected);
         }
+
+        [TestMethod]
+        public void ContainsOption_ExistingOption_ReturnsTrue()
+        {
+            var radioButtonList = new RadioButtonList(new[] { "a", "b", "c" });
+
+            Assert.IsTrue(radioButtonList.ContainsOption("b"));
+        }
+
+        [TestMethod]
+        public void ContainsOption_MissingOption_ReturnsFalse()
+        {
+            var radioButtonList = new RadioButtonList(new[] { "a", "b", "c" });
+
+            Assert.IsFalse(radioButtonList.ContainsOption("z"));
+        }
+
+        [TestMethod]
+        public void TrySelectOption_ExistingOption_SelectsAndReturnsTrue()
+        {
+            var radioButtonList = new RadioButtonList(new[] { "a", "b", "c" }, "a");
+
+            bool result = radioButtonList.TrySelectOption("c");
+
+            Assert.IsTrue(result);
+            Assert.AreEqual("c", radioButtonList.Selected);
+        }
+
+        [TestMethod]
+        public void TrySelectOption_MissingOption_ReturnsFalseAndKeepsSelection()
+        {
+            var radioButtonList = new RadioButtonList(new[] { "a", "b", "c" }, "a");
+
+            bool result = radioButtonList.TrySelectOption("z");
+
+            Assert.IsFalse(result);
+            Assert.AreEqual("a", radioButtonList.Selected);
+        }
     }
 }

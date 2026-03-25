@@ -210,5 +210,101 @@ namespace InteractiveAutomationToolkitTests
             Assert.IsNull(dropDown.Selected);
             Assert.IsTrue(dropDown.SelectedOption.IsEmpty);
         }
+
+        [TestMethod]
+        public void ContainsOption_ByValue_ExistingOption_ReturnsTrue()
+        {
+            var dropDown = new DropDown<int>(new[] { 1, 2, 3 });
+
+            Assert.IsTrue(dropDown.ContainsOption(2));
+        }
+
+        [TestMethod]
+        public void ContainsOption_ByValue_MissingOption_ReturnsFalse()
+        {
+            var dropDown = new DropDown<int>(new[] { 1, 2, 3 });
+
+            Assert.IsFalse(dropDown.ContainsOption(99));
+        }
+
+        [TestMethod]
+        public void ContainsOption_ByOption_ExistingOption_ReturnsTrue()
+        {
+            var option = new Option<int>("two", 2);
+            var dropDown = new DropDown<int>(new[] { new Option<int>("one", 1), option });
+
+            Assert.IsTrue(dropDown.ContainsOption(option));
+        }
+
+        [TestMethod]
+        public void ContainsOption_ByOption_MissingOption_ReturnsFalse()
+        {
+            var dropDown = new DropDown<int>(new[] { new Option<int>("one", 1) });
+
+            Assert.IsFalse(dropDown.ContainsOption(new Option<int>("two", 2)));
+        }
+
+        [TestMethod]
+        public void TrySelectOption_ByValue_ExistingOption_SelectsAndReturnsTrue()
+        {
+            var dropDown = new DropDown<int>(new[] { 1, 2, 3 }, 1);
+
+            bool result = dropDown.TrySelectOption(3);
+
+            Assert.IsTrue(result);
+            Assert.AreEqual(3, dropDown.Selected);
+        }
+
+        [TestMethod]
+        public void TrySelectOption_ByValue_MissingOption_ReturnsFalseAndKeepsSelection()
+        {
+            var dropDown = new DropDown<int>(new[] { 1, 2, 3 }, 1);
+
+            bool result = dropDown.TrySelectOption(99);
+
+            Assert.IsFalse(result);
+            Assert.AreEqual(1, dropDown.Selected);
+        }
+
+        [TestMethod]
+        public void TrySelectOption_ByOption_ExistingOption_SelectsAndReturnsTrue()
+        {
+            var option1 = new Option<int>("one", 1);
+            var option2 = new Option<int>("two", 2);
+            var dropDown = new DropDown<int>(new[] { option1, option2 }, option1);
+
+            bool result = dropDown.TrySelectOption(option2);
+
+            Assert.IsTrue(result);
+            Assert.AreEqual(option2, dropDown.SelectedOption);
+        }
+
+        [TestMethod]
+        public void TrySelectOption_ByOption_MissingOption_ReturnsFalseAndKeepsSelection()
+        {
+            var option1 = new Option<int>("one", 1);
+            var dropDown = new DropDown<int>(new[] { option1 }, option1);
+
+            bool result = dropDown.TrySelectOption(new Option<int>("missing", 99));
+
+            Assert.IsFalse(result);
+            Assert.AreEqual(option1, dropDown.SelectedOption);
+        }
+
+        [TestMethod]
+        public void ContainsOption_ByOption_NullOption_ThrowsArgumentNullException()
+        {
+            var dropDown = new DropDown<int>(new[] { 1, 2 });
+
+            Assert.ThrowsExactly<ArgumentNullException>(() => dropDown.ContainsOption((Option<int>)null));
+        }
+
+        [TestMethod]
+        public void TrySelectOption_ByOption_NullOption_ThrowsArgumentNullException()
+        {
+            var dropDown = new DropDown<int>(new[] { 1, 2 });
+
+            Assert.ThrowsExactly<ArgumentNullException>(() => dropDown.TrySelectOption((Option<int>)null));
+        }
     }
 }

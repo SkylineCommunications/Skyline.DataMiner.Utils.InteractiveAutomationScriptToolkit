@@ -240,5 +240,101 @@ namespace InteractiveAutomationToolkitTests
             Assert.IsNull(radioButtonList.Selected);
             Assert.IsTrue(radioButtonList.SelectedOption.IsEmpty);
         }
+
+        [TestMethod]
+        public void ContainsOption_ByValue_ExistingOption_ReturnsTrue()
+        {
+            var radioButtonList = new RadioButtonList<int>(new[] { 1, 2, 3 });
+
+            Assert.IsTrue(radioButtonList.ContainsOption(2));
+        }
+
+        [TestMethod]
+        public void ContainsOption_ByValue_MissingOption_ReturnsFalse()
+        {
+            var radioButtonList = new RadioButtonList<int>(new[] { 1, 2, 3 });
+
+            Assert.IsFalse(radioButtonList.ContainsOption(99));
+        }
+
+        [TestMethod]
+        public void ContainsOption_ByOption_ExistingOption_ReturnsTrue()
+        {
+            var option = new Option<int>("two", 2);
+            var radioButtonList = new RadioButtonList<int>(new[] { new Option<int>("one", 1), option });
+
+            Assert.IsTrue(radioButtonList.ContainsOption(option));
+        }
+
+        [TestMethod]
+        public void ContainsOption_ByOption_MissingOption_ReturnsFalse()
+        {
+            var radioButtonList = new RadioButtonList<int>(new[] { new Option<int>("one", 1) });
+
+            Assert.IsFalse(radioButtonList.ContainsOption(new Option<int>("two", 2)));
+        }
+
+        [TestMethod]
+        public void TrySelectOption_ByValue_ExistingOption_SelectsAndReturnsTrue()
+        {
+            var radioButtonList = new RadioButtonList<int>(new[] { 1, 2, 3 }, 1);
+
+            bool result = radioButtonList.TrySelectOption(3);
+
+            Assert.IsTrue(result);
+            Assert.AreEqual(3, radioButtonList.Selected);
+        }
+
+        [TestMethod]
+        public void TrySelectOption_ByValue_MissingOption_ReturnsFalseAndKeepsSelection()
+        {
+            var radioButtonList = new RadioButtonList<int>(new[] { 1, 2, 3 }, 1);
+
+            bool result = radioButtonList.TrySelectOption(99);
+
+            Assert.IsFalse(result);
+            Assert.AreEqual(1, radioButtonList.Selected);
+        }
+
+        [TestMethod]
+        public void TrySelectOption_ByOption_ExistingOption_SelectsAndReturnsTrue()
+        {
+            var option1 = new Option<int>("one", 1);
+            var option2 = new Option<int>("two", 2);
+            var radioButtonList = new RadioButtonList<int>(new[] { option1, option2 }, option1);
+
+            bool result = radioButtonList.TrySelectOption(option2);
+
+            Assert.IsTrue(result);
+            Assert.AreEqual(option2, radioButtonList.SelectedOption);
+        }
+
+        [TestMethod]
+        public void TrySelectOption_ByOption_MissingOption_ReturnsFalseAndKeepsSelection()
+        {
+            var option1 = new Option<int>("one", 1);
+            var radioButtonList = new RadioButtonList<int>(new[] { option1 }, option1);
+
+            bool result = radioButtonList.TrySelectOption(new Option<int>("missing", 99));
+
+            Assert.IsFalse(result);
+            Assert.AreEqual(option1, radioButtonList.SelectedOption);
+        }
+
+        [TestMethod]
+        public void ContainsOption_ByOption_NullOption_ThrowsArgumentNullException()
+        {
+            var radioButtonList = new RadioButtonList<int>(new[] { 1, 2 });
+
+            Assert.ThrowsExactly<ArgumentNullException>(() => radioButtonList.ContainsOption((Option<int>)null));
+        }
+
+        [TestMethod]
+        public void TrySelectOption_ByOption_NullOption_ThrowsArgumentNullException()
+        {
+            var radioButtonList = new RadioButtonList<int>(new[] { 1, 2 });
+
+            Assert.ThrowsExactly<ArgumentNullException>(() => radioButtonList.TrySelectOption((Option<int>)null));
+        }
     }
 }

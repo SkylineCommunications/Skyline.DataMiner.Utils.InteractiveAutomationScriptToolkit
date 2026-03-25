@@ -245,26 +245,14 @@
 		}
 
 		/// <inheritdoc/>
-		/// <exception cref="ArgumentNullException">When value is null.</exception>
 		public bool ContainsOption(T value)
 		{
-			if (value == null)
-			{
-				throw new ArgumentNullException(nameof(value));
-			}
-
 			return dropDownOptions.Any(x => Object.Equals(x.Value, value));
 		}
 
 		/// <inheritdoc/>
-		/// <exception cref="ArgumentNullException">When value is null.</exception>
 		public bool TrySelectOption(T value)
 		{
-			if (value == null)
-			{
-				throw new ArgumentNullException(nameof(value));
-			}
-
 			if (ContainsOption(value))
 			{
 				Selected = value;

@@ -454,5 +454,46 @@ namespace InteractiveAutomationToolkitTests
 
             Assert.IsTrue(checkboxlist.CheckedOptions.Single().IsEmpty);
         }
+
+        [TestMethod]
+        public void ContainsOption_ByValue_ExistingOption_ReturnsTrue()
+        {
+            var checkboxlist = new CheckBoxList<int>(new[] { 1, 2, 3 });
+
+            Assert.IsTrue(checkboxlist.ContainsOption(2));
+        }
+
+        [TestMethod]
+        public void ContainsOption_ByValue_MissingOption_ReturnsFalse()
+        {
+            var checkboxlist = new CheckBoxList<int>(new[] { 1, 2, 3 });
+
+            Assert.IsFalse(checkboxlist.ContainsOption(99));
+        }
+
+        [TestMethod]
+        public void ContainsOption_ByOption_ExistingOption_ReturnsTrue()
+        {
+            var option = new Option<int>("two", 2);
+            var checkboxlist = new CheckBoxList<int>(new[] { new Option<int>("one", 1), option });
+
+            Assert.IsTrue(checkboxlist.ContainsOption(option));
+        }
+
+        [TestMethod]
+        public void ContainsOption_ByOption_MissingOption_ReturnsFalse()
+        {
+            var checkboxlist = new CheckBoxList<int>(new[] { new Option<int>("one", 1) });
+
+            Assert.IsFalse(checkboxlist.ContainsOption(new Option<int>("two", 2)));
+        }
+
+        [TestMethod]
+        public void ContainsOption_ByOption_NullOption_ThrowsArgumentNullException()
+        {
+            var checkboxlist = new CheckBoxList<int>(new[] { 1, 2 });
+
+            Assert.ThrowsExactly<ArgumentNullException>(() => checkboxlist.ContainsOption((Option<int>)null));
+        }
     }
 }

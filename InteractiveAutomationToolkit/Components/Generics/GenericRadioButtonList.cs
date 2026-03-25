@@ -253,23 +253,12 @@
 		/// <inheritdoc/>
 		public bool ContainsOption(T value)
 		{
-			if (value == null)
-			{
-				throw new ArgumentNullException(nameof(value));
-			}
-
 			return radioButtonListOptions.Any(x => Object.Equals(x.Value, value));
 		}
 
 		/// <inheritdoc/>
-		/// <exception cref="ArgumentNullException">When value is null.</exception>
 		public bool TrySelectOption(T value)
 		{
-			if (value == null)
-			{
-				throw new ArgumentNullException(nameof(value));
-			}
-
 			if (ContainsOption(value))
 			{
 				Selected = value;

@@ -158,11 +158,6 @@
 		/// <inheritdoc/>
 		public bool ContainsOption(T value)
 		{
-			if (value == null)
-			{
-				throw new ArgumentNullException(nameof(value));
-			}
-
 			return checkBoxListOptions.Keys.Any(x => Object.Equals(x.Value, value));
 		}
 
