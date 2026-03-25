@@ -8,4 +8,5 @@ _git2_*
 *.DotSettings.user
 # Build output nuget packages
 *.nupkg
-InteractiveAutomationToolkit/C:/
+# Stray Windows-style path artifacts created by local build tools
+**/C:/
