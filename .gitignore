@@ -6,3 +6,7 @@ packages/*
 _git2_*
 **/StyleCop.Cache
 *.DotSettings.user
+# Build output nuget packages
+*.nupkg
+# Stray Windows-style path artifacts created by local build tools
+**/C:/
