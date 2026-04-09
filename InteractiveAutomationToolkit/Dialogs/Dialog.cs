@@ -731,6 +731,8 @@
 
 		private void CheckIfOtherWidgetsAreVisibleOnPosition(Widget widget, IWidgetLayout layout, int row, int column)
 		{
+			var overlappingWidgets = new List<Widget>();
+
 			foreach (Widget otherWidget in widgetLayouts.Keys)
 			{
 				if (!otherWidget.IsVisible || widget.Equals(otherWidget))
@@ -741,8 +743,18 @@
 				IWidgetLayout otherWidgetLayout = widgetLayouts[otherWidget];
 				if (column >= otherWidgetLayout.Column && column < otherWidgetLayout.Column + otherWidgetLayout.ColumnSpan && row >= otherWidgetLayout.Row && row < otherWidgetLayout.Row + otherWidgetLayout.RowSpan)
 				{
-					throw new OverlappingWidgetsException(String.Format("The widget overlaps with another widget in the Dialog on Row {0}, Column {1}, RowSpan {2}, ColumnSpan {3}", layout.Row, layout.Column, layout.RowSpan, layout.ColumnSpan));
+					overlappingWidgets.Add(otherWidget);
 				}
+			}
+
+			if (overlappingWidgets.Count > 0)
+			{
+				string overlappingWidgetsInfo = String.Join(", ", overlappingWidgets.Select(w => FormatWidgetInfo(w, widgetLayouts[w])));
+
+				throw new OverlappingWidgetsException(String.Format(
+					"Widget {0} overlaps with: {1}",
+					FormatWidgetInfo(widget, layout),
+					overlappingWidgetsInfo));
 			}
 		}
 
@@ -935,6 +947,22 @@
 				logger?.Debug(nameof(Dialog), nameof(RaiseResultEvents), $"Raising events for widget with ID [{intractable.DestVar}]");
 				intractable.RaiseResultEvents(logger);
 			}
+		}
+
+		private string FormatWidgetInfo(Widget widget, IWidgetLayout layout)
+		{
+			string debugTagPart = String.IsNullOrEmpty(widget.DebugTag)
+				? String.Empty
+				: String.Format(" [DebugTag: '{0}']", widget.DebugTag);
+
+			return String.Format(
+				"'{0}'{1} (Row {2}, Column {3}, RowSpan {4}, ColumnSpan {5})",
+				widget.GetType().Name,
+				debugTagPart,
+				layout.Row,
+				layout.Column,
+				layout.RowSpan,
+				layout.ColumnSpan);
 		}
 	}
 }
