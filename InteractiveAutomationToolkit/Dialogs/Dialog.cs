@@ -953,16 +953,9 @@
 		{
 			string debugTagPart = String.IsNullOrEmpty(widget.DebugTag)
 				? String.Empty
-				: String.Format(" [DebugTag: '{0}']", widget.DebugTag);
+				: $" [DebugTag: '{widget.DebugTag}']";
 
-			return String.Format(
-				"'{0}'{1} (Row {2}, Column {3}, RowSpan {4}, ColumnSpan {5})",
-				widget.GetType().Name,
-				debugTagPart,
-				layout.Row,
-				layout.Column,
-				layout.RowSpan,
-				layout.ColumnSpan);
+			return $"{widget.GetType().Name}{debugTagPart} (Row {layout.Row}, Column {layout.Column}, RowSpan {layout.RowSpan}, ColumnSpan {layout.ColumnSpan})";
 		}
 	}
 }
