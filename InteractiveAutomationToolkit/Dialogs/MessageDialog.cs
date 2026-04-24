@@ -9,7 +9,7 @@
 	/// </summary>
 	public class MessageDialog : Dialog
 	{
-		private readonly Label messageLabel = new Label();
+		private readonly Label messageLabel = new Label() { IsMultiline = true };
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MessageDialog" /> class without a message.
