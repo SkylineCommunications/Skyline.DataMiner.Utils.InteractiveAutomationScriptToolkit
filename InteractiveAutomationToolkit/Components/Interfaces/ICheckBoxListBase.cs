@@ -1,7 +1,5 @@
 ﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 {
-	using Skyline.DataMiner.Automation;
-
 	/// <summary>
 	/// Defines the base functionality for a checkboxlist widget, including properties for state management.
 	/// </summary>

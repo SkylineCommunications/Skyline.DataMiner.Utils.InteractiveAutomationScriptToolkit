@@ -1,6 +1,5 @@
 namespace InteractiveAutomationToolkitTests
 {
-	using Microsoft.Extensions.Logging;
 	using Microsoft.VisualStudio.TestTools.UnitTesting;
 	using Moq;
 	using Skyline.DataMiner.Automation;

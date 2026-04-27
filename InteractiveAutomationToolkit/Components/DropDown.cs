@@ -3,7 +3,9 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+
 	using Microsoft.Extensions.Logging;
+
 	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Extensions;
 
 	/// <summary>
@@ -12,6 +14,8 @@
 	public class DropDown : DropDownBase, IDropDown
 	{
 		private readonly HashSet<string> options = new HashSet<string>();
+		private readonly RawValueMapping<string> rawValueMapping = new RawValueMapping<string>();
+
 		private bool changed;
 		private string previous;
 
@@ -101,7 +105,9 @@
 			if (!options.Contains(option))
 			{
 				options.Add(option);
-				BlockDefinition.AddDropDownOption(option);
+				rawValueMapping.Add(option, option);
+
+				BlockDefinition.AddDropDownOption(rawValueMapping.GetRawValue(option), option);
 			}
 		}
 
@@ -137,10 +143,13 @@
 
 			if (options.Remove(option))
 			{
+				rawValueMapping.Remove(option);
+
 				RecreateUiBlock();
 				foreach (string optionToAdd in options)
 				{
-					BlockDefinition.AddDropDownOption(optionToAdd);
+					BlockDefinition.AddDropDownOption(rawValueMapping.GetRawValue(optionToAdd), optionToAdd);
+
 				}
 
 				if (Selected == option)
@@ -153,7 +162,15 @@
 		/// <inheritdoc	/>
 		protected internal override void LoadResult(IUIResults uiResults, ILogger logger = null)
 		{
-			string selectedValue = uiResults.GetString(this);
+			base.LoadResult(uiResults, logger);
+
+			var rawSelectedValue = uiResults.GetString(this);
+			logger?.Debug(nameof(DropDown), nameof(LoadResult), $"Raw selected value: {rawSelectedValue}");
+
+			if (!rawValueMapping.TryGetByRawValue(rawSelectedValue, out var selectedValue))
+			{
+				return;
+			}
 
 			logger?.Debug(nameof(DropDown), nameof(LoadResult), $"Selected value: {selectedValue}");
 
@@ -169,6 +186,8 @@
 		/// <inheritdoc	/>
 		protected internal override void RaiseResultEvents(ILogger logger = null)
 		{
+			base.RaiseResultEvents(logger);
+
 			if (changed)
 			{
 				logger?.Debug(nameof(DropDown), nameof(RaiseResultEvents), $"OnChange; Selected changed from {previous} to {Selected}");
@@ -181,6 +200,7 @@
 		private void ClearOptions()
 		{
 			options.Clear();
+			rawValueMapping.Clear();
 			RecreateUiBlock();
 		}
 

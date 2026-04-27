@@ -1,6 +1,5 @@
 ﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript.Extensions
 {
-	using System;
 	using Microsoft.Extensions.Logging;
 
 	internal static class ILoggerExtensions
