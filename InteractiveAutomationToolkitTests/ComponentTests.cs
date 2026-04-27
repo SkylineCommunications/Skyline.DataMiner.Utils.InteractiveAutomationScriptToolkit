@@ -1,207 +1,233 @@
 ﻿namespace InteractiveAutomationToolkitTests
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Skyline.DataMiner.Net.AutomationUI.Objects;
-    using Skyline.DataMiner.Utils.InteractiveAutomationScript;
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
 
-    [TestClass]
-    public class ComponentTests
-    {
-        /// <summary>
-        /// Checks if the methods to manipulate the list of options on a dropdown are working as expected.
-        /// </summary>
-        [TestMethod]
-        public void DropDownSetOptionsSelected()
-        {
-            string[] options = new string[] { "option1", "option2", "option3" };
+	using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-            DropDown dropDown1 = new DropDown(options);
-            Assert.AreEqual("option1", dropDown1.Selected);
+	using Skyline.DataMiner.Net.AutomationUI.Objects;
+	using Skyline.DataMiner.Utils.InteractiveAutomationScript;
 
-            DropDown dropDown2 = new DropDown();
-            dropDown2.SetOptions(options);
-            Assert.AreEqual("option1", dropDown2.Selected);
+	[TestClass]
+	public class ComponentTests
+	{
+		/// <summary>
+		/// Checks if the methods to manipulate the list of options on a dropdown are working as expected.
+		/// </summary>
+		[TestMethod]
+		public void DropDownSetOptionsSelected()
+		{
+			string[] options = new string[] { "option1", "option2", "option3" };
 
-            dropDown1.RemoveOption("option1");
-            Assert.AreNotEqual("option1", dropDown1.Selected);
+			DropDown dropDown1 = new DropDown(options);
+			Assert.AreEqual("option1", dropDown1.Selected);
 
-            dropDown1.SetOptions(options);
-            Assert.AreEqual("option2", dropDown1.Selected);
-        }
+			DropDown dropDown2 = new DropDown();
+			dropDown2.SetOptions(options);
+			Assert.AreEqual("option1", dropDown2.Selected);
 
-        [TestMethod]
-        public void TestWidgetMargins()
-        {
-            Button button = new Button("Button");
-            Assert.AreEqual(0, button.Margin.Left);
+			dropDown1.RemoveOption("option1");
+			Assert.AreNotEqual("option1", dropDown1.Selected);
 
-            button.Margin = new Margin(10, 5, 2, 1);
-            Assert.AreEqual(2, button.Margin.Right);
-        }
+			dropDown1.SetOptions(options);
+			Assert.AreEqual("option2", dropDown1.Selected);
+		}
 
-        [TestMethod]
-        public void TestSection()
-        {
-            TestSection section = new TestSection();
-            section.AddWidget(new Label("Label 1"), 0, 0);
-            section.AddWidget(new Label("Label 2"), 1, 0);
+		[TestMethod]
+		public void DropDown_HandlePipeChar()
+		{
+			DropDown dropDown = new DropDown(new[] { "- None -", "|", "||", "|||", "||||" });
+			Assert.AreEqual("- None -", dropDown.Selected);
+			Assert.AreEqual("-None-", dropDown.BlockDefinition.InitialValue);
 
-            Assert.AreEqual(2, section.RowCount);
-            Assert.AreEqual(1, section.ColumnCount);
+			dropDown.Selected = "|";
+			Assert.AreEqual("|", dropDown.Selected);
+			Assert.AreEqual("-", dropDown.BlockDefinition.InitialValue);
 
-            section.AddWidget(new Label("Label 3"), 3, 1);
+			dropDown.Selected = "||";
+			Assert.AreEqual("||", dropDown.Selected);
+			Assert.AreEqual("--1", dropDown.BlockDefinition.InitialValue);
 
-            Assert.AreEqual(4, section.RowCount);
-            Assert.AreEqual(2, section.ColumnCount);
+			dropDown.Selected = "|||";
+			Assert.AreEqual("|||", dropDown.Selected);
+			Assert.AreEqual("--2", dropDown.BlockDefinition.InitialValue);
 
-            Assert.AreEqual(3, section.Widgets.Count());
+			dropDown.Selected = "||||";
+			Assert.AreEqual("||||", dropDown.Selected);
+			Assert.AreEqual("--3", dropDown.BlockDefinition.InitialValue);
+		}
 
-            section.Clear();
+		[TestMethod]
+		public void TestWidgetMargins()
+		{
+			Button button = new Button("Button");
+			Assert.AreEqual(0, button.Margin.Left);
 
-            Assert.AreEqual(0, section.Widgets.Count());
-        }
+			button.Margin = new Margin(10, 5, 2, 1);
+			Assert.AreEqual(2, button.Margin.Right);
+		}
 
-        [TestMethod]
-        public void RemoveWidgetsFromSection()
-        {
-            TestSection section = new TestSection();
-            Label label1 = new Label("Label 1");
-            Label label2 = new Label("Label 2");
+		[TestMethod]
+		public void TestSection()
+		{
+			TestSection section = new TestSection();
+			section.AddWidget(new Label("Label 1"), 0, 0);
+			section.AddWidget(new Label("Label 2"), 1, 0);
 
-            section.AddWidget(label1, 0, 0);
-            section.AddWidget(label2, 1, 0);
+			Assert.AreEqual(2, section.RowCount);
+			Assert.AreEqual(1, section.ColumnCount);
 
-            Assert.AreEqual(2, section.Widgets.Count());
-            Assert.AreEqual(2, section.RowCount);
-            Assert.AreEqual(1, section.ColumnCount);
+			section.AddWidget(new Label("Label 3"), 3, 1);
 
-            section.RemoveWidget(label2);
-            Assert.AreEqual(1, section.Widgets.Count());
-            Assert.AreEqual(1, section.RowCount);
-            Assert.AreEqual(1, section.ColumnCount);
+			Assert.AreEqual(4, section.RowCount);
+			Assert.AreEqual(2, section.ColumnCount);
 
-            section.RemoveWidget(label1);
-            Assert.AreEqual(0, section.Widgets.Count());
-            Assert.AreEqual(0, section.RowCount);
-            Assert.AreEqual(0, section.ColumnCount);
-        }
+			Assert.AreEqual(3, section.Widgets.Count());
 
-        [TestMethod]
-        public void RecreateUiBlockTest()
-        {
-            Exception exception = null;
-            try
-            {
-                string[] options = new string[] { "option 1", "option 2", "option 3" };
-                DropDown dropDown = new DropDown();
-                dropDown.RemoveOption(options.First());
+			section.Clear();
 
-                dropDown.SetOptions(new string[] { "option 4", "option 5", "option 6" });
-            }
-            catch (Exception e)
-            {
-                exception = e;
-            }
+			Assert.AreEqual(0, section.Widgets.Count());
+		}
 
-            Assert.IsNull(exception);
-        }
+		[TestMethod]
+		public void RemoveWidgetsFromSection()
+		{
+			TestSection section = new TestSection();
+			Label label1 = new Label("Label 1");
+			Label label2 = new Label("Label 2");
 
-        [TestMethod]
-        public void FindTreeViewItem()
-        {
-            TreeView treeView = new TreeView(new[] {
-                new TreeViewItem("thomas", "thomasKey", new List<TreeViewItem>(new [] {
-                    new TreeViewItem("thomasItem1", "thomasItem1Key", new List<TreeViewItem>(new [] {
-                        new TreeViewItem("thomasItem11", "thomasItem11Key"),
-                        new TreeViewItem("thomasItem12", "thomasItem12Key") }
-                    )) })),
-                new TreeViewItem("brian", "brianKey", new List<TreeViewItem>(new [] {
-                    new TreeViewItem("brianItem1", "brianItem1Key")}))});
+			section.AddWidget(label1, 0, 0);
+			section.AddWidget(label2, 1, 0);
 
-            TreeViewItem brianItem1;
-            bool brianItem1Found = treeView.TryFindTreeViewItem("brianItem1Key", out brianItem1);
-            Assert.IsNotNull(brianItem1);
-            Assert.IsTrue(brianItem1Found);
+			Assert.AreEqual(2, section.Widgets.Count());
+			Assert.AreEqual(2, section.RowCount);
+			Assert.AreEqual(1, section.ColumnCount);
 
-            TreeViewItem thomasItem12;
-            bool thomasItem12Found = treeView.TryFindTreeViewItem("thomasItem12Key", out thomasItem12);
-            Assert.IsNotNull(thomasItem12);
-            Assert.IsTrue(thomasItem12Found);
+			section.RemoveWidget(label2);
+			Assert.AreEqual(1, section.Widgets.Count());
+			Assert.AreEqual(1, section.RowCount);
+			Assert.AreEqual(1, section.ColumnCount);
 
-            TreeViewItem thomasItem1;
-            bool thomasItem1Found = treeView.TryFindTreeViewItem("thomasItem1Key", out thomasItem1);
-            Assert.IsNotNull(thomasItem1);
-            Assert.IsTrue(thomasItem1Found);
+			section.RemoveWidget(label1);
+			Assert.AreEqual(0, section.Widgets.Count());
+			Assert.AreEqual(0, section.RowCount);
+			Assert.AreEqual(0, section.ColumnCount);
+		}
 
-            TreeViewItem thomasItem;
-            bool thomasItemFound = treeView.TryFindTreeViewItem("thomasKey", out thomasItem);
-            Assert.IsNotNull(thomasItem);
-            Assert.IsTrue(thomasItemFound);
+		[TestMethod]
+		public void RecreateUiBlockTest()
+		{
+			Exception exception = null;
+			try
+			{
+				string[] options = new string[] { "option 1", "option 2", "option 3" };
+				DropDown dropDown = new DropDown();
+				dropDown.RemoveOption(options.First());
 
-            TreeViewItem randomItem;
-            bool randomItemFound = treeView.TryFindTreeViewItem("randomItemKey", out randomItem);
-            Assert.IsNull(randomItem);
-            Assert.IsFalse(randomItemFound);
-        }
+				dropDown.SetOptions(new string[] { "option 4", "option 5", "option 6" });
+			}
+			catch (Exception e)
+			{
+				exception = e;
+			}
 
-        [TestMethod]
-        public void FindTreeViewItemDepth()
-        {
-            TreeView treeView = new TreeView(new[] {
-                new TreeViewItem("thomas", "thomasKey", new List<TreeViewItem>(new [] {
-                    new TreeViewItem("thomasItem1", "thomasItem1Key", new List<TreeViewItem>(new [] {
-                        new TreeViewItem("thomasItem11", "thomasItem11Key"),
-                        new TreeViewItem("thomasItem12", "thomasItem12Key") }
-                    )) })),
-                new TreeViewItem("brian", "brianKey", new List<TreeViewItem>(new [] {
-                    new TreeViewItem("brianItem1", "brianItem1Key")}))});
+			Assert.IsNull(exception);
+		}
 
-            List<TreeViewItem> itemsOnDepth0 = new List<TreeViewItem>(treeView.GetItems(0));
-            Assert.AreEqual(2, itemsOnDepth0.Count);
+		[TestMethod]
+		public void FindTreeViewItem()
+		{
+			TreeView treeView = new TreeView(new[] {
+				new TreeViewItem("thomas", "thomasKey", new List<TreeViewItem>(new [] {
+					new TreeViewItem("thomasItem1", "thomasItem1Key", new List<TreeViewItem>(new [] {
+						new TreeViewItem("thomasItem11", "thomasItem11Key"),
+						new TreeViewItem("thomasItem12", "thomasItem12Key") }
+					)) })),
+				new TreeViewItem("brian", "brianKey", new List<TreeViewItem>(new [] {
+					new TreeViewItem("brianItem1", "brianItem1Key")}))});
 
-            List<TreeViewItem> itemsOnDepth1 = new List<TreeViewItem>(treeView.GetItems(1));
-            Assert.AreEqual(2, itemsOnDepth1.Count);
+			TreeViewItem brianItem1;
+			bool brianItem1Found = treeView.TryFindTreeViewItem("brianItem1Key", out brianItem1);
+			Assert.IsNotNull(brianItem1);
+			Assert.IsTrue(brianItem1Found);
 
-            List<TreeViewItem> itemsOnDepth2 = new List<TreeViewItem>(treeView.GetItems(2));
-            Assert.AreEqual(2, itemsOnDepth2.Count);
+			TreeViewItem thomasItem12;
+			bool thomasItem12Found = treeView.TryFindTreeViewItem("thomasItem12Key", out thomasItem12);
+			Assert.IsNotNull(thomasItem12);
+			Assert.IsTrue(thomasItem12Found);
 
-            List<TreeViewItem> itemsOnDepth3 = new List<TreeViewItem>(treeView.GetItems(3));
-            Assert.AreEqual(0, itemsOnDepth3.Count);
-        }
+			TreeViewItem thomasItem1;
+			bool thomasItem1Found = treeView.TryFindTreeViewItem("thomasItem1Key", out thomasItem1);
+			Assert.IsNotNull(thomasItem1);
+			Assert.IsTrue(thomasItem1Found);
 
-        [TestMethod]
-        public void TreeViewParameterlessConstructor()
-        {
-            // Create TreeView without items
-            TreeView treeView = new TreeView();
-            Assert.IsNotNull(treeView);
-            Assert.IsNotNull(treeView.Items);
-            Assert.AreEqual(0, treeView.Items.Count());
+			TreeViewItem thomasItem;
+			bool thomasItemFound = treeView.TryFindTreeViewItem("thomasKey", out thomasItem);
+			Assert.IsNotNull(thomasItem);
+			Assert.IsTrue(thomasItemFound);
 
-            // Verify items can be set later
-            treeView.Items = new[] {
-                new TreeViewItem("item1", "key1"),
-                new TreeViewItem("item2", "key2")
-            };
+			TreeViewItem randomItem;
+			bool randomItemFound = treeView.TryFindTreeViewItem("randomItemKey", out randomItem);
+			Assert.IsNull(randomItem);
+			Assert.IsFalse(randomItemFound);
+		}
 
-            Assert.AreEqual(2, treeView.Items.Count());
-            
-            TreeViewItem item1;
-            bool item1Found = treeView.TryFindTreeViewItem("key1", out item1);
-            Assert.IsTrue(item1Found);
-            Assert.IsNotNull(item1);
+		[TestMethod]
+		public void FindTreeViewItemDepth()
+		{
+			TreeView treeView = new TreeView(new[] {
+				new TreeViewItem("thomas", "thomasKey", new List<TreeViewItem>(new [] {
+					new TreeViewItem("thomasItem1", "thomasItem1Key", new List<TreeViewItem>(new [] {
+						new TreeViewItem("thomasItem11", "thomasItem11Key"),
+						new TreeViewItem("thomasItem12", "thomasItem12Key") }
+					)) })),
+				new TreeViewItem("brian", "brianKey", new List<TreeViewItem>(new [] {
+					new TreeViewItem("brianItem1", "brianItem1Key")}))});
 
-            TreeViewItem item2;
-            bool item2Found = treeView.TryFindTreeViewItem("key2", out item2);
-            Assert.IsTrue(item2Found);
-            Assert.IsNotNull(item2);
-        }
-    }
+			List<TreeViewItem> itemsOnDepth0 = new List<TreeViewItem>(treeView.GetItems(0));
+			Assert.AreEqual(2, itemsOnDepth0.Count);
 
-    public class TestSection : Section
-    {
-    }
+			List<TreeViewItem> itemsOnDepth1 = new List<TreeViewItem>(treeView.GetItems(1));
+			Assert.AreEqual(2, itemsOnDepth1.Count);
+
+			List<TreeViewItem> itemsOnDepth2 = new List<TreeViewItem>(treeView.GetItems(2));
+			Assert.AreEqual(2, itemsOnDepth2.Count);
+
+			List<TreeViewItem> itemsOnDepth3 = new List<TreeViewItem>(treeView.GetItems(3));
+			Assert.AreEqual(0, itemsOnDepth3.Count);
+		}
+
+		[TestMethod]
+		public void TreeViewParameterlessConstructor()
+		{
+			// Create TreeView without items
+			TreeView treeView = new TreeView();
+			Assert.IsNotNull(treeView);
+			Assert.IsNotNull(treeView.Items);
+			Assert.AreEqual(0, treeView.Items.Count());
+
+			// Verify items can be set later
+			treeView.Items = new[] {
+				new TreeViewItem("item1", "key1"),
+				new TreeViewItem("item2", "key2")
+			};
+
+			Assert.AreEqual(2, treeView.Items.Count());
+
+			TreeViewItem item1;
+			bool item1Found = treeView.TryFindTreeViewItem("key1", out item1);
+			Assert.IsTrue(item1Found);
+			Assert.IsNotNull(item1);
+
+			TreeViewItem item2;
+			bool item2Found = treeView.TryFindTreeViewItem("key2", out item2);
+			Assert.IsTrue(item2Found);
+			Assert.IsNotNull(item2);
+		}
+	}
+
+	public class TestSection : Section
+	{
+	}
 }

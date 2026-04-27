@@ -52,6 +52,11 @@
 			return rawValueMapping.GetRawValue(option);
 		}
 
+		internal bool TryGetRawValue(Option<T> option, out string rawValue)
+		{
+			return rawValueMapping.TryGetRawValue(option, out rawValue);
+		}
+
 		public void CopyTo(Option<T>[] array, int arrayIndex)
 		{
 			if (array == null) throw new ArgumentNullException("array");
