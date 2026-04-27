@@ -12,6 +12,8 @@
 	public class RadioButtonList : RadioButtonListBase, IRadioButtonList
 	{
 		private readonly HashSet<string> options = new HashSet<string>();
+		private readonly RawValueMapping<string> rawValueMapping = new RawValueMapping<string>();
+
 		private bool changed;
 		private string previous;
 
@@ -97,7 +99,9 @@
 			if (!options.Contains(option))
 			{
 				options.Add(option);
-				BlockDefinition.AddCheckBoxListOption(option);
+				rawValueMapping.Add(option, option);
+
+				BlockDefinition.AddRadioButtonListOption(rawValueMapping.GetRawValue(option), option);
 			}
 		}
 
@@ -112,10 +116,12 @@
 
 			if (options.Remove(option))
 			{
+				rawValueMapping.Remove(option);
+
 				RecreateUiBlock();
 				foreach (string optionToAdd in options)
 				{
-					BlockDefinition.AddCheckBoxListOption(optionToAdd);
+					BlockDefinition.AddRadioButtonListOption(rawValueMapping.GetRawValue(optionToAdd), optionToAdd);
 				}
 
 				if (Selected == option)
@@ -179,18 +185,27 @@
 		protected internal override void LoadResult(IUIResults uiResults, ILogger logger = null)
 		{
 			string result = uiResults.GetString(this);
-
-			logger?.Debug(nameof(RadioButtonList), nameof(LoadResult), result);
+			logger?.Debug(nameof(RadioButtonList), nameof(LoadResult), $"Raw result: {result}");
 
 			if (String.IsNullOrWhiteSpace(result))
 			{
 				return;
 			}
 
-			string[] checkedOptions = result.Split(';');
-			foreach (string checkedOption in checkedOptions)
+			string[] rawCheckedOptions = result.Split(';');
+			foreach (string rawCheckedOption in rawCheckedOptions)
 			{
-				if (!String.IsNullOrEmpty(checkedOption) && (checkedOption != Selected))
+				if (String.IsNullOrEmpty(rawCheckedOption))
+				{
+					continue;
+				}
+
+				if (!rawValueMapping.TryGetByRawValue(rawCheckedOption, out var checkedOption))
+				{
+					continue;
+				}
+
+				if (checkedOption != Selected)
 				{
 					previous = Selected;
 					Selected = checkedOption;
@@ -215,6 +230,7 @@
 		private void ClearOptions()
 		{
 			options.Clear();
+			rawValueMapping.Clear();
 			RecreateUiBlock();
 		}
 

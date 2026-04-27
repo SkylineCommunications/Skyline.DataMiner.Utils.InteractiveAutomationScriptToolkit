@@ -37,7 +37,8 @@
 		/// <param name="options">Values that can be selected, every value is visualized in the radiobuttonlist by its <see cref="Object.ToString()"/> counterpart.</param>
 		/// <param name="selected">Default selected value.</param>
 		/// <exception cref="ArgumentNullException">When options is null.</exception>
-		public RadioButtonList(IEnumerable<T> options, T selected) : this(options.Select(x => new Option<T>(x)), new Option<T>(selected))
+		public RadioButtonList(IEnumerable<T> options, T selected)
+			: this(options.Select(x => new Option<T>(x)), selected != null ? new Option<T>(selected) : null)
 		{
 		}
 
@@ -161,7 +162,7 @@
 			if (!radioButtonListOptions.Contains(option))
 			{
 				radioButtonListOptions.Add(option);
-				BlockDefinition.AddCheckBoxListOption(option.DisplayValue);
+				BlockDefinition.AddRadioButtonListOption(radioButtonListOptions.GetRawValue(option), option.DisplayValue);
 			}
 		}
 
@@ -190,7 +191,7 @@
 				RecreateUiBlock();
 				foreach (var optionToAdd in radioButtonListOptions)
 				{
-					BlockDefinition.AddCheckBoxListOption(optionToAdd.DisplayValue);
+					BlockDefinition.AddRadioButtonListOption(radioButtonListOptions.GetRawValue(optionToAdd), optionToAdd.DisplayValue);
 				}
 
 				if (currentSelectedOption == option)
@@ -286,30 +287,42 @@
 			return false;
 		}
 
+		internal string GetRawValue(Option<T> option)
+		{
+			return radioButtonListOptions.GetRawValue(option);
+		}
+
 		/// <inheritdoc	/>
 		protected internal override void LoadResult(IUIResults uiResults, ILogger logger = null)
 		{
 			string result = uiResults.GetString(this);
-
-			logger?.Debug(nameof(RadioButtonList), nameof(LoadResult), $"Selected value: {result}");
+			logger?.Debug(nameof(RadioButtonList), nameof(LoadResult), $"Raw result: {result}");
 
 			if (String.IsNullOrWhiteSpace(result))
 			{
 				return;
 			}
 
-			string[] checkedOptions = result.Split(';');
-			foreach (string checkedOption in checkedOptions)
+			string[] rawCheckedOptions = result.Split(';');
+			foreach (string rawCheckedOption in rawCheckedOptions)
 			{
-				if (String.IsNullOrEmpty(checkedOption)) continue;
-				if (String.Equals(checkedOption, SelectedOption?.DisplayValue)) continue;
+				if (String.IsNullOrEmpty(rawCheckedOption))
+				{
+					continue;
+				}
 
-				var selectedOption = radioButtonListOptions.FirstOrDefault(x => x.DisplayValue.Equals(checkedOption));
+				if (!radioButtonListOptions.TryGetByRawValue(rawCheckedOption, out var checkedOption))
+				{
+					continue;
+				}
 
-				previous = SelectedOption;
-				SelectedOption = selectedOption;
-				changed = true;
-				break;
+				if (checkedOption != SelectedOption)
+				{
+					previous = SelectedOption;
+					SelectedOption = checkedOption;
+					changed = true;
+					break;
+				}
 			}
 		}
 
