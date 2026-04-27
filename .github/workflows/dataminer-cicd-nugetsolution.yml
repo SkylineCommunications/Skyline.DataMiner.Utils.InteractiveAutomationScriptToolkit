@@ -28,4 +28,4 @@ jobs:
       sonarcloud-project-name: SkylineCommunications_Skyline.DataMiner.Utils.InteractiveAutomationScriptToolkit
       runs-on: windows-latest
     secrets:
-      nugetApiKey: ${{ secrets.NUGETAPIKEY }}
+      NUGET_API_KEY: ${{ secrets.NUGETAPIKEY }}
