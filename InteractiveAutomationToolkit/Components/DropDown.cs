@@ -3,7 +3,9 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+
 	using Microsoft.Extensions.Logging;
+
 	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Extensions;
 
 	/// <summary>
@@ -12,6 +14,8 @@
 	public class DropDown : DropDownBase, IDropDown
 	{
 		private readonly HashSet<string> options = new HashSet<string>();
+		private readonly RawValueMapping<string> rawValueMapping = new RawValueMapping<string>();
+
 		private bool changed;
 		private string previous;
 		private string cachedSelectedValue;
@@ -102,7 +106,9 @@
 			if (!options.Contains(option))
 			{
 				options.Add(option);
-				BlockDefinition.AddDropDownOption(option);
+				rawValueMapping.Add(option, option);
+
+				BlockDefinition.AddDropDownOption(rawValueMapping.GetRawValue(option), option);
 			}
 		}
 
@@ -138,10 +144,13 @@
 
 			if (options.Remove(option))
 			{
+				rawValueMapping.Remove(option);
+
 				RecreateUiBlock();
 				foreach (string optionToAdd in options)
 				{
-					BlockDefinition.AddDropDownOption(optionToAdd);
+					BlockDefinition.AddDropDownOption(rawValueMapping.GetRawValue(optionToAdd), optionToAdd);
+
 				}
 
 				if (Selected == option)
@@ -156,7 +165,13 @@
 		{
 			base.LoadResult(uiResults, logger);
 
-			string selectedValue = uiResults.GetString(this);
+			var rawSelectedValue = uiResults.GetString(this);
+			logger?.Debug(nameof(DropDown), nameof(LoadResult), $"Raw selected value: {rawSelectedValue}");
+
+			if (!rawValueMapping.TryGetByRawValue(rawSelectedValue, out var selectedValue))
+			{
+				return;
+			}
 
 			logger?.Debug(nameof(DropDown), nameof(LoadResult), $"Selected value: {selectedValue}");
 
@@ -186,6 +201,7 @@
 		private void ClearOptions()
 		{
 			options.Clear();
+			rawValueMapping.Clear();
 			RecreateUiBlock();
 		}
 
