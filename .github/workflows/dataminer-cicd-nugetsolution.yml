@@ -25,7 +25,7 @@ jobs:
   CICD:
     uses: SkylineCommunications/_ReusableWorkflows/.github/workflows/Master Workflow.yml@main
     with:
-      sonarCloudProjectName: SkylineCommunications_Skyline.DataMiner.Utils.InteractiveAutomationScriptToolkit
+      sonarcloud-project-name: SkylineCommunications_Skyline.DataMiner.Utils.InteractiveAutomationScriptToolkit
       runs-on: windows-latest
     secrets:
       nugetApiKey: ${{ secrets.NUGETAPIKEY }}
