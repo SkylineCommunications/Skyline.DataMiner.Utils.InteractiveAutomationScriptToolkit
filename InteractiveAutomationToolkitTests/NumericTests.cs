@@ -1,9 +1,12 @@
 ﻿namespace InteractiveAutomationToolkitTests
 {
-	using Microsoft.VisualStudio.TestTools.UnitTesting;
-	using Moq;
-	using Skyline.DataMiner.Utils.InteractiveAutomationScript;
 	using System.Collections.Generic;
+
+	using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+	using Moq;
+
+	using Skyline.DataMiner.Utils.InteractiveAutomationScript;
 
 	[TestClass]
 	public class NumericTests
