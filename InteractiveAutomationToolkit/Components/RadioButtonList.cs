@@ -3,7 +3,9 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+
 	using Microsoft.Extensions.Logging;
+
 	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Extensions;
 
 	/// <summary>
@@ -78,12 +80,19 @@
 		{
 			get
 			{
-				return BlockDefinition.InitialValue;
+				return rawValueMapping.TryGetByRawValue(BlockDefinition.InitialValue, out var value) ? value : null;
 			}
 
 			set
 			{
-				BlockDefinition.InitialValue = value;
+				if (value == null)
+				{
+					BlockDefinition.InitialValue = null;
+				}
+				else
+				{
+					BlockDefinition.InitialValue = rawValueMapping.TryGetRawValue(value, out var rawValue) ? rawValue : null;
+				}
 			}
 		}
 

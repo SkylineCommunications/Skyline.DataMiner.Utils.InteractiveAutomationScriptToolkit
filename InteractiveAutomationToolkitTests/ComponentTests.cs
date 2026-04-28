@@ -59,6 +59,184 @@
 		}
 
 		[TestMethod]
+		public void GenericDropDown_HandlePipeChar()
+		{
+			DropDown<string> dropDown = new DropDown<string>(new[] { "- None -", "|", "||", "|||", "||||" });
+			Assert.AreEqual("- None -", dropDown.Selected);
+			Assert.AreEqual("-None-", dropDown.BlockDefinition.InitialValue);
+
+			dropDown.Selected = "|";
+			Assert.AreEqual("|", dropDown.Selected);
+			Assert.AreEqual("-", dropDown.BlockDefinition.InitialValue);
+
+			dropDown.Selected = "||";
+			Assert.AreEqual("||", dropDown.Selected);
+			Assert.AreEqual("--1", dropDown.BlockDefinition.InitialValue);
+
+			dropDown.Selected = "|||";
+			Assert.AreEqual("|||", dropDown.Selected);
+			Assert.AreEqual("--2", dropDown.BlockDefinition.InitialValue);
+
+			dropDown.Selected = "||||";
+			Assert.AreEqual("||||", dropDown.Selected);
+			Assert.AreEqual("--3", dropDown.BlockDefinition.InitialValue);
+		}
+
+		private enum Options
+		{
+			[System.ComponentModel.Description("- None -")]
+			None,
+			[System.ComponentModel.Description("|")]
+			SinglePipe,
+			[System.ComponentModel.Description("||")]
+			DoublePipe,
+			[System.ComponentModel.Description("|||")]
+			TriplePipe,
+			[System.ComponentModel.Description("||||")]
+			QuadruplePipe
+		};
+
+		[TestMethod]
+		public void EnumDropDown_HandlePipeChar()
+		{
+			EnumDropDown<Options> dropDown = new EnumDropDown<Options>();
+			Assert.AreEqual(Options.None, dropDown.Selected);
+			Assert.AreEqual("-None-", dropDown.BlockDefinition.InitialValue);
+
+			dropDown.Selected = Options.SinglePipe;
+			Assert.AreEqual(Options.SinglePipe, dropDown.Selected);
+			Assert.AreEqual("-", dropDown.BlockDefinition.InitialValue);
+
+			dropDown.Selected = Options.DoublePipe;
+			Assert.AreEqual(Options.DoublePipe, dropDown.Selected);
+			Assert.AreEqual("--1", dropDown.BlockDefinition.InitialValue);
+
+			dropDown.Selected = Options.TriplePipe;
+			Assert.AreEqual(Options.TriplePipe, dropDown.Selected);
+			Assert.AreEqual("--2", dropDown.BlockDefinition.InitialValue);
+
+			dropDown.Selected = Options.QuadruplePipe;
+			Assert.AreEqual(Options.QuadruplePipe, dropDown.Selected);
+			Assert.AreEqual("--3", dropDown.BlockDefinition.InitialValue);
+		}
+
+		[TestMethod]
+		public void CheckBoxList_HandlePipeChar()
+		{
+			CheckBoxList checkBoxList = new CheckBoxList(new[] { "- None -", "|", "||", "|||", "||||" });
+
+			CollectionAssert.AreEquivalent(new string[] { }, checkBoxList.Checked.ToArray());
+			Assert.AreEqual(null, checkBoxList.BlockDefinition.InitialValue);
+
+			checkBoxList.Check("- None -");
+			Assert.AreEqual("- None -", checkBoxList.Checked.Single());
+			Assert.AreEqual("-None-", checkBoxList.BlockDefinition.InitialValue);
+
+			checkBoxList.Check("|");
+			CollectionAssert.AreEquivalent(new[] { "- None -", "|" }, checkBoxList.Checked.ToArray());
+			Assert.AreEqual("-None-;-", checkBoxList.BlockDefinition.InitialValue);
+
+			checkBoxList.Check("||");
+			CollectionAssert.AreEquivalent(new[] { "- None -", "|", "||" }, checkBoxList.Checked.ToArray());
+			Assert.AreEqual("-None-;-;--1", checkBoxList.BlockDefinition.InitialValue);
+
+			checkBoxList.Check("|||");
+			CollectionAssert.AreEquivalent(new[] { "- None -", "|", "||", "|||" }, checkBoxList.Checked.ToArray());
+			Assert.AreEqual("-None-;-;--1;--2", checkBoxList.BlockDefinition.InitialValue);
+
+			checkBoxList.Check("||||");
+			CollectionAssert.AreEquivalent(new[] { "- None -", "|", "||", "|||", "||||" }, checkBoxList.Checked.ToArray());
+			Assert.AreEqual("-None-;-;--1;--2;--3", checkBoxList.BlockDefinition.InitialValue);
+		}
+
+		[TestMethod]
+		public void GenericCheckBoxList_HandlePipeChar()
+		{
+			CheckBoxList<string> checkBoxList = new CheckBoxList<string>(new[] { "- None -", "|", "||", "|||", "||||" });
+
+			CollectionAssert.AreEquivalent(new string[] { }, checkBoxList.Checked.ToArray());
+			Assert.AreEqual(null, checkBoxList.BlockDefinition.InitialValue);
+
+			checkBoxList.Check("- None -");
+			Assert.AreEqual("- None -", checkBoxList.Checked.Single());
+			Assert.AreEqual("-None-", checkBoxList.BlockDefinition.InitialValue);
+
+			checkBoxList.Check("|");
+			CollectionAssert.AreEquivalent(new[] { "- None -", "|" }, checkBoxList.Checked.ToArray());
+			Assert.AreEqual("-None-;-", checkBoxList.BlockDefinition.InitialValue);
+
+			checkBoxList.Check("||");
+			CollectionAssert.AreEquivalent(new[] { "- None -", "|", "||" }, checkBoxList.Checked.ToArray());
+			Assert.AreEqual("-None-;-;--1", checkBoxList.BlockDefinition.InitialValue);
+
+			checkBoxList.Check("|||");
+			CollectionAssert.AreEquivalent(new[] { "- None -", "|", "||", "|||" }, checkBoxList.Checked.ToArray());
+			Assert.AreEqual("-None-;-;--1;--2", checkBoxList.BlockDefinition.InitialValue);
+
+			checkBoxList.Check("||||");
+			CollectionAssert.AreEquivalent(new[] { "- None -", "|", "||", "|||", "||||" }, checkBoxList.Checked.ToArray());
+			Assert.AreEqual("-None-;-;--1;--2;--3", checkBoxList.BlockDefinition.InitialValue);
+		}
+
+		[TestMethod]
+		public void RadioButtonList_HandlePipeChar()
+		{
+			RadioButtonList radioButtonList = new RadioButtonList(new[] { "- None -", "|", "||", "|||", "||||" });
+
+			Assert.AreEqual(null, radioButtonList.Selected);
+			Assert.AreEqual(null, radioButtonList.BlockDefinition.InitialValue);
+
+			radioButtonList.Selected = "- None -";
+			Assert.AreEqual("- None -", radioButtonList.Selected);
+			Assert.AreEqual("-None-", radioButtonList.BlockDefinition.InitialValue);
+
+			radioButtonList.Selected = "|";
+			Assert.AreEqual("|", radioButtonList.Selected);
+			Assert.AreEqual("-", radioButtonList.BlockDefinition.InitialValue);
+
+			radioButtonList.Selected = "||";
+			Assert.AreEqual("||", radioButtonList.Selected);
+			Assert.AreEqual("--1", radioButtonList.BlockDefinition.InitialValue);
+
+			radioButtonList.Selected = "|||";
+			Assert.AreEqual("|||", radioButtonList.Selected);
+			Assert.AreEqual("--2", radioButtonList.BlockDefinition.InitialValue);
+
+			radioButtonList.Selected = "||||";
+			Assert.AreEqual("||||", radioButtonList.Selected);
+			Assert.AreEqual("--3", radioButtonList.BlockDefinition.InitialValue);
+		}
+
+		[TestMethod]
+		public void GenericRadioButtonList_HandlePipeChar()
+		{
+			RadioButtonList<string> radioButtonList = new RadioButtonList<string>(new[] { "- None -", "|", "||", "|||", "||||" });
+
+			Assert.AreEqual(null, radioButtonList.Selected);
+			Assert.AreEqual(null, radioButtonList.BlockDefinition.InitialValue);
+
+			radioButtonList.Selected = "- None -";
+			Assert.AreEqual("- None -", radioButtonList.Selected);
+			Assert.AreEqual("-None-", radioButtonList.BlockDefinition.InitialValue);
+
+			radioButtonList.Selected = "|";
+			Assert.AreEqual("|", radioButtonList.Selected);
+			Assert.AreEqual("-", radioButtonList.BlockDefinition.InitialValue);
+
+			radioButtonList.Selected = "||";
+			Assert.AreEqual("||", radioButtonList.Selected);
+			Assert.AreEqual("--1", radioButtonList.BlockDefinition.InitialValue);
+
+			radioButtonList.Selected = "|||";
+			Assert.AreEqual("|||", radioButtonList.Selected);
+			Assert.AreEqual("--2", radioButtonList.BlockDefinition.InitialValue);
+
+			radioButtonList.Selected = "||||";
+			Assert.AreEqual("||||", radioButtonList.Selected);
+			Assert.AreEqual("--3", radioButtonList.BlockDefinition.InitialValue);
+		}
+
+		[TestMethod]
 		public void TestWidgetMargins()
 		{
 			Button button = new Button("Button");
