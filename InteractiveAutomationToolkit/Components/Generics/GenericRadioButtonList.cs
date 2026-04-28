@@ -119,7 +119,7 @@
 		{
 			get
 			{
-				return radioButtonListOptions.FirstOrDefault(x => radioButtonListOptions.TryGetRawValue(x, out var rawValue) && rawValue.Equals(BlockDefinition.InitialValue));
+				return radioButtonListOptions.TryGetByRawValue(BlockDefinition.InitialValue, out var option) ? option : null;
 			}
 
 			set
