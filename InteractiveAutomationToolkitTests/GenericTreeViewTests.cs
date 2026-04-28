@@ -1,6 +1,8 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skyline.DataMiner.Utils.InteractiveAutomationScript;
 using System.Linq;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using Skyline.DataMiner.Utils.InteractiveAutomationScript;
 
 using static Skyline.DataMiner.Net.AutomationUI.Objects.TreeViewItem;
 

@@ -3,7 +3,9 @@
 	using System;
 	using System.Globalization;
 	using System.Linq;
+
 	using Microsoft.Extensions.Logging;
+
 	using Skyline.DataMiner.Automation;
 	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Extensions;
 

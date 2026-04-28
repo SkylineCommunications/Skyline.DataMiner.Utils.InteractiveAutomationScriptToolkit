@@ -3,7 +3,9 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+
 	using Microsoft.Extensions.Logging;
+
 	using Skyline.DataMiner.Net.AutomationUI.Objects;
 	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Extensions;
 

@@ -1,6 +1,7 @@
 ﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 {
 	using System;
+
 	using Skyline.DataMiner.Automation;
 
 	public abstract class RadioButtonListBase : InteractiveWidget, IRadioButtonListBase

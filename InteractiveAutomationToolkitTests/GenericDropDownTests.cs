@@ -1,8 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using Skyline.DataMiner.Utils.InteractiveAutomationScript;
-using System;
+﻿using System;
 using System.Linq;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using Moq;
+
+using Skyline.DataMiner.Utils.InteractiveAutomationScript;
 
 namespace InteractiveAutomationToolkitTests
 {
