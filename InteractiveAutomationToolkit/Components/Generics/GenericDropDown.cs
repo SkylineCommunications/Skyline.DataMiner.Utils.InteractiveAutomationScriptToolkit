@@ -115,7 +115,7 @@
 		{
 			get
 			{
-				return dropDownOptions.FirstOrDefault(x => dropDownOptions.TryGetRawValue(x, out var rawValue) && rawValue.Equals(BlockDefinition.InitialValue));
+				return dropDownOptions.TryGetByRawValue(BlockDefinition.InitialValue, out var option) ? option : null;
 			}
 
 			set
