@@ -125,8 +125,6 @@
 
 			if (options.Remove(option))
 			{
-				rawValueMapping.Remove(option);
-
 				RecreateUiBlock();
 				foreach (string optionToAdd in options)
 				{
@@ -137,6 +135,8 @@
 				{
 					Selected = options.FirstOrDefault();
 				}
+
+				rawValueMapping.Remove(option);
 			}
 		}
 

@@ -16,7 +16,6 @@
 		private readonly OptionCollection<T> dropDownOptions = new OptionCollection<T>();
 		private bool changed;
 		private Option<T> previous;
-		private Option<T> cachedSelectedOption;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="DropDown" /> class.

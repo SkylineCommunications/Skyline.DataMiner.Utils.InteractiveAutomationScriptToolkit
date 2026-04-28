@@ -94,7 +94,7 @@
 			TriplePipe,
 			[System.ComponentModel.Description("||||")]
 			QuadruplePipe
-		};
+		}
 
 		[TestMethod]
 		public void EnumDropDown_HandlePipeChar()
