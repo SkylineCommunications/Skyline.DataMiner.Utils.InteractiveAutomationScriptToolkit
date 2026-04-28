@@ -16,6 +16,7 @@
 		private readonly OptionCollection<T> dropDownOptions = new OptionCollection<T>();
 		private bool changed;
 		private Option<T> previous;
+		private Option<T> cachedSelectedOption;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="DropDown" /> class.
@@ -277,6 +278,25 @@
 		{
 			dropDownOptions.Clear();
 			RecreateUiBlock();
+		}
+
+		protected internal override void CacheSelectedValue(ILogger logger = null)
+		{
+			logger?.Debug(nameof(DropDown), nameof(CacheSelectedValue), $"Caching selected option '{SelectedOption}'.");
+			cachedSelectedOption = SelectedOption;
+		}
+
+		protected internal override void RestoreCachedSelectedValue(ILogger logger = null)
+		{
+			if (cachedSelectedOption == null)
+				return;
+
+			logger?.Debug(nameof(DropDown), nameof(RestoreCachedSelectedValue), $"Restoring cached selected option '{cachedSelectedOption}'.");
+
+			AddOption(cachedSelectedOption);
+			SelectedOption = cachedSelectedOption;
+
+			cachedSelectedOption = null;
 		}
 
 		/// <summary>

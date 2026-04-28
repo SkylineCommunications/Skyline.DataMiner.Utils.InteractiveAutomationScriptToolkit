@@ -15,6 +15,7 @@
 	{
 		private readonly HashSet<string> options = new HashSet<string>();
 		private readonly RawValueMapping<string> rawValueMapping = new RawValueMapping<string>();
+		private string cachedSelectedValue;
 
 		private bool changed;
 		private string previous;
@@ -208,6 +209,25 @@
 			options.Clear();
 			rawValueMapping.Clear();
 			RecreateUiBlock();
+		}
+
+		protected internal override void CacheSelectedValue(ILogger logger = null)
+		{
+			logger?.Debug(nameof(DropDown), nameof(CacheSelectedValue), $"Caching selected value '{Selected}'.");
+			cachedSelectedValue = Selected;
+		}
+
+		protected internal override void RestoreCachedSelectedValue(ILogger logger = null)
+		{
+			if (cachedSelectedValue == null)
+				return;
+
+			logger?.Debug(nameof(DropDown), nameof(RestoreCachedSelectedValue), $"Restoring cached selected option '{cachedSelectedValue}'.");
+
+			AddOption(cachedSelectedValue);
+			Selected = cachedSelectedValue;
+
+			cachedSelectedValue = null;
 		}
 
 		/// <summary>
