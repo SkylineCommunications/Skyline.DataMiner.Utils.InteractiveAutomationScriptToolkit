@@ -243,6 +243,8 @@
 		/// <inheritdoc	/>
 		protected internal override void LoadResult(IUIResults uiResults, ILogger logger = null)
 		{
+			base.LoadResult(uiResults, logger);
+
 			var rawSelectedValue = uiResults.GetString(this);
 			logger?.Debug(nameof(DropDown), nameof(LoadResult), $"Raw selected value: {rawSelectedValue}");
 
@@ -265,6 +267,8 @@
 		/// <inheritdoc	/>
 		protected internal override void RaiseResultEvents(ILogger logger = null)
 		{
+			base.RaiseResultEvents(logger);
+
 			if (changed)
 			{
 				logger?.Debug(nameof(DropDown), nameof(RaiseResultEvents), $"OnChange; Selected changed from {previous?.DisplayValue} to {SelectedOption.DisplayValue}");
