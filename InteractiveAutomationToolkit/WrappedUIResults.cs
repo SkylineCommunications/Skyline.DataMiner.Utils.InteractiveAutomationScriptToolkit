@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Runtime.InteropServices;
+
 	using Skyline.DataMiner.Automation;
 
 	/// <summary>
@@ -101,15 +102,6 @@
 		/// <inheritdoc/>
 		/// </summary>
 		[return: MarshalAs(UnmanagedType.U1)]
-		public bool WasOnFilter(string key)
-		{
-			return results.WasOnFilter(key);
-		}
-
-		/// <summary>
-		/// <inheritdoc/>
-		/// </summary>
-		[return: MarshalAs(UnmanagedType.U1)]
 		public bool GetChecked(string key)
 		{
 			return results.GetChecked(key);
@@ -154,14 +146,6 @@
 		public DateTimeOffset GetClientDateTime(string key)
 		{
 			return results.GetClientDateTime(key);
-		}
-
-		/// <summary>
-		/// <inheritdoc/>
-		/// </summary>
-		public string GetFilterString(string key)
-		{
-			return results.GetFilterString(key);
 		}
 	}
 }

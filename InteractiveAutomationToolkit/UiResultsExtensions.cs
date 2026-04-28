@@ -131,11 +131,6 @@
 			return uiResults.WasOnFocusLost(interactiveWidget.DestVar);
 		}
 
-		public static bool WasOnFilter(this IUIResults uIResults, DropDownBase dropDown)
-		{
-			return uIResults.WasOnFilter(dropDown.DestVar);
-		}
-
 		/// <summary>
 		/// Gets the value of a time widget according to the UI results.
 		/// </summary>
@@ -248,11 +243,6 @@
 		public static DateTimeOffset GetClientDateTime(this IUIResults uiResults, DateTimePicker dateTimePicker)
 		{
 			return uiResults.GetClientDateTime(dateTimePicker.DestVar);
-		}
-
-		public static string GetFilterString(this IUIResults uIResults, DropDownBase dropDown)
-		{
-			return uIResults.GetFilterString(dropDown.DestVar);
 		}
 	}
 }

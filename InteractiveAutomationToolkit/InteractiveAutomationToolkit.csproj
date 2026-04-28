@@ -15,10 +15,10 @@
 		<PackageProjectUrl>https://skyline.be/</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/SkylineCommunications/Skyline.DataMiner.Utils.InteractiveAutomationScriptToolkit</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<Description>Quickly develop Interactive Automation Scripts in DataMiner 10.5.8 and up.</Description>
+		<Description>Quickly develop Interactive Automation Scripts in DataMiner 10.5.5 and up.</Description>
 		<PackageIcon>Icon.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<Version>10.5.8.101</Version>
+		<Version>10.5.5.4</Version>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="..\README.md" Pack="true" PackagePath="" />
@@ -31,7 +31,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
-		<PackageReference Include="Skyline.DataMiner.Dev.Automation" Version="10.5.8.1" />
+		<PackageReference Include="Skyline.DataMiner.Dev.Automation" Version="10.5.5.2" />
 	</ItemGroup>
 	<Target Name="CopyNuGetPackage" AfterTargets="Pack" Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
 		<Copy SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="C:\Skyline_Data\MyNugets\" />
