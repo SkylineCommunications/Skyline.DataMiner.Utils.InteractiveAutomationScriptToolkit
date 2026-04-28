@@ -6,7 +6,6 @@
 
 	using Microsoft.Extensions.Logging;
 
-	using Skyline.DataMiner.Analytics.GenericInterface;
 	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Extensions;
 
 	/// <summary>
