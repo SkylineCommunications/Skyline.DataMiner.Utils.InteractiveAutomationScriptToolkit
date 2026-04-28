@@ -100,7 +100,7 @@
 				}
 				else
 				{
-					throw new ArgumentException("The selected value is not defined as an option.", "value");
+					throw new ArgumentException("The selected value is not defined as an option.", nameof(value));
 				}
 			}
 		}
