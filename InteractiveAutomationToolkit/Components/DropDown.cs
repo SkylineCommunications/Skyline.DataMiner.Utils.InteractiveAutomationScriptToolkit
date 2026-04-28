@@ -18,7 +18,6 @@
 
 		private bool changed;
 		private string previous;
-		private string cachedSelectedValue;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="DropDown" /> class.
