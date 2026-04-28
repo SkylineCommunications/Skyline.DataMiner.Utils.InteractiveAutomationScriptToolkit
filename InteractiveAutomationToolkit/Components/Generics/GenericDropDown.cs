@@ -3,7 +3,9 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+
 	using Microsoft.Extensions.Logging;
+
 	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Extensions;
 
 	/// <summary>
@@ -113,7 +115,7 @@
 		{
 			get
 			{
-				return dropDownOptions.FirstOrDefault(x => x.DisplayValue.Equals(BlockDefinition.InitialValue));
+				return dropDownOptions.TryGetByRawValue(BlockDefinition.InitialValue, out var option) ? option : null;
 			}
 
 			set
@@ -125,7 +127,7 @@
 				}
 
 				if (!dropDownOptions.Contains(value)) throw new ArgumentException($"Value is not defined as an option");
-				BlockDefinition.InitialValue = value.DisplayValue;
+				BlockDefinition.InitialValue = dropDownOptions.GetRawValue(value);
 			}
 		}
 
