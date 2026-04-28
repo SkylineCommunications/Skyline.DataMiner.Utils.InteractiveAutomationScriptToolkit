@@ -3,7 +3,9 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+
 	using Microsoft.Extensions.Logging;
+
 	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Extensions;
 
 	/// <summary>
@@ -117,7 +119,7 @@
 		{
 			get
 			{
-				return radioButtonListOptions.FirstOrDefault(x => x.DisplayValue.Equals(BlockDefinition.InitialValue));
+				return radioButtonListOptions.TryGetByRawValue(BlockDefinition.InitialValue, out var option) ? option : null;
 			}
 
 			set
@@ -129,7 +131,7 @@
 				}
 
 				if (!radioButtonListOptions.Contains(value)) throw new ArgumentException($"Value is not defined as an option");
-				BlockDefinition.InitialValue = value.DisplayValue;
+				BlockDefinition.InitialValue = radioButtonListOptions.GetRawValue(value);
 			}
 		}
 
