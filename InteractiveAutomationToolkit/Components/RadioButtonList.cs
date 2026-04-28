@@ -89,9 +89,13 @@
 				{
 					BlockDefinition.InitialValue = null;
 				}
+				else if (rawValueMapping.TryGetRawValue(value, out var rawValue))
+				{
+					BlockDefinition.InitialValue = rawValue;
+				}
 				else
 				{
-					BlockDefinition.InitialValue = rawValueMapping.TryGetRawValue(value, out var rawValue) ? rawValue : null;
+					throw new ArgumentException("The selected value must be one of the available options.", nameof(value));
 				}
 			}
 		}
