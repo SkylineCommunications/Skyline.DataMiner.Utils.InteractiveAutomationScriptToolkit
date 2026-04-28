@@ -3,7 +3,9 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+
 	using Microsoft.Extensions.Logging;
+
 	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Extensions;
 
 	/// <summary>
@@ -159,7 +161,7 @@
 			{
 				rawValueMapping.Remove(option);
 				checkedState.Remove(option);
-				
+
 				RecreateUiBlock();
 				foreach (string optionToAdd in options)
 				{

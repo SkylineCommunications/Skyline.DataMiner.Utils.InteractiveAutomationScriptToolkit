@@ -15,10 +15,10 @@
 	{
 		private readonly HashSet<string> options = new HashSet<string>();
 		private readonly RawValueMapping<string> rawValueMapping = new RawValueMapping<string>();
+		private string cachedSelectedValue;
 
 		private bool changed;
 		private string previous;
-		private string cachedSelectedValue;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="DropDown" /> class.
@@ -85,12 +85,23 @@
 		{
 			get
 			{
-				return BlockDefinition.InitialValue;
+				return rawValueMapping.TryGetByRawValue(BlockDefinition.InitialValue, out var value) ? value : null;
 			}
 
 			set
 			{
-				BlockDefinition.InitialValue = value;
+				if (value == null)
+				{
+					BlockDefinition.InitialValue = null;
+				}
+				else if (rawValueMapping.TryGetRawValue(value, out var rawValue))
+				{
+					BlockDefinition.InitialValue = rawValue;
+				}
+				else
+				{
+					throw new ArgumentException("The selected value is not defined as an option.", nameof(value));
+				}
 			}
 		}
 
@@ -144,19 +155,18 @@
 
 			if (options.Remove(option))
 			{
-				rawValueMapping.Remove(option);
-
 				RecreateUiBlock();
 				foreach (string optionToAdd in options)
 				{
 					BlockDefinition.AddDropDownOption(rawValueMapping.GetRawValue(optionToAdd), optionToAdd);
-
 				}
 
 				if (Selected == option)
 				{
 					Selected = options.FirstOrDefault();
 				}
+
+				rawValueMapping.Remove(option);
 			}
 		}
 

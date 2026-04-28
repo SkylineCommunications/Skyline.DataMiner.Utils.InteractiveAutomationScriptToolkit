@@ -1,7 +1,9 @@
 ﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 {
 	using System;
+
 	using Microsoft.Extensions.Logging;
+
 	using Skyline.DataMiner.Automation;
 	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Extensions;
 

@@ -4,7 +4,9 @@
 	using System.Collections.Generic;
 	using System.ComponentModel;
 	using System.Linq;
+
 	using Microsoft.Extensions.Logging;
+
 	using Skyline.DataMiner.Automation;
 	using Skyline.DataMiner.Net.Exceptions;
 	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Extensions;

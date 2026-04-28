@@ -3,7 +3,9 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+
 	using Microsoft.Extensions.Logging;
+
 	using Skyline.DataMiner.Utils.InteractiveAutomationScript.Extensions;
 
 	/// <summary>
@@ -78,12 +80,23 @@
 		{
 			get
 			{
-				return BlockDefinition.InitialValue;
+				return rawValueMapping.TryGetByRawValue(BlockDefinition.InitialValue, out var value) ? value : null;
 			}
 
 			set
 			{
-				BlockDefinition.InitialValue = value;
+				if (value == null)
+				{
+					BlockDefinition.InitialValue = null;
+				}
+				else if (rawValueMapping.TryGetRawValue(value, out var rawValue))
+				{
+					BlockDefinition.InitialValue = rawValue;
+				}
+				else
+				{
+					throw new ArgumentException("The selected value must be one of the available options.", nameof(value));
+				}
 			}
 		}
 
@@ -116,8 +129,6 @@
 
 			if (options.Remove(option))
 			{
-				rawValueMapping.Remove(option);
-
 				RecreateUiBlock();
 				foreach (string optionToAdd in options)
 				{
@@ -128,6 +139,8 @@
 				{
 					Selected = options.FirstOrDefault();
 				}
+
+				rawValueMapping.Remove(option);
 			}
 		}
 

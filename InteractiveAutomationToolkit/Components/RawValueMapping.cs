@@ -25,17 +25,27 @@
 			}
 		}
 
-		public string GetRawValue(T value)
+		public bool TryGetRawValue(T value, out string rawValue)
 		{
 			lock (lockObject)
 			{
-				if (!mapping.TryGetReverse(value, out var rawValue))
+				if (!mapping.TryGetReverse(value, out rawValue))
 				{
-					throw new KeyNotFoundException("The specified value was not found in the collection.");
+					return false;
 				}
 
-				return rawValue;
+				return true;
 			}
+		}
+
+		public string GetRawValue(T value)
+		{
+			if (!TryGetRawValue(value, out var rawValue))
+			{
+				throw new KeyNotFoundException("The specified value was not found in the collection.");
+			}
+
+			return rawValue;
 		}
 
 		public void Add(T value, string displayValue)
@@ -128,7 +138,7 @@
 				}
 			}
 
-			return sb.ToString().Trim('-');
+			return sb.ToString();
 		}
 	}
 }
