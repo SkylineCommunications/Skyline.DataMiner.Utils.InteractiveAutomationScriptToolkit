@@ -13,7 +13,7 @@
 
 		public bool TryGetByRawValue(string rawValue, out T value)
 		{
-			if (String.IsNullOrEmpty(rawValue))
+			if (rawValue == null)
 			{
 				value = default;
 				return false;
@@ -118,7 +118,7 @@
 		{
 			if (String.IsNullOrEmpty(displayValue))
 			{
-				return "empty";
+				return "\u200B";
 			}
 
 			var sb = new StringBuilder();
