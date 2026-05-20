@@ -63,15 +63,15 @@
 		{
 			DropDown dropDown = new DropDown(new[] { String.Empty, "|" });
 			Assert.AreEqual(String.Empty, dropDown.Selected);
-			Assert.AreEqual("-", dropDown.BlockDefinition.InitialValue);
+			Assert.AreEqual("\u200B", dropDown.BlockDefinition.InitialValue);
 
 			dropDown.Selected = "|";
 			Assert.AreEqual("|", dropDown.Selected);
-			Assert.AreEqual("--1", dropDown.BlockDefinition.InitialValue);
+			Assert.AreEqual("-", dropDown.BlockDefinition.InitialValue);
 
 			dropDown.Selected = String.Empty;
 			Assert.AreEqual(String.Empty, dropDown.Selected);
-			Assert.AreEqual("-", dropDown.BlockDefinition.InitialValue);
+			Assert.AreEqual("\u200B", dropDown.BlockDefinition.InitialValue);
 		}
 
 		[TestMethod]
