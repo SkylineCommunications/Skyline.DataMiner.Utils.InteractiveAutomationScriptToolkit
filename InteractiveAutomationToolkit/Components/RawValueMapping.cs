@@ -118,7 +118,7 @@
 		{
 			if (String.IsNullOrEmpty(displayValue))
 			{
-				return String.Empty;
+				return "-";
 			}
 
 			var sb = new StringBuilder();
