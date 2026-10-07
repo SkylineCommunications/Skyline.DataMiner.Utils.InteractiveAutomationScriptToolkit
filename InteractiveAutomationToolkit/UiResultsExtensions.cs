@@ -145,6 +145,12 @@
 		public static TimeSpan GetTime(this IUIResults uiResults, Time time)
 		{
 			string receivedTime = uiResults.GetString(time);
+
+			if (String.IsNullOrWhiteSpace(receivedTime))
+			{
+				return time.TimeSpan;
+			}
+
 			TimeSpan result;
 
 			// This try catch is here because of a bug in Dashboards
@@ -169,7 +175,14 @@
 		/// <returns>The value of the time picker widget.</returns>
 		public static TimeSpan GetTime(this IUIResults uiResults, TimePicker time)
 		{
-			return DateTime.Parse(uiResults.GetString(time), CultureInfo.InvariantCulture).TimeOfDay;
+			string receivedTime = uiResults.GetString(time);
+
+			if (String.IsNullOrWhiteSpace(receivedTime))
+			{
+				return time.Time;
+			}
+
+			return DateTime.Parse(receivedTime, CultureInfo.InvariantCulture).TimeOfDay;
 		}
 
 		/// <summary>
