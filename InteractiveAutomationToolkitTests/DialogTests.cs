@@ -14,6 +14,119 @@ namespace InteractiveAutomationToolkitTests
 	[TestClass]
 	public class DialogTests
 	{
+		[TestMethod]
+		public void ExistingLayoutAndSectionSignaturesRemainAvailable()
+		{
+			var constructor = typeof(WidgetLayout).GetConstructor(new[]
+			{
+				typeof(int), typeof(int), typeof(int), typeof(int),
+				typeof(HorizontalAlignment), typeof(VerticalAlignment)
+			});
+			Assert.IsNotNull(constructor);
+			Assert.IsNull(typeof(ILayout).GetProperty(nameof(ITabOrderedLayout.TabOrder)));
+			CollectionAssert.Contains(typeof(IWidgetLayout).GetInterfaces(), typeof(ITabOrderedLayout));
+			Assert.IsNotNull(typeof(WidgetLayout).GetProperty(nameof(ITabOrderedLayout.TabOrder)));
+
+			var layout = (WidgetLayout)constructor.Invoke(new object[]
+			{
+				1, 2, 1, 1, HorizontalAlignment.Right, VerticalAlignment.Bottom
+			});
+			Assert.AreEqual(0, layout.TabOrder);
+
+			var method = typeof(Section).GetMethod(nameof(Section.AddWidget), new[]
+			{
+				typeof(Widget), typeof(int), typeof(int),
+				typeof(HorizontalAlignment), typeof(VerticalAlignment)
+			});
+			Assert.IsNotNull(method);
+
+			var section = new Section();
+			var label = new Label("Compatibility");
+			method.Invoke(section, new object[] { label, 1, 2, HorizontalAlignment.Right, VerticalAlignment.Bottom });
+			Assert.AreEqual(0, section.GetWidgetLayout(label).TabOrder);
+
+			var orderedLayout = new WidgetLayout(0, 0, 1, 1, tabOrder: 3);
+			var orderedLabel = new Label("Ordered");
+			section.AddWidget(orderedLabel, 0, 0, tabOrder: 4);
+			Assert.AreEqual(3, orderedLayout.TabOrder);
+			Assert.AreEqual(4, section.GetWidgetLayout(orderedLabel).TabOrder);
+		}
+
+		[TestMethod]
+		public void DialogBuild_TabOrderAutomaticallyRequiresGrid()
+		{
+			var dialog = new EmptyDialog(new Engine());
+			dialog.AddWidget(new Label("Ordered"), new WidgetLayout(0, 0) { TabOrder = 1 });
+
+			Assert.AreEqual(DialogWebUILayout.Grid, dialog.GetEffectiveWebUILayout());
+			Assert.ThrowsExactly<NotSupportedException>(() => dialog.Build());
+		}
+
+		[TestMethod]
+		public void DialogBuild_ExplicitTableOverridesTabOrder()
+		{
+			var dialog = new EmptyDialog(new Engine()) { WebUILayout = DialogWebUILayout.Table };
+			dialog.AddWidget(new Label("Ordered"), new WidgetLayout(0, 0) { TabOrder = 1 });
+
+			Assert.AreEqual(DialogWebUILayout.Table, dialog.GetEffectiveWebUILayout());
+			Assert.IsNotNull(dialog.Build());
+		}
+
+		[TestMethod]
+		public void DialogBuild_ExplicitGridRequiresSupportingAutomationApi()
+		{
+			var dialog = new EmptyDialog(new Engine()) { WebUILayout = DialogWebUILayout.Grid };
+
+			Assert.AreEqual(DialogWebUILayout.Grid, dialog.GetEffectiveWebUILayout());
+			Assert.ThrowsExactly<NotSupportedException>(() => dialog.Build());
+		}
+
+		[TestMethod]
+		public void DialogBuild_DefaultLayoutRemainsSupportedWithoutTabOrder()
+		{
+			var dialog = new EmptyDialog(new Engine());
+
+			Assert.AreEqual(DialogWebUILayout.Default, dialog.WebUILayout);
+			Assert.AreEqual(DialogWebUILayout.Default, dialog.GetEffectiveWebUILayout());
+			Assert.IsNotNull(dialog.Build());
+		}
+
+		[TestMethod]
+		public void DialogBuild_InheritsTabOrderFromNestedSectionLayouts()
+		{
+			var innerSection = new Section();
+			var label = new Label("Nested");
+			innerSection.AddWidget(label, 0, 0);
+
+			var outerSection = new Section();
+			outerSection.AddSection(innerSection, new SectionLayout(0, 0) { TabOrder = 2 });
+
+			var dialog = new EmptyDialog(new Engine());
+			dialog.AddSection(outerSection, new SectionLayout(0, 0) { TabOrder = 1 });
+
+			Assert.AreEqual(2, dialog.GetWidgetLayout(label).TabOrder);
+			Assert.AreEqual(DialogWebUILayout.Grid, dialog.GetEffectiveWebUILayout());
+		}
+
+		[TestMethod]
+		public void DialogBuild_GridOrderingIsStableForEqualTabOrders()
+		{
+			var first = new UIBlockDefinition();
+			var second = new UIBlockDefinition();
+			var third = new UIBlockDefinition();
+			var blocks = new[]
+			{
+				(block: first, tabOrder: 2),
+				(block: second, tabOrder: 1),
+				(block: third, tabOrder: 2)
+			};
+
+			var ordered = Dialog.OrderBlocks(blocks, DialogWebUILayout.Grid).ToArray();
+
+			CollectionAssert.AreEqual(new[] { second, first, third }, ordered);
+			CollectionAssert.AreEqual(new[] { first, second, third }, Dialog.OrderBlocks(blocks, DialogWebUILayout.Table).ToArray());
+		}
+
 		/// <summary>
 		/// This test will assign a single label to a cell in the dialog.
 		/// </summary>
