@@ -5,7 +5,7 @@
 	/// <summary>
 	/// Used to define the position of a widget in a grid layout.
 	/// </summary>
-	public interface IWidgetLayout : ILayout
+	public interface IWidgetLayout : ILayout, ITabOrderedLayout
 	{
 		/// <summary>
 		///     Gets how many columns the widget spans on the grid.

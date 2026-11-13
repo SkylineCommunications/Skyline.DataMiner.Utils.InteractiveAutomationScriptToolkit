@@ -21,5 +21,6 @@
         <PackageReference Include="MSTest.TestAdapter" Version="4.1.0" />
         <PackageReference Include="MSTest.TestFramework" Version="4.1.0" />
         <PackageReference Include="Skyline.DataMiner.Dev.Automation" Version="10.6.3" />
+        <PackageReference Include="Skyline.DataMiner.Internal.SLNetTypes" Version="10.6.2640-575" />
     </ItemGroup>
 </Project>

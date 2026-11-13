@@ -148,7 +148,45 @@
 			HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left,
 			VerticalAlignment verticalAlignment = VerticalAlignment.Center)
 		{
-			AddWidget(widget, new WidgetLayout(row, column, horizontalAlignment, verticalAlignment));
+			return AddWidget(widget, row, column, horizontalAlignment, verticalAlignment, 0);
+		}
+
+		/// <summary>
+		///     Adds a widget to the section.
+		/// </summary>
+		/// <param name="widget">Widget to add to the section.</param>
+		/// <param name="row">Row location of the widget on the grid.</param>
+		/// <param name="column">Column location of the widget on the grid.</param>
+		/// <param name="tabOrder">Tab order of the widget.</param>
+		/// <returns>The updated section.</returns>
+		public Section AddWidget(
+			Widget widget,
+			int row,
+			int column,
+			int tabOrder)
+		{
+			return AddWidget(widget, row, column, HorizontalAlignment.Left, VerticalAlignment.Center, tabOrder);
+		}
+
+		/// <summary>
+		///     Adds a widget to the section.
+		/// </summary>
+		/// <param name="widget">Widget to add to the section.</param>
+		/// <param name="row">Row location of the widget on the grid.</param>
+		/// <param name="column">Column location of the widget on the grid.</param>
+		/// <param name="horizontalAlignment">Horizontal alignment of the widget.</param>
+		/// <param name="verticalAlignment">Vertical alignment of the widget.</param>
+		/// <param name="tabOrder">Tab order of the widget.</param>
+		/// <returns>The updated section.</returns>
+		public Section AddWidget(
+			Widget widget,
+			int row,
+			int column,
+			HorizontalAlignment horizontalAlignment,
+			VerticalAlignment verticalAlignment,
+			int tabOrder)
+		{
+			AddWidget(widget, new WidgetLayout(row, column, horizontalAlignment, verticalAlignment) { TabOrder = tabOrder });
 			return this;
 		}
 
@@ -200,7 +238,8 @@
 						widgetLayout.RowSpan,
 						widgetLayout.ColumnSpan,
 						widgetLayout.HorizontalAlignment,
-						widgetLayout.VerticalAlignment));
+						widgetLayout.VerticalAlignment,
+						widgetLayout.TabOrder == 0 ? (layout as ITabOrderedLayout)?.TabOrder ?? 0 : widgetLayout.TabOrder));
 			}
 
 			return this;

@@ -4,6 +4,7 @@
 	using System.Collections.Generic;
 	using System.ComponentModel;
 	using System.Linq;
+	using System.Reflection;
 
 	using Microsoft.Extensions.Logging;
 
@@ -34,6 +35,8 @@
 		private int width;
 		private bool isEnabled = true;
 
+		private const string WebUILayoutPropertyName = "WebUILayout";
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Dialog" /> class.
 		/// </summary>
@@ -56,6 +59,7 @@
 			ColumnCount = 0;
 			Title = "Dialog";
 			AllowOverlappingWidgets = false;
+			WebUILayout = DialogWebUILayout.Default;
 		}
 
 		/// <summary>
@@ -79,6 +83,13 @@
 		/// You can use the Margin property on the widgets to place them apart.
 		/// </summary>
 		public bool AllowOverlappingWidgets { get; set; }
+
+		/// <summary>
+		/// Gets or sets the web layout used to build this dialog.
+		/// When left at <see cref="DialogWebUILayout.Default"/>, a non-zero tab order automatically selects Grid.
+		/// </summary>
+		/// <remarks>Grid requires a DataMiner Automation API version that supports <c>UIBuilder.WebUILayout</c>.</remarks>
+		public DialogWebUILayout WebUILayout { get; set; }
 
 		/// <summary>
 		///     Gets the number of columns of the grid layout.
@@ -424,7 +435,8 @@
 						widgetLayout.RowSpan,
 						widgetLayout.ColumnSpan,
 						widgetLayout.HorizontalAlignment,
-						widgetLayout.VerticalAlignment));
+						widgetLayout.VerticalAlignment,
+						widgetLayout.TabOrder == 0 ? layout.TabOrder : widgetLayout.TabOrder));
 			}
 
 			return this;
@@ -827,6 +839,10 @@
 				SkipAbortConfirmation = !ShowScriptAbortPopup
 			};
 
+			DialogWebUILayout webUILayout = GetEffectiveWebUILayout();
+			SetWebUILayout(uiBuilder, webUILayout);
+
+			var unorderedBlocks = new List<(UIBlockDefinition block, int tabOrder)>();
 			KeyValuePair<Widget, IWidgetLayout> defaultKeyValuePair = default(KeyValuePair<Widget, IWidgetLayout>);
 			int rowIndex = 0;
 			int columnIndex = 0;
@@ -860,7 +876,7 @@
 						widgetBlockDefinition.VerticalAlignment = AlignmentToUiString(widgetLayout.VerticalAlignment);
 						widgetBlockDefinition.Margin = widgetLayout.Margin.ToString();
 
-						uiBuilder.AppendBlock(widgetBlockDefinition);
+						unorderedBlocks.Add((widgetBlockDefinition, widgetLayout.TabOrder));
 					}
 
 					columnIndex++;
@@ -869,7 +885,53 @@
 				rowIndex++;
 			}
 
+			foreach (UIBlockDefinition widgetBlockDefinition in OrderBlocks(unorderedBlocks, webUILayout))
+			{
+				uiBuilder.AppendBlock(widgetBlockDefinition);
+			}
+
 			return uiBuilder;
+		}
+
+		internal DialogWebUILayout GetEffectiveWebUILayout()
+		{
+			if (WebUILayout == DialogWebUILayout.Default && widgetLayouts.Values.Any(x => x.TabOrder != 0))
+			{
+				return DialogWebUILayout.Grid;
+			}
+
+			return WebUILayout;
+		}
+
+		internal static IEnumerable<UIBlockDefinition> OrderBlocks(
+			IEnumerable<(UIBlockDefinition block, int tabOrder)> blocks,
+			DialogWebUILayout webUILayout)
+		{
+			return webUILayout == DialogWebUILayout.Grid
+				? blocks.OrderBy(x => x.tabOrder).Select(x => x.block)
+				: blocks.Select(x => x.block);
+		}
+
+		private static void SetWebUILayout(UIBuilder uiBuilder, DialogWebUILayout webUILayout)
+		{
+			PropertyInfo property = uiBuilder.GetType().GetProperty(WebUILayoutPropertyName);
+			if (property == null)
+			{
+				if (webUILayout == DialogWebUILayout.Grid)
+				{
+					throw new NotSupportedException("The DataMiner Automation API does not support WebUILayout.Grid.");
+				}
+
+				return;
+			}
+
+			if (!property.PropertyType.IsEnum || !property.CanWrite)
+			{
+				throw new InvalidOperationException("The DataMiner Automation API exposes an unsupported WebUILayout property.");
+			}
+
+			object value = Enum.Parse(property.PropertyType, webUILayout.ToString(), ignoreCase: false);
+			property.SetValue(uiBuilder, value, null);
 		}
 
 		/// <summary>
