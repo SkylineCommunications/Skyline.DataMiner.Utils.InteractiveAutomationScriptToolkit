@@ -93,12 +93,21 @@ public class HelloWorldDialog : Dialog
 
 Set `TabOrder` on a `WidgetLayout` to control keyboard tab navigation. A non-zero tab order automatically selects `Grid` when `WebUILayout` is `Default`. Explicitly setting `WebUILayout` to `Table` keeps the traditional layout. The tab order of a section layout is inherited by child widgets that do not have their own tab order.
 
+The following dialog arranges four `Time` widgets in two columns. Although the widgets are added row by row, `TabOrder` makes keyboard navigation move down the first column before continuing in the second:
+
 ```csharp
-var dialog = new HelloWorldDialog(engine)
+public class TimeDialog : Dialog
 {
-	WebUILayout = DialogWebUILayout.Default
-};
-dialog.AddWidget(new Label("Name"), new WidgetLayout(0, 0) { TabOrder = 1 });
+	public TimeDialog(IEngine engine) : base(engine)
+	{
+		WebUILayout = DialogWebUILayout.Grid;
+
+		AddWidget(new Time(), new WidgetLayout(0, 0) { TabOrder = 1 });
+		AddWidget(new Time(), new WidgetLayout(0, 1) { TabOrder = 3 });
+		AddWidget(new Time(), new WidgetLayout(1, 0) { TabOrder = 2 });
+		AddWidget(new Time(), new WidgetLayout(1, 1) { TabOrder = 4 });
+	}
+}
 ```
 
 `WebUILayout` and `Grid` specifically require the dialog to be used in a web environment with DataMiner version 10.6.12 or later.
