@@ -1,13 +1,13 @@
 ﻿namespace Skyline.DataMiner.Utils.InteractiveAutomationScript
 {
 	/// <summary>
-	/// Specifies how a dialog is laid out in DataMiner Web.
+	/// Specifies how a dialog is displayed in DataMiner Web.
 	/// </summary>
 	public enum DialogWebUILayout
 	{
 		/// <summary>
-		/// Uses the default layout, which is table-compatible.
-		/// A non-zero tab order automatically selects Grid unless Table is explicitly selected.
+		/// Uses the default layout, which defaults to <see cref="Table"/>.
+		/// A non-zero tab order automatically selects <see cref="Grid"/> unless <see cref="Table"/> is explicitly selected.
 		/// </summary>
 		Default,
 

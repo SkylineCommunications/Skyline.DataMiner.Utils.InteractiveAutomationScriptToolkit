@@ -4,7 +4,6 @@
 	using System.Collections.Generic;
 	using System.ComponentModel;
 	using System.Linq;
-	using System.Reflection;
 
 	using Microsoft.Extensions.Logging;
 
@@ -914,24 +913,20 @@
 
 		private static void SetWebUILayout(UIBuilder uiBuilder, DialogWebUILayout webUILayout)
 		{
-			PropertyInfo property = uiBuilder.GetType().GetProperty(WebUILayoutPropertyName);
-			if (property == null)
+			switch (webUILayout)
 			{
-				if (webUILayout == DialogWebUILayout.Grid)
-				{
-					throw new NotSupportedException("The DataMiner Automation API does not support WebUILayout.Grid.");
-				}
-
-				return;
+				case DialogWebUILayout.Default:
+					uiBuilder.WebUILayout = Automation.WebUILayout.Default;
+					break;
+				case DialogWebUILayout.Table:
+					uiBuilder.WebUILayout = Automation.WebUILayout.Table;
+					break;
+				case DialogWebUILayout.Grid:
+					uiBuilder.WebUILayout = Automation.WebUILayout.Grid;
+					break;
+				default:
+					throw new InvalidOperationException($"Unsupported web UI layout '{webUILayout}'");
 			}
-
-			if (!property.PropertyType.IsEnum || !property.CanWrite)
-			{
-				throw new InvalidOperationException("The DataMiner Automation API exposes an unsupported WebUILayout property.");
-			}
-
-			object value = Enum.Parse(property.PropertyType, webUILayout.ToString(), ignoreCase: false);
-			property.SetValue(uiBuilder, value, null);
 		}
 
 		/// <summary>

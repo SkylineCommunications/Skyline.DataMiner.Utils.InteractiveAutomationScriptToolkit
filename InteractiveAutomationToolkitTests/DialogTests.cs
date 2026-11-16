@@ -59,7 +59,16 @@ namespace InteractiveAutomationToolkitTests
 			dialog.AddWidget(new Label("Ordered"), new WidgetLayout(0, 0) { TabOrder = 1 });
 
 			Assert.AreEqual(DialogWebUILayout.Grid, dialog.GetEffectiveWebUILayout());
-			Assert.ThrowsExactly<NotSupportedException>(() => dialog.Build());
+			var uiBuilder = dialog.Build();
+			Assert.AreEqual(WebUILayout.Grid, uiBuilder.WebUILayout);
+		}
+
+		[TestMethod]
+		public void DialogBuild_UnsupportedWebUILayoutValueThrows()
+		{
+			var dialog = new EmptyDialog(new Engine()) { WebUILayout = (DialogWebUILayout)Int32.MaxValue };
+
+			Assert.ThrowsExactly<InvalidOperationException>(() => dialog.Build());
 		}
 
 		[TestMethod]
@@ -69,16 +78,18 @@ namespace InteractiveAutomationToolkitTests
 			dialog.AddWidget(new Label("Ordered"), new WidgetLayout(0, 0) { TabOrder = 1 });
 
 			Assert.AreEqual(DialogWebUILayout.Table, dialog.GetEffectiveWebUILayout());
-			Assert.IsNotNull(dialog.Build());
+			var uiBuilder = dialog.Build();
+			Assert.AreEqual(WebUILayout.Table, uiBuilder.WebUILayout);
 		}
 
 		[TestMethod]
-		public void DialogBuild_ExplicitGridRequiresSupportingAutomationApi()
+		public void DialogBuild_ExplicitGridSetsWebUILayout()
 		{
 			var dialog = new EmptyDialog(new Engine()) { WebUILayout = DialogWebUILayout.Grid };
 
 			Assert.AreEqual(DialogWebUILayout.Grid, dialog.GetEffectiveWebUILayout());
-			Assert.ThrowsExactly<NotSupportedException>(() => dialog.Build());
+			var uiBuilder = dialog.Build();
+			Assert.AreEqual(WebUILayout.Grid, uiBuilder.WebUILayout);
 		}
 
 		[TestMethod]
@@ -88,7 +99,8 @@ namespace InteractiveAutomationToolkitTests
 
 			Assert.AreEqual(DialogWebUILayout.Default, dialog.WebUILayout);
 			Assert.AreEqual(DialogWebUILayout.Default, dialog.GetEffectiveWebUILayout());
-			Assert.IsNotNull(dialog.Build());
+			var uiBuilder = dialog.Build();
+			Assert.AreEqual(WebUILayout.Default, uiBuilder.WebUILayout);
 		}
 
 		[TestMethod]
