@@ -157,23 +157,6 @@
 		/// <param name="widget">Widget to add to the section.</param>
 		/// <param name="row">Row location of the widget on the grid.</param>
 		/// <param name="column">Column location of the widget on the grid.</param>
-		/// <param name="tabOrder">Tab order of the widget.</param>
-		/// <returns>The updated section.</returns>
-		public Section AddWidget(
-			Widget widget,
-			int row,
-			int column,
-			int tabOrder)
-		{
-			return AddWidget(widget, row, column, HorizontalAlignment.Left, VerticalAlignment.Center, tabOrder);
-		}
-
-		/// <summary>
-		///     Adds a widget to the section.
-		/// </summary>
-		/// <param name="widget">Widget to add to the section.</param>
-		/// <param name="row">Row location of the widget on the grid.</param>
-		/// <param name="column">Column location of the widget on the grid.</param>
 		/// <param name="horizontalAlignment">Horizontal alignment of the widget.</param>
 		/// <param name="verticalAlignment">Vertical alignment of the widget.</param>
 		/// <param name="tabOrder">Tab order of the widget.</param>

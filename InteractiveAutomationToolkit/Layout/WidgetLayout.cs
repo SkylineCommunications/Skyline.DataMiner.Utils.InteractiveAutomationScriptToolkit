@@ -40,24 +40,6 @@
 		/// <param name="fromColumn">Column index of the top-left cell.</param>
 		/// <param name="rowSpan">Number of vertical cells the widget spans across.</param>
 		/// <param name="columnSpan">Number of horizontal cells the widget spans across.</param>
-		/// <param name="tabOrder">Tab order of the widget.</param>
-		public WidgetLayout(
-			int fromRow,
-			int fromColumn,
-			int rowSpan,
-			int columnSpan,
-			int tabOrder)
-			: this(fromRow, fromColumn, rowSpan, columnSpan, HorizontalAlignment.Left, VerticalAlignment.Top, tabOrder)
-		{
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="WidgetLayout"/> class.
-		/// </summary>
-		/// <param name="fromRow">Row index of top-left cell.</param>
-		/// <param name="fromColumn">Column index of the top-left cell.</param>
-		/// <param name="rowSpan">Number of vertical cells the widget spans across.</param>
-		/// <param name="columnSpan">Number of horizontal cells the widget spans across.</param>
 		/// <param name="horizontalAlignment">Horizontal alignment of the widget.</param>
 		/// <param name="verticalAlignment">Vertical alignment of the widget.</param>
 		/// <param name="tabOrder">Tab order of the widget.</param>

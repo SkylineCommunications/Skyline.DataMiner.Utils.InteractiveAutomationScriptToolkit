@@ -2,7 +2,7 @@ Skyline.DataMiner.Utils.InteractiveAutomationScriptToolkit
 ===
 ## About
 Quickly develop interactive automation scripts for DataMiner.
-This version is compatible with DataMiner 10.6.3 and up.
+This version is compatible with DataMiner 10.6.12 and up.
 This package provides an API that more closely resembles other desktop graphical user interface libraries.
 It builds upon the features available in
 [Skyline.DataMiner.Automation](https://docs.dataminer.services/develop/api/types/Skyline.DataMiner.Automation.html)
@@ -91,7 +91,7 @@ public class HelloWorldDialog : Dialog
 
 ### Tab navigation and web layout
 
-Set `TabOrder` on a `WidgetLayout` to control keyboard tab navigation. A non-zero tab order automatically selects `Grid` when `WebUILayout` is `Default`; setting `WebUILayout` to `Table` explicitly keeps the traditional layout. Section layout tab order is inherited by child widgets that do not have their own order.
+Set `TabOrder` on a `WidgetLayout` to control keyboard tab navigation. A non-zero tab order automatically selects `Grid` when `WebUILayout` is `Default`. Explicitly setting `WebUILayout` to `Table` keeps the traditional layout. The tab order of a section layout is inherited by child widgets that do not have their own tab order.
 
 ```csharp
 var dialog = new HelloWorldDialog(engine)
@@ -101,7 +101,7 @@ var dialog = new HelloWorldDialog(engine)
 dialog.AddWidget(new Label("Name"), new WidgetLayout(0, 0) { TabOrder = 1 });
 ```
 
-`Grid` requires a DataMiner Automation API version that supports `UIBuilder.WebUILayout` and a compatible DataMiner Web version. The underlying change is expected to be fully released soon; older Automation APIs report an unsupported Grid request.
+`WebUILayout` and `Grid` specifically require the dialog to be used in a web environment with DataMiner version 10.6.12 or later.
 
 If you have questions, you can post them to
 our [DataMiner community platform](https://community.dataminer.services/questions/).

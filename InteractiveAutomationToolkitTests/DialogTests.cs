@@ -45,11 +45,38 @@ namespace InteractiveAutomationToolkitTests
 			method.Invoke(section, new object[] { label, 1, 2, HorizontalAlignment.Right, VerticalAlignment.Bottom });
 			Assert.AreEqual(0, section.GetWidgetLayout(label).TabOrder);
 
-			var orderedLayout = new WidgetLayout(0, 0, 1, 1, tabOrder: 3);
+			var zeroAlignmentLayout = new WidgetLayout(0, 0, 1, 1, 0);
+			Assert.AreEqual(HorizontalAlignment.Center, zeroAlignmentLayout.HorizontalAlignment);
+
+			var zeroAlignmentLabel = new Label("Zero alignment");
+			section.AddWidget(zeroAlignmentLabel, 0, 0, 0);
+			Assert.AreEqual(HorizontalAlignment.Center, section.GetWidgetLayout(zeroAlignmentLabel).HorizontalAlignment);
+		}
+
+		[TestMethod]
+		public void Section_AddWidgetWithAlignmentAndTabOrder_KeepsAllValues()
+		{
+			var section = new Section();
 			var orderedLabel = new Label("Ordered");
-			section.AddWidget(orderedLabel, 0, 0, tabOrder: 4);
-			Assert.AreEqual(3, orderedLayout.TabOrder);
-			Assert.AreEqual(4, section.GetWidgetLayout(orderedLabel).TabOrder);
+			section.AddWidget(orderedLabel, 2, 2, HorizontalAlignment.Right, VerticalAlignment.Bottom, 4);
+			var orderedLayout = section.GetWidgetLayout(orderedLabel);
+			Assert.AreEqual(4, orderedLayout.TabOrder);
+			Assert.AreEqual(HorizontalAlignment.Right, orderedLayout.HorizontalAlignment);
+			Assert.AreEqual(VerticalAlignment.Bottom, orderedLayout.VerticalAlignment);
+		}
+
+		[TestMethod]
+		public void WidgetLayout_WithAlignmentAndTabOrder_KeepsAllValues()
+		{
+			var layout = new WidgetLayout(2, 3, 5, 6, HorizontalAlignment.Right, VerticalAlignment.Bottom, 4);
+
+			Assert.AreEqual(2, layout.Row);
+			Assert.AreEqual(3, layout.Column);
+			Assert.AreEqual(5, layout.RowSpan);
+			Assert.AreEqual(6, layout.ColumnSpan);
+			Assert.AreEqual(HorizontalAlignment.Right, layout.HorizontalAlignment);
+			Assert.AreEqual(VerticalAlignment.Bottom, layout.VerticalAlignment);
+			Assert.AreEqual(4, layout.TabOrder);
 		}
 
 		[TestMethod]
