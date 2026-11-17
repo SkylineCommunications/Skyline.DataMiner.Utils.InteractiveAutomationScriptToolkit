@@ -2,7 +2,7 @@ Skyline.DataMiner.Utils.InteractiveAutomationScriptToolkit
 ===
 ## About
 Quickly develop interactive automation scripts for DataMiner.
-This version is compatible with DataMiner 10.6.3 and up.
+This version is compatible with DataMiner 10.6.12 and up.
 This package provides an API that more closely resembles other desktop graphical user interface libraries.
 It builds upon the features available in
 [Skyline.DataMiner.Automation](https://docs.dataminer.services/develop/api/types/Skyline.DataMiner.Automation.html)
@@ -88,6 +88,29 @@ public class HelloWorldDialog : Dialog
 	}
 }
 ```
+
+### Tab navigation and web layout
+
+Set `TabOrder` on a `WidgetLayout` to control keyboard tab navigation. A non-zero tab order automatically selects `Grid` when `WebUILayout` is `Default`. Explicitly setting `WebUILayout` to `Table` keeps the traditional layout. The tab order of a section layout is inherited by child widgets that do not have their own tab order.
+
+The following dialog arranges four `Time` widgets in two columns. Although the widgets are added row by row, `TabOrder` makes keyboard navigation move down the first column before continuing in the second:
+
+```csharp
+public class TimeDialog : Dialog
+{
+	public TimeDialog(IEngine engine) : base(engine)
+	{
+		WebUILayout = DialogWebUILayout.Grid;
+
+		AddWidget(new Time(), new WidgetLayout(0, 0) { TabOrder = 1 });
+		AddWidget(new Time(), new WidgetLayout(0, 1) { TabOrder = 3 });
+		AddWidget(new Time(), new WidgetLayout(1, 0) { TabOrder = 2 });
+		AddWidget(new Time(), new WidgetLayout(1, 1) { TabOrder = 4 });
+	}
+}
+```
+
+`WebUILayout` and `Grid` specifically require the dialog to be used in a web environment with DataMiner version 10.6.12 or later.
 
 If you have questions, you can post them to
 our [DataMiner community platform](https://community.dataminer.services/questions/).

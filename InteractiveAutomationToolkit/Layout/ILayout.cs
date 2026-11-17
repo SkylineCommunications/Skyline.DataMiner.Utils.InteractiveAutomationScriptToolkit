@@ -16,5 +16,6 @@
 		/// </summary>
 		/// <remarks>The top-left position is (0, 0) by default.</remarks>
 		int Row { get; }
+
 	}
 }
